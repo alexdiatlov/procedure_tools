@@ -1,0 +1,42 @@
+{
+  "data": {
+    "selfEligible": true,
+    "selfQualified": true,
+    "lotValues": [
+      {
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
+        "value": {
+          "amount": 499
+        }
+      }
+    ],
+    "tenderers": [
+      {
+        "contactPoint": {
+          "telephone": "+380 (322) 91-69-30",
+          "name": "Андрій Олексюк",
+          "email": "aagt@gmail.com"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137224",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Книга»",
+        "address": {
+          "countryName": "Україна",
+          "postalCode": "79013",
+          "region": "м. Львів",
+          "streetAddress": "вул. Островського, 34",
+          "locality": "м. Львів"
+        }
+      }
+    ],
+    "parameters": [
+      {
+      "code": "OCDS-123454-AIR-INTAKE",
+      "value": 0.1
+      }
+    ]
+  }
+}
