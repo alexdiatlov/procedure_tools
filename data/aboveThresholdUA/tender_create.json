@@ -42,6 +42,7 @@
       }
     ],
     "procurementMethodType": "aboveThresholdUA",
+    "mainProcurementCategory": "goods",
     "value": {
       "currency": "UAH",
       "amount": 500
