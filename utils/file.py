@@ -14,17 +14,20 @@ def get_data_all_files(path):
 
 
 def get_project_dir():
-    this_dir, this_filename = os.path.split(__file__)
-    project_dir, this_dir = os.path.split(this_dir)
+    this_dir, _ = os.path.split(__file__)
+    project_dir, _ = os.path.split(this_dir)
     return project_dir
 
 
 def get_data_path(path):
+    if Path(path).is_dir():
+        return path
+    relative_path = os.path.join(os.getcwd(), path)
+    if Path(relative_path).is_dir():
+        return relative_path
     default_data_path = get_default_data_path(path)
-    data_path = Path(get_default_data_path(path))
-    if data_path.is_dir():
+    if Path(default_data_path).is_dir():
         return default_data_path
-    return path
 
 
 def get_default_data_path(data_dir):
