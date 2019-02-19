@@ -10,7 +10,7 @@ def get_data_file_path(filename, path):
 
 
 def get_data_all_files(path):
-    return os.listdir(path)
+    return sorted(os.listdir(path))
 
 
 def get_project_dir():

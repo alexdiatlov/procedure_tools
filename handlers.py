@@ -18,7 +18,7 @@ def default_success_print_handler(response):
 def response_handler(response,
                      success_handler=default_success_print_handler,
                      error_handler=default_error_print_handler):
-    print("Requested: [{}] {}\n".format(response.request.method, response.request.url))
+    print("[{}] {}\n".format(response.request.method, response.request.url))
     if response.status_code in [200, 201]:
         success_handler(response)
     else:

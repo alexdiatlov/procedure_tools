@@ -39,20 +39,35 @@ def patch_tender_awarded(client, data_path, tender_id, tender_token, exit_file_n
                                    success_handler=tender_patch_status_success_print_handler)
 
 
+def get_bids(client, tender_id):
+    while True:
+        response = client.get_bids(tender_id)
+        if not response.json()['data']:
+            sleep(TENDER_SECONDS_BUFFER)
+        else:
+            response_handler(response, item_get_success_print_handler)
+            break
+    return response
+
+
 def patch_agreements_with_contracts(client, tender_id, data_path, tender_token, exit_file_name):
     response = get_agreements(client, tender_id)
     agreements_ids = [i['id'] for i in response.json()['data']]
     response = get_tender(client, tender_id)
     items_ids = [i['id'] for i in response.json()['data']['items']]
+    print("Check bids...\n")
+    response = get_bids(client, tender_id)
+    bids_ids = [i['id'] for i in response.json()['data']]
     for agreement_index, agreement_id in enumerate(agreements_ids):
         print("Checking agreement contracts...")
 
         response = get_agreement_contract(client, tender_id, agreement_id)
         agreement_contracts_ids = [i['id'] for i in response.json()['data']]
+        agreement_contracts_related_bids = [i['bidID'] for i in response.json()['data']]
 
         print("Patching agreement contracts...\n")
-        patch_agreement_contract(client, tender_id, agreement_id, agreement_index,
-                                 agreement_contracts_ids, items_ids,
+        patch_agreement_contract(client, tender_id, agreement_id, agreement_index, agreement_contracts_ids,
+                                 bids_ids, agreement_contracts_related_bids, items_ids,
                                  data_path, tender_token, exit_file_name)
     print("Patching agreements...\n")
     patch_agreements(client, tender_id, agreements_ids, data_path, tender_token, exit_file_name)
@@ -68,10 +83,12 @@ def patch_agreements(client, tender_id, agreements_ids, data_path, tender_token,
                                    success_handler=item_patch_success_print_handler)
 
 
-def patch_agreement_contract(client, tender_id, agreement_id, agreement_index, agreement_contracts_ids, items_ids,
+def patch_agreement_contract(client, tender_id, agreement_id, agreement_index, agreement_contracts_ids,
+                             bids_ids, agreement_contracts_related_bids, items_ids,
                              data_path, tender_token, exit_file_name):
     for agreement_contract_index, agreement_contract_id in enumerate(agreement_contracts_ids):
-        data_file = 'agreement_{}_contracts_patch_{}.json'.format(agreement_index, agreement_contract_index)
+        index = bids_ids.index(agreement_contracts_related_bids[agreement_contract_index])
+        data_file = 'agreement_{}_contracts_patch_{}.json'.format(agreement_index, index)
         path = get_data_file_path(data_file, data_path)
         with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
             agreement_contract_patch_data = json.loads(f.read())
