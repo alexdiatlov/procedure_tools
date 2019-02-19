@@ -1,8 +1,6 @@
 import math
-
 from datetime import datetime, timedelta
-
-from utils.datetime import utc
+from dateutil import parser, tz
 
 ACCELERATION_DEFAULT = 460800
 TENDER_PERIOD_TIMEDELTA_DEFAULT = timedelta(days=30)
@@ -43,11 +41,15 @@ def get_tender_token(response):
 
 def get_tender_period_seconds(response):
     tender_period_end = response.json()['data']['tenderPeriod']['endDate']
-    tender_period_timedelta = datetime.fromisoformat(tender_period_end) - datetime.now(utc)
+    tender_period_timedelta = parser.parse(tender_period_end) - datetime.now(tz.tzutc())
     return math.ceil(tender_period_timedelta.total_seconds())
 
 
 def get_qualification_period_seconds(response):
     qualification_period_end = response.json()['data']['qualificationPeriod']['endDate']
-    qualification_timedelta = datetime.fromisoformat(qualification_period_end) - datetime.now(utc)
+    qualification_timedelta = parser.parse(qualification_period_end) - datetime.now(tz.tzutc())
     return math.ceil(qualification_timedelta.total_seconds())
+
+
+def get_procurement_method_type(response):
+    return response.json()['data']['procurementMethodType']

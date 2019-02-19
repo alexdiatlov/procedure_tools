@@ -10,7 +10,6 @@ def get_data_file_path(filename, path):
 
 
 def get_data_all_files(path):
-    print(path)
     return os.listdir(path)
 
 

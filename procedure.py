@@ -20,7 +20,7 @@ from utils.data import (
     get_tender_token,
     get_tender_period_seconds,
     ACCELERATION_DEFAULT,
-    TENDER_SECONDS_BUFFER, get_qualification_period_seconds)
+    TENDER_SECONDS_BUFFER, get_qualification_period_seconds, get_procurement_method_type)
 from handlers import (
     response_handler,
     item_get_success_print_handler,
@@ -194,7 +194,7 @@ def create_bids(client, data_path, data_files, tender_id):
 
 
 def create_tender(client, data_path, acceleration):
-    with ignore(IOError, handler=lambda: exit(0)), open_file(get_data_file_path('tender_create.json', data_path)) as f:
+    with ignore(IOError), open_file(get_data_file_path('tender_create.json', data_path)) as f:
         tender_create_data = json.loads(f.read())
         set_acceleration_data(tender_create_data, acceleration=acceleration)
         response = client.post_tender(tender_create_data, success_handler=tender_create_success_print_handler)
@@ -209,11 +209,13 @@ def create_procedure(host, token, path, data, acceleration):
 
     print("Creating tender...\n")
     response = create_tender(client, data_path, acceleration)
+    if not response:
+        exit(0)
     tender_id = get_tender_id(response)
     tender_token = get_tender_token(response)
     tender_period_seconds = get_tender_period_seconds(response)
 
-    method_type = response.json()['data']['procurementMethodType']
+    method_type = get_procurement_method_type(response)
 
     if method_type in (
         'closeFrameworkAgreementUA',

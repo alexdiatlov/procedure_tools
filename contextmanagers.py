@@ -1,5 +1,7 @@
-from contextlib import contextmanager
 import os
+import io
+
+from contextlib import contextmanager
 
 
 @contextmanager
@@ -7,16 +9,16 @@ def open_file(path, mode='r', encoding='UTF-8', **kwargs):
     try:
         this_dir, this_filename = os.path.split(__file__)
         data_path = os.path.join(this_dir, "data", path)
-        file = open(data_path, mode, encoding=encoding, **kwargs)
+        file = io.open(data_path, mode, encoding=encoding, **kwargs)
     except IOError:
-        file = open(path, mode, encoding=encoding, **kwargs)
+        file = io.open(path, mode, encoding=encoding, **kwargs)
     yield file
     file.close()
 
 
 @contextmanager
-def ignore(*exceptions, handler=lambda: None):
+def ignore(*exceptions):
     try:
         yield
     except exceptions:
-        handler()
+        pass
