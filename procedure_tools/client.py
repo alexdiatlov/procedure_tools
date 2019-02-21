@@ -6,7 +6,7 @@ except ImportError:
 
 import requests
 
-from handlers import response_handler
+from .utils.handlers import response_handler
 
 API_PATH_PREFIX_DEFAULT = '/api/0/'
 

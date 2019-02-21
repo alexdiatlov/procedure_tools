@@ -4,24 +4,26 @@ import sys
 
 from time import sleep
 
-from version import __version__
-from client import TendersApiClient, API_PATH_PREFIX_DEFAULT
-from contextmanagers import ignore, open_file_or_exit
-from utils.file import (
+from .version import __version__
+from .client import TendersApiClient, API_PATH_PREFIX_DEFAULT
+from .utils.contextmanagers import ignore, open_file_or_exit
+from .utils.file import (
     get_data_file_path,
     get_data_all_files,
     get_default_data_dirs,
     get_data_path,
     DATA_DIR_DEFAULT)
-from utils.data import (
+from .utils.data import (
     set_acceleration_data,
     set_agreement_period,
     get_tender_id,
     get_tender_token,
     get_tender_period_seconds,
     ACCELERATION_DEFAULT,
-    TENDER_SECONDS_BUFFER, get_qualification_period_seconds, get_procurement_method_type)
-from handlers import (
+    TENDER_SECONDS_BUFFER,
+    get_qualification_period_seconds,
+    get_procurement_method_type)
+from .utils.handlers import (
     response_handler,
     item_get_success_print_handler,
     item_patch_success_print_handler,
