@@ -142,6 +142,11 @@ class TendersApiClient(BaseApiClient):
         path = self._get_api_path(awards_path)
         return self.get(path, **kwargs)
 
+    def post_award(self, tender_id, acc_token, json, **kwargs):
+        awards_path = self.AWARDS_COLLECTION_PATH.format(tender_id)
+        path = self._get_api_path(awards_path, acc_token=acc_token)
+        return self.post(path, json, **kwargs)
+
     def patch_award(self, tender_id, award_id, acc_token, json, **kwargs):
         awards_path = self.AWARDS_PATH.format(tender_id, award_id, acc_token)
         path = self._get_api_path(awards_path, acc_token=acc_token)

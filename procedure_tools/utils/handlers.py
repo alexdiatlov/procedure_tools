@@ -47,6 +47,14 @@ def bid_create_success_print_handler(response):
     print("")
 
 
+def item_create_success_print_handler(response):
+    data = response.json()['data']
+    print("Item created:")
+    print(" - id \t\t\t\t{}".format(data['id']))
+    print(" - status \t\t\t{}".format(data['status']))
+    print("")
+
+
 def item_get_success_print_handler(response):
     data = response.json()['data']
     for item in data:

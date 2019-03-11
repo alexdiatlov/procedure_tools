@@ -1,0 +1,70 @@
+{
+  "data": {
+    "procurementMethod": "limited",
+    "status": "active",
+    "title": "Послуги шкільних їдалень",
+    "procurementMethodType": "reporting",
+    "title_en": "Services in school canteens",
+    "description_en": "Services in school canteens",
+    "procuringEntity": {
+      "kind": "general",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "21725150",
+        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+      },
+      "contactPoint": {
+        "url": "http://sch10.edu.vn.ua/",
+        "name": "Куца Світлана Валентинівна",
+        "telephone": "+380 (432) 46-53-02"
+      },
+      "address": {
+        "countryName": "Україна",
+        "postalCode": "21027",
+        "region": "м. Вінниця",
+        "streetAddress": "вул. Стахурського. 22",
+        "locality": "м. Вінниця"
+      },
+      "name": "ЗОСШ #10 м.Вінниці"
+    },
+    "title_ru": "Услуги школьных столовых",
+    "items": [
+      {
+        "description": "Послуги шкільних їдалень",
+        "classification": {
+          "scheme": "ДК021",
+          "description": "Послуги з харчування у школах",
+          "id": "55523100-3"
+        },
+        "description_en": "Services in school canteens",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "description": "Послуги шкільних їдалень",
+            "id": "55.51.10.300"
+          }
+        ],
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ"
+        },
+        "deliveryDate": {
+          "startDate": "2017-09-16T19:39:39.580353",
+          "endDate": "2017-09-19T19:39:39.580353"
+        },
+        "description_ru": "Услуги школьных столовых",
+        "id": "2dc54675d6364e2baffbc0f8e74432ac"
+      }
+    ],
+    "owner": "broker",
+    "value": {
+      "currency": "UAH",
+      "amount": 500000,
+      "valueAddedTaxIncluded": true
+    },
+    "description_ru": "Услуги школьных столовых"
+  }
+}

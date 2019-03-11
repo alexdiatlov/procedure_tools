@@ -32,7 +32,7 @@ from .utils.handlers import (
     tender_patch_status_success_print_handler,
     tender_check_status_success_print_handler,
     tender_create_success_print_handler,
-    bid_create_success_print_handler)
+    bid_create_success_print_handler, item_create_success_print_handler)
 
 
 def get_bids(client, tender_id):
@@ -209,6 +209,20 @@ def get_qualifications(client, tender_id):
     return response
 
 
+def create_awards(client, data_path, data_files, tender_id, tender_token, exit_file_name):
+    print("Creating awards...\n")
+    award_files = []
+    for data_file in data_files:
+        if data_file.startswith('award_create'):
+            award_files.append(data_file)
+    for award_file in award_files:
+        path = get_data_file_path(award_file, data_path)
+        with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
+            award_create_data = json.loads(f.read())
+            client.post_award(tender_id, tender_token, award_create_data,
+                              success_handler=item_create_success_print_handler)
+
+
 def create_bids(client, data_path, data_files, tender_id, exit_file_name):
     print("Creating bids...\n")
     bid_files = []
@@ -233,7 +247,7 @@ def create_tender(client, data_path, acceleration, exit_file_name):
 
 
 def update_tender_period(client, tender_id, tender_token, acceleration):
-    data = set_tender_period_data(acceleration=acceleration)
+    data = set_tender_period_data({'data': {'tenderPeriod': {}}}, acceleration=acceleration)
     client.patch_tender(tender_id, tender_token, data)
 
 
@@ -319,13 +333,38 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
         wait_status(client, tender_id, 'active.auction')
 
     if method_type in (
+        'negotiation',
+        'negotiation.quick',
+        'reporting',
+    ):
+        create_awards(client, data_path, data_files, tender_id, tender_token, exit_file_name)
+
+    if method_type in (
+        'negotiation',
+        'negotiation.quick',
+        'reporting',
+    ):
+        wait_status(client, tender_id, 'active')
+
+    if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdUA',
         'belowThreshold',
+        'negotiation',
+        'negotiation.quick',
+        'reporting',
     ):
         response = get_awards(client, tender_id)
         awards_ids = [i['id'] for i in response.json()['data']]
         patch_awards(client, tender_id, awards_ids, data_path, tender_token, exit_file_name)
+
+    if method_type in (
+        'negotiation',
+        'negotiation.quick',
+    ):
+        response = get_awards(client, tender_id)
+        awards_complaint_dates = [i['complaintPeriod']['endDate'] for i in response.json()['data']]
+        wait(max(awards_complaint_dates), date_info_str='end of award complaint period')
 
     if method_type in (
         'closeFrameworkAgreementUA',
@@ -340,6 +379,9 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
     if method_type in (
         'aboveThresholdUA',
         'belowThreshold',
+        'negotiation',
+        'negotiation.quick',
+        'reporting',
     ):
         response = get_contracts(client, tender_id)
         contracts_ids = [i['id'] for i in response.json()['data']]
