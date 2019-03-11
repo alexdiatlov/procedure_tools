@@ -301,20 +301,26 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdUA',
+        'aboveThresholdEU',
         'belowThreshold',
+        'esco',
     ):
         create_bids(client, data_path, data_files, tender_id, exit_file_name)
 
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdUA',
+        'aboveThresholdEU',
         'belowThreshold',
+        'esco',
     ):
         response = get_tender(client, tender_id)
         wait(get_tender_next_check(response), date_info_str='next chronograph check')
 
     if method_type in (
         'closeFrameworkAgreementUA',
+        'aboveThresholdEU',
+        'esco',
     ):
         response = get_qualifications(client, tender_id)
         qualifications_ids = [i['id'] for i in response.json()['data']]
@@ -322,13 +328,17 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
 
     if method_type in (
         'closeFrameworkAgreementUA',
+        'aboveThresholdEU',
+        'esco',
     ):
         patch_tender_pre(client, data_path, tender_id, tender_token, exit_file_name)
 
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdUA',
+        'aboveThresholdEU',
         'belowThreshold',
+        'esco',
     ):
         wait_status(client, tender_id, 'active.auction')
 
@@ -349,6 +359,7 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdUA',
+        'aboveThresholdEU',
         'belowThreshold',
         'negotiation',
         'negotiation.quick',
@@ -361,6 +372,7 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
     if method_type in (
         'negotiation',
         'negotiation.quick',
+        'aboveThresholdEU',
     ):
         response = get_awards(client, tender_id)
         awards_complaint_dates = [i['complaintPeriod']['endDate'] for i in response.json()['data']]
@@ -368,6 +380,8 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
 
     if method_type in (
         'closeFrameworkAgreementUA',
+        'aboveThresholdEU',
+        'esco',
     ):
         patch_tender_qual(client, data_path, tender_id, tender_token, exit_file_name)
 
@@ -378,6 +392,7 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
 
     if method_type in (
         'aboveThresholdUA',
+        'aboveThresholdEU',
         'belowThreshold',
         'negotiation',
         'negotiation.quick',
