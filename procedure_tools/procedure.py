@@ -1,7 +1,10 @@
 import argparse
 import json
 import sys
+import math
 
+from datetime import datetime
+from dateutil import parser, tz
 from time import sleep
 
 from .version import __version__
@@ -18,11 +21,10 @@ from .utils.data import (
     set_agreement_period,
     get_tender_id,
     get_tender_token,
-    get_tender_period_seconds,
     ACCELERATION_DEFAULT,
     TENDER_SECONDS_BUFFER,
-    get_qualification_period_seconds,
-    get_procurement_method_type)
+    get_procurement_method_type,
+    set_tender_period_data, get_tender_next_check)
 from .utils.handlers import (
     response_handler,
     item_get_success_print_handler,
@@ -31,14 +33,6 @@ from .utils.handlers import (
     tender_check_status_success_print_handler,
     tender_create_success_print_handler,
     bid_create_success_print_handler)
-
-
-def patch_tender_awarded(client, data_path, tender_id, tender_token, exit_file_name):
-    path = get_data_file_path('tender_patch_awarded.json', data_path)
-    with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
-        tender_patch_data = json.loads(f.read())
-        return client.patch_tender(tender_id, tender_token, tender_patch_data,
-                                   success_handler=tender_patch_status_success_print_handler)
 
 
 def get_bids(client, tender_id):
@@ -53,6 +47,7 @@ def get_bids(client, tender_id):
 
 
 def patch_agreements_with_contracts(client, tender_id, data_path, tender_token, exit_file_name):
+    print("Checking agreements...\n")
     response = get_agreements(client, tender_id)
     agreements_ids = [i['id'] for i in response.json()['data']]
     response = get_tender(client, tender_id)
@@ -127,18 +122,8 @@ def get_agreements(client, tender_id):
     return response
 
 
-def wait_tender_awarded(client, tender_id):
-    while True:
-        response = client.get_tender(tender_id)
-        if not response.json()['data']['status'] == 'active.awarded':
-            sleep(TENDER_SECONDS_BUFFER)
-        else:
-            response_handler(response, tender_check_status_success_print_handler)
-            break
-    return response
-
-
 def patch_tender_qual(client, data_path, tender_id, tender_token, exit_file_name):
+    print("Approving awards by switching to next status...\n")
     path = get_data_file_path('tender_patch_qual.json', data_path)
     with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
         tender_patch_data = json.loads(f.read())
@@ -147,6 +132,7 @@ def patch_tender_qual(client, data_path, tender_id, tender_token, exit_file_name
 
 
 def patch_awards(client, tender_id, awards_ids, data_path, tender_token, exit_file_name):
+    print("Patching awards...\n")
     for award_index, awards_id in enumerate(awards_ids):
         data_file = 'award_patch_{}.json'.format(award_index)
         path = get_data_file_path(data_file, data_path)
@@ -157,6 +143,7 @@ def patch_awards(client, tender_id, awards_ids, data_path, tender_token, exit_fi
 
 
 def get_awards(client, tender_id):
+    print("Checking awards...\n")
     while True:
         response = client.get_awards(tender_id)
         if not response.json()['data']:
@@ -167,18 +154,31 @@ def get_awards(client, tender_id):
     return response
 
 
-def wait_tender_auction(client, tender_id):
+def patch_contracts(client, tender_id, awards_ids, data_path, tender_token, exit_file_name):
+    print("Patching contracts...\n")
+    for contract_index, contract_id in enumerate(awards_ids):
+        data_file = 'contract_patch_{}.json'.format(contract_index)
+        path = get_data_file_path(data_file, data_path)
+        with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
+            contract_patch_data = json.loads(f.read())
+            client.patch_contract(tender_id, contract_id, tender_token, contract_patch_data,
+                                  success_handler=item_patch_success_print_handler)
+
+
+def get_contracts(client, tender_id):
+    print("Checking contracts...\n")
     while True:
-        response = client.get_tender(tender_id)
-        if not response.json()['data']['status'] == 'active.auction':
+        response = client.get_contracts(tender_id)
+        if not response.json()['data']:
             sleep(TENDER_SECONDS_BUFFER)
         else:
-            response_handler(response, tender_check_status_success_print_handler)
+            response_handler(response, item_get_success_print_handler)
             break
     return response
 
 
 def patch_tender_pre(client, data_path, tender_id, tender_token, exit_file_name):
+    print("Approving qualifications by switching to next status...\n")
     path = get_data_file_path('tender_patch_pre.json', data_path)
     with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
         tender_patch_data = json.loads(f.read())
@@ -187,6 +187,7 @@ def patch_tender_pre(client, data_path, tender_id, tender_token, exit_file_name)
 
 
 def patch_qualifications(client, data_path, tender_id, qualifications_ids, tender_token, exit_file_name):
+    print("Patching qualifications...\n")
     for qualification_index, qualification_id in enumerate(qualifications_ids):
         data_file = 'qualification_patch_{}.json'.format(qualification_index)
         path = get_data_file_path(data_file, data_path)
@@ -197,6 +198,7 @@ def patch_qualifications(client, data_path, tender_id, qualifications_ids, tende
 
 
 def get_qualifications(client, tender_id):
+    print("Checking qualifications...\n")
     while True:
         response = client.get_qualifications(tender_id)
         if not response.json()['data']:
@@ -208,6 +210,7 @@ def get_qualifications(client, tender_id):
 
 
 def create_bids(client, data_path, data_files, tender_id, exit_file_name):
+    print("Creating bids...\n")
     bid_files = []
     for data_file in data_files:
         if data_file.startswith('bid_create'):
@@ -220,6 +223,7 @@ def create_bids(client, data_path, data_files, tender_id, exit_file_name):
 
 
 def create_tender(client, data_path, acceleration, exit_file_name):
+    print("Creating tender...\n")
     path = get_data_file_path('tender_create.json', data_path)
     with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
         tender_create_data = json.loads(f.read())
@@ -228,93 +232,122 @@ def create_tender(client, data_path, acceleration, exit_file_name):
         return response
 
 
+def update_tender_period(client, tender_id, tender_token, acceleration):
+    data = set_tender_period_data(acceleration=acceleration)
+    client.patch_tender(tender_id, tender_token, data)
+
+
+def wait(date_str, date_info_str=None):
+    date_timedelta = parser.parse(date_str) - datetime.now(tz.tzutc())
+    delta_seconds = date_timedelta.total_seconds()
+    date_seconds = math.ceil(delta_seconds) if delta_seconds > 0 else 0
+    info_str = ' for {}'.format(date_info_str) if date_info_str else ''
+    print("Waiting {} seconds{} - {}...\n".format(date_seconds, info_str, date_str))
+    sleep(date_seconds)
+
+
+def wait_status(client, tender_id, status, fallback=None):
+    print("Waiting for {}...\n".format(status))
+    while True:
+        response = client.get_tender(tender_id)
+        if not response.json()['data']['status'] == status:
+            sleep(TENDER_SECONDS_BUFFER)
+            if fallback:
+                fallback()
+        else:
+            response_handler(response, tender_check_status_success_print_handler)
+            break
+    return response
+
+
 def create_procedure(host, token, url_path, data_path, acceleration, exit_file_name):
     data_path = get_data_path(data_path)
     data_files = get_data_all_files(data_path)
 
     client = TendersApiClient(host, token, url_path)
 
-    print("Creating tender...\n")
     response = create_tender(client, data_path, acceleration, exit_file_name)
     if not response:
         sys.exit(0)
     tender_id = get_tender_id(response)
     tender_token = get_tender_token(response)
-    tender_period_seconds = get_tender_period_seconds(response)
 
     method_type = get_procurement_method_type(response)
 
     if method_type in (
+        'belowThreshold',
+    ):
+        wait(get_tender_next_check(response), date_info_str='next chronograph check')
+
+        def update_tender_period_fallback():
+            update_tender_period(client, tender_id, tender_token, acceleration)
+
+        wait_status(client, tender_id, 'active.tendering', fallback=update_tender_period_fallback)
+
+    if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdUA',
+        'belowThreshold',
     ):
-        print("Creating bids...\n")
         create_bids(client, data_path, data_files, tender_id, exit_file_name)
 
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdUA',
+        'belowThreshold',
     ):
-        print("Waiting {} seconds for end of tender period...\n".format(tender_period_seconds))
-        sleep(tender_period_seconds + TENDER_SECONDS_BUFFER)
+        response = get_tender(client, tender_id)
+        wait(get_tender_next_check(response), date_info_str='next chronograph check')
 
     if method_type in (
         'closeFrameworkAgreementUA',
     ):
-        print("Checking qualifications...\n")
         response = get_qualifications(client, tender_id)
         qualifications_ids = [i['id'] for i in response.json()['data']]
-        print("Patching qualifications...\n")
         patch_qualifications(client, data_path, tender_id, qualifications_ids, tender_token, exit_file_name)
 
     if method_type in (
         'closeFrameworkAgreementUA',
     ):
-        print("Approving qualifications by switching to next status...\n")
-        response = patch_tender_pre(client, data_path, tender_id, tender_token, exit_file_name)
-        qualification_period_seconds = get_qualification_period_seconds(response)
-        print("Waiting {} seconds for end of qualification period...\n".format(qualification_period_seconds))
-        sleep(qualification_period_seconds + TENDER_SECONDS_BUFFER)
+        patch_tender_pre(client, data_path, tender_id, tender_token, exit_file_name)
 
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdUA',
+        'belowThreshold',
     ):
-        print("Waiting for active.auction...\n")
-        wait_tender_auction(client, tender_id)
+        wait_status(client, tender_id, 'active.auction')
 
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdUA',
+        'belowThreshold',
     ):
-        print("Checking awards...\n")
         response = get_awards(client, tender_id)
         awards_ids = [i['id'] for i in response.json()['data']]
-        print("Patching awards...\n")
         patch_awards(client, tender_id, awards_ids, data_path, tender_token, exit_file_name)
 
     if method_type in (
         'closeFrameworkAgreementUA',
     ):
-        print("Approving awards by switching to next status...\n")
         patch_tender_qual(client, data_path, tender_id, tender_token, exit_file_name)
 
     if method_type in (
         'closeFrameworkAgreementUA',
     ):
-        print("Waiting for active.awarded...\n")
-        wait_tender_awarded(client, tender_id)
+        wait_status(client, tender_id, 'active.awarded')
 
     if method_type in (
         'aboveThresholdUA',
+        'belowThreshold',
     ):
-        print("Completing tender by switching to next status...\n")
-        patch_tender_awarded(client, data_path, tender_id, tender_token, exit_file_name)
+        response = get_contracts(client, tender_id)
+        contracts_ids = [i['id'] for i in response.json()['data']]
+        patch_contracts(client, tender_id, contracts_ids, data_path, tender_token, exit_file_name)
 
     if method_type in (
         'closeFrameworkAgreementUA',
     ):
-        print("Checking agreements...\n")
         patch_agreements_with_contracts(client, tender_id, data_path, tender_token, exit_file_name)
 
     print("Completed.\n")

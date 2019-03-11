@@ -93,6 +93,8 @@ class TendersApiClient(BaseApiClient):
     BIDS_COLLECTION_PATH = 'tenders/{}/bids'
     AWARDS_COLLECTION_PATH = 'tenders/{}/awards'
     AWARDS_PATH = 'tenders/{}/awards/{}'
+    CONTRACTS_COLLECTION_PATH = 'tenders/{}/contracts'
+    CONTRACTS_PATH = 'tenders/{}/contracts/{}'
     QUALIFICATIONS_COLLECTION_PATH = 'tenders/{}/qualifications'
     QUALIFICATIONS_PATH = 'tenders/{}/qualifications/{}'
     AGREEMENTS_COLLECTION_PATH = 'tenders/{}/agreements'
@@ -142,6 +144,16 @@ class TendersApiClient(BaseApiClient):
 
     def patch_award(self, tender_id, award_id, acc_token, json, **kwargs):
         awards_path = self.AWARDS_PATH.format(tender_id, award_id, acc_token)
+        path = self._get_api_path(awards_path, acc_token=acc_token)
+        return self.patch(path, json, **kwargs)
+
+    def get_contracts(self, tender_id, **kwargs):
+        awards_path = self.CONTRACTS_COLLECTION_PATH.format(tender_id)
+        path = self._get_api_path(awards_path)
+        return self.get(path, **kwargs)
+
+    def patch_contract(self, tender_id, contract_id, acc_token, json, **kwargs):
+        awards_path = self.CONTRACTS_PATH.format(tender_id, contract_id, acc_token)
         path = self._get_api_path(awards_path, acc_token=acc_token)
         return self.patch(path, json, **kwargs)
 
