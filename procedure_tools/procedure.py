@@ -301,6 +301,7 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdUA',
+        'aboveThresholdUA.defense',
         'aboveThresholdEU',
         'belowThreshold',
         'esco',
@@ -310,6 +311,7 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdUA',
+        'aboveThresholdUA.defense',
         'aboveThresholdEU',
         'belowThreshold',
         'esco',
@@ -335,7 +337,7 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
 
     if method_type in (
         'closeFrameworkAgreementUA',
-        'aboveThresholdUA',
+        'aboveThresholdUA.defense',
         'aboveThresholdEU',
         'belowThreshold',
         'esco',
@@ -359,44 +361,52 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdUA',
+        'aboveThresholdUA.defense',
         'aboveThresholdEU',
         'belowThreshold',
         'negotiation',
         'negotiation.quick',
         'reporting',
+        'esco',
     ):
         response = get_awards(client, tender_id)
         awards_ids = [i['id'] for i in response.json()['data']]
         patch_awards(client, tender_id, awards_ids, data_path, tender_token, exit_file_name)
 
     if method_type in (
-        'negotiation',
-        'negotiation.quick',
-        'aboveThresholdEU',
+        'closeFrameworkAgreementUA',
     ):
-        response = get_awards(client, tender_id)
-        awards_complaint_dates = [i['complaintPeriod']['endDate'] for i in response.json()['data']]
-        wait(max(awards_complaint_dates), date_info_str='end of award complaint period')
+        patch_tender_qual(client, data_path, tender_id, tender_token, exit_file_name)
 
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdEU',
         'esco',
     ):
-        patch_tender_qual(client, data_path, tender_id, tender_token, exit_file_name)
-
-    if method_type in (
-        'closeFrameworkAgreementUA',
-    ):
         wait_status(client, tender_id, 'active.awarded')
 
     if method_type in (
         'aboveThresholdUA',
+        'aboveThresholdUA.defense',
+        'aboveThresholdEU',
+        'belowThreshold',
+        'negotiation',
+        'negotiation.quick',
+        'esco',
+    ):
+        response = get_awards(client, tender_id)
+        awards_complaint_dates = [i['complaintPeriod']['endDate'] for i in response.json()['data']]
+        wait(max(awards_complaint_dates), date_info_str='end of award complaint period')
+
+    if method_type in (
+        'aboveThresholdUA',
+        'aboveThresholdUA.defense',
         'aboveThresholdEU',
         'belowThreshold',
         'negotiation',
         'negotiation.quick',
         'reporting',
+        'esco',
     ):
         response = get_contracts(client, tender_id)
         contracts_ids = [i['id'] for i in response.json()['data']]
