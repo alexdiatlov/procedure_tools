@@ -25,7 +25,8 @@ def set_acceleration_data(
         if data['data'].get('procurementMethod') != 'limited':
             data['data']['submissionMethodDetails'] = "quick(mode:no-auction)"
 
-        period_delta = get_period_delta(acceleration, period_timedelta)
+        period_delta = get_period_delta(acceleration, period_timedelta,
+                                        seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER * 2))
 
         now = datetime.now()
         if 'enquiryPeriod' in data['data'] and 'tenderPeriod' in data['data']:
@@ -36,12 +37,20 @@ def set_acceleration_data(
     return data
 
 
+def set_agreement_id(data, agreement_id):
+    if 'data' in data and agreement_id:
+        data['data']['agreements'] = [{
+            'id': agreement_id
+        }]
+    return data
+
+
 def set_tender_period_data(
         data,
         acceleration=ACCELERATION_DEFAULT,
         period_timedelta=TENDER_PERIOD_TIMEDELTA_DEFAULT):
     period_delta = get_period_delta(acceleration, period_timedelta,
-                                    seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER * 2.5))
+                                    seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER * 2))
     if 'data' in data and 'tenderPeriod' in data['data']:
         data['data']['tenderPeriod']['endDate'] = (datetime.now() + period_delta).isoformat()
     return data

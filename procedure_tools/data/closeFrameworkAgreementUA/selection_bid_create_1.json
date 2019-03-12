@@ -1,0 +1,40 @@
+{
+  "data": {
+    "lotValues": [
+      {
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
+        "value": {
+          "amount": 2.3
+        }
+      }
+    ],
+    "parameters": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "value": 0.1
+      }
+    ],
+    "tenderers": [
+      {
+        "contactPoint": {
+          "telephone": "+380 (432) 21-69-30",
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "address": {
+          "postalCode": "21100",
+          "countryName": "Україна",
+          "streetAddress": "вул. Островського, 33",
+          "region": "м. Вінниця",
+          "locality": "м. Вінниця"
+        }
+      }
+    ]
+  }
+}

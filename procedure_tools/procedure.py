@@ -24,7 +24,7 @@ from .utils.data import (
     ACCELERATION_DEFAULT,
     TENDER_SECONDS_BUFFER,
     get_procurement_method_type,
-    set_tender_period_data, get_tender_next_check)
+    set_tender_period_data, get_tender_next_check, set_agreement_id)
 from .utils.handlers import (
     response_handler,
     item_get_success_print_handler,
@@ -245,12 +245,13 @@ def create_bids(client, data_path, data_files, tender_id, exit_file_name, prefix
             client.post_bid(tender_id, bid_create_data, success_handler=bid_create_success_print_handler)
 
 
-def create_tender(client, data_path, acceleration, exit_file_name):
+def create_tender(client, data_path, acceleration, exit_file_name, agreement_id=None, prefix=''):
     print("Creating tender...\n")
-    path = get_data_file_path('tender_create.json', data_path)
+    path = get_data_file_path('{}tender_create.json'.format(prefix), data_path)
     with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
         tender_create_data = json.loads(f.read())
         set_acceleration_data(tender_create_data, acceleration=acceleration)
+        set_agreement_id(tender_create_data, agreement_id)
         response = client.post_tender(tender_create_data, success_handler=tender_create_success_print_handler)
         return response
 
@@ -301,15 +302,22 @@ def patch_tender_tendering(client, data_path, tender_id, tender_token, exit_file
                                    success_handler=tender_patch_status_success_print_handler)
 
 
+def patch_tender_pending(client, data_path, tender_id, tender_token, exit_file_name, prefix=''):
+    print("Activating tender by switching to next status...\n")
+    path = get_data_file_path('{}tender_patch_pending.json'.format(prefix), data_path)
+    with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
+        tender_patch_data = json.loads(f.read())
+        return client.patch_tender(tender_id, tender_token, tender_patch_data,
+                                   success_handler=tender_patch_status_success_print_handler)
+
+
 def create_procedure(host, token, url_path, data_path, acceleration, exit_file_name):
     data_path = get_data_path(data_path)
     data_files = get_data_all_files(data_path)
 
     client = TendersApiClient(host, token, url_path)
 
-    response = create_tender(client, data_path, acceleration, exit_file_name)
-    if not response:
-        sys.exit(0)
+    response = create_tender(client, data_path, acceleration, exit_file_name, prefix='')
     tender_id = get_tender_id(response)
     tender_token = get_tender_token(response)
 
@@ -323,10 +331,24 @@ def process_tender(client, data_files, data_path, exit_file_name, tender_id, ten
     method_type = get_procurement_method_type(response)
 
     if method_type in (
+        'closeFrameworkAgreementSelectionUA',
+    ):
+        patch_tender_pending(client, data_path, tender_id, tender_token, exit_file_name, prefix)
+
+    if method_type in (
+        'closeFrameworkAgreementSelectionUA',
+    ):
+        wait_status(client, tender_id, 'active.enquiries')
+
+    if method_type in (
         'belowThreshold',
     ):
         wait(get_tender_next_check(response), date_info_str='next chronograph check')
 
+    if method_type in (
+            'belowThreshold',
+            'closeFrameworkAgreementSelectionUA',
+    ):
         def update_tender_period_fallback():
             update_tender_period(client, tender_id, tender_token, acceleration)
 
@@ -346,6 +368,7 @@ def process_tender(client, data_files, data_path, exit_file_name, tender_id, ten
 
     if method_type in (
         'closeFrameworkAgreementUA',
+        'closeFrameworkAgreementSelectionUA',
         'aboveThresholdUA',
         'aboveThresholdUA.defense',
         'aboveThresholdEU',
@@ -360,6 +383,7 @@ def process_tender(client, data_files, data_path, exit_file_name, tender_id, ten
 
     if method_type in (
         'closeFrameworkAgreementUA',
+        'closeFrameworkAgreementSelectionUA',
         'aboveThresholdUA',
         'aboveThresholdUA.defense',
         'aboveThresholdEU',
@@ -404,6 +428,7 @@ def process_tender(client, data_files, data_path, exit_file_name, tender_id, ten
 
     if method_type in (
         'closeFrameworkAgreementUA',
+        'closeFrameworkAgreementSelectionUA',
         'aboveThresholdUA.defense',
         'aboveThresholdEU',
         'belowThreshold',
@@ -428,6 +453,7 @@ def process_tender(client, data_files, data_path, exit_file_name, tender_id, ten
 
     if method_type in (
         'closeFrameworkAgreementUA',
+        'closeFrameworkAgreementSelectionUA',
         'aboveThresholdUA',
         'aboveThresholdUA.defense',
         'aboveThresholdEU',
@@ -472,6 +498,7 @@ def process_tender(client, data_files, data_path, exit_file_name, tender_id, ten
         wait(max(awards_complaint_dates), date_info_str='end of award complaint period')
 
     if method_type in (
+        'closeFrameworkAgreementSelectionUA',
         'aboveThresholdUA',
         'aboveThresholdUA.defense',
         'aboveThresholdEU',
@@ -520,6 +547,20 @@ def process_tender(client, data_files, data_path, exit_file_name, tender_id, ten
 
         process_tender(client, data_files, data_path, exit_file_name, tender_id, tender_token, acceleration,
                        prefix='stage2_')
+
+    if method_type in (
+        'closeFrameworkAgreementUA',
+    ):
+        response = get_tender(client, tender_id)
+        agreement_id = response.json()['data']['agreements'][-1]['id']
+
+        response = create_tender(client, data_path, acceleration, exit_file_name,
+                                 agreement_id=agreement_id, prefix='selection_')
+        tender_id = get_tender_id(response)
+        tender_token = get_tender_token(response)
+
+        process_tender(client, data_files, data_path, exit_file_name, tender_id, tender_token, acceleration,
+                       prefix='selection_')
 
 
 def main():
