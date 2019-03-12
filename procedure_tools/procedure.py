@@ -131,10 +131,19 @@ def patch_tender_qual(client, data_path, tender_id, tender_token, exit_file_name
                                    success_handler=tender_patch_status_success_print_handler)
 
 
-def patch_awards(client, tender_id, awards_ids, data_path, tender_token, exit_file_name):
+def patch_tender_waiting(client, data_path, tender_id, tender_token, exit_file_name):
+    print("Finishing first stage by switching to next status...\n")
+    path = get_data_file_path('tender_patch_waiting.json', data_path)
+    with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
+        tender_patch_data = json.loads(f.read())
+        return client.patch_tender(tender_id, tender_token, tender_patch_data,
+                                   success_handler=tender_patch_status_success_print_handler)
+
+
+def patch_awards(client, tender_id, awards_ids, data_path, tender_token, exit_file_name, prefix=''):
     print("Patching awards...\n")
     for award_index, awards_id in enumerate(awards_ids):
-        data_file = 'award_patch_{}.json'.format(award_index)
+        data_file = '{}award_patch_{}.json'.format(prefix, award_index)
         path = get_data_file_path(data_file, data_path)
         with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
             award_patch_data = json.loads(f.read())
@@ -154,10 +163,10 @@ def get_awards(client, tender_id):
     return response
 
 
-def patch_contracts(client, tender_id, awards_ids, data_path, tender_token, exit_file_name):
+def patch_contracts(client, tender_id, awards_ids, data_path, tender_token, exit_file_name, prefix=''):
     print("Patching contracts...\n")
     for contract_index, contract_id in enumerate(awards_ids):
-        data_file = 'contract_patch_{}.json'.format(contract_index)
+        data_file = '{}contract_patch_{}.json'.format(prefix, contract_index)
         path = get_data_file_path(data_file, data_path)
         with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
             contract_patch_data = json.loads(f.read())
@@ -177,19 +186,19 @@ def get_contracts(client, tender_id):
     return response
 
 
-def patch_tender_pre(client, data_path, tender_id, tender_token, exit_file_name):
+def patch_tender_pre(client, data_path, tender_id, tender_token, exit_file_name, prefix=''):
     print("Approving qualifications by switching to next status...\n")
-    path = get_data_file_path('tender_patch_pre.json', data_path)
+    path = get_data_file_path('{}tender_patch_pre.json'.format(prefix), data_path)
     with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
         tender_patch_data = json.loads(f.read())
         return client.patch_tender(tender_id, tender_token, tender_patch_data,
                                    success_handler=tender_patch_status_success_print_handler)
 
 
-def patch_qualifications(client, data_path, tender_id, qualifications_ids, tender_token, exit_file_name):
+def patch_qualifications(client, data_path, tender_id, qualifications_ids, tender_token, exit_file_name, prefix=''):
     print("Patching qualifications...\n")
     for qualification_index, qualification_id in enumerate(qualifications_ids):
-        data_file = 'qualification_patch_{}.json'.format(qualification_index)
+        data_file = '{}qualification_patch_{}.json'.format(prefix, qualification_index)
         path = get_data_file_path(data_file, data_path)
         with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
             qualification_patch_data = json.loads(f.read())
@@ -223,11 +232,11 @@ def create_awards(client, data_path, data_files, tender_id, tender_token, exit_f
                               success_handler=item_create_success_print_handler)
 
 
-def create_bids(client, data_path, data_files, tender_id, exit_file_name):
+def create_bids(client, data_path, data_files, tender_id, exit_file_name, prefix=''):
     print("Creating bids...\n")
     bid_files = []
     for data_file in data_files:
-        if data_file.startswith('bid_create'):
+        if data_file.startswith('{}bid_create'.format(prefix)):
             bid_files.append(data_file)
     for bid_file in bid_files:
         path = get_data_file_path(bid_file, data_path)
@@ -274,6 +283,24 @@ def wait_status(client, tender_id, status, fallback=None):
     return response
 
 
+def patch_credentials(client, stage2_tender_id, tender_token, data_path, exit_file_name):
+    print("Getting credentials for second stage...\n")
+    path = get_data_file_path('stage2_tender_credentials.json', data_path)
+    with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
+        tender_patch_data = json.loads(f.read())
+        return client.patch_credentials(stage2_tender_id, tender_token, tender_patch_data,
+                                        success_handler=tender_create_success_print_handler)
+
+
+def patch_tender_tendering(client, data_path, tender_id, tender_token, exit_file_name, prefix=''):
+    print("Activating tender by switching to next status...\n")
+    path = get_data_file_path('{}tender_patch_tendering.json'.format(prefix), data_path)
+    with ignore(IOError), open_file_or_exit(path, exit_filename=exit_file_name) as f:
+        tender_patch_data = json.loads(f.read())
+        return client.patch_tender(tender_id, tender_token, tender_patch_data,
+                                   success_handler=tender_patch_status_success_print_handler)
+
+
 def create_procedure(host, token, url_path, data_path, acceleration, exit_file_name):
     data_path = get_data_path(data_path)
     data_files = get_data_all_files(data_path)
@@ -286,6 +313,13 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
     tender_id = get_tender_id(response)
     tender_token = get_tender_token(response)
 
+    process_tender(client, data_files, data_path, exit_file_name, tender_id, tender_token, acceleration)
+
+    print("Completed.\n")
+
+
+def process_tender(client, data_files, data_path, exit_file_name, tender_id, tender_token, acceleration, prefix=''):
+    response = get_tender(client, tender_id)
     method_type = get_procurement_method_type(response)
 
     if method_type in (
@@ -299,14 +333,16 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
         wait_status(client, tender_id, 'active.tendering', fallback=update_tender_period_fallback)
 
     if method_type in (
-        'closeFrameworkAgreementUA',
-        'aboveThresholdUA',
-        'aboveThresholdUA.defense',
-        'aboveThresholdEU',
-        'belowThreshold',
-        'esco',
+        'competitiveDialogueEU.stage2',
+        'competitiveDialogueUA.stage2',
     ):
-        create_bids(client, data_path, data_files, tender_id, exit_file_name)
+        update_tender_period(client, tender_id, tender_token, acceleration)
+
+    if method_type in (
+        'competitiveDialogueEU.stage2',
+        'competitiveDialogueUA.stage2',
+    ):
+        patch_tender_tendering(client, data_path, tender_id, tender_token, exit_file_name, prefix)
 
     if method_type in (
         'closeFrameworkAgreementUA',
@@ -314,6 +350,24 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
         'aboveThresholdUA.defense',
         'aboveThresholdEU',
         'belowThreshold',
+        'competitiveDialogueEU',
+        'competitiveDialogueUA',
+        'competitiveDialogueEU.stage2',
+        'competitiveDialogueUA.stage2',
+        'esco',
+    ):
+        create_bids(client, data_path, data_files, tender_id, exit_file_name, prefix)
+
+    if method_type in (
+        'closeFrameworkAgreementUA',
+        'aboveThresholdUA',
+        'aboveThresholdUA.defense',
+        'aboveThresholdEU',
+        'belowThreshold',
+        'competitiveDialogueEU',
+        'competitiveDialogueUA',
+        'competitiveDialogueEU.stage2',
+        'competitiveDialogueUA.stage2',
         'esco',
     ):
         response = get_tender(client, tender_id)
@@ -322,24 +376,38 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdEU',
+        'competitiveDialogueEU',
+        'competitiveDialogueUA',
+        'competitiveDialogueEU.stage2',
         'esco',
     ):
         response = get_qualifications(client, tender_id)
         qualifications_ids = [i['id'] for i in response.json()['data']]
-        patch_qualifications(client, data_path, tender_id, qualifications_ids, tender_token, exit_file_name)
+        patch_qualifications(client, data_path, tender_id, qualifications_ids, tender_token, exit_file_name, prefix)
 
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdEU',
+        'competitiveDialogueEU',
+        'competitiveDialogueUA',
+        'competitiveDialogueEU.stage2',
         'esco',
     ):
-        patch_tender_pre(client, data_path, tender_id, tender_token, exit_file_name)
+        patch_tender_pre(client, data_path, tender_id, tender_token, exit_file_name, prefix)
+
+    if method_type in (
+        'competitiveDialogueEU',
+        'competitiveDialogueUA',
+    ):
+        wait_status(client, tender_id, 'active.stage2.pending')
+        patch_tender_waiting(client, data_path, tender_id, tender_token, exit_file_name)
 
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdUA.defense',
         'aboveThresholdEU',
         'belowThreshold',
+        'competitiveDialogueEU.stage2',
         'esco',
     ):
         wait_status(client, tender_id, 'active.auction')
@@ -364,6 +432,8 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
         'aboveThresholdUA.defense',
         'aboveThresholdEU',
         'belowThreshold',
+        'competitiveDialogueEU.stage2',
+        'competitiveDialogueUA.stage2',
         'negotiation',
         'negotiation.quick',
         'reporting',
@@ -371,7 +441,7 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
     ):
         response = get_awards(client, tender_id)
         awards_ids = [i['id'] for i in response.json()['data']]
-        patch_awards(client, tender_id, awards_ids, data_path, tender_token, exit_file_name)
+        patch_awards(client, tender_id, awards_ids, data_path, tender_token, exit_file_name, prefix)
 
     if method_type in (
         'closeFrameworkAgreementUA',
@@ -381,6 +451,7 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
     if method_type in (
         'closeFrameworkAgreementUA',
         'aboveThresholdEU',
+        'competitiveDialogueEU.stage2',
         'esco',
     ):
         wait_status(client, tender_id, 'active.awarded')
@@ -390,6 +461,8 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
         'aboveThresholdUA.defense',
         'aboveThresholdEU',
         'belowThreshold',
+        'competitiveDialogueEU.stage2',
+        'competitiveDialogueUA.stage2',
         'negotiation',
         'negotiation.quick',
         'esco',
@@ -403,6 +476,8 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
         'aboveThresholdUA.defense',
         'aboveThresholdEU',
         'belowThreshold',
+        'competitiveDialogueEU.stage2',
+        'competitiveDialogueUA.stage2',
         'negotiation',
         'negotiation.quick',
         'reporting',
@@ -410,14 +485,41 @@ def create_procedure(host, token, url_path, data_path, acceleration, exit_file_n
     ):
         response = get_contracts(client, tender_id)
         contracts_ids = [i['id'] for i in response.json()['data']]
-        patch_contracts(client, tender_id, contracts_ids, data_path, tender_token, exit_file_name)
+        patch_contracts(client, tender_id, contracts_ids, data_path, tender_token, exit_file_name, prefix)
 
     if method_type in (
         'closeFrameworkAgreementUA',
     ):
         patch_agreements_with_contracts(client, tender_id, data_path, tender_token, exit_file_name)
 
-    print("Completed.\n")
+    if method_type in (
+        'closeFrameworkAgreementUA',
+        'aboveThresholdUA',
+        'aboveThresholdUA.defense',
+        'aboveThresholdEU',
+        'belowThreshold',
+        'competitiveDialogueEU',
+        'competitiveDialogueUA',
+        'competitiveDialogueEU.stage2',
+        'competitiveDialogueUA.stage2',
+        'negotiation',
+        'negotiation.quick',
+        'reporting',
+        'esco',
+    ):
+        wait_status(client, tender_id, 'complete')
+
+    if method_type in (
+        'competitiveDialogueEU',
+        'competitiveDialogueUA',
+    ):
+        response = get_tender(client, tender_id)
+        tender_id = response.json()['data']['stage2TenderID']
+        response = patch_credentials(client, tender_id, tender_token, data_path, exit_file_name)
+        tender_token = get_tender_token(response)
+
+        process_tender(client, data_files, data_path, exit_file_name, tender_id, tender_token, acceleration,
+                       prefix='stage2_')
 
 
 def main():

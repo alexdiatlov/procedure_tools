@@ -1,0 +1,34 @@
+{
+  "data": {
+    "status": "pending",
+    "selfEligible": true,
+    "selfQualified": true,
+    "value": {
+      "currency": "UAH",
+      "amount": 501
+    },
+    "tenderers": [
+      {
+        "contactPoint": {
+          "telephone": "+380 (432) 21-69-30",
+          "name": "Сергій Олексюк",
+          "email": "soleksuk@gmail.com"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137256",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "ДКП «Школяр»",
+        "address": {
+          "countryName": "Україна",
+          "postalCode": "21100",
+          "region": "м. Вінниця",
+          "streetAddress": "вул. Островського, 33",
+          "locality": "м. Вінниця"
+        }
+      }
+    ],
+    "subcontractingDetails": "ДКП «Орфей», Україна"
+  }
+}

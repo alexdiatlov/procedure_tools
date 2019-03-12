@@ -1,0 +1,31 @@
+{
+  "data": {
+    "selfEligible": true,
+    "selfQualified": true,
+    "value": {
+      "amount": 5
+    },
+    "tenderers": [
+      {
+        "contactPoint": {
+          "telephone": "+380 (322) 12-34-56",
+          "name": "Іван Іваненко",
+          "email": "fake@mail.com"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137227",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "«Снігур»",
+        "address": {
+          "countryName": "Україна",
+          "postalCode": "79013",
+          "region": "м. Львів",
+          "streetAddress": "вул. Островського, 35",
+          "locality": "м. Львів"
+        }
+      }
+    ]
+  }
+}
