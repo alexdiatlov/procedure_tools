@@ -1,6 +1,7 @@
 import math
 
 from datetime import datetime, timedelta
+from dateutil import tz
 
 ACCELERATION_DEFAULT = 460800
 TENDER_PERIOD_TIMEDELTA_DEFAULT = timedelta(days=30)
@@ -28,7 +29,7 @@ def set_acceleration_data(
         period_delta = get_period_delta(acceleration, period_timedelta,
                                         seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER * 2))
 
-        now = datetime.now()
+        now = datetime.now(tz.tzutc())
         if 'enquiryPeriod' in data['data'] and 'tenderPeriod' in data['data']:
             data['data']['enquiryPeriod']['endDate'] = (now + period_delta).isoformat()
             data['data']['tenderPeriod']['endDate'] = (now + 2 * period_delta).isoformat()
@@ -52,12 +53,12 @@ def set_tender_period_data(
     period_delta = get_period_delta(acceleration, period_timedelta,
                                     seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER * 2))
     if 'data' in data and 'tenderPeriod' in data['data']:
-        data['data']['tenderPeriod']['endDate'] = (datetime.now() + period_delta).isoformat()
+        data['data']['tenderPeriod']['endDate'] = (datetime.now(tz.tzutc()) + period_delta).isoformat()
     return data
 
 
 def set_agreement_period(data):
-    now = datetime.now()
+    now = datetime.now(tz.tzutc())
     data['data']['period']['startDate'] = now.isoformat()
     data['data']['period']['endDate'] = (now + timedelta(days=365*2)).isoformat()
     return data
