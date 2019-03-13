@@ -133,6 +133,11 @@ class TendersApiClient(BaseApiClient):
         path = self._get_api_path(qualifications_path)
         return self.get(path, **kwargs)
 
+    def get_qualification(self, tender_id, qualification_id, **kwargs):
+        qualifications_path = self.QUALIFICATIONS_PATH.format(tender_id, qualification_id)
+        path = self._get_api_path(qualifications_path)
+        return self.get(path, **kwargs)
+
     def patch_qualification(self, tender_id, qualification_id, acc_token, json, **kwargs):
         qualifications_path = self.QUALIFICATIONS_PATH.format(tender_id, qualification_id, acc_token)
         path = self._get_api_path(qualifications_path, acc_token=acc_token)
@@ -140,6 +145,11 @@ class TendersApiClient(BaseApiClient):
 
     def get_awards(self, tender_id, **kwargs):
         awards_path = self.AWARDS_COLLECTION_PATH.format(tender_id)
+        path = self._get_api_path(awards_path)
+        return self.get(path, **kwargs)
+
+    def get_award(self, tender_id, award_id, **kwargs):
+        awards_path = self.AWARDS_PATH.format(tender_id, award_id)
         path = self._get_api_path(awards_path)
         return self.get(path, **kwargs)
 

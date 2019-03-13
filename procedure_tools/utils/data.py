@@ -81,3 +81,19 @@ def get_tender_next_check(response):
 
 def get_procurement_method_type(response):
     return response.json()['data']['procurementMethodType']
+
+
+def get_complaint_period_end_date(response):
+    return [item['complaintPeriod']['endDate'] for item in response.json()['data']]
+
+
+def get_bids_ids(response):
+    return [i['bidID'] for i in response.json()['data']]
+
+
+def get_items_ids(response):
+    return [item['id'] for item in response.json()['data']['items']]
+
+
+def get_ids(response):
+    return [item['id'] for item in response.json()['data']]
