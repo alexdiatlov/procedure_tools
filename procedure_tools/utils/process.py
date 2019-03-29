@@ -107,7 +107,7 @@ def get_agreements(client, args, tender_id):
 def get_agreement(client, args, agreement_id):
     while True:
         response = client.get_agreement(agreement_id)
-        if json.loads(response.text)['errors'][0]['description'] == 'Not Found':
+        if not 'data' in response.json().keys():
             sleep(TENDER_SECONDS_BUFFER)
         else:
             break
