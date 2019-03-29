@@ -104,6 +104,16 @@ def get_agreements(client, args, tender_id):
     return response
 
 
+def get_agreement(client, args, agreement_id):
+    while True:
+        response = client.get_agreement(agreement_id)
+        if response.json()['errors'][0]['description'] == 'Not Found':
+            sleep(TENDER_SECONDS_BUFFER)
+        else:
+            break
+    return response
+
+
 def patch_tender_qual(client, args, tender_id, tender_token):
     print("Approving awards by switching to next status...\n")
     path = get_data_file_path('tender_patch_qual.json', get_data_path(args.data))

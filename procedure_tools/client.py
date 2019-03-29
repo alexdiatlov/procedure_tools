@@ -197,3 +197,12 @@ class TendersApiClient(BaseApiClient):
         agreements_path = self.CREDENTIALS_PATH.format(tender_id)
         path = self._get_api_path(agreements_path, acc_token=acc_token)
         return self.patch(path, json, **kwargs)
+
+
+class AgreementsApiClient(BaseApiClient):
+    AGREEMENTS_PATH = 'agreements/{}'
+
+    def get_agreement(self, agreement_id, **kwargs):
+        tenders_path = self.AGREEMENTS_PATH.format(agreement_id)
+        path = self._get_api_path(tenders_path)
+        return self.get(path, **kwargs)

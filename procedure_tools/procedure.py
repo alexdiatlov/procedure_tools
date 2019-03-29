@@ -6,9 +6,9 @@ from procedure_tools.utils.process import (
     patch_agreements_with_contracts, get_tender, patch_tender_qual, patch_tender_waiting, patch_awards, get_awards,
     patch_contracts, get_contracts, patch_tender_pre, patch_qualifications, get_qualifications, create_awards,
     create_bids, create_tender, update_tender_period, wait, wait_status, patch_credentials, patch_tender_tendering,
-    patch_tender_pending, wait_edr_pre_qual, wait_edr_qual)
+    patch_tender_pending, wait_edr_pre_qual, wait_edr_qual, get_agreement)
 from .version import __version__
-from .client import TendersApiClient, API_PATH_PREFIX_DEFAULT
+from .client import TendersApiClient, API_PATH_PREFIX_DEFAULT, AgreementsApiClient
 from .utils.file import get_default_data_dirs, DATA_DIR_DEFAULT
 from .utils.data import (
     get_tender_id, get_tender_token, get_procurement_method_type, get_tender_next_check, ACCELERATION_DEFAULT)
@@ -266,6 +266,9 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix='')
     ):
         response = get_tender(client, args, tender_id)
         agreement_id = response.json()['data']['agreements'][-1]['id']
+
+        client = AgreementsApiClient(args.host, args.token, args.path)
+        get_agreement(client, args, agreement_id)
 
         response = create_tender(client, args, agreement_id=agreement_id, filename_prefix='selection_')
         tender_id = get_tender_id(response)
