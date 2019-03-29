@@ -267,8 +267,8 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix='')
         response = get_tender(client, args, tender_id)
         agreement_id = response.json()['data']['agreements'][-1]['id']
 
-        client = AgreementsApiClient(args.host, args.token, args.path)
-        get_agreement(client, args, agreement_id)
+        agreement_client = AgreementsApiClient(args.host, args.token, args.path)
+        get_agreement(agreement_client, args, agreement_id)
 
         response = create_tender(client, args, agreement_id=agreement_id, filename_prefix='selection_')
         tender_id = get_tender_id(response)
