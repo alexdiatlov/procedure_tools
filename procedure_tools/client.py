@@ -1,3 +1,4 @@
+from __future__ import absolute_import
 
 from copy import deepcopy
 try:
@@ -7,7 +8,7 @@ except ImportError:
 
 import requests
 
-from utils.handlers import response_handler
+from procedure_tools.utils.handlers import response_handler
 
 API_PATH_PREFIX_DEFAULT = '/api/0/'
 

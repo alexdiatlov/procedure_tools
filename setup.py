@@ -1,10 +1,10 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 from procedure_tools.version import __version__
 
 setup(
     name='procedure_tools',
     version=__version__,
-    packages=['procedure_tools', 'procedure_tools.utils'],
+    packages=find_packages(),
     python_requires='>=2.7',
     install_requires=[
         'requests',
