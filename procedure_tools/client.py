@@ -194,8 +194,8 @@ class TendersApiClient(BaseApiClient):
         return self.patch(path, json, **kwargs)
 
     def patch_credentials(self, tender_id, acc_token, json, **kwargs):
-        agreements_path = self.CREDENTIALS_PATH.format(tender_id)
-        path = self._get_api_path(agreements_path, acc_token=acc_token)
+        credentials_path = self.CREDENTIALS_PATH.format(tender_id)
+        path = self._get_api_path(credentials_path, acc_token=acc_token)
         return self.patch(path, json, **kwargs)
 
 
@@ -203,6 +203,21 @@ class AgreementsApiClient(BaseApiClient):
     AGREEMENTS_PATH = 'agreements/{}'
 
     def get_agreement(self, agreement_id, **kwargs):
-        tenders_path = self.AGREEMENTS_PATH.format(agreement_id)
-        path = self._get_api_path(tenders_path)
+        agreements_path = self.AGREEMENTS_PATH.format(agreement_id)
+        path = self._get_api_path(agreements_path)
         return self.get(path, **kwargs)
+
+
+class ContractsApiClient(BaseApiClient):
+    CONTRACTS_PATH = 'contracts/{}'
+    CREDENTIALS_PATH = 'contracts/{}/credentials'
+
+    def get_contract(self, contract_id, **kwargs):
+        contracts_path = self.CONTRACTS_PATH.format(contract_id)
+        path = self._get_api_path(contracts_path)
+        return self.get(path, **kwargs)
+
+    def patch_credentials(self, contract_id, acc_token, json, **kwargs):
+        credentials_path = self.CREDENTIALS_PATH.format(contract_id)
+        path = self._get_api_path(credentials_path, acc_token=acc_token)
+        return self.patch(path, json, **kwargs)

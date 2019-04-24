@@ -37,6 +37,15 @@ def tender_create_success_print_handler(response):
     print("")
 
 
+def contract_credentials_success_print_handler(response):
+    data = response.json()['data']
+    access = response.json()['access']
+    print("Contract patched:")
+    print(" - id \t\t\t\t{}".format(data['id']))
+    print(" - token \t\t\t{}".format(access['token']))
+    print("")
+
+
 def bid_create_success_print_handler(response):
     data = response.json()['data']
     access = response.json()['access']

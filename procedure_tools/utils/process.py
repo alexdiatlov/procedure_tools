@@ -14,7 +14,8 @@ from procedure_tools.utils.file import get_data_file_path, get_data_path, get_da
 from procedure_tools.utils.handlers import (
     item_patch_success_print_handler, tender_patch_status_success_print_handler, item_create_success_print_handler,
     bid_create_success_print_handler, tender_create_success_print_handler, response_handler,
-    tender_check_status_success_print_handler)
+    tender_check_status_success_print_handler, contract_credentials_success_print_handler,
+    default_success_print_handler)
 
 
 EDR_FILENAME = 'edr_identification.yaml'
@@ -106,7 +107,17 @@ def get_agreements(client, args, tender_id):
 
 def get_agreement(client, args, agreement_id):
     while True:
-        response = client.get_agreement(agreement_id)
+        response = client.get_agreement(agreement_id, error_handler=default_success_print_handler)
+        if not 'data' in response.json().keys():
+            sleep(TENDER_SECONDS_BUFFER)
+        else:
+            break
+    return response
+
+
+def get_contract(client, args, contract_id):
+    while True:
+        response = client.get_contract(contract_id, error_handler=default_success_print_handler)
         if not 'data' in response.json().keys():
             sleep(TENDER_SECONDS_BUFFER)
         else:
@@ -273,13 +284,19 @@ def wait_status(client, args, tender_id, status, fallback=None):
     return response
 
 
-def patch_credentials(client, args, stage2_tender_id, tender_token):
+def patch_stage2_credentials(client, args, stage2_tender_id, tender_token):
     print("Getting credentials for second stage...\n")
     path = get_data_file_path('stage2_tender_credentials.json', get_data_path(args.data))
     with ignore(IOError), open_file_or_exit(path, exit_filename=args.stop) as f:
         tender_patch_data = json.loads(f.read())
         return client.patch_credentials(stage2_tender_id, tender_token, tender_patch_data,
                                         success_handler=tender_create_success_print_handler)
+
+
+def patch_contract_credentials(client, args, contract_id, tender_token):
+    print("Getting credentials for contract...\n")
+    return client.patch_credentials(contract_id, tender_token, {},
+                                    success_handler=contract_credentials_success_print_handler)
 
 
 def patch_tender_tendering(client, args, tender_id, tender_token, filename_prefix=''):

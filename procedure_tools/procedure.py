@@ -1,17 +1,19 @@
 import argparse
 import sys
 
-from procedure_tools.utils.data import get_complaint_period_end_date, get_ids
+from procedure_tools.version import __version__
 from procedure_tools.utils.process import (
     patch_agreements_with_contracts, get_tender, patch_tender_qual, patch_tender_waiting, patch_awards, get_awards,
     patch_contracts, get_contracts, patch_tender_pre, patch_qualifications, get_qualifications, create_awards,
-    create_bids, create_tender, update_tender_period, wait, wait_status, patch_credentials, patch_tender_tendering,
-    patch_tender_pending, wait_edr_pre_qual, wait_edr_qual, get_agreement)
-from .version import __version__
-from .client import TendersApiClient, API_PATH_PREFIX_DEFAULT, AgreementsApiClient
-from .utils.file import get_default_data_dirs, DATA_DIR_DEFAULT
-from .utils.data import (
-    get_tender_id, get_tender_token, get_procurement_method_type, get_tender_next_check, ACCELERATION_DEFAULT)
+    create_bids, create_tender, update_tender_period, wait, wait_status, patch_stage2_credentials,
+    patch_tender_tendering, patch_tender_pending, wait_edr_pre_qual, wait_edr_qual, get_agreement,
+    get_contract, patch_contract_credentials)
+from procedure_tools.client import TendersApiClient, API_PATH_PREFIX_DEFAULT, AgreementsApiClient, ContractsApiClient
+from procedure_tools.utils.file import get_default_data_dirs, DATA_DIR_DEFAULT
+from procedure_tools.utils.data import (
+    get_tender_id, get_tender_token, get_procurement_method_type, get_tender_next_check, ACCELERATION_DEFAULT,
+    get_complaint_period_end_date, get_ids)
+
 
 WAIT_EDR_QUAL = 'edr-qualification'
 WAIT_EDR_PRE_QUAL = 'edr-pre-qualification'
@@ -228,6 +230,11 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix='')
         contracts_ids = get_ids(response)
         patch_contracts(client, args, tender_id, contracts_ids, tender_token, filename_prefix)
 
+        for contracts_id in contracts_ids:
+            contracts_client = ContractsApiClient(args.host, args.token, args.path)
+            get_contract(contracts_client, args, contracts_id)
+            patch_contract_credentials(contracts_client, args, contracts_id, tender_token)
+
     if method_type in (
             'closeFrameworkAgreementUA',
     ):
@@ -256,7 +263,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix='')
     ):
         response = get_tender(client, args, tender_id)
         tender_id = response.json()['data']['stage2TenderID']
-        response = patch_credentials(client, args, tender_id, tender_token)
+        response = patch_stage2_credentials(client, args, tender_id, tender_token)
         tender_token = get_tender_token(response)
 
         process_procedure(client, args, tender_id, tender_token, filename_prefix='stage2_')
