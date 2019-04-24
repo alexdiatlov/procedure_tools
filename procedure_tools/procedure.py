@@ -1,16 +1,18 @@
+
+
 import argparse
 import sys
 
-from procedure_tools.version import __version__
-from procedure_tools.utils.process import (
+from version import __version__
+from utils.process import (
     patch_agreements_with_contracts, get_tender, patch_tender_qual, patch_tender_waiting, patch_awards, get_awards,
     patch_contracts, get_contracts, patch_tender_pre, patch_qualifications, get_qualifications, create_awards,
     create_bids, create_tender, update_tender_period, wait, wait_status, patch_stage2_credentials,
     patch_tender_tendering, patch_tender_pending, wait_edr_pre_qual, wait_edr_qual, get_agreement,
     get_contract, patch_contract_credentials)
-from procedure_tools.client import TendersApiClient, API_PATH_PREFIX_DEFAULT, AgreementsApiClient, ContractsApiClient
-from procedure_tools.utils.file import get_default_data_dirs, DATA_DIR_DEFAULT
-from procedure_tools.utils.data import (
+from client import TendersApiClient, API_PATH_PREFIX_DEFAULT, AgreementsApiClient, ContractsApiClient
+from utils.file import get_default_data_dirs, DATA_DIR_DEFAULT
+from utils.data import (
     get_tender_id, get_tender_token, get_procurement_method_type, get_tender_next_check, ACCELERATION_DEFAULT,
     get_complaint_period_end_date, get_ids)
 
@@ -285,7 +287,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix='')
 
 
 def main():
-    if '--version' in sys.argv:
+    if '--version' in sys.argv or '-v' in sys.argv:
         print(__version__)
         sys.exit(0)
 

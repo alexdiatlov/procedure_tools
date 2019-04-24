@@ -6,12 +6,12 @@ from datetime import datetime
 from dateutil import parser, tz
 from time import sleep
 
-from procedure_tools.utils.contextmanagers import ignore, open_file_or_exit
-from procedure_tools.utils.data import (
+from utils.contextmanagers import ignore, open_file_or_exit
+from utils.data import (
     TENDER_SECONDS_BUFFER, get_ids, get_items_ids, get_bids_ids, set_agreement_period, set_acceleration_data,
     set_agreement_id, set_tender_period_data)
-from procedure_tools.utils.file import get_data_file_path, get_data_path, get_data_all_files
-from procedure_tools.utils.handlers import (
+from utils.file import get_data_file_path, get_data_path, get_data_all_files
+from utils.handlers import (
     item_patch_success_print_handler, tender_patch_status_success_print_handler, item_create_success_print_handler,
     bid_create_success_print_handler, tender_create_success_print_handler, response_handler,
     tender_check_status_success_print_handler, contract_credentials_success_print_handler,
