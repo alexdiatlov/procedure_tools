@@ -27,6 +27,7 @@
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "ДКП «Книга»",
+        "scale": "micro",
         "address": {
           "countryName": "Україна",
           "postalCode": "79013",

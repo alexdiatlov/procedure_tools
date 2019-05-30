@@ -18,6 +18,7 @@
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "«Кенгуру»",
+        "scale": "micro",
         "address": {
           "countryName": "Україна",
           "postalCode": "79013",

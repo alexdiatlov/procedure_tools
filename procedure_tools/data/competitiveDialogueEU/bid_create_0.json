@@ -20,6 +20,7 @@
           "uri": "http://www.sc.gov.ua/"
         },
         "name": "ДКП «Школяр»",
+        "scale": "micro",
         "address": {
           "countryName": "Україна",
           "postalCode": "21100",
