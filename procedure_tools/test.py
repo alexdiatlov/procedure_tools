@@ -1,5 +1,8 @@
 import pytest
-import mock
+try:
+    from unittest import mock
+except ImportError:
+    import mock
 import os
 
 from procedure_tools.procedure import main
@@ -27,7 +30,7 @@ def test_main(argv):
     host = os.environ.get('HOST')
     token = os.environ.get('TOKEN')
 
-    print "\n\nTest with args: %s\n\n" % ([host, "*" * 32] + argv)
+    print("\n\nTest with args: {}\n\n" % ([host, "*" * 32] + argv))
 
     with mock.patch('sys.argv', ['', host, token] + argv), pytest.raises(SystemExit) as e:
         main()
