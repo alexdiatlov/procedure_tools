@@ -72,6 +72,6 @@ Pass API token as parameter to README.sh
 ## Run tests
 
 \`\`\`
-HOST=https://lb-api-sandbox.prozorro.gov.ua TOKEN=59fcc88692e341a2a4a0c184db282e83 py.test procedure_tools/test.py -s -v
+HOST=https://lb-api-sandbox.prozorro.gov.ua TOKEN=59fcc88692e341a2a4a0c184db282e83 python setup.py test
 \`\`\`
 EOM

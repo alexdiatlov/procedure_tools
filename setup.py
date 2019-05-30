@@ -11,6 +11,12 @@ setup(
         'pathlib',
         'python-dateutil',
     ],
+    tests_require=[
+        'pytest'
+    ],
+    setup_requires=[
+        'pytest-runner'
+    ],
     entry_points={
         'console_scripts': [
             'procedure=procedure_tools.procedure:main',
