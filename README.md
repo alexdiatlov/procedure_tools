@@ -1,5 +1,16 @@
 # procedure_tools
 
+## Install
+
+Clone and install with pip
+```
+cd procedure_tools
+
+pip install -r requirements.txt
+
+pip install -e .
+```
+
 ## Usage
 ```
 usage: procedure [-h] [-a 460800] [-p /api/0/] [-d aboveThresholdUA]
@@ -70,50 +81,63 @@ Processing data file: tender_create.json
 [POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders
 
 Tender created:
- - id 				9600e1a228c543e0bcab505f702351ae
- - token 			6197f2c9bd08441791b400ef7044b7aa
+ - id 				8a38696b6edb463a8163a7e7505cefe9
+ - token 			9566dc04793a47ab9e7e7914173d3f11
  - status 			active.tendering
- - tenderID 			UA-2019-03-13-000025-b
+ - tenderID 			UA-2019-05-30-000029-b
  - procurementMethodType 	closeFrameworkAgreementUA
 
-[GET] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/9600e1a228c543e0bcab505f702351ae
+[GET] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/8a38696b6edb463a8163a7e7505cefe9
 
 Creating bids...
 
 Processing data file: bid_create_0.json
 
-[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/9600e1a228c543e0bcab505f702351ae/bids
+[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/8a38696b6edb463a8163a7e7505cefe9/bids
 
 Bid created:
- - id 				44ad3aefee2949478d9141a45e71057a
- - token 			15b51c36490a431d92a1643201f2e74a
+ - id 				9c09823ffebf4b7e8c4953adaec0dfd3
+ - token 			994d92bfc1494a3e9092c12b156c9426
  - status 			pending
 
 Processing data file: bid_create_1.json
 
-[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/9600e1a228c543e0bcab505f702351ae/bids
+[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/8a38696b6edb463a8163a7e7505cefe9/bids
 
 Bid created:
- - id 				39b3dac17d964987ba4ee46554fd8236
- - token 			78eadc0f70c14d639a5cf2c5a08ecfbd
+ - id 				1567b035074242ffa60dc0d4cf8634f1
+ - token 			54ee03e690604533844052f44af4f5ef
  - status 			pending
 
 Processing data file: bid_create_2.json
 
-[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/9600e1a228c543e0bcab505f702351ae/bids
+[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/8a38696b6edb463a8163a7e7505cefe9/bids
 
 Bid created:
- - id 				b7d0f78469244a4f97de4b34e45f6e9d
- - token 			7f05f6128de04b0da47b2a1340a2302d
+ - id 				9570a4a354ad4be6ba80a59c3523ff23
+ - token 			5668ee9da9fb4509b9a839f806f3109d
  - status 			pending
 
 Processing data file: bid_create_3.json
 
-[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/9600e1a228c543e0bcab505f702351ae/bids
+[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/8a38696b6edb463a8163a7e7505cefe9/bids
 
 Bid created:
- - id 				1f04e17befc948e1b26f7ca1fd7b363a
- - token 			287ff75b35cb400a8c064409bee37466
+ - id 				9dac2d8cb8b8428aaec8a236927c9f5e
+ - token 			0e1cdca6518049cf9e23e8ddf60b9fc0
  - status 			pending
 
+```
+
+## Update readme
+
+Pass API token as parameter to README.sh
+```
+./README.sh 59fcc88692e341a2a4a0c184db282e83
+```
+
+## Run tests
+
+```
+HOST=https://lb-api-sandbox.prozorro.gov.ua TOKEN=59fcc88692e341a2a4a0c184db282e83 python setup.py test
 ```

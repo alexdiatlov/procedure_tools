@@ -1,3 +1,4 @@
 requests
 pathlib
 python-dateutil
+pytest

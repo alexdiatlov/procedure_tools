@@ -16,6 +16,7 @@
           "uri": "http://sch10.edu.vn.ua/"
         },
         "name": "ДКП «Школяр»",
+        "scale": "micro",
         "address": {
           "countryName": "Україна",
           "postalCode": "21100",

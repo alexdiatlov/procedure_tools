@@ -315,7 +315,14 @@ def main():
                         metavar=WAIT_EDR_QUAL,
                         default='')
 
-    create_procedure(parser.parse_args())
+    try:
+        create_procedure(parser.parse_args())
+    except SystemExit as e:
+        sys.exit(e)
+    except:
+        raise
+    else:
+        sys.exit(0)
 
 
 if __name__ == "__main__":

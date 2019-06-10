@@ -9,6 +9,7 @@ def default_error_print_handler(response):
     except ValueError:
         print(response.text)
         print("")
+    raise SystemExit(1)
     
 
 def default_success_print_handler(response):

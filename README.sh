@@ -5,6 +5,15 @@ FILE='README.md'
 cat > $FILE <<- EOM
 # procedure_tools
 
+## Install
+
+Clone and install with pip
+\`\`\`
+cd procedure_tools
+
+pip install -e .
+\`\`\`
+
 ## Usage
 \`\`\`
 EOM
@@ -51,5 +60,18 @@ EOM
 procedure https://lb-api-sandbox.prozorro.gov.ua ${1} --acceleration=1000000 --path=/api/0/ --data=closeFrameworkAgreementUA --stop=bid_create_3.json >> $FILE
 
 cat >> $FILE <<- EOM
+\`\`\`
+
+## Update readme
+
+Pass API token as parameter to README.sh
+\`\`\`
+./README.sh 59fcc88692e341a2a4a0c184db282e83
+\`\`\`
+
+## Run tests
+
+\`\`\`
+HOST=https://lb-api-sandbox.prozorro.gov.ua TOKEN=59fcc88692e341a2a4a0c184db282e83 python setup.py test
 \`\`\`
 EOM
