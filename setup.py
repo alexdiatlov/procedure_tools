@@ -12,7 +12,8 @@ setup(
         'python-dateutil',
     ],
     tests_require=[
-        'pytest'
+        'pytest<=4.6.4',
+        'mock'
     ],
     setup_requires=[
         'pytest-runner'
