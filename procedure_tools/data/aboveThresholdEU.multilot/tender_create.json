@@ -114,6 +114,17 @@
       }
     ],
     "procurementMethodType": "aboveThresholdEU",
+    "mainProcurementCategory": "services",
+    "milestones": [
+      {
+          "title": "signingTheContract",
+          "code": "prepayment",
+          "type": "financing",
+          "duration": {"days": 2, "type": "banking"},
+          "sequenceNumber": 0,
+          "percentage": 100
+      }
+    ],
     "procuringEntity": {
       "kind": "general",
       "name": "ЗОСШ #10 м.Вінниці",

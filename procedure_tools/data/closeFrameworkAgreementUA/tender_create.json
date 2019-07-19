@@ -101,7 +101,17 @@
     ],
     "maxAwardsCount": 4,
     "procurementMethodType": "closeFrameworkAgreementUA",
-    "mainProcurementCategory": "goods",
+    "mainProcurementCategory": "services",
+    "milestones": [
+      {
+          "title": "signingTheContract",
+          "code": "prepayment",
+          "type": "financing",
+          "duration": {"days": 2, "type": "banking"},
+          "sequenceNumber": 0,
+          "percentage": 100
+      }
+    ],
     "procuringEntity": {
       "kind": "general",
       "name": "Державне управління справами",

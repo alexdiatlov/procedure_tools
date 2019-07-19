@@ -3,9 +3,23 @@
     "procurementMethod": "limited",
     "status": "active",
     "title": "Послуги шкільних їдалень",
-    "procurementMethodType": "reporting",
+    "title_ru": "Услуги школьных столовых",
     "title_en": "Services in school canteens",
+    "description": "Послуги шкільних їдалень",
+    "description_ru": "Услуги школьных столовых",
     "description_en": "Services in school canteens",
+    "procurementMethodType": "reporting",
+    "mainProcurementCategory": "services",
+    "milestones": [
+      {
+          "title": "signingTheContract",
+          "code": "prepayment",
+          "type": "financing",
+          "duration": {"days": 2, "type": "banking"},
+          "sequenceNumber": 0,
+          "percentage": 100
+      }
+    ],
     "procuringEntity": {
       "kind": "general",
       "identifier": {
@@ -27,7 +41,6 @@
       },
       "name": "ЗОСШ #10 м.Вінниці"
     },
-    "title_ru": "Услуги школьных столовых",
     "items": [
       {
         "description": "Послуги шкільних їдалень",
@@ -64,7 +77,6 @@
       "currency": "UAH",
       "amount": 500000,
       "valueAddedTaxIncluded": true
-    },
-    "description_ru": "Услуги школьных столовых"
+    }
   }
 }
