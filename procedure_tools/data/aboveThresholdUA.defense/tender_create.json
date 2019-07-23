@@ -42,6 +42,17 @@
       }
     ],
     "procurementMethodType": "aboveThresholdUA.defense",
+    "mainProcurementCategory": "services",
+    "milestones": [
+      {
+          "title": "signingTheContract",
+          "code": "prepayment",
+          "type": "financing",
+          "duration": {"days": 2, "type": "banking"},
+          "sequenceNumber": 0,
+          "percentage": 100
+      }
+    ],
     "value": {
       "currency": "UAH",
       "amount": 500

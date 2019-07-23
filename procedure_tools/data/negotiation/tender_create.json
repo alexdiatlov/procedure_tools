@@ -2,14 +2,27 @@
   "data": {
     "procurementMethod": "limited",
     "status": "active",
-    "causeDescription": "оригінальний тендер не вдався двічі",
     "title": "Послуги шкільних їдалень",
+    "title_ru": "Услуги школьных столовых",
     "title_en": "Services in school canteens",
-    "procurementMethodType": "negotiation",
+    "description": "Послуги шкільних їдалень",
+    "description_ru": "Услуги школьных столовых",
     "description_en": "Services in school canteens",
+    "causeDescription": "оригінальний тендер не вдався двічі",
     "causeDescription_ru": "оригинальный тендер не получился дважды",
     "causeDescription_en": "original tender has failed twice",
-    "description_ru": "Услуги школьных столовых",
+    "procurementMethodType": "negotiation",
+    "mainProcurementCategory": "services",
+    "milestones": [
+      {
+          "title": "signingTheContract",
+          "code": "prepayment",
+          "type": "financing",
+          "duration": {"days": 2, "type": "banking"},
+          "sequenceNumber": 0,
+          "percentage": 100
+      }
+    ],
     "procuringEntity": {
       "kind": "general",
       "identifier": {
@@ -31,7 +44,6 @@
         "locality": "м. Вінниця"
       }
     },
-    "title_ru": "Услуги школьных столовых",
     "items": [
       {
         "description": "Послуги шкільних їдалень",

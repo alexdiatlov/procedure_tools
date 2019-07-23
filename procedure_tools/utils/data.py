@@ -76,10 +76,6 @@ def get_tender_next_check(response):
     return response.json()['data']['next_check']
 
 
-def get_tender_next_check(response):
-    return response.json()['data']['next_check']
-
-
 def get_procurement_method_type(response):
     return response.json()['data']['procurementMethodType']
 
