@@ -1,4 +1,5 @@
 import json
+import os
 from pprint import pprint
 
 
@@ -9,7 +10,7 @@ def default_error_print_handler(response):
     except ValueError:
         print(response.text)
         print("")
-    raise SystemExit(1)
+    raise SystemExit(os.EX_SOFTWARE)
     
 
 def default_success_print_handler(response):

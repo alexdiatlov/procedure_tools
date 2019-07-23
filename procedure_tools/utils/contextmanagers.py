@@ -20,12 +20,11 @@ def open_file(
         file.close()
     except Exception:
         raise
-    finally:
-        if raise_exception and file_name == raise_filename:
-            if raise_exception_args:
-                raise raise_exception(*raise_exception_args)
-            else:
-                raise raise_exception
+    if raise_exception and file_name == raise_filename:
+        if raise_exception_args:
+            raise raise_exception(*raise_exception_args)
+        else:
+            raise raise_exception
 
 
 @contextmanager

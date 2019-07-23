@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import os
+
 import argparse
 import sys
 
@@ -289,7 +291,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix='')
 def main():
     if '--version' in sys.argv or '-v' in sys.argv:
         print(__version__)
-        sys.exit(0)
+        sys.exit(os.EX_OK)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('host', help='api host')
@@ -322,7 +324,7 @@ def main():
     except:
         raise
     else:
-        sys.exit(0)
+        sys.exit(os.EX_OK)
 
 
 if __name__ == "__main__":
