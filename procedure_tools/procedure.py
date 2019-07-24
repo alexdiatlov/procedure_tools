@@ -17,7 +17,7 @@ from procedure_tools.utils.file import get_default_data_dirs, DATA_DIR_DEFAULT
 from procedure_tools.utils.data import (
     get_tender_id, get_tender_token, get_procurement_method_type, get_tender_next_check, ACCELERATION_DEFAULT,
     get_complaint_period_end_date, get_ids)
-
+from procedure_tools.utils.handlers import EX_OK
 
 WAIT_EDR_QUAL = 'edr-qualification'
 WAIT_EDR_PRE_QUAL = 'edr-pre-qualification'
@@ -324,7 +324,7 @@ def main():
     except:
         raise
     else:
-        sys.exit(os.EX_OK)
+        sys.exit(EX_OK)
 
 
 if __name__ == "__main__":
