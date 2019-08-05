@@ -3,6 +3,8 @@ import io
 
 from contextlib import contextmanager
 
+from procedure_tools.utils.handlers import EX_OK
+
 
 @contextmanager
 def open_file(
@@ -33,7 +35,7 @@ def open_file_or_exit(path, mode='r', encoding='UTF-8', exit_filename=None, **kw
         path, mode, encoding,
         raise_filename=exit_filename,
         raise_exception=SystemExit,
-        raise_exception_args=(os.EX_OK,),
+        raise_exception_args=(EX_OK,),
         **kwargs
     ) as file:
         yield file
