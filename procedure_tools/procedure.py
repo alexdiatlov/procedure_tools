@@ -291,7 +291,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix='')
 def main():
     if '--version' in sys.argv or '-v' in sys.argv:
         print(__version__)
-        sys.exit(os.EX_OK)
+        sys.exit(EX_OK)
 
     parser = argparse.ArgumentParser()
     parser.add_argument('host', help='api host')
