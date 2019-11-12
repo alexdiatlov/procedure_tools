@@ -225,6 +225,8 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="")
         awards_complaint_dates = get_complaint_period_end_date(response)
         wait(max(awards_complaint_dates), date_info_str="end of award complaint period")
 
+    contracts_ids = []
+
     if method_type in (
         "closeFrameworkAgreementSelectionUA",
         "aboveThresholdUA",
@@ -242,6 +244,18 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="")
         contracts_ids = get_ids(response)
         patch_contracts(client, args, tender_id, contracts_ids, tender_token, filename_prefix)
 
+    if method_type in (
+        "closeFrameworkAgreementSelectionUA",
+        "aboveThresholdUA",
+        "aboveThresholdUA.defense",
+        "aboveThresholdEU",
+        "belowThreshold",
+        "competitiveDialogueEU.stage2",
+        "competitiveDialogueUA.stage2",
+        "negotiation",
+        "negotiation.quick",
+        "reporting",
+    ):
         for contracts_id in contracts_ids:
             contracts_client = ContractsApiClient(args.host, args.token, args.path)
             get_contract(contracts_client, args, contracts_id)
