@@ -103,8 +103,8 @@
           "amount": 35,
           "valueAddedTaxIncluded": true
         },
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
+        "title": "Лот №2",
+        "description": "Опис Лот №2",
         "value": {
           "currency": "UAH",
           "amount": 500,
