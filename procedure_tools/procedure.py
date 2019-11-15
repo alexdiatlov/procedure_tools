@@ -48,6 +48,8 @@ from procedure_tools.utils.data import (
     ACCELERATION_DEFAULT,
     get_complaint_period_end_date,
     get_ids,
+    SUBMISSIONS,
+    SUBMISSION_QUICK_NO_AUCTION
 )
 from procedure_tools.utils.handlers import EX_OK
 
@@ -225,6 +227,8 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="")
         awards_complaint_dates = get_complaint_period_end_date(response)
         wait(max(awards_complaint_dates), date_info_str="end of award complaint period")
 
+    contracts_ids = []
+
     if method_type in (
         "closeFrameworkAgreementSelectionUA",
         "aboveThresholdUA",
@@ -242,6 +246,18 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="")
         contracts_ids = get_ids(response)
         patch_contracts(client, args, tender_id, contracts_ids, tender_token, filename_prefix)
 
+    if method_type in (
+        "closeFrameworkAgreementSelectionUA",
+        "aboveThresholdUA",
+        "aboveThresholdUA.defense",
+        "aboveThresholdEU",
+        "belowThreshold",
+        "competitiveDialogueEU.stage2",
+        "competitiveDialogueUA.stage2",
+        "negotiation",
+        "negotiation.quick",
+        "reporting",
+    ):
         for contracts_id in contracts_ids:
             contracts_client = ContractsApiClient(args.host, args.token, args.path)
             get_contract(contracts_client, args, contracts_id)
@@ -314,6 +330,13 @@ def main():
         help="data files path custom or one of {}".format(get_default_data_dirs()),
         metavar=str(DATA_DIR_DEFAULT),
         default=DATA_DIR_DEFAULT,
+    )
+    parser.add_argument(
+        "-m",
+        "--submission",
+        help="value for submissionMethodDetails one of {}".format(SUBMISSIONS),
+        metavar=str(SUBMISSION_QUICK_NO_AUCTION),
+        default=SUBMISSION_QUICK_NO_AUCTION,
     )
     parser.add_argument("-s", "--stop", help="data file name to stop after", metavar="tender_create.json")
     parser.add_argument(

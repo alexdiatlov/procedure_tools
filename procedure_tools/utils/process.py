@@ -319,7 +319,7 @@ def create_tender(client, args, plan_id=None, agreement_id=None, filename_prefix
     with ignore(IOError), open_file_or_exit(path, exit_filename=args.stop) as f:
         tender_create_data = json.loads(f.read())
         set_mode_data(tender_create_data)
-        set_acceleration_data(tender_create_data, acceleration=args.acceleration)
+        set_acceleration_data(tender_create_data, acceleration=args.acceleration, submission=args.submission)
         if agreement_id:
             set_agreement_id(tender_create_data, agreement_id)
         if plan_id:
