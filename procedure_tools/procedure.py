@@ -48,6 +48,8 @@ from procedure_tools.utils.data import (
     ACCELERATION_DEFAULT,
     get_complaint_period_end_date,
     get_ids,
+    SUBMISSIONS,
+    SUBMISSION_QUICK_NO_AUCTION
 )
 from procedure_tools.utils.handlers import EX_OK
 
@@ -328,6 +330,13 @@ def main():
         help="data files path custom or one of {}".format(get_default_data_dirs()),
         metavar=str(DATA_DIR_DEFAULT),
         default=DATA_DIR_DEFAULT,
+    )
+    parser.add_argument(
+        "-m",
+        "--submission",
+        help="value for submissionMethodDetails one of {}".format(SUBMISSIONS),
+        metavar=str(SUBMISSION_QUICK_NO_AUCTION),
+        default=SUBMISSION_QUICK_NO_AUCTION,
     )
     parser.add_argument("-s", "--stop", help="data file name to stop after", metavar="tender_create.json")
     parser.add_argument(

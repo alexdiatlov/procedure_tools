@@ -7,6 +7,15 @@ ACCELERATION_DEFAULT = 460800
 TENDER_PERIOD_TIMEDELTA_DEFAULT = timedelta(days=30)
 TENDER_SECONDS_BUFFER = 10
 
+SUBMISSION_QUICK = 'quick'
+SUBMISSION_QUICK_NO_AUCTION = 'quick(mode:no-auction)'
+SUBMISSION_QUICK_FAST_FORWARD = 'quick(mode:fast-forward)'
+
+SUBMISSIONS = [
+    SUBMISSION_QUICK,
+    SUBMISSION_QUICK_NO_AUCTION,
+    SUBMISSION_QUICK_FAST_FORWARD
+]
 
 def get_period_delta(
     acceleration=ACCELERATION_DEFAULT,
@@ -22,11 +31,16 @@ def set_mode_data(data):
         data["data"]["mode"] = "test"
 
 
-def set_acceleration_data(data, acceleration=ACCELERATION_DEFAULT, period_timedelta=TENDER_PERIOD_TIMEDELTA_DEFAULT):
+def set_acceleration_data(
+    data,
+    acceleration=ACCELERATION_DEFAULT,
+    period_timedelta=TENDER_PERIOD_TIMEDELTA_DEFAULT,
+    submission=SUBMISSION_QUICK_NO_AUCTION
+):
     if "data" in data:
         data["data"]["procurementMethodDetails"] = "quick, accelerator={}".format(acceleration)
         if data["data"].get("procurementMethod") != "limited":
-            data["data"]["submissionMethodDetails"] = "quick(mode:no-auction)"
+            data["data"]["submissionMethodDetails"] = submission
 
         period_delta = get_period_delta(
             acceleration, period_timedelta, seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER * 2)
