@@ -8,6 +8,7 @@
     "description": "Послуги шкільних їдалень",
     "description_ru": "Услуги школьных столовых",
     "description_en": "Services in school canteens",
+    "cause": "twiceUnsuccessful",
     "causeDescription": "оригінальний тендер не вдався двічі",
     "causeDescription_ru": "оригинальный тендер не получился дважды",
     "causeDescription_en": "original tender has failed twice",
