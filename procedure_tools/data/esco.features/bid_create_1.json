@@ -1,0 +1,68 @@
+{
+  "data": {
+    "status": "pending",
+    "parameters": [
+      {
+        "code":"ee3e24bc17234a41bd3e3a04cc28e9c6",
+        "value":0.05
+      },
+      {
+        "code":"48cfd91612c04125ab406374d7cc8d93",
+        "value":0.01
+      }
+    ],
+    "tenderers": [
+      {
+        "contactPoint": {
+          "telephone": "+380 (322) 12-34-56",
+          "name": "Іван Іваненко",
+          "email": "fake@mail.com"
+        },
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "00137226",
+          "uri": "http://www.sc.gov.ua/"
+        },
+        "name": "«Снігур»",
+        "scale": "micro",
+        "address": {
+          "countryName": "Україна",
+          "postalCode": "79013",
+          "region": "Львівська область",
+          "streetAddress": "вул. Островського, 35",
+          "locality": "м. Львів"
+        }
+      }
+    ],
+    "value": {
+      "contractDuration": {
+        "days": 40,
+        "years": 13
+      },
+      "yearlyPaymentsPercentage": 0.86,
+      "annualCostsReduction": [
+        200,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800
+      ]
+    }
+  }
+}

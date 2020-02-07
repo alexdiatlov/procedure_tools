@@ -31,6 +31,7 @@ from procedure_tools.utils.process import (
     get_contract,
     patch_contract_credentials,
     create_plan,
+    wait_auction_participation_urls,
 )
 from procedure_tools.client import (
     TendersApiClient,
@@ -44,6 +45,7 @@ from procedure_tools.utils.data import (
     get_id,
     get_token,
     get_procurement_method_type,
+    get_submission_method_details,
     get_next_check,
     ACCELERATION_DEFAULT,
     get_complaint_period_end_date,
@@ -85,6 +87,7 @@ def create_procedure(args):
 def process_procedure(client, args, tender_id, tender_token, filename_prefix=""):
     response = get_tender(client, args, tender_id)
     method_type = get_procurement_method_type(response)
+    submission_method_details = get_submission_method_details(response)
 
     if method_type in ("closeFrameworkAgreementSelectionUA",):
         patch_tender_pending(client, args, tender_id, tender_token, filename_prefix)
@@ -121,7 +124,9 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="")
         "competitiveDialogueUA.stage2",
         "esco",
     ):
-        create_bids(client, args, tender_id, filename_prefix)
+        bid_responses = create_bids(client, args, tender_id, filename_prefix)
+    else:
+        bid_responses = None
 
     if method_type in (
         "closeFrameworkAgreementUA",
@@ -178,6 +183,19 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="")
         "esco",
     ):
         wait_status(client, args, tender_id, "active.auction")
+
+    if method_type in (
+        "closeFrameworkAgreementUA",
+        "closeFrameworkAgreementSelectionUA",
+        "aboveThresholdUA",
+        "aboveThresholdUA.defense",
+        "aboveThresholdEU",
+        "belowThreshold",
+        "competitiveDialogueEU.stage2",
+        "competitiveDialogueUA.stage2",
+        "esco",
+    ) and bid_responses and submission_method_details in ("quick", None):
+        wait_auction_participation_urls(client, tender_id, bid_responses)
 
     if method_type in ("negotiation", "negotiation.quick", "reporting"):
         create_awards(client, args, tender_id, tender_token)

@@ -30,6 +30,7 @@ from procedure_tools.utils.handlers import (
     contract_credentials_success_print_handler,
     default_success_print_handler,
     plan_create_success_print_handler,
+    auction_participation_url_success_print_handler,
 )
 
 
@@ -296,11 +297,14 @@ def create_bids(client, args, tender_id, filename_prefix=""):
     for data_file in get_data_all_files(get_data_path(args.data)):
         if data_file.startswith("{}bid_create".format(filename_prefix)):
             bid_files.append(data_file)
+    results = []
     for bid_file in bid_files:
         path = get_data_file_path(bid_file, get_data_path(args.data))
         with ignore(IOError), open_file_or_exit(path, exit_filename=args.stop) as f:
             bid_create_data = json.loads(f.read())
-            client.post_bid(tender_id, bid_create_data, success_handler=bid_create_success_print_handler)
+            response = client.post_bid(tender_id, bid_create_data, success_handler=bid_create_success_print_handler)
+            results.append(response.json())
+    return results
 
 
 def create_plan(client, args, filename_prefix=""):
@@ -412,3 +416,15 @@ def wait_edr_qual(client, args, tender_id):
         while EDR_FILENAME not in [doc["title"] for doc in award.get("documents", [])]:
             sleep(TENDER_SECONDS_BUFFER)
             award = client.get_award(tender_id, award["id"]).json()["data"]
+
+
+def wait_auction_participation_urls(client, tender_id, bids):
+    print("Waiting for the auction participation urls...\n")
+    for bid in bids:
+        while True:
+            response = client.get_bid(tender_id, bid["data"]["id"], bid["access"]["token"])
+            if "participationUrl" in response.json()["data"]:
+                response_handler(response, auction_participation_url_success_print_handler)
+                break
+            else:
+                sleep(TENDER_SECONDS_BUFFER)
