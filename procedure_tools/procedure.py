@@ -369,6 +369,10 @@ def main():
         create_procedure(parser.parse_args())
     except SystemExit as e:
         sys.exit(e)
+    except KeyboardInterrupt as e:
+        print("")
+        print("Stopping...")
+        sys.exit(e)
     except:
         raise
     else:
