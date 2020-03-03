@@ -33,9 +33,10 @@ optional arguments:
                         'aboveThresholdEU.plan', 'closeFrameworkAgreementUA',
                         'belowThreshold.multilot', 'aboveThresholdEU.tender',
                         'negotiation.quick', 'esco',
+                        'closeFrameworkAgreementUA.central',
                         'aboveThresholdUA.defense', 'competitiveDialogueEU',
-                        'aboveThresholdEU.multilot', 'negotiation',
-                        'aboveThresholdEU']
+                        'aboveThresholdEU.multilot', 'belowThreshold.central',
+                        'negotiation', 'aboveThresholdEU']
   -m quick(mode:no-auction), --submission quick(mode:no-auction)
                         value for submissionMethodDetails one of ['quick',
                         'quick(mode:no-auction)', 'quick(mode:fast-forward)']
@@ -85,62 +86,62 @@ Processing data file: plan_create.json
 [POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/plans
 
 Plan created:
- - id 				7a899d8e1bb34b899a2f8fa0f5e3d76f
- - token 			e07415a256874cdb83e5777eac35db6d
- - transfer 			d1d72d21b8184e75b4907e1835fc0ad3
+ - id 				7a1e5958f2eb42f0a327a67910db21bc
+ - token 			f290eeb086e34fd3bbaea4c849e25102
+ - transfer 			96975c715d754f86bf2f12a937d6fbc7
 
 Creating tender...
 
 Processing data file: tender_create.json
 
-[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/plans/7a899d8e1bb34b899a2f8fa0f5e3d76f/tenders
+[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/plans/7a1e5958f2eb42f0a327a67910db21bc/tenders
 
 Tender created:
- - id 				2987d162c52c4f0e846725326031f735
- - token 			e050e32d70294c218301ab1b1124f90d
- - transfer 			2c4e551d11144e72a8da0425873411da
+ - id 				4dc6fd5b6fa043f4b2e69a993cff5884
+ - token 			478af6654a2c49ca81d75b19a890ccc3
+ - transfer 			6845ebae48e449368189bf1ad4fcc300
  - status 			active.tendering
- - tenderID 			UA-2019-11-15-000036-c
+ - tenderID 			UA-2020-03-03-000035-b
  - procurementMethodType 	closeFrameworkAgreementUA
 
-[GET] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/2987d162c52c4f0e846725326031f735
+[GET] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/4dc6fd5b6fa043f4b2e69a993cff5884
 
 Creating bids...
 
 Processing data file: bid_create_0.json
 
-[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/2987d162c52c4f0e846725326031f735/bids
+[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/4dc6fd5b6fa043f4b2e69a993cff5884/bids
 
 Bid created:
- - id 				e0348642e0fb4f069d491e603c94ceac
- - token 			c7f64d7f92004d39ae3e83fa7c91ffc8
+ - id 				76a407a32df642c6a6cfb389af99b094
+ - token 			c38eb3d1d4b54065ad87efd5082dc2af
  - status 			pending
 
 Processing data file: bid_create_1.json
 
-[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/2987d162c52c4f0e846725326031f735/bids
+[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/4dc6fd5b6fa043f4b2e69a993cff5884/bids
 
 Bid created:
- - id 				9b455e37e9cb4b2d83cb2bc588843b36
- - token 			a76941ab75924e5db8d9a803c1c314fd
+ - id 				484626e97cf147bda58ee7fc13ea6ec4
+ - token 			1ab697e77d0a466cba36f2e062634367
  - status 			pending
 
 Processing data file: bid_create_2.json
 
-[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/2987d162c52c4f0e846725326031f735/bids
+[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/4dc6fd5b6fa043f4b2e69a993cff5884/bids
 
 Bid created:
- - id 				e06e76626e5a4e16b6954249564824ee
- - token 			6ceb4967ce0d4486a06013be6597eda2
+ - id 				72ceaeb6d8a14540850809c81bc3bd15
+ - token 			45ad216b5df34e869377e592d1f9238b
  - status 			pending
 
 Processing data file: bid_create_3.json
 
-[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/2987d162c52c4f0e846725326031f735/bids
+[POST] https://lb-api-sandbox.prozorro.gov.ua/api/0/tenders/4dc6fd5b6fa043f4b2e69a993cff5884/bids
 
 Bid created:
- - id 				be04ed5b1c1e4fe1934839054bc07e74
- - token 			0316c655f0fd46ce9640eb0d1d730d7d
+ - id 				9bac3481a06c4b61920b7b618e85e1ed
+ - token 			074ce1e8d68e46d7b080489321b0180e
  - status 			pending
 
 ```

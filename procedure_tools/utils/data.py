@@ -3,6 +3,8 @@ import math
 from datetime import datetime, timedelta
 from dateutil import tz
 
+TZ = tz.gettz("Europe/Kiev")
+
 ACCELERATION_DEFAULT = 460800
 TENDER_PERIOD_TIMEDELTA_DEFAULT = timedelta(days=30)
 TENDER_SECONDS_BUFFER = 10
@@ -46,7 +48,7 @@ def set_acceleration_data(
             acceleration, period_timedelta, seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER * 2)
         )
 
-        now = datetime.now(tz.tzutc())
+        now = datetime.now(TZ)
         if "enquiryPeriod" in data["data"] and "tenderPeriod" in data["data"]:
             data["data"]["enquiryPeriod"]["endDate"] = (now + period_delta).isoformat()
             data["data"]["tenderPeriod"]["endDate"] = (now + 2 * period_delta).isoformat()
@@ -64,12 +66,13 @@ def set_agreement_id(data, agreement_id):
 def set_tender_period_data(data, acceleration=ACCELERATION_DEFAULT, period_timedelta=TENDER_PERIOD_TIMEDELTA_DEFAULT):
     period_delta = get_period_delta(acceleration, period_timedelta, seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER * 2))
     if "data" in data and "tenderPeriod" in data["data"]:
-        data["data"]["tenderPeriod"]["endDate"] = (datetime.now(tz.tzutc()) + period_delta).isoformat()
+        now = datetime.now(TZ)
+        data["data"]["tenderPeriod"]["endDate"] = (now + period_delta).isoformat()
     return data
 
 
 def set_agreement_period(data):
-    now = datetime.now(tz.tzutc())
+    now = datetime.now(TZ)
     data["data"]["period"]["startDate"] = now.isoformat()
     data["data"]["period"]["endDate"] = (now + timedelta(days=365 * 2)).isoformat()
     return data
