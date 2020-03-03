@@ -1,0 +1,75 @@
+{
+  "data": {
+    "title": "футляри до державних нагород",
+    "lots": [
+      {
+        "title": "lot title",
+        "id": "ddb35dd0e9904726aafd18baed24863a",
+        "description": "lot description"
+      }
+    ],
+    "items": [
+      {
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
+        "description": "футляри до державних нагород",
+        "classification": {
+          "scheme": "ДК021",
+          "id": "44617100-9",
+          "description": "New Cartons"
+        },
+        "description_en": "futliary do derzhavnyh nagorod",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ"
+        },
+        "deliveryDate": {
+          "startDate": "2019-01-27T15:48:03.841685+02:00",
+          "endDate": "2019-01-30T15:48:03.841685+02:00"
+        },
+        "id": "7fa0fbf85aab4f48a43afb8ccbc944e4",
+        "unit": {
+          "code": "44617100-9",
+          "name": "item"
+        },
+        "quantity": 5
+      }
+    ],
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
+    "procuringEntity": {
+      "contactPoint": {
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
+      },
+      "identifier": {
+        "scheme": "UA-EDR",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "name": "Державне управління справами",
+      "kind": "general",
+      "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ"
+      }
+    },
+    "procurementMethodDetails": "quick, accelerator=1440",
+    "agreements": [
+      {
+        "id": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+      }
+    ]
+  }
+}

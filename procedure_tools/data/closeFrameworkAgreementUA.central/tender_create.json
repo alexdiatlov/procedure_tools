@@ -1,0 +1,169 @@
+{
+  "data": {
+    "tenderPeriod": {
+      "endDate": "XXXX-XX-XXTXX:XX+XX:XX"
+    },
+    "title": "футляри до державних нагород",
+    "minimalStep": {
+      "currency": "UAH",
+      "amount": 35,
+      "valueAddedTaxIncluded": true
+    },
+    "items": [
+      {
+        "id": "7fa0fbf85aab4f48a43afb8ccbc944e4",
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
+        "description": "футляри до державних нагород",
+        "classification": {
+          "scheme": "ДК021",
+          "id": "44617100-9",
+          "description": "Cartons"
+        },
+        "description_en": "Cases for state awards",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ"
+        },
+        "deliveryDate": {
+          "startDate": "2018-06-27T13:39:09.362837",
+          "endDate": "2018-06-30T13:39:09.362837"
+        },
+        "unit": {
+          "code": "44617100-9",
+          "name": "item"
+        },
+        "quantity": 5
+      },
+      {
+        "id": "e30bb60e8df74b85b1da9a4b999654ca",
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
+        "description": "футляри до державних нагород",
+        "classification": {
+          "scheme": "ДК021",
+          "id": "44617100-9",
+          "description": "Cartons"
+        },
+        "description_en": "Cases for state awards",
+        "additionalClassifications": [
+          {
+            "scheme": "ДКПП",
+            "id": "17.21.1",
+            "description": "папір і картон гофровані, паперова й картонна тара"
+          }
+        ],
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "streetAddress": "вул. Банкова 1",
+          "locality": "м. Київ"
+        },
+        "deliveryDate": {
+          "startDate": "2018-06-27T13:39:09.362837",
+          "endDate": "2018-06-30T13:39:09.362837"
+        },
+        "quantity": 5
+      }
+    ],
+    "title_en": "Cases for state awards",
+    "agreementDuration": "P3Y3M3D",
+    "value": {
+      "currency": "UAH",
+      "amount": 500,
+      "valueAddedTaxIncluded": true
+    },
+    "lots": [
+      {
+        "minimalStep": {
+          "currency": "UAH",
+          "amount": 35,
+          "valueAddedTaxIncluded": true
+        },
+        "title": "Лот №1",
+        "description": "Опис Лот №1",
+        "value": {
+          "currency": "UAH",
+          "amount": 500,
+          "valueAddedTaxIncluded": true
+        },
+        "id": "ddb35dd0e9904726aafd18baed24863a"
+      }
+    ],
+    "maxAwardsCount": 4,
+    "procurementMethodType": "closeFrameworkAgreementUA",
+    "mainProcurementCategory": "services",
+    "milestones": [
+      {
+          "title": "signingTheContract",
+          "code": "prepayment",
+          "type": "financing",
+          "duration": {"days": 2, "type": "banking"},
+          "sequenceNumber": 0,
+          "percentage": 100
+      }
+    ],
+    "buyers": [
+      {
+        "identifier": {
+          "scheme": "UA-EDR",
+          "id": "111983",
+          "legalName": "ДП Державне Управління Справами"
+        },
+        "name": "ДУС"
+      }
+    ],
+    "procuringEntity": {
+      "kind": "central",
+      "name": "Державне управління справами",
+      "address": {
+        "countryName": "Україна",
+        "postalCode": "01220",
+        "region": "м. Київ",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "locality": "м. Київ"
+      },
+      "name_en": "State administration",
+      "identifier": {
+        "scheme": "UA-EDR",
+        "legalName_en": "dus.gov.ua",
+        "id": "00037256",
+        "uri": "http://www.dus.gov.ua/"
+      },
+      "contactPoint": {
+        "name_en": "State administration",
+        "name": "Державне управління справами",
+        "telephone": "0440000000"
+      }
+    },
+    "features": [
+      {
+        "code": "OCDS-123454-AIR-INTAKE",
+        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
+        "title": "Потужність всмоктування",
+        "enum": [
+          {
+            "value": 0.1,
+            "title": "До 1000 Вт"
+          },
+          {
+            "value": 0.15,
+            "title": "Більше 1000 Вт"
+          }
+        ],
+        "title_en": "Air Intake",
+        "relatedItem": "7fa0fbf85aab4f48a43afb8ccbc944e4",
+        "featureOf": "item"
+      }
+    ]
+  }
+}
