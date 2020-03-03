@@ -91,6 +91,10 @@ def get_procurement_method_type(response):
     return response.json()["data"]["procurementMethodType"]
 
 
+def get_submission_method_details(response):
+    return response.json()["data"].get("submissionMethodDetails")
+
+
 def get_complaint_period_end_date(response):
     return [item["complaintPeriod"]["endDate"] for item in response.json()["data"]]
 

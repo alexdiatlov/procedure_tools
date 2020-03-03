@@ -112,3 +112,11 @@ def tender_check_status_success_print_handler(response):
     print(" - id \t\t\t\t{}".format(data["id"]))
     print(" - status \t\t\t{}".format(data["status"]))
     print("")
+
+
+def auction_participation_url_success_print_handler(response):
+    data = response.json()["data"]
+    print("Auction participation url for bid:")
+    print(" - id \t\t\t\t{}".format(data["id"]))
+    print(" - url \t\t\t{}".format(data["participationUrl"]))
+    print("")
