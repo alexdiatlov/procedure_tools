@@ -27,9 +27,12 @@ from procedure_tools.procedure import main
         (["--data", "aboveThresholdUA", "--stop", "tender_create.json"]),
         (["--data", "aboveThresholdUA.defense", "--stop", "tender_create.json"]),
         (["--data", "closeFrameworkAgreementUA", "--stop", "tender_create.json"]),
+        (["--data", "closeFrameworkAgreementUA.central", "--stop", "tender_create.json"]),
         (["--data", "competitiveDialogueEU", "--stop", "tender_create.json"]),
         (["--data", "competitiveDialogueUA", "--stop", "tender_create.json"]),
         (["--data", "esco", "--stop", "tender_create.json"]),
+        (["--data", "esco.features", "--stop", "tender_create.json"]),
+        (["--data", "esco.multilot", "--stop", "tender_create.json"]),
         (["--wait", "edr-qualification"]),
     ],
 )

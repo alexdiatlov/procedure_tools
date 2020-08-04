@@ -8,7 +8,15 @@
           "id": "111983",
           "legalName": "ДП Державне Управління Справами"
         },
-        "name": "ДУС"
+        "name": "ДУС",
+        "kind": "general",
+        "address": {
+          "postalCode": "01220",
+          "countryName": "Україна",
+          "streetAddress": "вул. Банкова, 11, корпус 1",
+          "region": "м. Київ",
+          "locality": "м. Київ"
+        }
       }
     ],
     "classification": {
@@ -65,7 +73,15 @@
         "id": "00037256",
         "legalName": "ДП Державне Управління Справами"
       },
-      "name": "ДУС"
+      "name": "ДУС",
+      "kind": "general",
+      "address": {
+        "postalCode": "01220",
+        "countryName": "Україна",
+        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "region": "м. Київ",
+        "locality": "м. Київ"
+      }
     },
     "tender": {
       "procurementMethod": "open",
