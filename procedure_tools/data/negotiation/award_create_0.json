@@ -5,24 +5,24 @@
     "suppliers": [
       {
         "contactPoint": {
-          "telephone": "+380 (432) 21-69-30",
-          "name": "Сергій Олексюк",
-          "email": "soleksuk@gmail.com"
+          "telephone": "+380 (000) 00-00-00",
+          "name": "Нейменко Нейм Неймович",
+          "email": "factory@example.com"
         },
         "identifier": {
           "scheme": "UA-EDR",
           "legalName": "Державне комунальне підприємство громадського харчування «Школяр»",
           "id": "13313462",
-          "uri": "http://sch10.edu.vn.ua/"
+          "uri": "https://example.com"
         },
-        "name": "ДКП «Школяр»",
+        "name": "Тестове підприємство",
         "scale": "micro",
         "address": {
           "countryName": "Україна",
           "postalCode": "21100",
-          "region": "Вінницька область",
-          "streetAddress": "вул. Островського, 33",
-          "locality": "м. Вінниця"
+          "region": "м. Київ",
+          "streetAddress": "вул. Тестова, 33",
+          "locality": "м. Київ"
         }
       }
     ],

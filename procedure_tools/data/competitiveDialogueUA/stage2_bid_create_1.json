@@ -8,22 +8,22 @@
     "tenderers": [
       {
         "contactPoint": {
-          "telephone": "+380 (322) 91-69-30",
-          "name": "Андрій Олексюк",
-          "email": "aagt@gmail.com"
+          "telephone": "+380 (111) 11-11-11",
+          "name": "Контактенко Контакт Контактович",
+          "email": "business@example.com"
         },
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137226",
-          "uri": "http://www.sc.gov.ua/"
+          "uri": "http://factory.example.com"
         },
-        "name": "ДКП «Книга»",
+        "name": "Тестове державне комунальне підприємство",
         "scale": "micro",
         "address": {
           "countryName": "Україна",
           "postalCode": "79013",
           "region": "Львівська область",
-          "streetAddress": "вул. Островського, 34",
+          "streetAddress": "вул. Тестова 34",
           "locality": "м. Львів"
         }
       }

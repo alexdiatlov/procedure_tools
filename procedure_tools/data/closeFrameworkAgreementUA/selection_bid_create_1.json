@@ -17,23 +17,23 @@
     "tenderers": [
       {
         "contactPoint": {
-          "telephone": "+380 (432) 21-69-30",
-          "name": "Сергій Олексюк",
-          "email": "soleksuk@gmail.com"
+          "telephone": "+380 (000) 00-00-00",
+          "name": "Нейменко Нейм Неймович",
+          "email": "factory@example.com"
         },
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137256",
-          "uri": "http://www.sc.gov.ua/"
+          "uri": "http://factory.example.com"
         },
-        "name": "ДКП «Школяр»",
+        "name": "Тестове підприємство",
         "scale": "micro",
         "address": {
           "postalCode": "21100",
           "countryName": "Україна",
-          "streetAddress": "вул. Островського, 33",
-          "region": "Вінницька область",
-          "locality": "м. Вінниця"
+          "streetAddress": "вул. Тестова, 33",
+          "region": "м. Київ",
+          "locality": "м. Київ"
         }
       }
     ]

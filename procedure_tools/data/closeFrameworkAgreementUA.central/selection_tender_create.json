@@ -1,35 +1,35 @@
 {
   "data": {
-    "title": "футляри до державних нагород",
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
     "lots": [
       {
-        "title": "lot title",
+        "title": "Тестова назва лоту",
         "id": "ddb35dd0e9904726aafd18baed24863a",
-        "description": "lot description"
+        "description": "Тестовий опис лоту"
       }
     ],
     "items": [
       {
         "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
-        "description": "футляри до державних нагород",
+        "description": "Тестова назва предмета закупівлі",
         "classification": {
           "scheme": "ДК021",
-          "id": "44617100-9",
-          "description": "New Cartons"
+          "id": "42000000-6",
+          "description": "Промислова техніка"
         },
-        "description_en": "futliary do derzhavnyh nagorod",
+        "description_en": "Procurement item test name",
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
+            "id": "28.23.23",
+            "description": "Техніка конторська/офісна, інша"
           }
         ],
         "deliveryAddress": {
           "countryName": "Україна",
           "postalCode": "79000",
           "region": "м. Київ",
-          "streetAddress": "вул. Банкова 1",
+          "streetAddress": "вул. Тестова 1",
           "locality": "м. Київ"
         },
         "deliveryDate": {
@@ -61,7 +61,7 @@
         "countryName": "Україна",
         "postalCode": "01220",
         "region": "м. Київ",
-        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "streetAddress": "вул. Тестова, 11, корпус 1",
         "locality": "м. Київ"
       }
     },

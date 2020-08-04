@@ -15,7 +15,7 @@
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137228",
-          "uri": "http://www.sc.gov.ua/"
+          "uri": "http://factory.example.com"
         },
         "name": "«Кенгуру»",
         "scale": "micro",

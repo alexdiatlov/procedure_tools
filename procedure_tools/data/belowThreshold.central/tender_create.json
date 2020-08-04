@@ -3,7 +3,7 @@
     "tenderPeriod": {
       "endDate": "XXXX-XX-XXTXX:XX+XX:XX"
     },
-    "title": "футляри до державних нагород",
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
     "minimalStep": {
       "currency": "UAH",
       "amount": 35
@@ -43,7 +43,7 @@
         "countryName": "Україна",
         "postalCode": "01220",
         "region": "м. Київ",
-        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "streetAddress": "вул. Тестова, 11, корпус 1",
         "locality": "м. Київ"
       }
     },
@@ -52,31 +52,31 @@
         "identifier": {
           "scheme": "UA-EDR",
           "id": "111983",
-          "legalName": "ДП Державне Управління Справами"
+          "legalName": "Державне тестове підприемство"
         },
-        "name": "ДУС"
+        "name": "ДТП"
       }
     ],
     "items": [
       {
-        "description": "футляри до державних нагород",
+        "description": "Тестова назва предмета закупівлі",
         "classification": {
           "scheme": "ДК021",
-          "id": "44617100-9",
-          "description": "Cartons"
+          "id": "42000000-6",
+          "description": "Промислова техніка"
         },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
+            "id": "28.23.23",
+            "description": "Техніка конторська/офісна, інша"
           }
         ],
         "deliveryAddress": {
           "countryName": "Україна",
           "postalCode": "79000",
           "region": "м. Київ",
-          "streetAddress": "вул. Банкова 1",
+          "streetAddress": "вул. Тестова 1",
           "locality": "м. Київ"
         },
         "deliveryDate": {

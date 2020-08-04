@@ -3,7 +3,7 @@
     "tenderPeriod": {
       "endDate": "XXXX-XX-XXTXX:XX+XX:XX"
     },
-    "title": "футляри до державних нагород",
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
     "minimalStep": {
       "currency": "UAH",
       "amount": 35,
@@ -13,25 +13,25 @@
       {
         "id": "7fa0fbf85aab4f48a43afb8ccbc944e4",
         "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
-        "description": "футляри до державних нагород",
+        "description": "Тестова назва предмета закупівлі",
         "classification": {
           "scheme": "ДК021",
-          "id": "44617100-9",
-          "description": "Cartons"
+          "id": "42000000-6",
+          "description": "Промислова техніка"
         },
-        "description_en": "Cases for state awards",
+        "description_en": "Procurement item test name",
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
+            "id": "28.23.23",
+            "description": "Техніка конторська/офісна, інша"
           }
         ],
         "deliveryAddress": {
           "countryName": "Україна",
           "postalCode": "79000",
           "region": "м. Київ",
-          "streetAddress": "вул. Банкова 1",
+          "streetAddress": "вул. Тестова 1",
           "locality": "м. Київ"
         },
         "deliveryDate": {
@@ -47,25 +47,25 @@
       {
         "id": "e30bb60e8df74b85b1da9a4b999654ca",
         "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
-        "description": "футляри до державних нагород",
+        "description": "Тестова назва предмета закупівлі",
         "classification": {
           "scheme": "ДК021",
-          "id": "44617100-9",
-          "description": "Cartons"
+          "id": "42000000-6",
+          "description": "Промислова техніка"
         },
-        "description_en": "Cases for state awards",
+        "description_en": "Procurement item test name",
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "папір і картон гофровані, паперова й картонна тара"
+            "id": "28.23.23",
+            "description": "Техніка конторська/офісна, інша"
           }
         ],
         "deliveryAddress": {
           "countryName": "Україна",
           "postalCode": "79000",
           "region": "м. Київ",
-          "streetAddress": "вул. Банкова 1",
+          "streetAddress": "вул. Тестова 1",
           "locality": "м. Київ"
         },
         "deliveryDate": {
@@ -75,7 +75,7 @@
         "quantity": 5
       }
     ],
-    "title_en": "Cases for state awards",
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
     "agreementDuration": "P3Y3M3D",
     "value": {
       "currency": "UAH",
@@ -119,7 +119,7 @@
         "countryName": "Україна",
         "postalCode": "01220",
         "region": "м. Київ",
-        "streetAddress": "вул. Банкова, 11, корпус 1",
+        "streetAddress": "вул. Тестова, 11, корпус 1",
         "locality": "м. Київ"
       },
       "name_en": "State administration",
