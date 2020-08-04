@@ -22,7 +22,7 @@
     "classification": {
       "scheme": "ДК021",
       "description": "Промислова техніка",
-      "id": "55523100-3"
+      "id": "42000000-6"
     },
     "items": [
       {
@@ -87,7 +87,7 @@
       "procurementMethod": "limited",
       "procurementMethodType": "reporting",
       "tenderPeriod": {
-        "startDate": "2019-10-08T01:00:00+03:00"
+        "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
       }
     }
   }

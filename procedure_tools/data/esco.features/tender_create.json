@@ -48,7 +48,8 @@
       }
     ],
     "tenderPeriod": {
-      "endDate": "2017-11-11T17:19:48.277146+03:00"
+      "startDate": "XXXX-XX-XXTXX:XX+XX:XX",
+      "endDate": "XXXX-XX-XXTXX:XX+XX:XX"
     },
     "fundingKind": "other",
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
@@ -122,7 +123,7 @@
           "endDate": "2017-11-30T17:19:48.277078+03:00"
         },
         "unit": {
-          "code": "44617100-9",
+          "code": "42000000-6",
           "name": "item"
         },
         "quantity": 1
@@ -154,7 +155,7 @@
           "endDate": "2017-11-30T17:19:48.277124+03:00"
         },
         "unit": {
-          "code": "44617100-9",
+          "code": "42000000-6",
           "name": "item"
         },
         "quantity": 1

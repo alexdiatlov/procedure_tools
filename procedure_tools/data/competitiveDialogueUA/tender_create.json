@@ -1,7 +1,8 @@
 {
   "data": {
     "tenderPeriod": {
-      "endDate": "2017-07-22T17:04:37.419058+03:00"
+      "startDate": "XXXX-XX-XXTXX:XX+XX:XX",
+      "endDate": "XXXX-XX-XXTXX:XX+XX:XX"
     },
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
     "minimalStep": {
@@ -35,7 +36,7 @@
           "endDate": "2017-08-10T17:04:37.418606+03:00"
         },
         "unit": {
-          "code": "44617100-9",
+          "code": "42000000-6",
           "name": "item"
         },
         "quantity": 1
@@ -66,7 +67,7 @@
           "endDate": "2017-08-10T17:04:37.418662+03:00"
         },
         "unit": {
-          "code": "44617100-9",
+          "code": "42000000-6",
           "name": "item"
         },
         "quantity": 1
