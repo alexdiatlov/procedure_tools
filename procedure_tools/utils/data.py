@@ -13,6 +13,8 @@ SUBMISSION_QUICK = 'quick'
 SUBMISSION_QUICK_NO_AUCTION = 'quick(mode:no-auction)'
 SUBMISSION_QUICK_FAST_FORWARD = 'quick(mode:fast-forward)'
 
+DATETIME_MASK = "XXXX-XX-XXTXX:XX+XX:XX"
+
 SUBMISSIONS = [
     SUBMISSION_QUICK,
     SUBMISSION_QUICK_NO_AUCTION,
@@ -39,42 +41,116 @@ def set_acceleration_data(
     period_timedelta=TENDER_PERIOD_TIMEDELTA_DEFAULT,
     submission=SUBMISSION_QUICK_NO_AUCTION
 ):
-    if "data" in data:
+    try:
         data["data"]["procurementMethodDetails"] = "quick, accelerator={}".format(acceleration)
         if data["data"].get("procurementMethod") != "limited":
             data["data"]["submissionMethodDetails"] = submission
 
+        now = datetime.now(TZ)
+
         period_delta = get_period_delta(
-            acceleration, period_timedelta, seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER * 2)
+            acceleration, period_timedelta,
+            seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER * 2)
         )
 
-        now = datetime.now(TZ)
-        if "enquiryPeriod" in data["data"] and "tenderPeriod" in data["data"]:
-            data["data"]["enquiryPeriod"]["endDate"] = (now + period_delta).isoformat()
-            data["data"]["tenderPeriod"]["endDate"] = (now + 2 * period_delta).isoformat()
+        if "tenderPeriod" in data["data"] and "enquiryPeriod" in data["data"]:
+            if "startDate" in data["data"]["enquiryPeriod"]:
+                if data["data"]["enquiryPeriod"]["startDate"] == DATETIME_MASK:
+                    data["data"]["enquiryPeriod"]["startDate"] = now.isoformat()
+
+            if "endDate" in data["data"]["enquiryPeriod"]:
+                if data["data"]["enquiryPeriod"]["endDate"] == DATETIME_MASK:
+                    data["data"]["enquiryPeriod"]["endDate"] = (now + period_delta).isoformat()
+
+            if "startDate" in data["data"]["tenderPeriod"]:
+                if data["data"]["tenderPeriod"]["startDate"] == DATETIME_MASK:
+                    data["data"]["tenderPeriod"]["startDate"] = (now + period_delta).isoformat()
+
+            if "endDate" in data["data"]["tenderPeriod"]:
+                if data["data"]["tenderPeriod"]["endDate"] == DATETIME_MASK:
+                    data["data"]["tenderPeriod"]["endDate"] = (now + 2 * period_delta).isoformat()
+
+        elif "enquiryPeriod" in data["data"]:
+            if "startDate" in data["data"]["enquiryPeriod"]:
+                if data["data"]["enquiryPeriod"]["startDate"] == DATETIME_MASK:
+                    data["data"]["enquiryPeriod"]["startDate"] = now.isoformat()
+
+            if "endDate" in data["data"]["enquiryPeriod"]:
+                if data["data"]["enquiryPeriod"]["endDate"] == DATETIME_MASK:
+                    data["data"]["enquiryPeriod"]["endDate"] = (now + period_delta).isoformat()
+
         elif "tenderPeriod" in data["data"]:
-            data["data"]["tenderPeriod"]["endDate"] = (now + period_delta).isoformat()
+            if "startDate" in data["data"]["tenderPeriod"]:
+                if data["data"]["tenderPeriod"]["startDate"] == DATETIME_MASK:
+                    data["data"]["tenderPeriod"]["startDate"] = now.isoformat()
+
+            if "endDate" in data["data"]["tenderPeriod"]:
+                if data["data"]["tenderPeriod"]["endDate"] == DATETIME_MASK:
+                    data["data"]["tenderPeriod"]["endDate"] = (now + 2 * period_delta).isoformat()
+
+    except KeyError:
+        pass
+
     return data
 
 
 def set_agreement_id(data, agreement_id):
-    if "data" in data:
+    try:
         data["data"]["agreements"] = [{"id": agreement_id}]
+    except KeyError:
+        pass
     return data
 
 
 def set_tender_period_data(data, acceleration=ACCELERATION_DEFAULT, period_timedelta=TENDER_PERIOD_TIMEDELTA_DEFAULT):
-    period_delta = get_period_delta(acceleration, period_timedelta, seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER * 2))
-    if "data" in data and "tenderPeriod" in data["data"]:
+    try:
         now = datetime.now(TZ)
-        data["data"]["tenderPeriod"]["endDate"] = (now + period_delta).isoformat()
+
+        if "tenderPeriod" in data["data"]:
+            if "startDate" in data["data"]["tenderPeriod"]:
+                if data["data"]["tenderPeriod"]["startDate"] == DATETIME_MASK:
+                    data["data"]["tenderPeriod"]["startDate"] = now.isoformat()
+
+            if "endDate" in data["data"]["tenderPeriod"]:
+                if data["data"]["tenderPeriod"]["endDate"] == DATETIME_MASK:
+                    period_delta = get_period_delta(
+                        acceleration, period_timedelta,
+                        seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER * 2)
+                    )
+                    data["data"]["tenderPeriod"]["endDate"] = (now + period_delta).isoformat()
+    except KeyError:
+        pass
+    return data
+
+
+def set_plan_tender_period_data(data, acceleration=ACCELERATION_DEFAULT, period_timedelta=TENDER_PERIOD_TIMEDELTA_DEFAULT):
+    try:
+        now = datetime.now(TZ)
+        if "tenderPeriod" in data["data"]["tender"]:
+            if "startDate" in data["data"]["tender"]["tenderPeriod"]:
+                if data["data"]["tender"]["tenderPeriod"]["startDate"] == DATETIME_MASK:
+                    data["data"]["tender"]["tenderPeriod"]["startDate"] = now.isoformat()
+
+            if "endDate" in data["data"]["tender"]["tenderPeriod"]:
+                if data["data"]["tender"]["tenderPeriod"]["endDate"] == DATETIME_MASK:
+                    period_delta = get_period_delta(
+                        acceleration, period_timedelta,
+                        seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER * 2)
+                    )
+                    data["data"]["tender"]["tenderPeriod"]["endDate"] = (now + period_delta).isoformat()
+    except KeyError:
+        pass
     return data
 
 
 def set_agreement_period(data):
-    now = datetime.now(TZ)
-    data["data"]["period"]["startDate"] = now.isoformat()
-    data["data"]["period"]["endDate"] = (now + timedelta(days=365 * 2)).isoformat()
+
+    try:
+        now = datetime.now(TZ)
+        data["data"]["period"]["startDate"] = now.isoformat()
+        data["data"]["period"]["endDate"] = (now + timedelta(days=365 * 2)).isoformat()
+    except KeyError:
+        pass
     return data
 
 

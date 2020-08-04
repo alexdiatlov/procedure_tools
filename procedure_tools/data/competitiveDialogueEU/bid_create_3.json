@@ -15,7 +15,7 @@
         "identifier": {
           "scheme": "UA-EDR",
           "id": "00137227",
-          "uri": "http://www.sc.gov.ua/"
+          "uri": "http://factory.example.com"
         },
         "name": "«Снігур»",
         "scale": "micro",

@@ -1,33 +1,34 @@
 {
   "data": {
     "tenderPeriod": {
+      "startDate": "XXXX-XX-XXTXX:XX+XX:XX",
       "endDate": "XXXX-XX-XXTXX:XX+XX:XX"
     },
-    "title": "футляри до державних нагород",
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
     "minimalStep": {
       "currency": "UAH",
       "amount": 35
     },
     "items": [
       {
-        "description": "Послуги шкільних їдалень",
+        "description": "Тестова назва предмета закупівлі",
         "classification": {
           "scheme": "ДК021",
-          "id": "37810000-9",
-          "description": "Test"
+          "id": "42000000-6",
+          "description": "Промислова техніка"
         },
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
-            "id": "17.21.1",
-            "description": "Послуги шкільних їдалень"
+            "id": "28.23.23",
+            "description": "Техніка конторська/офісна, інша"
           }
         ],
         "deliveryAddress": {
           "countryName": "Україна",
           "postalCode": "79000",
           "region": "м. Київ",
-          "streetAddress": "вул. Банкова 1",
+          "streetAddress": "вул. Тестова 1",
           "locality": "м. Київ"
         },
         "deliveryDate": {
@@ -35,7 +36,7 @@
           "endDate": "2017-08-10T15:53:06.068650+03:00"
         },
         "unit": {
-          "code": "44617100-9",
+          "code": "42000000-6",
           "name": "item"
         },
         "quantity": 1
@@ -62,21 +63,21 @@
       "identifier": {
         "scheme": "UA-EDR",
         "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+        "legalName": "Тестовий заклад"
       },
       "contactPoint": {
-        "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна",
-        "telephone": "+380 (432) 46-53-02"
+        "url": "https://example.com",
+        "name": "Тестовенко Тест Тестович",
+        "telephone": "+380 (042) 42-42-42"
       },
       "address": {
         "countryName": "Україна",
-        "postalCode": "21027",
-        "region": "Вінницька область",
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця"
+        "postalCode": "42000",
+        "region": "м. Київ",
+        "streetAddress": "вул. Тестова 22",
+        "locality": "м. Київ"
       },
-      "name": "ЗОСШ #10 м.Вінниці"
+      "name": "Тестовий заклад #1 м.Київ"
     }
   }
 }

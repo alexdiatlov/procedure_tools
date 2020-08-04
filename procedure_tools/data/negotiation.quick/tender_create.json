@@ -2,12 +2,12 @@
   "data": {
     "procurementMethod": "limited",
     "status": "active",
-    "title": "Послуги шкільних їдалень",
-    "title_ru": "Услуги школьных столовых",
-    "title_en": "Services in school canteens",
-    "description": "Послуги шкільних їдалень",
-    "description_ru": "Услуги школьных столовых",
-    "description_en": "Services in school canteens",
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
+    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "description": "Тестова назва предмета закупівлі",
+    "description_ru": "Тестовое название предмета закупки",
+    "description_en": "Procurement item test name",
     "cause": "twiceUnsuccessful",
     "causeDescription": "оригінальний тендер не вдався двічі",
     "causeDescription_ru": "оригинальный тендер не получился дважды",
@@ -29,50 +29,50 @@
       "identifier": {
         "scheme": "UA-EDR",
         "id": "21725150",
-        "legalName": "Заклад \"Загальноосвітня школа І-ІІІ ступенів № 10 Вінницької міської ради\""
+        "legalName": "Тестовий заклад"
       },
       "contactPoint": {
-        "url": "http://sch10.edu.vn.ua/",
-        "name": "Куца Світлана Валентинівна",
-        "telephone": "+380 (432) 46-53-02"
+        "url": "https://example.com",
+        "name": "Тестовенко Тест Тестович",
+        "telephone": "+380 (042) 42-42-42"
       },
-      "name": "ЗОСШ #10 м.Вінниці",
+      "name": "Тестовий заклад #1 м.Київ",
       "address": {
         "countryName": "Україна",
-        "postalCode": "21027",
-        "region": "Вінницька область",
-        "streetAddress": "вул. Стахурського. 22",
-        "locality": "м. Вінниця"
+        "postalCode": "42000",
+        "region": "м. Київ",
+        "streetAddress": "вул. Тестова 22",
+        "locality": "м. Київ"
       }
     },
     "items": [
       {
-        "description": "Послуги шкільних їдалень",
+        "description": "Тестова назва предмета закупівлі",
         "classification": {
           "scheme": "ДК021",
-          "description": "Послуги з харчування у школах",
-          "id": "55523100-3"
+          "description": "Промислова техніка",
+          "id": "42000000-6"
         },
-        "description_en": "Services in school canteens",
+        "description_en": "Procurement item test name",
         "additionalClassifications": [
           {
             "scheme": "ДКПП",
-            "description": "Послуги шкільних їдалень",
-            "id": "55.51.10.300"
+            "id": "28.23.23",
+            "description": "Техніка конторська/офісна, інша"
           }
         ],
         "deliveryAddress": {
           "countryName": "Україна",
           "postalCode": "79000",
           "region": "м. Київ",
-          "streetAddress": "вул. Банкова 1",
+          "streetAddress": "вул. Тестова 1",
           "locality": "м. Київ"
         },
         "deliveryDate": {
           "startDate": "2017-09-16T19:39:39.580353",
           "endDate": "2017-09-19T19:39:39.580353"
         },
-        "description_ru": "Услуги школьных столовых",
+        "description_ru": "Тестовое название предмета закупки",
         "id": "2dc54675d6364e2baffbc0f8e74432ac"
       }
     ],

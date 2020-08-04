@@ -17,6 +17,7 @@ from procedure_tools.utils.data import (
     set_agreement_id,
     set_tender_period_data,
     set_mode_data,
+    set_plan_tender_period_data,
 )
 from procedure_tools.utils.file import get_data_file_path, get_data_path, get_data_all_files
 from procedure_tools.utils.handlers import (
@@ -324,6 +325,7 @@ def create_plan(client, args, filename_prefix=""):
         with open_file_or_exit(path, exit_filename=args.stop) as f:
             plan_create_data = json.loads(f.read())
             set_mode_data(plan_create_data)
+            set_plan_tender_period_data(plan_create_data)
             response = client.post_plan(plan_create_data, success_handler=plan_create_success_print_handler)
             return response
 
@@ -347,8 +349,8 @@ def create_tender(client, args, plan_id=None, agreement_id=None, filename_prefix
             return response
 
 
-def update_tender_period(client, args, tender_id, tender_token, acceleration):
-    data = set_tender_period_data({"data": {"tenderPeriod": {}}}, acceleration=acceleration)
+def update_tender_period(client, args, tender_id, tender_token):
+    data = set_tender_period_data({"data": {"tenderPeriod": {}}}, acceleration=args.acceleration)
     client.patch_tender(tender_id, tender_token, data)
 
 

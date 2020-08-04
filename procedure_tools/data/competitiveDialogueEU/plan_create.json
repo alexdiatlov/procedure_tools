@@ -6,23 +6,31 @@
         "identifier": {
           "scheme": "UA-EDR",
           "id": "111983",
-          "legalName": "ДП Державне Управління Справами"
+          "legalName": "Державне тестове підприемство"
         },
-        "name": "ДУС"
+        "name": "ДТП",
+        "kind": "general",
+        "address": {
+          "postalCode": "01220",
+          "countryName": "Україна",
+          "streetAddress": "вул. Тестова, 11, корпус 1",
+          "region": "м. Київ",
+          "locality": "м. Київ"
+        }
       }
     ],
     "classification": {
       "scheme": "ДК021",
-      "description": "Test",
-      "id": "37810000-9"
+      "description": "Промислова техніка",
+      "id": "42000000-6"
     },
     "items": [
       {
-        "description": "Test description 1",
+        "description": "Тестова назва предмета закупівлі",
         "classification": {
           "scheme": "ДК021",
-          "description": "Test classification description 1",
-          "id": "37810000-9"
+          "id": "42000000-6",
+          "description": "Промислова техніка"
         },
         "deliveryDate": {
           "endDate": "2019-10-16T01:00:00+03:00"
@@ -34,11 +42,11 @@
         "quantity": 1000
       },
       {
-        "description": "Test description 2",
+        "description": "Тестова назва предмета закупівлі",
         "classification": {
           "scheme": "ДК021",
-          "description": "Test classification description 2",
-          "id": "37810000-9"
+          "id": "42000000-6",
+          "description": "Промислова техніка"
         },
         "deliveryDate": {
           "endDate": "2019-10-17T01:00:00+03:00"
@@ -52,13 +60,13 @@
     ],
     "budget": {
       "amountNet": 12222,
-      "description": "Test budget description",
+      "description": "Загальний опис джерел фінансування закупівлі.",
       "period": {
         "startDate": "2019-01-01T00:00:00",
         "endDate": "2019-12-31T00:00:00"
       },
       "project": {
-        "name": "Test proj name",
+        "name": "Тестова назва проєкту",
         "id": "123"
       },
       "currency": "UAH",
@@ -66,7 +74,7 @@
       "id": "12303111000-2",
       "breakdown": [
         {
-          "description": "Breakdown other description.",
+          "description": "Детальний опис джерел фінансування закупівлі.",
           "value": {
             "currency": "UAH",
             "amount": 1500
@@ -79,15 +87,23 @@
       "identifier": {
         "scheme": "UA-EDR",
         "id": "21725150",
-        "legalName": "ДП Державне Управління Справами"
+        "legalName": "Державне тестове підприемство"
       },
-      "name": "ДУС"
+      "name": "ДТП",
+      "kind": "general",
+      "address": {
+        "postalCode": "01220",
+        "countryName": "Україна",
+        "streetAddress": "вул. Тестова, 11, корпус 1",
+        "region": "м. Київ",
+        "locality": "м. Київ"
+      }
     },
     "tender": {
       "procurementMethod": "open",
       "procurementMethodType": "competitiveDialogueEU",
       "tenderPeriod": {
-        "startDate": "2019-10-08T01:00:00+03:00"
+        "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
       }
     }
   }
