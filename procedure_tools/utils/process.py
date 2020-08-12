@@ -18,6 +18,7 @@ from procedure_tools.utils.data import (
     set_tender_period_data,
     set_mode_data,
     set_plan_tender_period_data,
+    DATETIME_MASK,
 )
 from procedure_tools.utils.file import get_data_file_path, get_data_path, get_data_all_files
 from procedure_tools.utils.handlers import (
@@ -349,8 +350,14 @@ def create_tender(client, args, plan_id=None, agreement_id=None, filename_prefix
             return response
 
 
-def update_tender_period(client, args, tender_id, tender_token):
-    data = set_tender_period_data({"data": {"tenderPeriod": {}}}, acceleration=args.acceleration)
+def extend_tender_period(client, args, tender_id, tender_token):
+    data = set_tender_period_data({
+        "data": {
+            "tenderPeriod": {
+                "endDate": DATETIME_MASK
+            }
+        }
+    }, acceleration=args.acceleration)
     client.patch_tender(tender_id, tender_token, data)
 
 
