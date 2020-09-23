@@ -1,7 +1,6 @@
 {
   "data": {
     "status": "pending",
-    "selfEligible": true,
     "selfQualified": true,
     "value": {
       "amount": 499
