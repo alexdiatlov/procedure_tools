@@ -1,6 +1,7 @@
 {
   "data": {
     "selfQualified": true,
+    "selfEligible": true,
     "value": {
       "amount": 499
     },

@@ -1,5 +1,10 @@
 {
   "data": {
+    "selfQualified": true,
+    "selfEligible": true,
+    "value": {
+      "amount": 500
+    },
     "tenderers": [
       {
         "contactPoint": {
@@ -23,10 +28,6 @@
         }
       }
     ],
-    "selfQualified": true,
-    "value": {
-      "amount": 500
-    },
     "subcontractingDetails": "Тестове підприємство, Україна, м. Київ, вул. Тестова, 33"
   }
 }
