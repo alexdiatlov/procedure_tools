@@ -1,7 +1,5 @@
 {
   "data": {
-    "selfEligible": true,
-    "selfQualified": true,
     "tenderers": [
       {
         "contactPoint": {

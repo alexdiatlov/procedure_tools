@@ -1,7 +1,6 @@
 {
   "data": {
     "status": "pending",
-    "selfEligible": true,
     "lotValues": [
       {
         "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
