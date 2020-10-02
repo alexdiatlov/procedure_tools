@@ -241,7 +241,9 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="")
         "competitiveDialogueEU.stage2",
         "competitiveDialogueUA.stage2",
         "esco",
-    ) and bid_responses and submission_method_details in ("quick", None):
+    ) and bid_responses and (
+        "fast-forward" not in submission_method_details or "no-auction" not in submission_method_details
+    ):
         wait_auction_participation_urls(client, tender_id, bid_responses)
 
     if method_type in ("negotiation", "negotiation.quick", "reporting"):
