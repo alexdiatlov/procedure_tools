@@ -291,7 +291,9 @@ class DsApiClient(BaseApiClient):
         headers = self.HEADERS_DEFAULT
         headers.update(request_kwargs.pop("headers", {}))
         if username and password:
-            headers.update({"Authorization": "Basic " + b64encode("{}:{}".format(username, password))})
+            headers.update({"Authorization": "Basic " + b64encode(
+                "{}:{}".format(username, password).encode()
+            ).decode()})
         request_kwargs.update(dict(headers=headers))
         self.kwargs.update(request_kwargs)
 
