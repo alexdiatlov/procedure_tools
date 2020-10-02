@@ -1,6 +1,7 @@
 {
   "data": {
-    "status": "pending",
+    "status": "draft",
+    "selfQualified": true,
     "lotValues": [
       {
         "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
@@ -33,7 +34,6 @@
         }
       }
     ],
-    "selfQualified": true,
     "parameters": [
       {
       "code": "OCDS-123454-AIR-INTAKE",

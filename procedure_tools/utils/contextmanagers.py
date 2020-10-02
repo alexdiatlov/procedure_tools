@@ -13,7 +13,7 @@ def open_file(
     _, file_name = os.path.split(path)
     print("Processing data file: {}\n".format(file_name))
     try:
-        file = io.open(path, mode, encoding=encoding, **kwargs)
+        file = io.open(path, mode, encoding=encoding if "b" not in mode else None, **kwargs)
         yield file
         file.close()
     except Exception:

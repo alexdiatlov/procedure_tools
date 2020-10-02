@@ -1,6 +1,6 @@
 {
   "data": {
-    "status": "pending",
+    "status": "draft",
     "tenderers": [
       {
         "contactPoint": {
@@ -24,39 +24,41 @@
         }
       }
     ],
-    "lotValues": [{
-      "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
-      "value": {
-        "contractDuration": {
-          "days": 74,
-          "years": 10
-        },
-        "yearlyPaymentsPercentage": 0.7,
-        "annualCostsReduction": [
-          500,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000,
-          1000
-        ]
+    "lotValues": [
+      {
+        "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
+        "value": {
+          "contractDuration": {
+            "days": 74,
+            "years": 10
+          },
+          "yearlyPaymentsPercentage": 0.7,
+          "annualCostsReduction": [
+            500,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ]
+        }
       }
-    }],
+    ],
     "subcontractingDetails": "ДКП «Орфей», Україна"
   }
 }

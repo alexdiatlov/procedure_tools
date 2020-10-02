@@ -1,6 +1,7 @@
 from __future__ import absolute_import
 
 from copy import deepcopy
+from base64 import b64encode
 
 try:
     from urllib.parse import urljoin
@@ -14,23 +15,11 @@ from procedure_tools.utils.handlers import response_handler
 API_PATH_PREFIX_DEFAULT = "/api/0/"
 
 
-def get_api_path(path, path_prefix=API_PATH_PREFIX_DEFAULT, acc_token=None):
-    return urljoin(path_prefix, urljoin(path, "?acc_token={}".format(acc_token) if acc_token else None))
-
-
-def get_api_url(host, api_path):
-    return urljoin(host, api_path)
-
-
 class BaseApiClient(object):
     SPORE_PATH = "spore"
-    HEADERS_DEFAULT = {"Content-Type": "application/json"}
 
-    def __init__(self, host, auth_token=None, path_prefix=API_PATH_PREFIX_DEFAULT, **request_kwargs):
+    def __init__(self, host, **request_kwargs):
         self.host = host
-        self.path_prefix = path_prefix
-        self._set_authorization_header(request_kwargs, auth_token)
-        self._set_server_id_cookie(request_kwargs)
         self.kwargs = request_kwargs
 
     @staticmethod
@@ -44,59 +33,74 @@ class BaseApiClient(object):
             if v is not None
         )
 
-    def _set_authorization_header(self, request_kwargs, auth_token):
-        headers = self.HEADERS_DEFAULT
-        headers.update(request_kwargs.pop("headers", {}))
-        if auth_token:
-            headers.update({"Authorization": "Bearer " + auth_token})
-        request_kwargs.update(dict(headers=headers))
-
-    def _set_server_id_cookie(self, request_kwargs):
-        url = self._get_api_url(get_api_path(self.SPORE_PATH, self.path_prefix))
-        server_id = requests.get(url).cookies.get("SERVER_ID")
-        cookies = request_kwargs.pop("cookies", {})
-        cookies.update({"SERVER_ID": server_id})
-        request_kwargs.update(dict(cookies=cookies))
-
-    def _get_api_path(self, path, acc_token=None):
-        return get_api_path(path, path_prefix=self.path_prefix, acc_token=acc_token)
-
-    def _get_api_url(self, api_path):
-        return get_api_url(self.host, api_path)
+    def _get_url(self, api_path):
+        return urljoin(self.host, api_path)
 
     def get(self, path, **kwargs):
         request_kwargs = deepcopy(self.kwargs)
         handlers = self._pop_handlers(kwargs)
         request_kwargs.update(kwargs)
-        url = self._get_api_url(path)
+        url = self._get_url(path)
         response = requests.get(url=url, **request_kwargs)
         response_handler(response, **handlers)
         return response
 
-    def post(self, path, json, **kwargs):
+    def post(self, path, json=None, **kwargs):
         request_kwargs = deepcopy(self.kwargs)
         handlers = self._pop_handlers(kwargs)
         request_kwargs.update(kwargs)
-        url = self._get_api_url(path)
+        url = self._get_url(path)
         response = requests.post(url=url, json=json, **request_kwargs)
         response_handler(response, **handlers)
         return response
 
-    def patch(self, path, json, **kwargs):
+    def patch(self, path, json=None, **kwargs):
         request_kwargs = deepcopy(self.kwargs)
         handlers = self._pop_handlers(kwargs)
         request_kwargs.update(kwargs)
-        url = self._get_api_url(path)
+        url = self._get_url(path)
         response = requests.patch(url=url, json=json, **request_kwargs)
         response_handler(response, **handlers)
         return response
 
 
-class TendersApiClient(BaseApiClient):
+class BaseCDBClient(BaseApiClient):
+    SPORE_PATH = "spore"
+    HEADERS_DEFAULT = {"Content-Type": "application/json"}
+
+    def __init__(self, host, auth_token=None, path_prefix=API_PATH_PREFIX_DEFAULT, **request_kwargs):
+        super(BaseCDBClient, self).__init__(host, **request_kwargs)
+        self.path_prefix = path_prefix
+        self._set_headers(request_kwargs, auth_token)
+        self._set_server_id_cookie(request_kwargs)
+
+    def _set_headers(self, request_kwargs, auth_token):
+        headers = self.HEADERS_DEFAULT
+        headers.update(request_kwargs.pop("headers", {}))
+        if auth_token:
+            headers.update({"Authorization": "Bearer " + auth_token})
+        request_kwargs.update(dict(headers=headers))
+        self.kwargs.update(request_kwargs)
+
+    def _set_server_id_cookie(self, request_kwargs):
+        url = self._get_url(self._get_api_path(self.SPORE_PATH))
+        server_id = requests.get(url).cookies.get("SERVER_ID")
+        cookies = request_kwargs.pop("cookies", {})
+        cookies.update({"SERVER_ID": server_id})
+        request_kwargs.update(dict(cookies=cookies))
+        self.kwargs.update(request_kwargs)
+
+    def _get_api_path(self, path, acc_token=None):
+        return urljoin(self.path_prefix, urljoin(path, "?acc_token={}".format(acc_token) if acc_token else None))
+
+
+class TendersApiClient(BaseCDBClient):
     TENDERS_COLLECTION_PATH = "tenders"
     TENDERS_PATH = "tenders/{}"
+    CRITERIA_COLLECTION_PATH = "tenders/{}/criteria"
     BIDS_COLLECTION_PATH = "tenders/{}/bids"
     BIDS_PATH = "tenders/{}/bids/{}"
+    BIDS_RES_COLLECTION_PATH = "tenders/{}/bids/{}/requirement_responses"
     AWARDS_COLLECTION_PATH = "tenders/{}/awards"
     AWARDS_PATH = "tenders/{}/awards/{}"
     CONTRACTS_COLLECTION_PATH = "tenders/{}/contracts"
@@ -124,9 +128,14 @@ class TendersApiClient(BaseApiClient):
         path = self._get_api_path(tenders_path, acc_token=acc_token)
         return self.patch(path, json, **kwargs)
 
+    def post_criteria(self, tender_id, acc_token, json, **kwargs):
+        criteria_path = self.CRITERIA_COLLECTION_PATH.format(tender_id)
+        path = self._get_api_path(criteria_path, acc_token=acc_token)
+        return self.post(path, json, **kwargs)
+
     def get_bids(self, tender_id, **kwargs):
-        awards_path = self.BIDS_COLLECTION_PATH.format(tender_id)
-        path = self._get_api_path(awards_path)
+        bid_path = self.BIDS_COLLECTION_PATH.format(tender_id)
+        path = self._get_api_path(bid_path)
         return self.get(path, **kwargs)
 
     def get_bid(self, tender_id, bid_id, acc_token, **kwargs):
@@ -137,6 +146,16 @@ class TendersApiClient(BaseApiClient):
     def post_bid(self, tender_id, json, **kwargs):
         bids_path = self.BIDS_COLLECTION_PATH.format(tender_id)
         path = self._get_api_path(bids_path)
+        return self.post(path, json, **kwargs)
+
+    def patch_bid(self, tender_id, bid_id, acc_token, json, **kwargs):
+        bid_path = self.BIDS_PATH.format(tender_id, bid_id)
+        path = self._get_api_path(bid_path, acc_token=acc_token)
+        return self.patch(path, json, **kwargs)
+
+    def post_bid_res(self, tender_id, bid_id, acc_token, json, **kwargs):
+        bid_res_path = self.BIDS_RES_COLLECTION_PATH.format(tender_id, bid_id)
+        path = self._get_api_path(bid_res_path, acc_token=acc_token)
         return self.post(path, json, **kwargs)
 
     def get_qualifications(self, tender_id, **kwargs):
@@ -210,7 +229,7 @@ class TendersApiClient(BaseApiClient):
         return self.patch(path, json, **kwargs)
 
 
-class AgreementsApiClient(BaseApiClient):
+class AgreementsApiClient(BaseCDBClient):
     AGREEMENTS_PATH = "agreements/{}"
 
     def get_agreement(self, agreement_id, **kwargs):
@@ -219,7 +238,7 @@ class AgreementsApiClient(BaseApiClient):
         return self.get(path, **kwargs)
 
 
-class ContractsApiClient(BaseApiClient):
+class ContractsApiClient(BaseCDBClient):
     CONTRACTS_PATH = "contracts/{}"
     CREDENTIALS_PATH = "contracts/{}/credentials"
 
@@ -234,7 +253,7 @@ class ContractsApiClient(BaseApiClient):
         return self.patch(path, json, **kwargs)
 
 
-class PlansApiClient(BaseApiClient):
+class PlansApiClient(BaseCDBClient):
     PLANS_COLLECTION_PATH = "plans"
     PLANS_PATH = "plans/{}"
     TENDERS_COLLECTION_PATH = "plans/{}/tenders"
@@ -258,3 +277,24 @@ class PlansApiClient(BaseApiClient):
         tenders_path = self.TENDERS_COLLECTION_PATH.format(plan_id)
         path = self._get_api_path(tenders_path)
         return self.post(path, json, **kwargs)
+
+
+class DsApiClient(BaseApiClient):
+    UPLOAD_PATH = "upload"
+    HEADERS_DEFAULT = {}
+
+    def __init__(self, host, username=None, password=None, **request_kwargs):
+        super(DsApiClient, self).__init__(host, **request_kwargs)
+        self._set_headers(request_kwargs, username, password)
+
+    def _set_headers(self, request_kwargs, username, password):
+        headers = self.HEADERS_DEFAULT
+        headers.update(request_kwargs.pop("headers", {}))
+        if username and password:
+            headers.update({"Authorization": "Basic " + b64encode("{}:{}".format(username, password))})
+        request_kwargs.update(dict(headers=headers))
+        self.kwargs.update(request_kwargs)
+
+    def post_document_upload(self, files, **kwargs):
+        path = self.UPLOAD_PATH
+        return self.post(path, files=files, **kwargs)
