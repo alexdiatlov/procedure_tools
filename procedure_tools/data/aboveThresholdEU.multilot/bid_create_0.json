@@ -1,5 +1,7 @@
 {
   "data": {
+    "status": "draft",
+    "selfQualified": true,
     "tenderers": [
       {
         "contactPoint": {

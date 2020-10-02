@@ -1,50 +1,51 @@
 {
   "data": {
+    "status": "draft",
     "features": [
       {
-          "code":"ee3e24bc17234a41bd3e3a04cc28e9c6",
-          "featureOf":"tenderer",
-          "title":"Термін оплати",
-          "description":"Умови відстрочки платежу після поставки товару",
-          "enum":[
-              {
-                  "value":0.15,
-                  "title":"180 днів та більше"
-              },
-              {
-                  "value":0.1,
-                  "title":"90-179 днів"
-              },
-              {
-                  "value":0.05,
-                  "title":"30-89 днів"
-              },
-              {
-                  "value":0,
-                  "title":"Менше 30 днів"
-              }
-          ]
+        "code": "ee3e24bc17234a41bd3e3a04cc28e9c6",
+        "featureOf": "tenderer",
+        "title": "Термін оплати",
+        "description": "Умови відстрочки платежу після поставки товару",
+        "enum": [
+          {
+            "value": 0.15,
+            "title": "180 днів та більше"
+          },
+          {
+            "value": 0.1,
+            "title": "90-179 днів"
+          },
+          {
+            "value": 0.05,
+            "title": "30-89 днів"
+          },
+          {
+            "value": 0,
+            "title": "Менше 30 днів"
+          }
+        ]
       },
       {
-          "code":"48cfd91612c04125ab406374d7cc8d93",
-          "featureOf":"item",
-          "relatedItem":"edd0032574bf4402877ad5f362df225a",
-          "title":"Сорт",
-          "description":"Сорт продукції",
-          "enum":[
-              {
-                  "value":0.05,
-                  "title":"Вищий"
-              },
-              {
-                  "value":0.01,
-                  "title":"Перший"
-              },
-              {
-                  "value":0,
-                  "title":"Другий"
-              }
-          ]
+        "code": "48cfd91612c04125ab406374d7cc8d93",
+        "featureOf": "item",
+        "relatedItem": "edd0032574bf4402877ad5f362df225a",
+        "title": "Сорт",
+        "description": "Сорт продукції",
+        "enum": [
+          {
+            "value": 0.05,
+            "title": "Вищий"
+          },
+          {
+            "value": 0.01,
+            "title": "Перший"
+          },
+          {
+            "value": 0,
+            "title": "Другий"
+          }
+        ]
       }
     ],
     "tenderPeriod": {
@@ -59,12 +60,15 @@
     "mainProcurementCategory": "services",
     "milestones": [
       {
-          "title": "signingTheContract",
-          "code": "prepayment",
-          "type": "financing",
-          "duration": {"days": 2, "type": "banking"},
-          "sequenceNumber": 0,
-          "percentage": 100
+        "title": "signingTheContract",
+        "code": "prepayment",
+        "type": "financing",
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0,
+        "percentage": 100
       }
     ],
     "procuringEntity": {

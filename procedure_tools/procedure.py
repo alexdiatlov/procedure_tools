@@ -19,6 +19,7 @@ from procedure_tools.utils.process import (
     create_awards,
     create_bids,
     create_tender,
+    patch_tender,
     extend_tender_period,
     wait,
     wait_status,
@@ -32,6 +33,10 @@ from procedure_tools.utils.process import (
     patch_contract_credentials,
     create_plan,
     wait_auction_participation_urls,
+    post_criteria,
+    get_bids,
+    patch_bids,
+    post_bid_res,
 )
 from procedure_tools.client import (
     TendersApiClient,
@@ -39,6 +44,7 @@ from procedure_tools.client import (
     AgreementsApiClient,
     ContractsApiClient,
     PlansApiClient,
+    DsApiClient,
 )
 from procedure_tools.utils.file import get_default_data_dirs, DATA_DIR_DEFAULT
 from procedure_tools.utils.data import (
@@ -85,9 +91,40 @@ def create_procedure(args):
 
 
 def process_procedure(client, args, tender_id, tender_token, filename_prefix=""):
+    ds_client = DsApiClient(args.ds_host, args.ds_username, args.ds_password)
+
     response = get_tender(client, args, tender_id)
     method_type = get_procurement_method_type(response)
     submission_method_details = get_submission_method_details(response)
+
+    if method_type in (
+        "aboveThresholdEU",
+        "aboveThresholdUA",
+        "belowThreshold",
+        "closeFrameworkAgreementUA",
+        "closeFrameworkAgreementSelectionUA",
+        "competitiveDialogueEU",
+        "competitiveDialogueUA",
+        "competitiveDialogueEU.stage2",
+        "competitiveDialogueUA.stage2",
+        "esco",
+    ):
+        criteria_response = post_criteria(client, args, tender_id, tender_token, filename_prefix)
+        tender_criteria = criteria_response.json()["data"]
+    else:
+        tender_criteria = None
+
+    if method_type in (
+        "aboveThresholdEU",
+        "aboveThresholdUA",
+        "aboveThresholdUA.defense",
+        "belowThreshold",
+        "closeFrameworkAgreementUA",
+        "competitiveDialogueEU",
+        "competitiveDialogueUA",
+        "esco",
+    ):
+        response = patch_tender(client, args, tender_id, tender_token, filename_prefix)
 
     if method_type in ("closeFrameworkAgreementSelectionUA",):
         patch_tender_pending(client, args, tender_id, tender_token, filename_prefix)
@@ -124,7 +161,17 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="")
         "competitiveDialogueUA.stage2",
         "esco",
     ):
-        bid_responses = create_bids(client, args, tender_id, filename_prefix)
+        bid_responses = create_bids(client, ds_client, args, tender_id, filename_prefix)
+        bids_ids = [bid_response["data"]["id"] for bid_response in bid_responses]
+        bids_tokens = [bid_response["access"]["token"] for bid_response in bid_responses]
+        bids_documents = [bid_response["data"]["documents"] for bid_response in bid_responses]
+        if tender_criteria:
+            post_bid_res(
+                client, args, tender_id,
+                bids_ids, bids_tokens, bids_documents,
+                tender_criteria, filename_prefix
+            )
+        patch_bids(client, args, tender_id, bids_ids, bids_tokens, filename_prefix)
     else:
         bid_responses = None
 
@@ -329,8 +376,11 @@ def main():
         sys.exit(EX_OK)
 
     parser = argparse.ArgumentParser()
-    parser.add_argument("host", help="api host")
-    parser.add_argument("token", help="api token")
+    parser.add_argument("host", help="CDB API Host")
+    parser.add_argument("token", help="CDB API Token")
+    parser.add_argument("ds_host", help="DS API Host")
+    parser.add_argument("ds_username", help="DS API Username")
+    parser.add_argument("ds_password", help="DS API Password")
     parser.add_argument(
         "-a",
         "--acceleration",

@@ -1,14 +1,14 @@
 {
   "data": {
-    "status": "pending",
+    "status": "draft",
     "parameters": [
       {
-        "code":"ee3e24bc17234a41bd3e3a04cc28e9c6",
-        "value":0.05
+        "code": "ee3e24bc17234a41bd3e3a04cc28e9c6",
+        "value": 0.05
       },
       {
-        "code":"48cfd91612c04125ab406374d7cc8d93",
-        "value":0.01
+        "code": "48cfd91612c04125ab406374d7cc8d93",
+        "value": 0.01
       }
     ],
     "tenderers": [

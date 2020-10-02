@@ -106,6 +106,13 @@ def tender_patch_status_success_print_handler(response):
     print("")
 
 
+def tender_post_criteria_success_print_handler(response):
+    data = response.json()["data"]
+    print("Tender criteria created:")
+    for item in data:
+        print(" - classification.id \t\t\t\t{}".format(item["classification"]["id"]))
+
+
 def tender_check_status_success_print_handler(response):
     data = response.json()["data"]
     print("Tender info:")

@@ -1,5 +1,6 @@
 {
   "data": {
+    "status": "draft",
     "tenderPeriod": {
       "startDate": "XXXX-XX-XXTXX:XX+XX:XX",
       "endDate": "XXXX-XX-XXTXX:XX+XX:XX"

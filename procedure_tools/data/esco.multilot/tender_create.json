@@ -1,5 +1,6 @@
 {
   "data": {
+    "status": "draft",
     "tenderPeriod": {
       "startDate": "XXXX-XX-XXTXX:XX+XX:XX",
       "endDate": "XXXX-XX-XXTXX:XX+XX:XX"
@@ -12,12 +13,15 @@
     "mainProcurementCategory": "services",
     "milestones": [
       {
-          "title": "signingTheContract",
-          "code": "prepayment",
-          "type": "financing",
-          "duration": {"days": 2, "type": "banking"},
-          "sequenceNumber": 0,
-          "percentage": 100
+        "title": "signingTheContract",
+        "code": "prepayment",
+        "type": "financing",
+        "duration": {
+          "days": 2,
+          "type": "banking"
+        },
+        "sequenceNumber": 0,
+        "percentage": 100
       }
     ],
     "procuringEntity": {

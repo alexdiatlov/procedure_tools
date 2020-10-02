@@ -2,11 +2,11 @@ import json
 import math
 
 from datetime import datetime
-
+from mimetypes import MimeTypes
 from dateutil import parser, tz
 from time import sleep
 
-from procedure_tools.utils.contextmanagers import ignore, open_file_or_exit
+from procedure_tools.utils.contextmanagers import ignore, open_file_or_exit, open_file
 from procedure_tools.utils.data import (
     TENDER_SECONDS_BUFFER,
     get_ids,
@@ -33,6 +33,7 @@ from procedure_tools.utils.handlers import (
     default_success_print_handler,
     plan_create_success_print_handler,
     auction_participation_url_success_print_handler,
+    tender_post_criteria_success_print_handler,
 )
 
 
@@ -40,6 +41,7 @@ EDR_FILENAME = "edr_identification.yaml"
 
 
 def get_bids(client, args, tender_id):
+    print("Check bids...\n")
     while True:
         response = client.get_bids(tender_id)
         if not response.json()["data"]:
@@ -49,23 +51,64 @@ def get_bids(client, args, tender_id):
     return response
 
 
+def patch_bids(client, args, tender_id, bids_ids, bids_tokens, filename_prefix=""):
+    print("Patching bids...\n")
+    for bid_index, bid_id in enumerate(bids_ids):
+        with ignore(IOError):
+            data_file = "{}bid_patch_{}.json".format(filename_prefix, bid_index)
+            path = get_data_file_path(data_file, get_data_path(args.data))
+            with open_file_or_exit(path, exit_filename=args.stop) as f:
+                bid_patch_data = json.loads(f.read())
+                client.patch_bid(
+                    tender_id,
+                    bid_id,
+                    bids_tokens[bid_index],
+                    bid_patch_data,
+                    success_handler=item_patch_success_print_handler,
+                )
+
+
+def post_bid_res(client, args, tender_id, bids_ids, bids_tokens, bids_documents, tender_criteria, filename_prefix=""):
+    print("Post bids requirement responses...\n")
+    for bid_index, bid_id in enumerate(bids_ids):
+        with ignore(IOError):
+            data_file = "{}bid_res_post_{}.json".format(filename_prefix, bid_index)
+            path = get_data_file_path(data_file, get_data_path(args.data))
+            with open_file_or_exit(path, exit_filename=args.stop) as f:
+                bid_res_data = json.loads(f.read())
+                for bid_res in bid_res_data["data"]:
+                    if "evidences" in bid_res:
+                        for evidence in bid_res["evidences"]:
+                            if evidence["type"] == "document":
+                                evidence["relatedDocument"]["id"] = bids_documents[bid_index][0]["id"]
+                                evidence["relatedDocument"]["title"] = bids_documents[bid_index][0]["title"]
+                    for tender_criteria_item in tender_criteria:
+                        for group in tender_criteria_item["requirementGroups"]:
+                            for req in group["requirements"]:
+                                if bid_res["requirement"]["title"] == req["title"]:
+                                    bid_res["requirement"]["id"] = req["id"]
+
+                client.post_bid_res(
+                    tender_id,
+                    bid_id,
+                    bids_tokens[bid_index],
+                    bid_res_data,
+                )
+
+
 def patch_agreements_with_contracts(client, args, tender_id, tender_token):
     print("Checking agreements...\n")
     response = get_agreements(client, args, tender_id)
     agreements_ids = get_ids(response)
     response = get_tender(client, args, tender_id)
     items_ids = get_items_ids(response)
-    print("Check bids...\n")
     response = get_bids(client, args, tender_id)
     bids_ids = get_ids(response)
     for agreement_index, agreement_id in enumerate(agreements_ids):
-        print("Checking agreement contracts...")
-
         response = get_agreement_contract(client, args, tender_id, agreement_id)
         agreement_contracts_ids = get_ids(response)
         agreement_contracts_related_bids = get_bids_ids(response)
 
-        print("Patching agreement contracts...\n")
         patch_agreement_contract(
             client,
             args,
@@ -78,11 +121,11 @@ def patch_agreements_with_contracts(client, args, tender_id, tender_token):
             items_ids,
             tender_token,
         )
-    print("Patching agreements...\n")
     patch_agreements(client, args, tender_id, agreements_ids, tender_token)
 
 
 def patch_agreements(client, args, tender_id, agreements_ids, tender_token):
+    print("Patching agreements...\n")
     for agreement_index, agreement_id in enumerate(agreements_ids):
         with ignore(IOError):
             path = get_data_file_path("agreement_patch_{}.json".format(agreement_index), get_data_path(args.data))
@@ -110,6 +153,7 @@ def patch_agreement_contract(
     items_ids,
     tender_token,
 ):
+    print("Patching agreement contracts...\n")
     for agreement_contract_index, agreement_contract_id in enumerate(agreement_contracts_ids):
         with ignore(IOError):
             index = bids_ids.index(agreement_contracts_related_bids[agreement_contract_index])
@@ -130,6 +174,7 @@ def patch_agreement_contract(
 
 
 def get_agreement_contract(client, args, tender_id, agreement_id):
+    print("Checking agreement contracts...")
     while True:
         response = client.get_agreement_contracts(tender_id, agreement_id)
         if not response.json()["data"]:
@@ -302,7 +347,7 @@ def create_awards(client, args, tender_id, tender_token):
                 )
 
 
-def create_bids(client, args, tender_id, filename_prefix=""):
+def create_bids(client, ds_client, args, tender_id, filename_prefix=""):
     print("Creating bids...\n")
     bid_files = []
     for data_file in get_data_all_files(get_data_path(args.data)):
@@ -310,10 +355,23 @@ def create_bids(client, args, tender_id, filename_prefix=""):
             bid_files.append(data_file)
     results = []
     for bid_file in bid_files:
+        bid_document_files = []
+        bid_documents = []
+        for data_file in get_data_all_files(get_data_path(args.data)):
+            if data_file.startswith("{}bid_document".format(filename_prefix)):
+                bid_document_files.append(data_file)
+        for bid_document_file in bid_document_files:
+            path = get_data_file_path(bid_document_file, get_data_path(args.data))
+            with open_file(path, mode="rb") as f:
+                mime = MimeTypes()
+                mime_type = mime.guess_type(path)
+                ds_response = ds_client.post_document_upload({"file": (bid_document_file, f, mime_type[0])})
+                bid_documents.append(ds_response.json()["data"])
         with ignore(IOError):
             path = get_data_file_path(bid_file, get_data_path(args.data))
             with open_file_or_exit(path, exit_filename=args.stop) as f:
                 bid_create_data = json.loads(f.read())
+                bid_create_data["data"]["documents"] = bid_documents
                 response = client.post_bid(tender_id, bid_create_data, success_handler=bid_create_success_print_handler)
                 results.append(response.json())
     return results
@@ -417,6 +475,28 @@ def patch_tender_pending(client, args, tender_id, tender_token, filename_prefix=
     print("Activating tender by switching to next status...\n")
     with ignore(IOError):
         path = get_data_file_path("{}tender_patch_pending.json".format(filename_prefix), get_data_path(args.data))
+        with open_file_or_exit(path, exit_filename=args.stop) as f:
+            tender_patch_data = json.loads(f.read())
+            return client.patch_tender(
+                tender_id, tender_token, tender_patch_data, success_handler=tender_patch_status_success_print_handler
+            )
+
+
+def post_criteria(client, args, tender_id, tender_token, filename_prefix=""):
+    print("Create tender criteria...\n")
+    with ignore(IOError):
+        path = get_data_file_path("{}criteria_create.json".format(filename_prefix), get_data_path(args.data))
+        with open_file_or_exit(path, exit_filename=args.stop) as f:
+            criteria_data = json.loads(f.read())
+            return client.post_criteria(
+                tender_id, tender_token, criteria_data, success_handler=tender_post_criteria_success_print_handler
+            )
+
+
+def patch_tender(client, args, tender_id, tender_token, filename_prefix=""):
+    print("Patching tender...\n")
+    with ignore(IOError):
+        path = get_data_file_path("{}tender_patch.json".format(filename_prefix), get_data_path(args.data))
         with open_file_or_exit(path, exit_filename=args.stop) as f:
             tender_patch_data = json.loads(f.read())
             return client.patch_tender(
