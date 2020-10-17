@@ -21,6 +21,7 @@ SUBMISSIONS = [
     SUBMISSION_QUICK_FAST_FORWARD
 ]
 
+
 def get_period_delta(
     acceleration=ACCELERATION_DEFAULT,
     period_timedelta=TENDER_PERIOD_TIMEDELTA_DEFAULT,

@@ -34,7 +34,6 @@ from procedure_tools.utils.process import (
     create_plan,
     wait_auction_participation_urls,
     post_criteria,
-    get_bids,
     patch_bids,
     post_bid_res,
 )
@@ -75,8 +74,6 @@ def create_procedure(args):
 
     if response:
         plan_id = get_id(response)
-        plan_token = get_token(response)
-
         response = create_tender(plans_client, args, plan_id=plan_id)
     else:
         response = create_tender(tenders_client, args)
@@ -164,8 +161,8 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="")
         bid_responses = create_bids(client, ds_client, args, tender_id, filename_prefix)
         bids_ids = [bid_response["data"]["id"] for bid_response in bid_responses]
         bids_tokens = [bid_response["access"]["token"] for bid_response in bid_responses]
-        bids_documents = [bid_response["data"]["documents"] for bid_response in bid_responses]
         if tender_criteria:
+            bids_documents = [bid_response["data"]["documents"] for bid_response in bid_responses]
             post_bid_res(
                 client, args, tender_id,
                 bids_ids, bids_tokens, bids_documents,
@@ -425,8 +422,6 @@ def main():
         print("")
         print("Stopping...")
         sys.exit(e)
-    except:
-        raise
     else:
         sys.exit(EX_OK)
 
