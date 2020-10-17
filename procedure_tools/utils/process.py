@@ -201,7 +201,7 @@ def get_agreements(client, args, tender_id):
 def get_agreement(client, args, agreement_id):
     while True:
         response = client.get_agreement(agreement_id, error_handler=default_success_print_handler)
-        if not "data" in response.json().keys():
+        if "data" not in response.json().keys():
             sleep(TENDER_SECONDS_BUFFER)
         else:
             break
@@ -211,7 +211,7 @@ def get_agreement(client, args, agreement_id):
 def get_contract(client, args, contract_id):
     while True:
         response = client.get_contract(contract_id, error_handler=default_success_print_handler)
-        if not "data" in response.json().keys():
+        if "data" not in response.json().keys():
             sleep(TENDER_SECONDS_BUFFER)
         else:
             break
