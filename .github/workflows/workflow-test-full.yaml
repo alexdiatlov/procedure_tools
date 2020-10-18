@@ -6,7 +6,7 @@ jobs:
   pytest:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 5
+      max-parallel: 1
       matrix:
         case:
           - reporting
