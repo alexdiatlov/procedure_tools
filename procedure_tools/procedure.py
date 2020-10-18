@@ -3,6 +3,8 @@ from __future__ import absolute_import
 import argparse
 import sys
 
+import requests
+
 from procedure_tools.version import __version__
 from procedure_tools.utils.process import (
     patch_agreements_with_contracts,
@@ -66,9 +68,9 @@ WAIT_EDR_PRE_QUAL = "edr-pre-qualification"
 WAIT_EVENTS = (WAIT_EDR_QUAL, WAIT_EDR_PRE_QUAL)
 
 
-def create_procedure(args):
-    plans_client = PlansApiClient(args.host, args.token, args.path)
-    tenders_client = TendersApiClient(args.host, args.token, args.path)
+def create_procedure(args, session=None):
+    plans_client = PlansApiClient(args.host, args.token, args.path, session=session)
+    tenders_client = TendersApiClient(args.host, args.token, args.path, session=session)
 
     response = create_plan(plans_client, args)
 
@@ -82,13 +84,13 @@ def create_procedure(args):
         tender_id = get_id(response)
         tender_token = get_token(response)
 
-        process_procedure(tenders_client, args, tender_id, tender_token)
+        process_procedure(tenders_client, args, tender_id, tender_token, session=session)
 
     print("Completed.\n")
 
 
-def process_procedure(client, args, tender_id, tender_token, filename_prefix=""):
-    ds_client = DsApiClient(args.ds_host, args.ds_username, args.ds_password)
+def process_procedure(client, args, tender_id, tender_token, filename_prefix="", session=None):
+    ds_client = DsApiClient(args.ds_host, args.ds_username, args.ds_password, session=session)
 
     response = get_tender(client, args, tender_id)
     method_type = get_procurement_method_type(response)
@@ -328,7 +330,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="")
         "reporting",
     ):
         for contracts_id in contracts_ids:
-            contracts_client = ContractsApiClient(args.host, args.token, args.path)
+            contracts_client = ContractsApiClient(args.host, args.token, args.path, session=session)
             get_contract(contracts_client, args, contracts_id)
             patch_contract_credentials(contracts_client, args, contracts_id, tender_token)
 
@@ -364,7 +366,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="")
         response = get_tender(client, args, tender_id)
         agreement_id = response.json()["data"]["agreements"][-1]["id"]
 
-        agreement_client = AgreementsApiClient(args.host, args.token, args.path)
+        agreement_client = AgreementsApiClient(args.host, args.token, args.path, session=session)
         get_agreement(agreement_client, args, agreement_id)
 
         response = create_tender(client, args, agreement_id=agreement_id, filename_prefix="selection_")
@@ -420,13 +422,14 @@ def main():
     )
 
     try:
-        create_procedure(parser.parse_args())
+        session = requests.Session()
+        create_procedure(parser.parse_args(), session=session)
     except SystemExit as e:
         sys.exit(e)
     except KeyboardInterrupt as e:
         print("")
         print("Stopping...")
-        sys.exit(e)
+        raise
     else:
         sys.exit(EX_OK)
 
