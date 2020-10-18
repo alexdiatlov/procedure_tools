@@ -5,7 +5,7 @@ EX_OK = 0
 EX_DATAERR = 65
 
 
-def default_error_print_handler(response):
+def default_error_handler(response):
     try:
         logging.info(json.loads(response.text))
     except ValueError:
@@ -13,14 +13,14 @@ def default_error_print_handler(response):
     raise SystemExit(EX_DATAERR)
 
 
-def default_success_print_handler(response):
+def default_success_handler(response):
     pass
 
 
 def response_handler(
     response,
-    success_handler=default_success_print_handler,
-    error_handler=default_error_print_handler
+    success_handler=default_success_handler,
+    error_handler=default_error_handler
 ):
     logging.info("[{}] {}\n".format(
         response.request.method,
@@ -32,7 +32,7 @@ def response_handler(
         error_handler(response)
 
 
-def tender_create_success_print_handler(response):
+def tender_create_success_handler(response):
     data = response.json()["data"]
     access = response.json()["access"]
 
@@ -49,7 +49,7 @@ def tender_create_success_print_handler(response):
     logging.info(msg)
 
 
-def plan_create_success_print_handler(response):
+def plan_create_success_handler(response):
     data = response.json()["data"]
     access = response.json()["access"]
 
@@ -62,7 +62,7 @@ def plan_create_success_print_handler(response):
     logging.info(msg)
 
 
-def contract_credentials_success_print_handler(response):
+def contract_credentials_success_handler(response):
     data = response.json()["data"]
     access = response.json()["access"]
 
@@ -73,7 +73,7 @@ def contract_credentials_success_print_handler(response):
     logging.info(msg)
 
 
-def bid_create_success_print_handler(response):
+def bid_create_success_handler(response):
     data = response.json()["data"]
     access = response.json()["access"]
 
@@ -85,7 +85,7 @@ def bid_create_success_print_handler(response):
     logging.info(msg)
 
 
-def item_create_success_print_handler(response):
+def item_create_success_handler(response):
     data = response.json()["data"]
 
     msg = "Item created:\n"
@@ -95,7 +95,7 @@ def item_create_success_print_handler(response):
     logging.info(msg)
 
 
-def item_get_success_print_handler(response):
+def item_get_success_handler(response):
     data = response.json()["data"]
     for item in data:
         msg = "Item found:\n"
@@ -105,7 +105,7 @@ def item_get_success_print_handler(response):
         logging.info(msg)
 
 
-def item_patch_success_print_handler(response):
+def item_patch_success_handler(response):
     data = response.json()["data"]
 
     msg = "Item patched:\n"
@@ -115,7 +115,7 @@ def item_patch_success_print_handler(response):
     logging.info(msg)
 
 
-def tender_patch_status_success_print_handler(response):
+def tender_patch_status_success_handler(response):
     data = response.json()["data"]
 
     msg = "Tender status patched:\n"
@@ -125,7 +125,7 @@ def tender_patch_status_success_print_handler(response):
     logging.info(msg)
 
 
-def tender_post_criteria_success_print_handler(response):
+def tender_post_criteria_success_handler(response):
     data = response.json()["data"]
 
     msg = "Tender criteria created:\n"
@@ -135,7 +135,7 @@ def tender_post_criteria_success_print_handler(response):
     logging.info(msg)
 
 
-def tender_check_status_success_print_handler(response):
+def tender_check_status_success_handler(response):
     data = response.json()["data"]
 
     msg = "Tender info:\n"
@@ -145,7 +145,7 @@ def tender_check_status_success_print_handler(response):
     logging.info(msg)
 
 
-def auction_participation_url_success_print_handler(response):
+def auction_participation_url_success_handler(response):
     data = response.json()["data"]
 
     msg = "Auction participation url for bid:\n"
