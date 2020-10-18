@@ -1,4 +1,3 @@
-import json
 import logging
 
 EX_OK = 0
@@ -6,10 +5,7 @@ EX_DATAERR = 65
 
 
 def default_error_handler(response):
-    try:
-        logging.info(json.loads(response.text))
-    except ValueError:
-        logging.info(response.text)
+    logging.info("Response text:\n{}".format(response.text))
     raise SystemExit(EX_DATAERR)
 
 
@@ -22,10 +18,7 @@ def response_handler(
     success_handler=default_success_handler,
     error_handler=default_error_handler
 ):
-    logging.info("[{}] {}\n".format(
-        response.request.method,
-        response.request.url
-    ))
+    logging.info("Response status code: {}\n".format(response.status_code))
     if response.status_code in [200, 201]:
         success_handler(response)
     else:

@@ -1,9 +1,8 @@
 from __future__ import absolute_import
 
+import logging
 from copy import deepcopy
 from base64 import b64encode
-
-from requests.adapters import HTTPAdapter
 
 try:
     from urllib.parse import urljoin
@@ -11,10 +10,17 @@ except ImportError:
     from urlparse import urljoin
 
 import requests
+import requests.adapters
 
 from procedure_tools.utils.handlers import response_handler
 
 API_PATH_PREFIX_DEFAULT = "/api/0/"
+
+
+class HTTPAdapter(requests.adapters.HTTPAdapter):
+    def send(self, request, *args, **kwargs):
+        logging.info("[{}] {}\n".format(request.method, request.url))
+        return super(HTTPAdapter, self).send(request, *args, **kwargs)
 
 
 class BaseApiClient(object):
@@ -27,6 +33,7 @@ class BaseApiClient(object):
             self.session = session
         else:
             self.session = requests.Session()
+        self.session.mount(host, HTTPAdapter())
 
     @staticmethod
     def _pop_handlers(kwargs, success_handler=None, error_handler=None):
