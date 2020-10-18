@@ -1,43 +1,38 @@
 name: Full Test Workflow
 
-on:
-  workflow_dispatch:
-    inputs:
-      case:
-        description: 'Test Case Name'
+on: [workflow_dispatch]
 
 jobs:
   pytest:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 2
+      max-parallel: 1
       matrix:
-        python-version: ['2.x', '3.x']
-        test-case:
-          - test_reporting
-          - test_negotiation
-          - test_negotiation_quick
-          - test_below_threshold
-          - test_below_threshold_multilot
-          - test_above_threshold_eu
-          - test_above_threshold_eu_multilot
-          - test_above_threshold_eu_plan
-          - test_above_threshold_eu_tender
-          - test_above_threshold_ua
-          - test_above_threshold_ua_defense
-          - test_close_framework_agreement_ua
-          - test_close_framework_agreement_ua_central
-          - test_competitive_dialogue_eu
-          - test_competitive_dialogue_ua
-          - test_esco
-          - test_esco_features
-          - test_esco_multilot
+        case:
+          - reporting
+          - negotiation
+          - negotiation_quick
+          - below_threshold
+          - below_threshold_multilot
+          - above_threshold_eu
+          - above_threshold_eu_multilot
+          - above_threshold_eu_plan
+          - above_threshold_eu_tender
+          - above_threshold_ua
+          - above_threshold_ua_defense
+          - close_framework_agreement_ua
+          - close_framework_agreement_ua_central
+          - competitive_dialogue_eu
+          - competitive_dialogue_ua
+          - esco
+          - esco_features
+          - esco_multilot
     steps:
       - uses: actions/checkout@v2
-      - name: Set up python ${{ matrix.python-version }}
+      - name: Set up python 3.x
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.x'
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -50,4 +45,4 @@ jobs:
           DS_USERNAME: ${{ secrets.DS_USERNAME }}
           DS_PASSWORD: ${{ secrets.DS_PASSWORD }}
         run: |
-          pytest procedure_tools/test.py::${{ matrix.test-case }}
+          pytest procedure_tools/test.py::test_${{ matrix.case }}

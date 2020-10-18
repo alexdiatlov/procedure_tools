@@ -32,7 +32,7 @@ skipifenv = pytest.mark.skipif(
 
 
 def run_test(argv):
-    default_args = ["--acceleration", "500000", "--path", "/api/2.5/"]
+    default_args = ["--acceleration", "100000", "--path", "/api/2.5/"]
     args = [
         os.environ.get(API_HOST),
         os.environ.get(API_TOKEN),

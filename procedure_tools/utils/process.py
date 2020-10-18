@@ -1,4 +1,6 @@
 import json
+import logging
+
 import math
 
 from datetime import datetime
@@ -41,7 +43,7 @@ EDR_FILENAME = "edr_identification.yaml"
 
 
 def get_bids(client, args, tender_id):
-    print("Check bids...\n")
+    logging.info("Check bids...\n")
     while True:
         response = client.get_bids(tender_id)
         if not response.json()["data"]:
@@ -52,7 +54,7 @@ def get_bids(client, args, tender_id):
 
 
 def patch_bids(client, args, tender_id, bids_ids, bids_tokens, filename_prefix=""):
-    print("Patching bids...\n")
+    logging.info("Patching bids...\n")
     for bid_index, bid_id in enumerate(bids_ids):
         with ignore(IOError):
             data_file = "{}bid_patch_{}.json".format(filename_prefix, bid_index)
@@ -69,7 +71,7 @@ def patch_bids(client, args, tender_id, bids_ids, bids_tokens, filename_prefix="
 
 
 def post_bid_res(client, args, tender_id, bids_ids, bids_tokens, bids_documents, tender_criteria, filename_prefix=""):
-    print("Post bids requirement responses...\n")
+    logging.info("Post bids requirement responses...\n")
     for bid_index, bid_id in enumerate(bids_ids):
         with ignore(IOError):
             data_file = "{}bid_res_post_{}.json".format(filename_prefix, bid_index)
@@ -97,7 +99,7 @@ def post_bid_res(client, args, tender_id, bids_ids, bids_tokens, bids_documents,
 
 
 def patch_agreements_with_contracts(client, args, tender_id, tender_token):
-    print("Checking agreements...\n")
+    logging.info("Checking agreements...\n")
     response = get_agreements(client, args, tender_id)
     agreements_ids = get_ids(response)
     response = get_tender(client, args, tender_id)
@@ -125,7 +127,7 @@ def patch_agreements_with_contracts(client, args, tender_id, tender_token):
 
 
 def patch_agreements(client, args, tender_id, agreements_ids, tender_token):
-    print("Patching agreements...\n")
+    logging.info("Patching agreements...\n")
     for agreement_index, agreement_id in enumerate(agreements_ids):
         with ignore(IOError):
             path = get_data_file_path("agreement_patch_{}.json".format(agreement_index), get_data_path(args.data))
@@ -153,7 +155,7 @@ def patch_agreement_contract(
     items_ids,
     tender_token,
 ):
-    print("Patching agreement contracts...\n")
+    logging.info("Patching agreement contracts...\n")
     for agreement_contract_index, agreement_contract_id in enumerate(agreement_contracts_ids):
         with ignore(IOError):
             index = bids_ids.index(agreement_contracts_related_bids[agreement_contract_index])
@@ -174,7 +176,7 @@ def patch_agreement_contract(
 
 
 def get_agreement_contract(client, args, tender_id, agreement_id):
-    print("Checking agreement contracts...")
+    logging.info("Checking agreement contracts...")
     while True:
         response = client.get_agreement_contracts(tender_id, agreement_id)
         if not response.json()["data"]:
@@ -219,7 +221,7 @@ def get_contract(client, args, contract_id):
 
 
 def patch_tender_qual(client, args, tender_id, tender_token):
-    print("Approving awards by switching to next status...\n")
+    logging.info("Approving awards by switching to next status...\n")
     with ignore(IOError):
         path = get_data_file_path("tender_patch_qual.json", get_data_path(args.data))
         with open_file_or_exit(path, exit_filename=args.stop) as f:
@@ -230,7 +232,7 @@ def patch_tender_qual(client, args, tender_id, tender_token):
 
 
 def patch_tender_waiting(client, args, tender_id, tender_token):
-    print("Finishing first stage by switching to next status...\n")
+    logging.info("Finishing first stage by switching to next status...\n")
     with ignore(IOError):
         path = get_data_file_path("tender_patch_waiting.json", get_data_path(args.data))
         with open_file_or_exit(path, exit_filename=args.stop) as f:
@@ -241,7 +243,7 @@ def patch_tender_waiting(client, args, tender_id, tender_token):
 
 
 def patch_awards(client, args, tender_id, awards_ids, tender_token, filename_prefix=""):
-    print("Patching awards...\n")
+    logging.info("Patching awards...\n")
     for award_index, awards_id in enumerate(awards_ids):
         with ignore(IOError):
             data_file = "{}award_patch_{}.json".format(filename_prefix, award_index)
@@ -254,7 +256,7 @@ def patch_awards(client, args, tender_id, awards_ids, tender_token, filename_pre
 
 
 def get_awards(client, args, tender_id):
-    print("Checking awards...\n")
+    logging.info("Checking awards...\n")
     while True:
         response = client.get_awards(tender_id)
         if not response.json()["data"]:
@@ -265,7 +267,7 @@ def get_awards(client, args, tender_id):
 
 
 def patch_contracts(client, args, tender_id, awards_ids, tender_token, filename_prefix=""):
-    print("Patching contracts...\n")
+    logging.info("Patching contracts...\n")
     for contract_index, contract_id in enumerate(awards_ids):
         with ignore(IOError):
             data_file = "{}contract_patch_{}.json".format(filename_prefix, contract_index)
@@ -282,7 +284,7 @@ def patch_contracts(client, args, tender_id, awards_ids, tender_token, filename_
 
 
 def get_contracts(client, args, tender_id):
-    print("Checking contracts...\n")
+    logging.info("Checking contracts...\n")
     while True:
         response = client.get_contracts(tender_id)
         if not response.json()["data"]:
@@ -293,7 +295,7 @@ def get_contracts(client, args, tender_id):
 
 
 def patch_tender_pre(client, args, tender_id, tender_token, filename_prefix=""):
-    print("Approving qualifications by switching to next status...\n")
+    logging.info("Approving qualifications by switching to next status...\n")
     with ignore(IOError):
         path = get_data_file_path("{}tender_patch_pre.json".format(filename_prefix), get_data_path(args.data))
         with open_file_or_exit(path, exit_filename=args.stop) as f:
@@ -304,7 +306,7 @@ def patch_tender_pre(client, args, tender_id, tender_token, filename_prefix=""):
 
 
 def patch_qualifications(client, args, tender_id, qualifications_ids, tender_token, filename_prefix=""):
-    print("Patching qualifications...\n")
+    logging.info("Patching qualifications...\n")
     for qualification_index, qualification_id in enumerate(qualifications_ids):
         with ignore(IOError):
             data_file = "{}qualification_patch_{}.json".format(filename_prefix, qualification_index)
@@ -321,7 +323,7 @@ def patch_qualifications(client, args, tender_id, qualifications_ids, tender_tok
 
 
 def get_qualifications(client, args, tender_id):
-    print("Checking qualifications...\n")
+    logging.info("Checking qualifications...\n")
     while True:
         response = client.get_qualifications(tender_id)
         if not response.json()["data"]:
@@ -332,7 +334,7 @@ def get_qualifications(client, args, tender_id):
 
 
 def create_awards(client, args, tender_id, tender_token):
-    print("Creating awards...\n")
+    logging.info("Creating awards...\n")
     award_files = []
     for data_file in get_data_all_files(get_data_path(args.data)):
         if data_file.startswith("award_create"):
@@ -348,7 +350,7 @@ def create_awards(client, args, tender_id, tender_token):
 
 
 def create_bids(client, ds_client, args, tender_id, filename_prefix=""):
-    print("Creating bids...\n")
+    logging.info("Creating bids...\n")
     bid_files = []
     for data_file in get_data_all_files(get_data_path(args.data)):
         if data_file.startswith("{}bid_create".format(filename_prefix)):
@@ -378,7 +380,7 @@ def create_bids(client, ds_client, args, tender_id, filename_prefix=""):
 
 
 def create_plan(client, args, filename_prefix=""):
-    print("Creating plan...\n")
+    logging.info("Creating plan...\n")
     with ignore(IOError):
         path = get_data_file_path("{}plan_create.json".format(filename_prefix), get_data_path(args.data))
         with open_file_or_exit(path, exit_filename=args.stop) as f:
@@ -390,7 +392,7 @@ def create_plan(client, args, filename_prefix=""):
 
 
 def create_tender(client, args, plan_id=None, agreement_id=None, filename_prefix=""):
-    print("Creating tender...\n")
+    logging.info("Creating tender...\n")
     with ignore(IOError):
         path = get_data_file_path("{}tender_create.json".format(filename_prefix), get_data_path(args.data))
         with open_file_or_exit(path, exit_filename=args.stop) as f:
@@ -424,15 +426,17 @@ def wait(date_str, date_info_str=None):
     delta_seconds = date_timedelta.total_seconds()
     date_seconds = math.ceil(delta_seconds) if delta_seconds > 0 else 0
     info_str = " for {}".format(date_info_str) if date_info_str else ""
-    print("Waiting {} seconds{} - {}...\n".format(date_seconds, info_str, date_str))
+    logging.info("Waiting {} seconds{} - {}...\n".format(date_seconds, info_str, date_str))
     sleep(date_seconds)
 
 
 def wait_status(client, args, tender_id, status, fallback=None):
-    print("Waiting for {}...\n".format(status))
+    logging.info("Waiting for {}...\n".format(status))
+    if not isinstance(status, list):
+        status = [status]
     while True:
         response = client.get_tender(tender_id)
-        if not response.json()["data"]["status"] == status:
+        if response.json()["data"]["status"] not in status:
             sleep(TENDER_SECONDS_BUFFER)
             if fallback:
                 fallback()
@@ -443,7 +447,7 @@ def wait_status(client, args, tender_id, status, fallback=None):
 
 
 def patch_stage2_credentials(client, args, stage2_tender_id, tender_token):
-    print("Getting credentials for second stage...\n")
+    logging.info("Getting credentials for second stage...\n")
     with ignore(IOError):
         path = get_data_file_path("stage2_tender_credentials.json", get_data_path(args.data))
         with open_file_or_exit(path, exit_filename=args.stop) as f:
@@ -454,14 +458,14 @@ def patch_stage2_credentials(client, args, stage2_tender_id, tender_token):
 
 
 def patch_contract_credentials(client, args, contract_id, tender_token):
-    print("Getting credentials for contract...\n")
+    logging.info("Getting credentials for contract...\n")
     return client.patch_credentials(
         contract_id, tender_token, {}, success_handler=contract_credentials_success_print_handler
     )
 
 
 def patch_tender_tendering(client, args, tender_id, tender_token, filename_prefix=""):
-    print("Activating tender by switching to next status...\n")
+    logging.info("Activating tender by switching to next status...\n")
     with ignore(IOError):
         path = get_data_file_path("{}tender_patch_tendering.json".format(filename_prefix), get_data_path(args.data))
         with open_file_or_exit(path, exit_filename=args.stop) as f:
@@ -472,7 +476,7 @@ def patch_tender_tendering(client, args, tender_id, tender_token, filename_prefi
 
 
 def patch_tender_pending(client, args, tender_id, tender_token, filename_prefix=""):
-    print("Activating tender by switching to next status...\n")
+    logging.info("Activating tender by switching to next status...\n")
     with ignore(IOError):
         path = get_data_file_path("{}tender_patch_pending.json".format(filename_prefix), get_data_path(args.data))
         with open_file_or_exit(path, exit_filename=args.stop) as f:
@@ -483,7 +487,7 @@ def patch_tender_pending(client, args, tender_id, tender_token, filename_prefix=
 
 
 def post_criteria(client, args, tender_id, tender_token, filename_prefix=""):
-    print("Create tender criteria...\n")
+    logging.info("Create tender criteria...\n")
     with ignore(IOError):
         path = get_data_file_path("{}criteria_create.json".format(filename_prefix), get_data_path(args.data))
         with open_file_or_exit(path, exit_filename=args.stop) as f:
@@ -494,7 +498,7 @@ def post_criteria(client, args, tender_id, tender_token, filename_prefix=""):
 
 
 def patch_tender(client, args, tender_id, tender_token, filename_prefix=""):
-    print("Patching tender...\n")
+    logging.info("Patching tender...\n")
     with ignore(IOError):
         path = get_data_file_path("{}tender_patch.json".format(filename_prefix), get_data_path(args.data))
         with open_file_or_exit(path, exit_filename=args.stop) as f:
@@ -505,7 +509,7 @@ def patch_tender(client, args, tender_id, tender_token, filename_prefix=""):
 
 
 def wait_edr_pre_qual(client, args, tender_id):
-    print("Waiting for {} in qualifications documents...\n".format(EDR_FILENAME))
+    logging.info("Waiting for {} in qualifications documents...\n".format(EDR_FILENAME))
     response = get_qualifications(client, args, tender_id)
     for qualification in response.json()["data"]:
         while EDR_FILENAME not in [doc["title"] for doc in qualification.get("documents", [])]:
@@ -514,7 +518,7 @@ def wait_edr_pre_qual(client, args, tender_id):
 
 
 def wait_edr_qual(client, args, tender_id):
-    print("Waiting for {} in awards documents...\n".format(EDR_FILENAME))
+    logging.info("Waiting for {} in awards documents...\n".format(EDR_FILENAME))
     response = get_awards(client, args, tender_id)
     for award in response.json()["data"]:
         while EDR_FILENAME not in [doc["title"] for doc in award.get("documents", [])]:
@@ -523,7 +527,7 @@ def wait_edr_qual(client, args, tender_id):
 
 
 def wait_auction_participation_urls(client, tender_id, bids):
-    print("Waiting for the auction participation urls...\n")
+    logging.info("Waiting for the auction participation urls...\n")
     for bid in bids:
         while True:
             response = client.get_bid(tender_id, bid["data"]["id"], bid["access"]["token"])

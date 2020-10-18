@@ -83,40 +83,41 @@ procedure https://lb-api-sandbox-2.prozorro.gov.ua broker_api_token https://uplo
 procedure https://lb-api-sandbox-2.prozorro.gov.ua broker_api_token https://upload-docs-sandbox-2.prozorro.gov.ua broker_ds_username broker_ds_password --acceleration=1000000 --path=/api/0/ --data=closeFrameworkAgreementUA --stop=bid_create_4.json
 ```
 ```
-Creating plan...
+[23:05:37] Creating plan...
 
-Processing data file: plan_create.json
+[23:05:37] Processing data file: plan_create.json
 
-[POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/plans
+[23:05:38] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/plans
 
-Plan created:
- - id 				03b12f79950f473cb595dd29045daf8e
- - token 			04f3aa6bf9034511a3c451e097c33d8a
- - transfer 			79bc92174b9f4677a6d13c2ee4cd329d
+[23:05:38] Plan created:
+ - id 				b471fb7239ca4e6cb7bc8b91605540c7
+ - token 			0739c98953a3436e906f5e414934ffe5
+ - transfer 			c1f40e10d38747e78b84a90c50b62bb1
 
-Creating tender...
+[23:05:38] Creating tender...
 
-Processing data file: tender_create.json
+[23:05:38] Processing data file: tender_create.json
 
-[POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/plans/03b12f79950f473cb595dd29045daf8e/tenders
+[23:05:38] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/plans/b471fb7239ca4e6cb7bc8b91605540c7/tenders
 
-Tender created:
- - id 				6897cad4993d429fa01cabcd753e4c52
- - token 			f20f5e93798d4e4290805baa2e080881
- - transfer 			0eee417d283d4164aefa5b038e93b002
+[23:05:38] Tender created:
+ - id 				ccda8b7a55a84e11a28559db9591eecb
+ - token 			304afaca2f154731892c89b9d6f0b6ef
+ - transfer 			9520be3b741c46c594edc225335bc3bd
  - status 			draft
- - tenderID 			UA-2020-10-16-000077-a
+ - tenderID 			UA-2020-10-18-000250-a
+ - tenderID 			UA-2020-10-18-000250-a
  - procurementMethodType 	closeFrameworkAgreementUA
 
-[GET] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/6897cad4993d429fa01cabcd753e4c52
+[23:05:38] [GET] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/ccda8b7a55a84e11a28559db9591eecb
 
-Create tender criteria...
+[23:05:38] Create tender criteria...
 
-Processing data file: criteria_create.json
+[23:05:38] Processing data file: criteria_create.json
 
-[POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/6897cad4993d429fa01cabcd753e4c52/criteria?acc_token=f20f5e93798d4e4290805baa2e080881
+[23:05:38] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/ccda8b7a55a84e11a28559db9591eecb/criteria?acc_token=304afaca2f154731892c89b9d6f0b6ef
 
-Tender criteria created:
+[23:05:38] Tender criteria created:
  - classification.id 				CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION
  - classification.id 				CRITERION.EXCLUSION.CONVICTIONS.FRAUD
  - classification.id 				CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION
@@ -126,68 +127,69 @@ Tender criteria created:
  - classification.id 				CRITERION.EXCLUSION.MISCONDUCT.MARKET_DISTORTION
  - classification.id 				CRITERION.EXCLUSION.CONFLICT_OF_INTEREST.MISINTERPRETATION
  - classification.id 				CRITERION.EXCLUSION.NATIONAL.OTHER
-Patching tender...
 
-Processing data file: tender_patch.json
+[23:05:38] Patching tender...
 
-[PATCH] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/6897cad4993d429fa01cabcd753e4c52?acc_token=f20f5e93798d4e4290805baa2e080881
+[23:05:38] Processing data file: tender_patch.json
 
-Tender status patched:
- - id 				6897cad4993d429fa01cabcd753e4c52
+[23:05:38] [PATCH] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/ccda8b7a55a84e11a28559db9591eecb?acc_token=304afaca2f154731892c89b9d6f0b6ef
+
+[23:05:38] Tender status patched:
+ - id 				ccda8b7a55a84e11a28559db9591eecb
  - status 			active.tendering
 
-Creating bids...
+[23:05:38] Creating bids...
 
-Processing data file: bid_document.txt
+[23:05:38] Processing data file: bid_document.txt
 
-[POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
+[23:05:39] [POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
 
-Processing data file: bid_create_0.json
+[23:05:39] Processing data file: bid_create_0.json
 
-[POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/6897cad4993d429fa01cabcd753e4c52/bids
+[23:05:39] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/ccda8b7a55a84e11a28559db9591eecb/bids
 
-Bid created:
- - id 				1b04c717d2fa4c2d91e3952776bb8108
- - token 			2ee8ba342df64eefacd0d0d460343489
+[23:05:39] Bid created:
+ - id 				f121b9e0e93f4e48954a28b052bdb1c9
+ - token 			d35999d7b2284b7aa7572afbb110af18
  - status 			draft
 
-Processing data file: bid_document.txt
+[23:05:39] Processing data file: bid_document.txt
 
-[POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
+[23:05:39] [POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
 
-Processing data file: bid_create_1.json
+[23:05:39] Processing data file: bid_create_1.json
 
-[POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/6897cad4993d429fa01cabcd753e4c52/bids
+[23:05:40] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/ccda8b7a55a84e11a28559db9591eecb/bids
 
-Bid created:
- - id 				467c57c4fde244a2aa1a858d9408469c
- - token 			5673ccd6dbf8499ca48396f68af66e00
+[23:05:40] Bid created:
+ - id 				f5a707c273564261891bb187183aaa06
+ - token 			12096346ae0e4d669f4408ba0ae7df2c
  - status 			draft
 
-Processing data file: bid_document.txt
+[23:05:40] Processing data file: bid_document.txt
 
-[POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
+[23:05:40] [POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
 
-Processing data file: bid_create_2.json
+[23:05:40] Processing data file: bid_create_2.json
 
-[POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/6897cad4993d429fa01cabcd753e4c52/bids
+[23:05:40] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/ccda8b7a55a84e11a28559db9591eecb/bids
 
-Bid created:
- - id 				863b122332c542459efc5e55600d0498
- - token 			b79a17970a964aeea0ac9780ce75aad8
+[23:05:40] Bid created:
+ - id 				124ced0902674128a5b9b6c142bc503d
+ - token 			dbd9992379f443cf962164d0314d5fec
  - status 			draft
 
-Processing data file: bid_document.txt
+[23:05:40] Processing data file: bid_document.txt
 
-[POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
+[23:05:40] [POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
 
-Processing data file: bid_create_3.json
+[23:05:40] Processing data file: bid_create_3.json
 
-[POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/6897cad4993d429fa01cabcd753e4c52/bids
+[23:05:40] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/ccda8b7a55a84e11a28559db9591eecb/bids
 
-Bid created:
- - id 				5dec2bce595d4bc185de9e6d71c4fa99
- - token 			cc22348e0180497eab082e51853d2e7e
+[23:05:40] Bid created:
+ - id 				64a68a08dd0c4c87a34ddb1291ffd6be
+ - token 			8b39a443341a4ba593c547eee40c10fe
  - status 			draft
 
 ```

@@ -3,6 +3,8 @@ from __future__ import absolute_import
 from copy import deepcopy
 from base64 import b64encode
 
+from requests.adapters import HTTPAdapter
+
 try:
     from urllib.parse import urljoin
 except ImportError:
@@ -18,9 +20,14 @@ API_PATH_PREFIX_DEFAULT = "/api/0/"
 class BaseApiClient(object):
     SPORE_PATH = "spore"
 
-    def __init__(self, host, **request_kwargs):
+    def __init__(self, host, session=None, **request_kwargs):
         self.host = host
         self.kwargs = request_kwargs
+        if session:
+            self.session = session
+        else:
+            self.session = requests.Session()
+        self.session.mount(host, HTTPAdapter(max_retries=10))
 
     @staticmethod
     def _pop_handlers(kwargs, success_handler=None, error_handler=None):
@@ -41,7 +48,7 @@ class BaseApiClient(object):
         handlers = self._pop_handlers(kwargs)
         request_kwargs.update(kwargs)
         url = self._get_url(path)
-        response = requests.get(url=url, **request_kwargs)
+        response = self.session.get(url=url, **request_kwargs)
         response_handler(response, **handlers)
         return response
 
@@ -50,7 +57,7 @@ class BaseApiClient(object):
         handlers = self._pop_handlers(kwargs)
         request_kwargs.update(kwargs)
         url = self._get_url(path)
-        response = requests.post(url=url, json=json, **request_kwargs)
+        response = self.session.post(url=url, json=json, **request_kwargs)
         response_handler(response, **handlers)
         return response
 
@@ -59,7 +66,7 @@ class BaseApiClient(object):
         handlers = self._pop_handlers(kwargs)
         request_kwargs.update(kwargs)
         url = self._get_url(path)
-        response = requests.patch(url=url, json=json, **request_kwargs)
+        response = self.session.patch(url=url, json=json, **request_kwargs)
         response_handler(response, **handlers)
         return response
 
@@ -68,11 +75,11 @@ class BaseCDBClient(BaseApiClient):
     SPORE_PATH = "spore"
     HEADERS_DEFAULT = {"Content-Type": "application/json"}
 
-    def __init__(self, host, auth_token=None, path_prefix=API_PATH_PREFIX_DEFAULT, **request_kwargs):
-        super(BaseCDBClient, self).__init__(host, **request_kwargs)
+    def __init__(self, host, auth_token=None, path_prefix=API_PATH_PREFIX_DEFAULT, session=None, **request_kwargs):
+        super(BaseCDBClient, self).__init__(host, session=session, **request_kwargs)
         self.path_prefix = path_prefix
         self._set_headers(request_kwargs, auth_token)
-        self._set_server_id_cookie(request_kwargs)
+        self._init_session(request_kwargs)
 
     def _set_headers(self, request_kwargs, auth_token):
         headers = self.HEADERS_DEFAULT
@@ -82,13 +89,9 @@ class BaseCDBClient(BaseApiClient):
         request_kwargs.update(dict(headers=headers))
         self.kwargs.update(request_kwargs)
 
-    def _set_server_id_cookie(self, request_kwargs):
-        url = self._get_url(self._get_api_path(self.SPORE_PATH))
-        server_id = requests.get(url).cookies.get("SERVER_ID")
-        cookies = request_kwargs.pop("cookies", {})
-        cookies.update({"SERVER_ID": server_id})
-        request_kwargs.update(dict(cookies=cookies))
-        self.kwargs.update(request_kwargs)
+    def _init_session(self, request_kwargs):
+        spore_url = self._get_url(self._get_api_path(self.SPORE_PATH))
+        self.session.get(spore_url)  # GET request to retrieve SERVER_ID cookie
 
     def _get_api_path(self, path, acc_token=None):
         return urljoin(self.path_prefix, urljoin(path, "?acc_token={}".format(acc_token) if acc_token else None))
@@ -283,8 +286,8 @@ class DsApiClient(BaseApiClient):
     UPLOAD_PATH = "upload"
     HEADERS_DEFAULT = {}
 
-    def __init__(self, host, username=None, password=None, **request_kwargs):
-        super(DsApiClient, self).__init__(host, **request_kwargs)
+    def __init__(self, host, username=None, password=None, session=None, **request_kwargs):
+        super(DsApiClient, self).__init__(host, session=session, **request_kwargs)
         self._set_headers(request_kwargs, username, password)
 
     def _set_headers(self, request_kwargs, username, password):
