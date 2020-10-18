@@ -1,6 +1,5 @@
 import json
 import logging
-from dateutil import parser, tz
 
 EX_OK = 0
 EX_DATAERR = 65
@@ -19,15 +18,14 @@ def default_success_print_handler(response):
 
 
 def response_handler(
-    response, success_handler=default_success_print_handler, error_handler=default_error_print_handler
+    response,
+    success_handler=default_success_print_handler,
+    error_handler=default_error_print_handler
 ):
-    logging.info("[{}] [{}] {}\n".format(
+    logging.info("[{}] {}\n".format(
         response.request.method,
-        parser.parse(
-            response.headers.get("Date")
-        ).replace(tzinfo=tz.tzlocal()).isoformat(),
-        response.request.url)
-    )
+        response.request.url
+    ))
     if response.status_code in [200, 201]:
         success_handler(response)
     else:
