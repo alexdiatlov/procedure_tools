@@ -434,7 +434,7 @@ def wait_status(client, args, tender_id, status, fallback=None):
         status = [status]
     while True:
         response = client.get_tender(tender_id)
-        if not response.json()["data"]["status"] in status:
+        if response.json()["data"]["status"] not in status:
             sleep(TENDER_SECONDS_BUFFER)
             if fallback:
                 fallback()
