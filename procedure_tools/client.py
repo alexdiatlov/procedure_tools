@@ -27,7 +27,6 @@ class BaseApiClient(object):
             self.session = session
         else:
             self.session = requests.Session()
-        self.session.mount(host, HTTPAdapter(max_retries=10))
 
     @staticmethod
     def _pop_handlers(kwargs, success_handler=None, error_handler=None):
