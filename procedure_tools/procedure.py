@@ -2,6 +2,7 @@ from __future__ import absolute_import
 
 import argparse
 import sys
+import logging
 
 import requests
 
@@ -62,6 +63,13 @@ from procedure_tools.utils.data import (
 )
 from procedure_tools.utils.handlers import EX_OK
 
+logging.basicConfig(
+    stream=sys.stdout,
+    level=logging.INFO,
+    format='[%(asctime)s] %(message)s',
+    datefmt='%H:%M'
+)
+
 WAIT_EDR_QUAL = "edr-qualification"
 WAIT_EDR_PRE_QUAL = "edr-pre-qualification"
 
@@ -86,7 +94,7 @@ def create_procedure(args, session=None):
 
         process_procedure(tenders_client, args, tender_id, tender_token, session=session)
 
-    print("Completed.\n")
+    logging.info("Completed.\n")
 
 
 def process_procedure(client, args, tender_id, tender_token, filename_prefix="", session=None):
@@ -426,10 +434,6 @@ def main():
         create_procedure(parser.parse_args(), session=session)
     except SystemExit as e:
         sys.exit(e)
-    except KeyboardInterrupt as e:
-        print("")
-        print("Stopping...")
-        raise
     else:
         sys.exit(EX_OK)
 

@@ -1,5 +1,6 @@
 import json
-from pprint import pprint
+import logging
+from dateutil import parser, tz
 
 EX_OK = 0
 EX_DATAERR = 65
@@ -7,11 +8,9 @@ EX_DATAERR = 65
 
 def default_error_print_handler(response):
     try:
-        pprint(json.loads(response.text))
-        print("")
+        logging.info(json.loads(response.text))
     except ValueError:
-        print(response.text)
-        print("")
+        logging.info(response.text)
     raise SystemExit(EX_DATAERR)
 
 
@@ -22,7 +21,13 @@ def default_success_print_handler(response):
 def response_handler(
     response, success_handler=default_success_print_handler, error_handler=default_error_print_handler
 ):
-    print("[{}] {}\n".format(response.request.method, response.request.url))
+    logging.info("[{}] [{}] {}\n".format(
+        response.request.method,
+        parser.parse(
+            response.headers.get("Date")
+        ).replace(tzinfo=tz.tzlocal()).isoformat(),
+        response.request.url)
+    )
     if response.status_code in [200, 201]:
         success_handler(response)
     else:
@@ -32,98 +37,121 @@ def response_handler(
 def tender_create_success_print_handler(response):
     data = response.json()["data"]
     access = response.json()["access"]
-    print("Tender created:")
-    print(" - id \t\t\t\t{}".format(data["id"]))
-    print(" - token \t\t\t{}".format(access["token"]))
+
+    msg = "Tender created:\n"
+    msg += " - id \t\t\t\t{}\n".format(data["id"])
+    msg += " - token \t\t\t{}\n".format(access["token"])
     if "transfer" in access:
-        print(" - transfer \t\t\t{}".format(access["transfer"]))
-    print(" - status \t\t\t{}".format(data["status"]))
-    print(" - tenderID \t\t\t{}".format(data["tenderID"]))
-    print(" - procurementMethodType \t{}".format(data["procurementMethodType"]))
-    print("")
+        msg += " - transfer \t\t\t{}\n".format(access["transfer"])
+    msg += " - status \t\t\t{}\n".format(data["status"])
+    msg += " - tenderID \t\t\t{}\n".format(data["tenderID"])
+    msg += " - tenderID \t\t\t{}\n".format(data["tenderID"])
+    msg += " - procurementMethodType \t{}\n".format(data["procurementMethodType"])
+
+    logging.info(msg)
 
 
 def plan_create_success_print_handler(response):
     data = response.json()["data"]
     access = response.json()["access"]
-    print("Plan created:")
-    print(" - id \t\t\t\t{}".format(data["id"]))
-    print(" - token \t\t\t{}".format(access["token"]))
+
+    msg = "Plan created:\n"
+    msg += " - id \t\t\t\t{}\n".format(data["id"])
+    msg += " - token \t\t\t{}\n".format(access["token"])
     if "transfer" in access:
-        print(" - transfer \t\t\t{}".format(access["transfer"]))
-    print("")
+        msg += " - transfer \t\t\t{}\n".format(access["transfer"])
+
+    logging.info(msg)
 
 
 def contract_credentials_success_print_handler(response):
     data = response.json()["data"]
     access = response.json()["access"]
-    print("Contract patched:")
-    print(" - id \t\t\t\t{}".format(data["id"]))
-    print(" - token \t\t\t{}".format(access["token"]))
-    print("")
+
+    msg = "Contract patched:\n"
+    msg += " - id \t\t\t\t{}\n".format(data["id"])
+    msg += " - token \t\t\t{}\n".format(access["token"])
+
+    logging.info(msg)
 
 
 def bid_create_success_print_handler(response):
     data = response.json()["data"]
     access = response.json()["access"]
-    print("Bid created:")
-    print(" - id \t\t\t\t{}".format(data["id"]))
-    print(" - token \t\t\t{}".format(access["token"]))
-    print(" - status \t\t\t{}".format(data["status"]))
-    print("")
+
+    msg = "Bid created:\n"
+    msg += " - id \t\t\t\t{}\n".format(data["id"])
+    msg += " - token \t\t\t{}\n".format(access["token"])
+    msg += " - status \t\t\t{}\n".format(data["status"])
+
+    logging.info(msg)
 
 
 def item_create_success_print_handler(response):
     data = response.json()["data"]
-    print("Item created:")
-    print(" - id \t\t\t\t{}".format(data["id"]))
-    print(" - status \t\t\t{}".format(data["status"]))
-    print("")
+
+    msg = "Item created:\n"
+    msg += " - id \t\t\t\t{}\n".format(data["id"])
+    msg += " - status \t\t\t{}\n".format(data["status"])
+
+    logging.info(msg)
 
 
 def item_get_success_print_handler(response):
     data = response.json()["data"]
     for item in data:
-        print("Item found:")
-        print(" - id \t\t\t\t{}".format(item["id"]))
-        print(" - status \t\t\t{}".format(item["status"]))
-        print("")
+        msg = "Item found:\n"
+        msg += " - id \t\t\t\t{}\n".format(data["id"])
+        msg += " - status \t\t\t{}\n".format(item["status"])
+
+        logging.info(msg)
 
 
 def item_patch_success_print_handler(response):
     data = response.json()["data"]
-    print("Item patched:")
-    print(" - id \t\t\t\t{}".format(data["id"]))
-    print(" - status \t\t\t{}".format(data["status"]))
-    print("")
+
+    msg = "Item patched:\n"
+    msg += " - id \t\t\t\t{}\n".format(data["id"])
+    msg += " - status \t\t\t{}\n".format(data["status"])
+
+    logging.info(msg)
 
 
 def tender_patch_status_success_print_handler(response):
     data = response.json()["data"]
-    print("Tender status patched:")
-    print(" - id \t\t\t\t{}".format(data["id"]))
-    print(" - status \t\t\t{}".format(data["status"]))
-    print("")
+
+    msg = "Tender status patched:\n"
+    msg += " - id \t\t\t\t{}\n".format(data["id"])
+    msg += " - status \t\t\t{}\n".format(data["status"])
+
+    logging.info(msg)
 
 
 def tender_post_criteria_success_print_handler(response):
     data = response.json()["data"]
-    print("Tender criteria created:")
+
+    msg = "Tender criteria created:\n"
     for item in data:
-        print(" - classification.id \t\t\t\t{}".format(item["classification"]["id"]))
+        msg += " - classification.id \t\t\t\t{}\n".format(item["classification"]["id"])
+
+    logging.info(msg)
 
 
 def tender_check_status_success_print_handler(response):
     data = response.json()["data"]
-    print("Tender info:")
-    print(" - id \t\t\t\t{}".format(data["id"]))
-    print(" - status \t\t\t{}".format(data["status"]))
-    print("")
+
+    msg = "Tender info:\n"
+    msg += " - id \t\t\t\t{}\n".format(data["id"])
+    msg += " - status \t\t\t{}\n".format(data["status"])
+
+    logging.info(msg)
 
 
 def auction_participation_url_success_print_handler(response):
     data = response.json()["data"]
-    print("Auction participation url for bid:")
-    print(" - id \t\t\t\t{}".format(data["id"]))
-    print(" - url \t\t\t{}".format(data["participationUrl"]))
-    print("")
+
+    msg = "Auction participation url for bid:\n"
+    msg += " - id \t\t\t\t{}\n".format(data["id"])
+    msg += " - url \t\t\t{}\n".format(data["participationUrl"])
+
+    logging.info(msg)

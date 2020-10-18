@@ -1,3 +1,4 @@
+import logging
 import os
 import io
 
@@ -11,7 +12,7 @@ def open_file(
     path, mode="r", encoding="UTF-8", raise_filename=None, raise_exception=None, raise_exception_args=None, **kwargs
 ):
     _, file_name = os.path.split(path)
-    print("Processing data file: {}\n".format(file_name))
+    logging.info("Processing data file: {}\n".format(file_name))
     try:
         file = io.open(path, mode, encoding=encoding if "b" not in mode else None, **kwargs)
         yield file
@@ -44,5 +45,4 @@ def ignore(*exceptions):
     try:
         yield
     except exceptions:
-        print("Skipping...")
-        print("")
+        logging.info("Skipping...\n")
