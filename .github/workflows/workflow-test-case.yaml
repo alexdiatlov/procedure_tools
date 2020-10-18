@@ -8,7 +8,7 @@ on:
         required: false
 
 jobs:
-  pytest_path:
+  pytest:
     if: github.event.inputs.case != ''
     runs-on: ubuntu-latest
     env:
