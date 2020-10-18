@@ -65,7 +65,7 @@ from procedure_tools.utils.handlers import EX_OK
 
 logging.basicConfig(
     stream=sys.stdout,
-    level=logging.INFO,
+    level=logging.DEBUG,
     format='[%(asctime)s] %(message)s',
     datefmt='%H:%M:%S'
 )
