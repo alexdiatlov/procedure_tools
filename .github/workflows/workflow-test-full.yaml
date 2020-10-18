@@ -27,6 +27,8 @@ jobs:
           - esco
           - esco_features
           - esco_multilot
+    env:
+      PYTHONUNBUFFERED: 1
     steps:
       - uses: actions/checkout@v2
       - name: Set up python 3.x

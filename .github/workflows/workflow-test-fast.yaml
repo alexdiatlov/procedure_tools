@@ -13,6 +13,8 @@ jobs:
       max-parallel: 1
       matrix:
         python-version: ['2.x', '3.x']
+    env:
+      PYTHONUNBUFFERED: 1
     steps:
       - uses: actions/checkout@v2
       - name: Set up python ${{ matrix.python-version }}
