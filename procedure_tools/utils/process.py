@@ -430,9 +430,11 @@ def wait(date_str, date_info_str=None):
 
 def wait_status(client, args, tender_id, status, fallback=None):
     print("Waiting for {}...\n".format(status))
+    if not isinstance(status, list):
+        status = [status]
     while True:
         response = client.get_tender(tender_id)
-        if not response.json()["data"]["status"] == status:
+        if not response.json()["data"]["status"] in status:
             sleep(TENDER_SECONDS_BUFFER)
             if fallback:
                 fallback()

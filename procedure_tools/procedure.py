@@ -226,7 +226,11 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="")
         "competitiveDialogueEU.stage2",
         "esco",
     ):
-        wait_status(client, args, tender_id, "active.auction")
+        wait_status(client, args, tender_id, [
+            "active.auction",
+            "active.qualification",
+            "active.awarded"
+        ])
 
     if method_type in (
         "closeFrameworkAgreementUA",
@@ -238,9 +242,10 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="")
         "competitiveDialogueEU.stage2",
         "competitiveDialogueUA.stage2",
         "esco",
-    ) and bid_responses and (
-        "fast-forward" not in submission_method_details or "no-auction" not in submission_method_details
-    ):
+    ) and bid_responses and all([
+        "mode:fast-forward" not in submission_method_details,
+        "mode:no-auction" not in submission_method_details
+    ]):
         wait_auction_participation_urls(client, tender_id, bid_responses)
 
     if method_type in ("negotiation", "negotiation.quick", "reporting"):
