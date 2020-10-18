@@ -360,7 +360,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         response = patch_stage2_credentials(client, args, tender_id, tender_token)
         tender_token = get_token(response)
 
-        process_procedure(client, args, tender_id, tender_token, filename_prefix="stage2_")
+        process_procedure(client, args, tender_id, tender_token, filename_prefix="stage2_", session=session)
 
     if method_type in ("closeFrameworkAgreementUA",):
         response = get_tender(client, args, tender_id)
@@ -373,7 +373,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         tender_id = get_id(response)
         tender_token = get_token(response)
 
-        process_procedure(client, args, tender_id, tender_token, filename_prefix="selection_")
+        process_procedure(client, args, tender_id, tender_token, filename_prefix="selection_", session=session)
 
 
 def main():
