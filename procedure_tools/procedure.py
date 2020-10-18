@@ -67,7 +67,7 @@ logging.basicConfig(
     stream=sys.stdout,
     level=logging.INFO,
     format='[%(asctime)s] %(message)s',
-    datefmt='%H:%M'
+    datefmt='%H:%M:%S'
 )
 
 WAIT_EDR_QUAL = "edr-qualification"
