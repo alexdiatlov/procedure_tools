@@ -3,7 +3,7 @@ import logging
 import requests.adapters
 
 
-DEFAULT_TIMEOUT = 10
+DEFAULT_TIMEOUT = 60
 DEFAULT_MAX_RETRIES = 10
 
 
