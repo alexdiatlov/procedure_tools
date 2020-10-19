@@ -18,11 +18,17 @@ from procedure_tools.version import __version__
 API_PATH_PREFIX_DEFAULT = "/api/0/"
 
 DEFAULT_TIMEOUT = 10
+DEFAULT_MAX_RETRIES = 10
 
 
 class HTTPAdapter(requests.adapters.HTTPAdapter):
+
+    def __init__(self, timeout=None, *args, **kwargs):
+        self.timeout = timeout
+        super(HTTPAdapter, self).__init__(*args, **kwargs)
+
     def send(self, request, *args, **kwargs):
-        kwargs['timeout'] = DEFAULT_TIMEOUT
+        kwargs['timeout'] = self.timeout
         logging.info("[{}] {}".format(request.method, request.url))
         return super(HTTPAdapter, self).send(request, *args, **kwargs)
 
@@ -38,7 +44,10 @@ class BaseApiClient(object):
         self.host = host
         self.kwargs = kwargs
         self.session = session if session else requests.Session()
-        self.session.mount(host, HTTPAdapter())
+        self.session.mount(host, HTTPAdapter(
+            timeout=DEFAULT_TIMEOUT,
+            max_retries=DEFAULT_MAX_RETRIES
+        ))
         self.set_default_kwargs()
 
     def set_default_kwargs(self):
