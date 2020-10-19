@@ -1,7 +1,7 @@
 {
   "data": {
-    "status": "active",
-    "qualified": true,
-    "eligible": true
+    "eligible": true, 
+    "qualified": true, 
+    "status": "active"
   }
 }

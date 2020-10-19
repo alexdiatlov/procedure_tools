@@ -1,6 +1,6 @@
 {
   "data": {
-    "status": "active",
-    "qualified": true
+    "qualified": true, 
+    "status": "active"
   }
 }

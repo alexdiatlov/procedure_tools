@@ -1,32 +1,32 @@
 {
   "data": {
-    "status": "draft",
-    "selfQualified": true,
-    "value": {
-      "amount": 499
-    },
+    "selfQualified": true, 
+    "status": "draft", 
     "tenderers": [
       {
-        "contactPoint": {
-          "telephone": "+380 (111) 11-11-11",
-          "name": "Контактенко Контакт Контактович",
-          "email": "business@example.com"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137226",
-          "uri": "http://factory.example.com"
-        },
-        "name": "Тестове державне комунальне підприємство",
-        "scale": "micro",
         "address": {
-          "countryName": "Україна",
-          "postalCode": "79013",
-          "region": "Львівська область",
-          "streetAddress": "вул. Тестова 34",
-          "locality": "м. Львів"
-        }
+          "countryName": "Україна", 
+          "locality": "м. Львів", 
+          "postalCode": "79013", 
+          "region": "Львівська область", 
+          "streetAddress": "вул. Тестова 34"
+        }, 
+        "contactPoint": {
+          "email": "business@example.com", 
+          "name": "Контактенко Контакт Контактович", 
+          "telephone": "+380 (111) 11-11-11"
+        }, 
+        "identifier": {
+          "id": "00137226", 
+          "scheme": "UA-EDR", 
+          "uri": "http://factory.example.com"
+        }, 
+        "name": "Тестове державне комунальне підприємство", 
+        "scale": "micro"
       }
-    ]
+    ], 
+    "value": {
+      "amount": 499
+    }
   }
 }

@@ -1,32 +1,32 @@
 {
   "data": {
-    "status": "draft",
-    "selfQualified": true,
-    "value": {
-      "amount": 5
-    },
+    "selfQualified": true, 
+    "status": "draft", 
     "tenderers": [
       {
-        "contactPoint": {
-          "telephone": "+380 (322) 12-34-56",
-          "name": "Іван Іваненко",
-          "email": "fake@mail.com"
-        },
-        "identifier": {
-          "scheme": "UA-EDR",
-          "id": "00137227",
-          "uri": "http://factory.example.com"
-        },
-        "name": "«Снігур»",
-        "scale": "micro",
         "address": {
-          "countryName": "Україна",
-          "postalCode": "79013",
-          "region": "Львівська область",
-          "streetAddress": "вул. Островського, 35",
-          "locality": "м. Львів"
-        }
+          "countryName": "Україна", 
+          "locality": "м. Львів", 
+          "postalCode": "79013", 
+          "region": "Львівська область", 
+          "streetAddress": "вул. Островського, 35"
+        }, 
+        "contactPoint": {
+          "email": "fake@mail.com", 
+          "name": "Іван Іваненко", 
+          "telephone": "+380 (322) 12-34-56"
+        }, 
+        "identifier": {
+          "id": "00137227", 
+          "scheme": "UA-EDR", 
+          "uri": "http://factory.example.com"
+        }, 
+        "name": "«Снігур»", 
+        "scale": "micro"
       }
-    ]
+    ], 
+    "value": {
+      "amount": 5
+    }
   }
 }
