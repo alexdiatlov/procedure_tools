@@ -62,6 +62,7 @@ from procedure_tools.utils.data import (
     SUBMISSION_QUICK_NO_AUCTION
 )
 from procedure_tools.utils.handlers import EX_OK
+from procedure_tools.utils.adapters import HTTPAdapter
 
 logging.basicConfig(
     stream=sys.stdout,
@@ -430,8 +431,11 @@ def main():
     )
 
     try:
+        args = parser.parse_args()
         session = requests.Session()
-        create_procedure(parser.parse_args(), session=session)
+        session.mount(args.host, HTTPAdapter())
+        session.mount(args.ds_host, HTTPAdapter())
+        create_procedure(args, session=session)
     except SystemExit as e:
         sys.exit(e)
     else:
