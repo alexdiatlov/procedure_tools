@@ -8,11 +8,17 @@ on:
         required: false
 
 jobs:
-  pytest_path:
+  pytest:
     if: github.event.inputs.case != ''
     runs-on: ubuntu-latest
+    env:
+      PYTHONUNBUFFERED: 1
     steps:
       - uses: actions/checkout@v2
+      - name: Setup timezone
+        uses: zcong1993/setup-timezone@master
+        with:
+          timezone: Europe/Kiev
       - name: Set up python 3.x
         uses: actions/setup-python@v2
         with:
