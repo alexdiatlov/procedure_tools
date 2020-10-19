@@ -417,17 +417,18 @@ def create_tender(client, args, plan_id=None, agreement_id=None, filename_prefix
             return response
 
 
-def extend_tender_period(client, args, tender_id, tender_token):
+def extend_tender_period(tender_period, client, args, tender_id, tender_token):
     data = {"data": {"tenderPeriod": {"endDate": DATETIME_MASK}}}
     set_tender_period_data(
         data["data"]["tenderPeriod"],
         acceleration=args.acceleration,
         min_period_timedelta=TENDER_PERIOD_MIN_TIMEDELTA
     )
-    response = client.patch_tender(
-        tender_id, tender_token, data,
-        success_handler=tender_patch_period_success_handler
-    )
+    if tender_period["endDate"] < data["data"]["tenderPeriod"]["endDate"]:
+        response = client.patch_tender(
+            tender_id, tender_token, data,
+            success_handler=tender_patch_period_success_handler
+        )
 
 
 def wait(date_str, date_info_str=None):

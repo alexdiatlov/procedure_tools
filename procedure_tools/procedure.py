@@ -41,8 +41,8 @@ from procedure_tools.utils.process import (
     post_bid_res,
 )
 from procedure_tools.client import (
-    TendersApiClient,
     API_PATH_PREFIX_DEFAULT,
+    TendersApiClient,
     AgreementsApiClient,
     ContractsApiClient,
     PlansApiClient,
@@ -50,16 +50,17 @@ from procedure_tools.client import (
 )
 from procedure_tools.utils.file import get_default_data_dirs, DATA_DIR_DEFAULT
 from procedure_tools.utils.data import (
+    ACCELERATION_DEFAULT,
+    SUBMISSIONS,
+    SUBMISSION_QUICK_NO_AUCTION,
     get_id,
     get_token,
     get_procurement_method_type,
     get_submission_method_details,
     get_next_check,
-    ACCELERATION_DEFAULT,
     get_complaint_period_end_date,
     get_ids,
-    SUBMISSIONS,
-    SUBMISSION_QUICK_NO_AUCTION
+    get_tender_period,
 )
 from procedure_tools.utils.handlers import EX_OK
 from procedure_tools.utils import adapters
@@ -148,7 +149,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
     if method_type in ("belowThreshold", "closeFrameworkAgreementSelectionUA"):
 
         def update_tender_period_fallback():
-            extend_tender_period(client, args, tender_id, tender_token)
+            extend_tender_period(get_tender_period(response), client, args, tender_id, tender_token)
 
         wait_status(client, args, tender_id, "active.tendering", fallback=update_tender_period_fallback)
 
