@@ -4,7 +4,7 @@ import requests.adapters
 
 
 DEFAULT_TIMEOUT = 60
-DEFAULT_MAX_RETRIES = 10
+DEFAULT_MAX_RETRIES = 5
 
 
 class HTTPAdapter(requests.adapters.HTTPAdapter):
