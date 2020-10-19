@@ -10,7 +10,7 @@ except ImportError:
 
 import requests
 
-from procedure_tools.utils.adapters import HTTPAdapter
+from procedure_tools.utils import adapters
 from procedure_tools.utils.handlers import response_handler
 from procedure_tools.version import __version__
 
@@ -31,7 +31,7 @@ class BaseApiClient(object):
             self.session = session
         else:
             self.session = requests.Session()
-            self.session.mount(host, HTTPAdapter())
+            adapters.mount(session)
         self.set_default_kwargs()
 
     def set_default_kwargs(self):

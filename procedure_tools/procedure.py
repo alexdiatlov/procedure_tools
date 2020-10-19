@@ -62,7 +62,7 @@ from procedure_tools.utils.data import (
     SUBMISSION_QUICK_NO_AUCTION
 )
 from procedure_tools.utils.handlers import EX_OK
-from procedure_tools.utils.adapters import HTTPAdapter
+from procedure_tools.utils import adapters
 
 logging.basicConfig(
     stream=sys.stdout,
@@ -110,7 +110,6 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         "aboveThresholdUA",
         "belowThreshold",
         "closeFrameworkAgreementUA",
-        "closeFrameworkAgreementSelectionUA",
         "competitiveDialogueEU",
         "competitiveDialogueUA",
         "competitiveDialogueEU.stage2",
@@ -118,7 +117,10 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         "esco",
     ):
         criteria_response = post_criteria(client, args, tender_id, tender_token, filename_prefix)
-        tender_criteria = criteria_response.json()["data"]
+        if criteria_response:
+            tender_criteria = criteria_response.json()["data"]
+        else:
+            tender_criteria = None
     else:
         tender_criteria = None
 
@@ -433,8 +435,7 @@ def main():
     try:
         args = parser.parse_args()
         session = requests.Session()
-        session.mount(args.host, HTTPAdapter())
-        session.mount(args.ds_host, HTTPAdapter())
+        adapters.mount(session)
         create_procedure(args, session=session)
     except SystemExit as e:
         sys.exit(e)
