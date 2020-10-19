@@ -16,10 +16,13 @@ from procedure_tools.utils.handlers import response_handler
 
 API_PATH_PREFIX_DEFAULT = "/api/0/"
 
+DEFAULT_TIMEOUT = 10
+
 
 class HTTPAdapter(requests.adapters.HTTPAdapter):
     def send(self, request, *args, **kwargs):
-        logging.info("[{}] {}\n".format(request.method, request.url))
+        kwargs['timeout'] = DEFAULT_TIMEOUT
+        logging.info("[{}] {}".format(request.method, request.url))
         return super(HTTPAdapter, self).send(request, *args, **kwargs)
 
 
@@ -97,7 +100,8 @@ class BaseCDBClient(BaseApiClient):
 
     def _init_session(self, request_kwargs):
         spore_url = self._get_url(self._get_api_path(self.SPORE_PATH))
-        self.session.get(spore_url)  # GET request to retrieve SERVER_ID cookie
+        response = self.session.get(spore_url)  # GET request to retrieve SERVER_ID cookie
+        response_handler(response)
 
     def _get_api_path(self, path, acc_token=None):
         return urljoin(self.path_prefix, urljoin(path, "?acc_token={}".format(acc_token) if acc_token else None))
