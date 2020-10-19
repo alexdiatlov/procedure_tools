@@ -31,6 +31,25 @@ jobs:
       max-parallel: 1
       matrix:
         python-version: ['2.x', '3.x']
+        case:
+          - reporting
+          - negotiation
+          - negotiation_quick
+          - below_threshold
+          - below_threshold_multilot
+          - above_threshold_eu
+          - above_threshold_eu_multilot
+          - above_threshold_eu_plan
+          - above_threshold_eu_tender
+          - above_threshold_ua
+          - above_threshold_ua_defense
+          - close_framework_agreement_ua
+          - close_framework_agreement_ua_central
+          - competitive_dialogue_eu
+          - competitive_dialogue_ua
+          - esco
+          - esco_features
+          - esco_multilot
     env:
       PYTHONUNBUFFERED: 1
     steps:
@@ -56,4 +75,4 @@ jobs:
           DS_USERNAME: ${{ secrets.DS_USERNAME }}
           DS_PASSWORD: ${{ secrets.DS_PASSWORD }}
         run: |
-          pytest
+          pytest procedure_tools/test.py::test_${{ matrix.case }}
