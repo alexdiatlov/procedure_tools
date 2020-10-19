@@ -1,122 +1,126 @@
 {
   "data": {
-    "status": "draft",
-    "tenderPeriod": {
-      "startDate": "XXXX-XX-XXTXX:XX+XX:XX",
-      "endDate": "XXXX-XX-XXTXX:XX+XX:XX"
-    },
-    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
-    "minimalStep": {
-      "currency": "UAH",
-      "amount": 10
-    },
     "items": [
       {
-        "description": "Тестова назва предмета закупівлі",
-        "classification": {
-          "scheme": "ДК021",
-          "id": "42000000-6",
-          "description": "Промислова техніка"
-        },
-        "description_en": "Procurement item test name",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП",
-            "id": "28.23.23",
-            "description": "Техніка конторська/офісна, інша"
+            "description": "Техніка конторська/офісна, інша", 
+            "id": "28.23.23", 
+            "scheme": "ДКПП"
           }
-        ],
+        ], 
+        "classification": {
+          "description": "Промислова техніка", 
+          "id": "42000000-6", 
+          "scheme": "ДК021"
+        }, 
         "deliveryAddress": {
-          "countryName": "Україна",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "streetAddress": "вул. Тестова 1",
-          "locality": "м. Київ"
-        },
+          "countryName": "Україна", 
+          "locality": "м. Київ", 
+          "postalCode": "79000", 
+          "region": "м. Київ", 
+          "streetAddress": "вул. Тестова 1"
+        }, 
         "deliveryDate": {
-          "startDate": "2017-07-11T17:04:37.418546+03:00",
-          "endDate": "2017-08-10T17:04:37.418606+03:00"
-        },
+          "endDate": "2017-08-10T17:04:37.418606+03:00", 
+          "startDate": "2017-07-11T17:04:37.418546+03:00"
+        }, 
+        "description": "Тестова назва предмета закупівлі", 
+        "description_en": "Procurement item test name", 
+        "quantity": 1, 
         "unit": {
-          "code": "42000000-6",
+          "code": "42000000-6", 
           "name": "item"
-        },
-        "quantity": 1
-      },
+        }
+      }, 
       {
-        "description": "Тестова назва предмета закупівлі",
-        "classification": {
-          "scheme": "ДК021",
-          "id": "42000000-6",
-          "description": "Промислова техніка"
-        },
-        "description_en": "Procurement item test name",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП",
-            "id": "28.23.23",
-            "description": "Техніка конторська/офісна, інша"
+            "description": "Техніка конторська/офісна, інша", 
+            "id": "28.23.23", 
+            "scheme": "ДКПП"
           }
-        ],
+        ], 
+        "classification": {
+          "description": "Промислова техніка", 
+          "id": "42000000-6", 
+          "scheme": "ДК021"
+        }, 
         "deliveryAddress": {
-          "countryName": "Україна",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "streetAddress": "вул. Тестова 1",
-          "locality": "м. Київ"
-        },
+          "countryName": "Україна", 
+          "locality": "м. Київ", 
+          "postalCode": "79000", 
+          "region": "м. Київ", 
+          "streetAddress": "вул. Тестова 1"
+        }, 
         "deliveryDate": {
-          "startDate": "2017-07-11T17:04:37.418636+03:00",
-          "endDate": "2017-08-10T17:04:37.418662+03:00"
-        },
+          "endDate": "2017-08-10T17:04:37.418662+03:00", 
+          "startDate": "2017-07-11T17:04:37.418636+03:00"
+        }, 
+        "description": "Тестова назва предмета закупівлі", 
+        "description_en": "Procurement item test name", 
+        "quantity": 1, 
         "unit": {
-          "code": "42000000-6",
+          "code": "42000000-6", 
           "name": "item"
-        },
-        "quantity": 1
+        }
       }
-    ],
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
-    "value": {
-      "currency": "UAH",
-      "amount": 500
-    },
-    "procurementMethodType": "competitiveDialogueEU",
-    "mainProcurementCategory": "services",
+    ], 
+    "mainProcurementCategory": "services", 
     "milestones": [
       {
-          "title": "signingTheContract",
-          "code": "prepayment",
-          "type": "financing",
-          "duration": {"days": 2, "type": "banking"},
-          "sequenceNumber": 0,
-          "percentage": 100
+        "code": "prepayment", 
+        "duration": {
+          "days": 2, 
+          "type": "banking"
+        }, 
+        "percentage": 100, 
+        "sequenceNumber": 0, 
+        "title": "signingTheContract", 
+        "type": "financing"
       }
-    ],
+    ], 
+    "minimalStep": {
+      "amount": 10, 
+      "currency": "UAH"
+    }, 
+    "procurementMethodType": "competitiveDialogueEU", 
     "procuringEntity": {
-      "kind": "general",
-      "name": "Тестовий заклад #1 м.Київ",
       "address": {
-        "countryName": "Україна",
-        "postalCode": "42000",
-        "region": "м. Київ",
-        "streetAddress": "вул. Тестова 22",
-        "locality": "м. Київ"
-      },
-      "name_en": "Test facility #1 of Kyiv",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "legalName_en": "Test facility",
-        "id": "21725150",
-        "legalName": "Тестовий заклад"
-      },
+        "countryName": "Україна", 
+        "locality": "м. Київ", 
+        "postalCode": "42000", 
+        "region": "м. Київ", 
+        "streetAddress": "вул. Тестова 22"
+      }, 
       "contactPoint": {
-        "url": "https://example.com",
-        "name_en": "Testovenko Test Testovych",
-        "name": "Тестовенко Тест Тестович",
-        "availableLanguage": "uk",
-        "telephone": "+380 (042) 42-42-42"
-      }
+        "availableLanguage": "uk", 
+        "name": "Тестовенко Тест Тестович", 
+        "name_en": "Testovenko Test Testovych", 
+        "telephone": "+380 (042) 42-42-42", 
+        "url": "https://example.com"
+      }, 
+      "identifier": {
+        "id": "21725150", 
+        "legalName": "Тестовий заклад", 
+        "legalName_en": "Test facility", 
+        "scheme": "UA-EDR"
+      }, 
+      "kind": "general", 
+      "name": "Тестовий заклад #1 м.Київ", 
+      "name_en": "Test facility #1 of Kyiv"
+    }, 
+    "status": "draft", 
+    "tenderPeriod": {
+      "endDate": "XXXX-XX-XXTXX:XX+XX:XX", 
+      "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
+    }, 
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)", 
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)", 
+    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)", 
+    "value": {
+      "amount": 500, 
+      "currency": "UAH"
     }
   }
 }

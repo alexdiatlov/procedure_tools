@@ -1,141 +1,142 @@
 {
   "data": {
-    "status": "draft",
-    "tenderPeriod": {
-      "startDate": "XXXX-XX-XXTXX:XX+XX:XX",
-      "endDate": "XXXX-XX-XXTXX:XX+XX:XX"
-    },
-    "fundingKind": "budget",
-    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
-    "NBUdiscountRate": 0.22986,
-    "procurementMethodType": "esco",
-    "mainProcurementCategory": "services",
-    "milestones": [
-      {
-        "title": "signingTheContract",
-        "code": "prepayment",
-        "type": "financing",
-        "duration": {
-          "days": 2,
-          "type": "banking"
-        },
-        "sequenceNumber": 0,
-        "percentage": 100
-      }
-    ],
-    "procuringEntity": {
-      "kind": "general",
-      "name": "Тестовий заклад #1 м.Київ",
-      "address": {
-        "countryName": "Україна",
-        "postalCode": "42000",
-        "region": "м. Київ",
-        "streetAddress": "вул. Тестова 22",
-        "locality": "м. Київ"
-      },
-      "name_en": "Test facility #1 of Kyiv",
-      "identifier": {
-        "scheme": "UA-EDR",
-        "legalName_en": "Test facility",
-        "id": "21725150",
-        "legalName": "Тестовий заклад"
-      },
-      "contactPoint": {
-        "url": "https://example.com",
-        "name_en": "Testovenko Test Testovych",
-        "name": "Тестовенко Тест Тестович",
-        "availableLanguage": "uk",
-        "telephone": "+380 (042) 42-42-42"
-      }
-    },
-    "minimalStepPercentage": 0.006,
-    "yearlyPaymentsPercentageRange": 0.8,
+    "NBUdiscountRate": 0.22986, 
+    "fundingKind": "budget", 
     "items": [
       {
-        "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
-        "description": "Тестова назва предмета закупівлі",
-        "classification": {
-          "scheme": "ДК021",
-          "id": "42000000-6",
-          "description": "Промислова техніка"
-        },
-        "description_en": "Procurement item test name",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП",
-            "id": "28.23.23",
-            "description": "Техніка конторська/офісна, інша"
+            "description": "Техніка конторська/офісна, інша", 
+            "id": "28.23.23", 
+            "scheme": "ДКПП"
           }
-        ],
+        ], 
+        "classification": {
+          "description": "Промислова техніка", 
+          "id": "42000000-6", 
+          "scheme": "ДК021"
+        }, 
         "deliveryAddress": {
-          "countryName": "Україна",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "streetAddress": "вул. Тестова 1",
-          "locality": "м. Київ"
-        },
+          "countryName": "Україна", 
+          "locality": "м. Київ", 
+          "postalCode": "79000", 
+          "region": "м. Київ", 
+          "streetAddress": "вул. Тестова 1"
+        }, 
         "deliveryDate": {
-          "startDate": "2017-10-31T17:19:48.277018+03:00",
-          "endDate": "2017-11-30T17:19:48.277078+03:00"
-        },
+          "endDate": "2017-11-30T17:19:48.277078+03:00", 
+          "startDate": "2017-10-31T17:19:48.277018+03:00"
+        }, 
+        "description": "Тестова назва предмета закупівлі", 
+        "description_en": "Procurement item test name", 
+        "quantity": 1, 
+        "relatedLot": "dd22c9c085f64e019f943999b5b41fe5", 
         "unit": {
-          "code": "42000000-6",
+          "code": "42000000-6", 
           "name": "item"
-        },
-        "quantity": 1
-      },
+        }
+      }, 
       {
-        "relatedLot": "9d4fc4783ebb4a99b10cc9a2f7d7552f",
-        "description": "Тестова назва предмета закупівлі",
-        "classification": {
-          "scheme": "ДК021",
-          "id": "42000000-6",
-          "description": "Промислова техніка"
-        },
-        "description_en": "Procurement item test name",
         "additionalClassifications": [
           {
-            "scheme": "ДКПП",
-            "id": "28.23.23",
-            "description": "Техніка конторська/офісна, інша"
+            "description": "Техніка конторська/офісна, інша", 
+            "id": "28.23.23", 
+            "scheme": "ДКПП"
           }
-        ],
+        ], 
+        "classification": {
+          "description": "Промислова техніка", 
+          "id": "42000000-6", 
+          "scheme": "ДК021"
+        }, 
         "deliveryAddress": {
-          "countryName": "Україна",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "streetAddress": "вул. Тестова 1",
-          "locality": "м. Київ"
-        },
+          "countryName": "Україна", 
+          "locality": "м. Київ", 
+          "postalCode": "79000", 
+          "region": "м. Київ", 
+          "streetAddress": "вул. Тестова 1"
+        }, 
         "deliveryDate": {
-          "startDate": "2017-10-31T17:19:48.277104+03:00",
-          "endDate": "2017-11-30T17:19:48.277124+03:00"
-        },
+          "endDate": "2017-11-30T17:19:48.277124+03:00", 
+          "startDate": "2017-10-31T17:19:48.277104+03:00"
+        }, 
+        "description": "Тестова назва предмета закупівлі", 
+        "description_en": "Procurement item test name", 
+        "quantity": 1, 
+        "relatedLot": "9d4fc4783ebb4a99b10cc9a2f7d7552f", 
         "unit": {
-          "code": "42000000-6",
+          "code": "42000000-6", 
           "name": "item"
-        },
-        "quantity": 1
+        }
       }
-    ],
+    ], 
     "lots": [
       {
-        "minimalStepPercentage": 0.005,
-        "fundingKind": "budget",
-        "yearlyPaymentsPercentageRange": 0.8,
-        "title": "Лот №1",
-        "description": "Опис Лот №1",
-        "id": "dd22c9c085f64e019f943999b5b41fe5"
-      },
+        "description": "Опис Лот №1", 
+        "fundingKind": "budget", 
+        "id": "dd22c9c085f64e019f943999b5b41fe5", 
+        "minimalStepPercentage": 0.005, 
+        "title": "Лот №1", 
+        "yearlyPaymentsPercentageRange": 0.8
+      }, 
       {
-        "minimalStepPercentage": 0.03,
-        "fundingKind": "budget",
-        "yearlyPaymentsPercentageRange": 0.6,
-        "title": "Лот №2",
-        "description": "Опис Лот №2",
-        "id": "9d4fc4783ebb4a99b10cc9a2f7d7552f"
+        "description": "Опис Лот №2", 
+        "fundingKind": "budget", 
+        "id": "9d4fc4783ebb4a99b10cc9a2f7d7552f", 
+        "minimalStepPercentage": 0.03, 
+        "title": "Лот №2", 
+        "yearlyPaymentsPercentageRange": 0.6
       }
-    ]
+    ], 
+    "mainProcurementCategory": "services", 
+    "milestones": [
+      {
+        "code": "prepayment", 
+        "duration": {
+          "days": 2, 
+          "type": "banking"
+        }, 
+        "percentage": 100, 
+        "sequenceNumber": 0, 
+        "title": "signingTheContract", 
+        "type": "financing"
+      }
+    ], 
+    "minimalStepPercentage": 0.006, 
+    "procurementMethodType": "esco", 
+    "procuringEntity": {
+      "address": {
+        "countryName": "Україна", 
+        "locality": "м. Київ", 
+        "postalCode": "42000", 
+        "region": "м. Київ", 
+        "streetAddress": "вул. Тестова 22"
+      }, 
+      "contactPoint": {
+        "availableLanguage": "uk", 
+        "name": "Тестовенко Тест Тестович", 
+        "name_en": "Testovenko Test Testovych", 
+        "telephone": "+380 (042) 42-42-42", 
+        "url": "https://example.com"
+      }, 
+      "identifier": {
+        "id": "21725150", 
+        "legalName": "Тестовий заклад", 
+        "legalName_en": "Test facility", 
+        "scheme": "UA-EDR"
+      }, 
+      "kind": "general", 
+      "name": "Тестовий заклад #1 м.Київ", 
+      "name_en": "Test facility #1 of Kyiv"
+    }, 
+    "status": "draft", 
+    "tenderPeriod": {
+      "endDate": "XXXX-XX-XXTXX:XX+XX:XX", 
+      "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
+    }, 
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)", 
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)", 
+    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)", 
+    "yearlyPaymentsPercentageRange": 0.8
   }
 }
