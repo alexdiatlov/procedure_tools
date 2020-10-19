@@ -146,3 +146,13 @@ def auction_participation_url_success_handler(response):
     msg += " - url \t\t\t{}\n".format(data["participationUrl"])
 
     logging.info(msg)
+
+
+def tender_patch_period_success_handler(response):
+    data = response.json()["data"]
+
+    msg = "Tender patched:\n"
+    msg += " - tenderPeriod.startDate \t{}\n".format(data["tenderPeriod"]["startDate"])
+    msg += " - tenderPeriod.endDate \t{}\n".format(data["tenderPeriod"]["endDate"])
+
+    logging.info(msg)
