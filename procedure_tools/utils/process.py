@@ -424,7 +424,7 @@ def extend_tender_period(tender_period, client, args, tender_id, tender_token):
         acceleration=args.acceleration,
         min_period_timedelta=TENDER_PERIOD_MIN_TIMEDELTA
     )
-    if tender_period["endDate"] < data["data"]["tenderPeriod"]["endDate"]:
+    if tender_period and tender_period["endDate"] < data["data"]["tenderPeriod"]["endDate"]:
         response = client.patch_tender(
             tender_id, tender_token, data,
             success_handler=tender_patch_period_success_handler

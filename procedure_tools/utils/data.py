@@ -168,7 +168,7 @@ def get_next_check(response):
 
 
 def get_tender_period(response):
-    return response.json()["data"]["tenderPeriod"]
+    return response.json()["data"].get("tenderPeriod")
 
 
 def get_procurement_method_type(response):
