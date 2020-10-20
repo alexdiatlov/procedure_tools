@@ -14,6 +14,7 @@
         "value": 0.1
       }
     ], 
+    "status": "draft", 
     "tenderers": [
       {
         "address": {

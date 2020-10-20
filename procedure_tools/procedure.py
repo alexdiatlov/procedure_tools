@@ -147,6 +147,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         wait(get_next_check(response), date_info_str="next chronograph check")
 
     if method_type in ("belowThreshold", "closeFrameworkAgreementSelectionUA"):
+        response = get_tender(client, args, tender_id)
 
         def update_tender_period_fallback():
             extend_tender_period(get_tender_period(response), client, args, tender_id, tender_token)
@@ -154,7 +155,8 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         wait_status(client, args, tender_id, "active.tendering", fallback=update_tender_period_fallback)
 
     if method_type in ("competitiveDialogueEU.stage2", "competitiveDialogueUA.stage2"):
-        extend_tender_period(client, args, tender_id, tender_token)
+        response = get_tender(client, args, tender_id)
+        extend_tender_period(get_tender_period(response), client, args, tender_id, tender_token)
 
     if method_type in ("competitiveDialogueEU.stage2", "competitiveDialogueUA.stage2"):
         patch_tender_tendering(client, args, tender_id, tender_token, filename_prefix)
