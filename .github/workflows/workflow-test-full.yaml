@@ -19,7 +19,6 @@ jobs:
           - above_threshold_eu_plan
           - above_threshold_eu_tender
           - above_threshold_ua
-          - above_threshold_ua_defense
           - close_framework_agreement_ua
           - close_framework_agreement_ua_central
           - competitive_dialogue_eu
