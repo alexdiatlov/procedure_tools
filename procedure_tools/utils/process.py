@@ -35,7 +35,7 @@ from procedure_tools.utils.handlers import (
     plan_create_success_handler,
     auction_participation_url_success_handler,
     tender_post_criteria_success_handler,
-    tender_patch_period_success_handler,
+    tender_patch_period_success_handler, auction_multilot_participation_url_success_handler,
 )
 
 
@@ -541,8 +541,19 @@ def wait_auction_participation_urls(client, tender_id, bids):
     for bid in bids:
         while True:
             response = client.get_bid(tender_id, bid["data"]["id"], bid["access"]["token"])
-            if "participationUrl" in response.json()["data"]:
-                response_handler(response, auction_participation_url_success_handler)
-                break
+            if "lotValues" in response.json()["data"]:
+                if all([
+                    "participationUrl" in lot_value
+                    for lot_value in response.json()["data"]["lotValues"]
+                ]):
+                    response_handler(response, auction_multilot_participation_url_success_handler)
+                    break
+                else:
+                    sleep(TENDER_SECONDS_BUFFER)
             else:
-                sleep(TENDER_SECONDS_BUFFER)
+                if "participationUrl" in response.json()["data"]:
+                    response_handler(response, auction_participation_url_success_handler)
+                    break
+                else:
+                    sleep(TENDER_SECONDS_BUFFER)
+
