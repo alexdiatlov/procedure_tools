@@ -158,7 +158,7 @@ def auction_multilot_participation_url_success_handler(response):
         msg += " - relatedLot\t\t\t{}\n".format(lot_value["relatedLot"])
         msg += " - url \t\t\t\t{}\n".format(lot_value["participationUrl"])
 
-        logging.info(msg)
+    logging.info(msg)
 
 
 def tender_patch_period_success_handler(response):
