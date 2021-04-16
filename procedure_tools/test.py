@@ -125,6 +125,46 @@ def test_above_threshold_ua():
 
 
 @skipifenv
+def test_above_threshold_ua_multilot():
+    argv = ["--data", "aboveThresholdUA.multilot"]
+    if os.environ.get("FAST_RUN"):
+        argv += ["--stop", "bid_patch_1.json"]
+    run_test(argv)
+
+
+@skipifenv
+def test_above_threshold_ua_features():
+    argv = ["--data", "aboveThresholdUA.features"]
+    if os.environ.get("FAST_RUN"):
+        argv += ["--stop", "bid_patch_1.json"]
+    run_test(argv)
+
+
+@skipifenv
+def test_above_threshold_ua_multilot_features():
+    argv = ["--data", "aboveThresholdUA.multilot.features"]
+    if os.environ.get("FAST_RUN"):
+        argv += ["--stop", "bid_patch_1.json"]
+    run_test(argv)
+
+
+@skipifenv
+def test_above_threshold_ua_lcc():
+    argv = ["--data", "aboveThresholdUA.lcc"]
+    if os.environ.get("FAST_RUN"):
+        argv += ["--stop", "bid_patch_1.json"]
+    run_test(argv)
+
+
+@skipifenv
+def test_above_threshold_ua_multilot_lcc():
+    argv = ["--data", "aboveThresholdUA.multilot.lcc"]
+    if os.environ.get("FAST_RUN"):
+        argv += ["--stop", "bid_patch_1.json"]
+    run_test(argv)
+
+
+@skipifenv
 def test_above_threshold_ua_defense():
     argv = ["--data", "aboveThresholdUA.defense"]
     if os.environ.get("FAST_RUN"):

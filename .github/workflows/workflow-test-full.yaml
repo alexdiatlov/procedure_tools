@@ -19,6 +19,11 @@ jobs:
           - above_threshold_eu_plan
           - above_threshold_eu_tender
           - above_threshold_ua
+          - above_threshold_ua_multilot
+          - above_threshold_ua_features
+          - above_threshold_ua_multilot_features
+          - above_threshold_ua_lcc
+          - above_threshold_ua_multilot_lcc
           - close_framework_agreement_ua
           - close_framework_agreement_ua_central
           - competitive_dialogue_eu

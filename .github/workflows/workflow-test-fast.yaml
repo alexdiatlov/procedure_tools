@@ -30,7 +30,6 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        python-version: ['2.x', '3.x']
         case:
           - reporting
           - negotiation
@@ -42,6 +41,11 @@ jobs:
           - above_threshold_eu_plan
           - above_threshold_eu_tender
           - above_threshold_ua
+          - above_threshold_ua_multilot
+          - above_threshold_ua_features
+          - above_threshold_ua_multilot_features
+          - above_threshold_ua_lcc
+          - above_threshold_ua_multilot_lcc
           - close_framework_agreement_ua
           - close_framework_agreement_ua_central
           - competitive_dialogue_eu
@@ -57,10 +61,10 @@ jobs:
         uses: zcong1993/setup-timezone@master
         with:
           timezone: Europe/Kiev
-      - name: Set up python ${{ matrix.python-version }}
+      - name: Set up python
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ matrix.python-version }}
+          python-version: '3.x'
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
