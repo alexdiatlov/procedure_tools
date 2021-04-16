@@ -148,6 +148,19 @@ def auction_participation_url_success_handler(response):
     logging.info(msg)
 
 
+def auction_multilot_participation_url_success_handler(response):
+    data = response.json()["data"]
+
+    msg = "Auction participation url for bid:\n"
+    msg += " - id \t\t\t\t{}\n".format(data["id"])
+    for lot_value in response.json()["data"]["lotValues"]:
+        msg += "Lot:\n"
+        msg += " - relatedLot\t\t\t{}\n".format(lot_value["relatedLot"])
+        msg += " - url \t\t\t\t{}\n".format(lot_value["participationUrl"])
+
+    logging.info(msg)
+
+
 def tender_patch_period_success_handler(response):
     data = response.json()["data"]
 
