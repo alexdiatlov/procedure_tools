@@ -228,7 +228,7 @@
         "title": "Requirement response"
     },
     {
-        "value": "20",
+        "value": "10",
         "description": "response to CRITERION.OTHER.LIFE_CYCLE_COST.MAINTENANCE_COST",
         "requirement": {
             "title": "title of CRITERION.OTHER.LIFE_CYCLE_COST.MAINTENANCE_COST"
@@ -236,7 +236,7 @@
         "title": "Requirement response"
     },
     {
-        "value": "30",
+        "value": "10",
         "description": "response to CRITERION.OTHER.LIFE_CYCLE_COST.END_OF_LIFE_COST",
         "requirement": {
             "title": "title of CRITERION.OTHER.LIFE_CYCLE_COST.END_OF_LIFE_COST"
@@ -244,7 +244,7 @@
         "title": "Requirement response"
     },
     {
-        "value": "40",
+        "value": "10",
         "description": "response to CRITERION.OTHER.LIFE_CYCLE_COST.ECOLOGICAL_COST",
         "requirement": {
             "title": "title of CRITERION.OTHER.LIFE_CYCLE_COST.ECOLOGICAL_COST"
