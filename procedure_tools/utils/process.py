@@ -544,7 +544,7 @@ def wait_auction_participation_urls(client, tender_id, bids):
             if "lotValues" in response.json()["data"]:
                 if all([
                     "participationUrl" in lot_value
-                    for lot_value in response.json()["data"]["lotValues"]
+                    for lot_value in response.json()["data"]["lotValues"] if lot_value["status"] == "active"
                 ]):
                     response_handler(response, auction_multilot_participation_url_success_handler)
                     break
