@@ -49,7 +49,7 @@
       }
     ], 
     "minimalStep": {
-      "amount": 10, 
+      "amount": 0.6,
       "currency": "UAH"
     }, 
     "procurementMethodType": "aboveThresholdUA", 
@@ -83,7 +83,7 @@
     "title_en": "Procurement item test description in procedure title (created with procedure_tools)", 
     "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)", 
     "value": {
-      "amount": 500, 
+      "amount": 20.0,
       "currency": "UAH"
     }
   }
