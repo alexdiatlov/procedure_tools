@@ -23,10 +23,43 @@
           "streetAddress": "вул. Тестова 1"
         }, 
         "deliveryDate": {
-          "endDate": "2017-08-10T15:53:06.068650+03:00", 
-          "startDate": "2017-07-11T15:53:06.068598+03:00"
+          "endDate": "2017-08-10T16:02:36.221295+03:00", 
+          "startDate": "2017-07-11T16:02:36.221241+03:00"
         }, 
         "description": "Тестова назва предмета закупівлі", 
+        "description_en": "Procurement item test name", 
+        "quantity": 1, 
+        "unit": {
+          "code": "42000000-6", 
+          "name": "item"
+        }
+      }, 
+      {
+        "additionalClassifications": [
+          {
+            "description": "Техніка конторська/офісна, інша", 
+            "id": "28.23.23", 
+            "scheme": "ДКПП"
+          }
+        ], 
+        "classification": {
+          "description": "Промислова техніка", 
+          "id": "42000000-6", 
+          "scheme": "ДК021"
+        }, 
+        "deliveryAddress": {
+          "countryName": "Україна", 
+          "locality": "м. Київ", 
+          "postalCode": "79000", 
+          "region": "м. Київ", 
+          "streetAddress": "вул. Тестова 1"
+        }, 
+        "deliveryDate": {
+          "endDate": "2017-08-10T16:02:36.221351+03:00", 
+          "startDate": "2017-07-11T16:02:36.221327+03:00"
+        }, 
+        "description": "Тестова назва предмета закупівлі", 
+        "description_en": "Procurement item test name", 
         "quantity": 1, 
         "unit": {
           "code": "42000000-6", 
@@ -52,7 +85,7 @@
       "amount": 0.6,
       "currency": "UAH"
     }, 
-    "procurementMethodType": "aboveThresholdUA", 
+    "procurementMethodType": "aboveThresholdEU", 
     "procuringEntity": {
       "address": {
         "countryName": "Україна", 
@@ -62,17 +95,21 @@
         "streetAddress": "вул. Тестова 22"
       }, 
       "contactPoint": {
+        "availableLanguage": "uk", 
         "name": "Тестовенко Тест Тестович", 
+        "name_en": "Testovenko Test Testovych", 
         "telephone": "+380 (042) 42-42-42", 
         "url": "https://example.com"
       }, 
       "identifier": {
         "id": "21725150", 
         "legalName": "Тестовий заклад", 
+        "legalName_en": "Test facility", 
         "scheme": "UA-EDR"
       }, 
-      "kind": "special", 
-      "name": "Тестовий заклад #1 м.Київ"
+      "kind": "general", 
+      "name": "Тестовий заклад #1 м.Київ", 
+      "name_en": "Test facility #1 of Kyiv"
     }, 
     "status": "draft", 
     "tenderPeriod": {
