@@ -62,8 +62,8 @@
         "quantity": 5, 
         "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
         "unit": {
-          "code": "42000000-6", 
-          "name": "item"
+          "code": "KGM",
+          "name": "кг"
         }
       }, 
       {

@@ -77,10 +77,10 @@
         }, 
         "description": "Тестова назва предмета закупівлі", 
         "id": "edd0032574bf4402877ad5f362df225a", 
-        "quantity": 5, 
+        "quantity": 5,
         "unit": {
-          "code": "42000000-6", 
-          "name": "item"
+          "code": "KGM",
+          "name": "кг"
         }
       }
     ], 
