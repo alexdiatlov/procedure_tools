@@ -31,8 +31,8 @@
         "description": "Тестова назва предмета закупівлі", 
         "quantity": 5, 
         "unit": {
-          "code": "42000000-6", 
-          "name": "item"
+          "code": "KGM",
+          "name": "кг"
         }
       }
     ], 

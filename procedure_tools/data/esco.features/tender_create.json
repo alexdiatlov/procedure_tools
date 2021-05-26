@@ -79,8 +79,8 @@
         "id": "edd0032574bf4402877ad5f362df225a", 
         "quantity": 1, 
         "unit": {
-          "code": "42000000-6", 
-          "name": "item"
+          "code": "KGM",
+          "name": "кг"
         }
       }, 
       {
@@ -111,8 +111,8 @@
         "description_en": "Procurement item test name", 
         "quantity": 1, 
         "unit": {
-          "code": "42000000-6", 
-          "name": "item"
+          "code": "KGM",
+          "name": "кг"
         }
       }
     ], 
@@ -144,7 +144,7 @@
         "availableLanguage": "uk", 
         "name": "Тестовенко Тест Тестович", 
         "name_en": "Testovenko Test Testovych", 
-        "telephone": "+380 (042) 42-42-42", 
+        "telephone": "+380424424242",
         "url": "https://example.com"
       }, 
       "identifier": {
