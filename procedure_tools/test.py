@@ -173,6 +173,14 @@ def test_above_threshold_ua_defense():
 
 
 @skipifenv
+def test_simple_defense():
+    argv = ["--data", "simple.defense"]
+    if os.environ.get("FAST_RUN"):
+        argv += ["--stop", "bid_patch_1.json"]
+    run_test(argv)
+
+
+@skipifenv
 def test_close_framework_agreement_ua():
     argv = ["--data", "closeFrameworkAgreementUA"]
     if os.environ.get("FAST_RUN"):

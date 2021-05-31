@@ -134,6 +134,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         "competitiveDialogueEU",
         "competitiveDialogueUA",
         "esco",
+        "simple.defense",
     ):
         response = patch_tender(client, args, tender_id, tender_token, filename_prefix)
 
@@ -173,6 +174,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         "competitiveDialogueEU.stage2",
         "competitiveDialogueUA.stage2",
         "esco",
+        "simple.defense",
     ):
         bid_responses = create_bids(client, ds_client, args, tender_id, filename_prefix)
         bids_ids = [bid_response["data"]["id"] for bid_response in bid_responses]
@@ -200,6 +202,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         "competitiveDialogueEU.stage2",
         "competitiveDialogueUA.stage2",
         "esco",
+        "simple.defense",
     ):
         response = get_tender(client, args, tender_id)
         wait(get_next_check(response), date_info_str="next chronograph check")
@@ -241,6 +244,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         "belowThreshold",
         "competitiveDialogueEU.stage2",
         "esco",
+        "simple.defense",
     ):
         wait_status(client, args, tender_id, [
             "active.auction",
@@ -258,6 +262,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         "competitiveDialogueEU.stage2",
         "competitiveDialogueUA.stage2",
         "esco",
+        "simple.defense",
     ) and bid_responses and all([
         "mode:fast-forward" not in submission_method_details,
         "mode:no-auction" not in submission_method_details
@@ -286,6 +291,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         "negotiation.quick",
         "reporting",
         "esco",
+        "simple.defense",
     ):
         response = get_awards(client, args, tender_id)
         awards_ids = get_ids(response)
@@ -307,6 +313,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         "negotiation",
         "negotiation.quick",
         "esco",
+        "simple.defense",
     ):
         response = get_awards(client, args, tender_id)
         awards_complaint_dates = get_complaint_period_end_date(response)
@@ -326,6 +333,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         "negotiation.quick",
         "reporting",
         "esco",
+        "simple.defense",
     ):
         response = get_contracts(client, args, tender_id)
         contracts_ids = get_ids(response)
@@ -342,6 +350,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         "negotiation",
         "negotiation.quick",
         "reporting",
+        "simple.defense",
     ):
         for contracts_id in contracts_ids:
             contracts_client = ContractsApiClient(args.host, args.token, args.path, session=session)
@@ -365,6 +374,7 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
         "negotiation.quick",
         "reporting",
         "esco",
+        "simple.defense",
     ):
         wait_status(client, args, tender_id, "complete")
 

@@ -53,6 +53,7 @@ jobs:
           - esco
           - esco_features
           - esco_multilot
+          - simple_defense
     env:
       PYTHONUNBUFFERED: 1
     steps:
