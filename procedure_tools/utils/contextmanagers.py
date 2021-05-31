@@ -44,5 +44,6 @@ def open_file_or_exit(path, mode="r", encoding="UTF-8", exit_filename=None, **kw
 def ignore(*exceptions):
     try:
         yield
-    except exceptions:
+    except exceptions as e:
+        logging.info("{}\n".format(e))
         logging.info("Skipping...\n")
