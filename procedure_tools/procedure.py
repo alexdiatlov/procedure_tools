@@ -24,7 +24,6 @@ from procedure_tools.utils.process import (
     create_tender,
     patch_tender,
     extend_tender_period_min,
-    extend_tender_period_max,
     wait,
     wait_status,
     patch_stage2_credentials,
@@ -154,9 +153,11 @@ def process_procedure(client, args, tender_id, tender_token, filename_prefix="",
 
     if method_type in ("belowThreshold", "closeFrameworkAgreementSelectionUA"):
         response = get_tender(client, args, tender_id)
-        extend_tender_period_max(get_tender_period(response), client, args, tender_id, tender_token)
-        wait_status(client, args, tender_id, "active.tendering")
-        extend_tender_period_min(get_tender_period(response), client, args, tender_id, tender_token)
+
+        def fallback():
+            extend_tender_period_min(get_tender_period(response), client, args, tender_id, tender_token)
+
+        wait_status(client, args, tender_id, "active.tendering", fallback=fallback)
 
     if method_type in ("competitiveDialogueEU.stage2", "competitiveDialogueUA.stage2"):
         response = get_tender(client, args, tender_id)
