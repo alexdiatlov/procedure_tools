@@ -2,9 +2,9 @@ from __future__ import absolute_import
 
 from copy import deepcopy, copy
 from base64 import b64encode
-from datetime import datetime, timedelta
+from datetime import timedelta
 
-from dateutil import tz
+from procedure_tools.utils.date import get_utcnow, parse_date_header
 
 try:
     from urllib.parse import urljoin
@@ -21,7 +21,6 @@ from procedure_tools.utils.handlers import (
 from procedure_tools.version import __version__
 
 API_PATH_PREFIX_DEFAULT = "/api/0/"
-DATE_HEADER_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
 
 
 class BaseApiClient(object):
@@ -98,12 +97,9 @@ class BaseCDBClient(BaseApiClient):
         spore_url = self.get_url(self.get_api_path(self.SPORE_PATH))
         # GET request to retrieve SERVER_ID cookie and server time
         response = self.session.get(spore_url)
-        client_datetime = datetime.utcnow().replace(tzinfo=tz.tzutc())
+        client_datetime = get_utcnow()
         try:
-            server_datetime = datetime.strptime(
-                response.headers.get('date'),
-                DATE_HEADER_FORMAT,
-            ).replace(tzinfo=tz.tzutc())
+            server_datetime = parse_date_header(response.headers.get('date'))
             self.client_timedelta = server_datetime - client_datetime
         except:
             self.client_timedelta = timedelta()

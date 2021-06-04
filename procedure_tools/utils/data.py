@@ -1,14 +1,14 @@
 import math
 
-from datetime import datetime, timedelta
-from dateutil import tz
+from datetime import timedelta
 
-TZ = tz.gettz("Europe/Kiev")
+from procedure_tools.utils.date import get_now, fix_datetime
 
 ACCELERATION_DEFAULT = 460800
 PERIOD_MIN_DEFAULT_TIMEDELTA = timedelta(seconds=0)
 TENDER_PERIOD_DEFAULT_TIMEDELTA = timedelta(days=30)
 TENDER_PERIOD_MIN_TIMEDELTA = timedelta(seconds=60)
+TENDER_PERIOD_MAX_TIMEDELTA = timedelta(days=365)
 TENDER_SECONDS_BUFFER = 20
 AGREEMENT_PERIOD_DEFAULT_TIMEDELTA = timedelta(days=365 * 2)
 
@@ -23,10 +23,6 @@ SUBMISSIONS = [
     SUBMISSION_QUICK_NO_AUCTION,
     SUBMISSION_QUICK_FAST_FORWARD
 ]
-
-
-def fix_datetime(dt, delta):
-    return dt + delta
 
 
 def get_period_delta(
@@ -56,7 +52,7 @@ def set_acceleration_data(
         if data.get("procurementMethod") != "limited":
             data["submissionMethodDetails"] = submission
 
-        now = fix_datetime(datetime.now(TZ), client_timedelta)
+        now = fix_datetime(get_now(), client_timedelta)
 
         enquiry_period_delta = get_period_delta(
             acceleration=acceleration,
@@ -130,7 +126,7 @@ def set_tender_period_data(
     client_timedelta=timedelta()
 ):
     try:
-        now = fix_datetime(datetime.now(TZ), client_timedelta)
+        now = fix_datetime(get_now(), client_timedelta)
         if "startDate" in period_data:
             if period_data["startDate"] == DATETIME_MASK:
                 period_data["startDate"] = now.isoformat()
@@ -154,7 +150,7 @@ def set_agreement_period(
     client_timedelta=timedelta(),
 ):
     try:
-        now = fix_datetime(datetime.now(TZ), client_timedelta)
+        now = fix_datetime(get_now(), client_timedelta)
         period_data["startDate"] = now.isoformat()
         period_data["endDate"] = (now + period_timedelta).isoformat()
     except KeyError:
