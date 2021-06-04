@@ -25,6 +25,14 @@ def response_handler(
         error_handler(response)
 
 
+def client_init_response_handler(
+    response,
+    client_timedelta,
+):
+    response_handler(response)
+    logging.info("Client time delta with server: {} seconds\n".format(int(client_timedelta.total_seconds())))
+
+
 def tender_create_success_handler(response):
     data = response.json()["data"]
     access = response.json()["access"]
@@ -35,7 +43,6 @@ def tender_create_success_handler(response):
     if "transfer" in access:
         msg += " - transfer \t\t\t{}\n".format(access["transfer"])
     msg += " - status \t\t\t{}\n".format(data["status"])
-    msg += " - tenderID \t\t\t{}\n".format(data["tenderID"])
     msg += " - tenderID \t\t\t{}\n".format(data["tenderID"])
     msg += " - procurementMethodType \t{}\n".format(data["procurementMethodType"])
 

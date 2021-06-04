@@ -8,7 +8,11 @@ from mimetypes import MimeTypes
 from dateutil import parser, tz
 from time import sleep
 
-from procedure_tools.utils.contextmanagers import ignore, open_file_or_exit, open_file
+from procedure_tools.utils.contextmanagers import (
+    ignore,
+    open_file_or_exit,
+    open_file,
+)
 from procedure_tools.utils.data import (
     TENDER_SECONDS_BUFFER,
     get_ids,
@@ -21,7 +25,11 @@ from procedure_tools.utils.data import (
     DATETIME_MASK,
     TENDER_PERIOD_MIN_TIMEDELTA,
 )
-from procedure_tools.utils.file import get_data_file_path, get_data_path, get_data_all_files
+from procedure_tools.utils.file import (
+    get_data_file_path,
+    get_data_path,
+    get_data_all_files,
+)
 from procedure_tools.utils.handlers import (
     item_patch_success_handler,
     tender_patch_status_success_handler,
@@ -35,7 +43,8 @@ from procedure_tools.utils.handlers import (
     plan_create_success_handler,
     auction_participation_url_success_handler,
     tender_post_criteria_success_handler,
-    tender_patch_period_success_handler, auction_multilot_participation_url_success_handler,
+    tender_patch_period_success_handler,
+    auction_multilot_participation_url_success_handler,
 )
 
 
@@ -133,7 +142,10 @@ def patch_agreements(client, args, tender_id, agreements_ids, tender_token):
             path = get_data_file_path("agreement_patch_{}.json".format(agreement_index), get_data_path(args.data))
             with open_file_or_exit(path, exit_filename=args.stop) as f:
                 agreement_patch_data = json.loads(f.read())
-                set_agreement_period(agreement_patch_data["data"]["period"])
+                set_agreement_period(
+                    agreement_patch_data["data"]["period"],
+                    client_timedelta=client.client_timedelta
+                )
                 client.patch_agreement(
                     tender_id,
                     agreement_id,
@@ -388,7 +400,8 @@ def create_plan(client, args, filename_prefix=""):
             set_mode_data(plan_create_data)
             set_tender_period_data(
                 plan_create_data["data"]["tender"]["tenderPeriod"],
-                acceleration=args.acceleration
+                acceleration=args.acceleration,
+                client_timedelta=client.client_timedelta
             )
             response = client.post_plan(plan_create_data, success_handler=plan_create_success_handler)
             return response
@@ -422,7 +435,8 @@ def extend_tender_period(tender_period, client, args, tender_id, tender_token):
     set_tender_period_data(
         data["data"]["tenderPeriod"],
         acceleration=args.acceleration,
-        min_period_timedelta=TENDER_PERIOD_MIN_TIMEDELTA
+        min_period_timedelta=TENDER_PERIOD_MIN_TIMEDELTA,
+        client_timedelta=client.client_timedelta,
     )
     if tender_period and tender_period["endDate"] < data["data"]["tenderPeriod"]["endDate"]:
         response = client.patch_tender(

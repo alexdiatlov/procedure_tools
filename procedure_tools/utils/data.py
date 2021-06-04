@@ -25,6 +25,10 @@ SUBMISSIONS = [
 ]
 
 
+def fix_datetime(dt, delta):
+    return dt + delta
+
+
 def get_period_delta(
     acceleration=ACCELERATION_DEFAULT,
     period_timedelta=TENDER_PERIOD_DEFAULT_TIMEDELTA,
@@ -44,14 +48,15 @@ def set_acceleration_data(
     data,
     acceleration=ACCELERATION_DEFAULT,
     period_timedelta=TENDER_PERIOD_DEFAULT_TIMEDELTA,
-    submission=SUBMISSION_QUICK_NO_AUCTION
+    submission=SUBMISSION_QUICK_NO_AUCTION,
+    client_timedelta=timedelta()
 ):
     try:
         data["procurementMethodDetails"] = "quick, accelerator={}".format(acceleration)
         if data.get("procurementMethod") != "limited":
             data["submissionMethodDetails"] = submission
 
-        now = datetime.now(TZ)
+        now = fix_datetime(datetime.now(TZ), client_timedelta)
 
         enquiry_period_delta = get_period_delta(
             acceleration=acceleration,
@@ -121,10 +126,11 @@ def set_tender_period_data(
     period_data,
     acceleration=ACCELERATION_DEFAULT,
     period_timedelta=TENDER_PERIOD_DEFAULT_TIMEDELTA,
-    min_period_timedelta=PERIOD_MIN_DEFAULT_TIMEDELTA
+    min_period_timedelta=PERIOD_MIN_DEFAULT_TIMEDELTA,
+    client_timedelta=timedelta()
 ):
     try:
-        now = datetime.now(TZ)
+        now = fix_datetime(datetime.now(TZ), client_timedelta)
         if "startDate" in period_data:
             if period_data["startDate"] == DATETIME_MASK:
                 period_data["startDate"] = now.isoformat()
@@ -144,10 +150,11 @@ def set_tender_period_data(
 
 def set_agreement_period(
     period_data,
-    period_timedelta=AGREEMENT_PERIOD_DEFAULT_TIMEDELTA
+    period_timedelta=AGREEMENT_PERIOD_DEFAULT_TIMEDELTA,
+    client_timedelta=timedelta(),
 ):
     try:
-        now = datetime.now(TZ)
+        now = fix_datetime(datetime.now(TZ), client_timedelta)
         period_data["startDate"] = now.isoformat()
         period_data["endDate"] = (now + period_timedelta).isoformat()
     except KeyError:
