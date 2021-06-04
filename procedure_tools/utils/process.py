@@ -441,7 +441,7 @@ def extend_tender_period(tender_period, client, args, tender_id, tender_token, p
         min_period_timedelta=period_timedelta,
         client_timedelta=client.client_timedelta,
     )
-    if tender_period:
+    if tender_period and tender_period["endDate"] < data["data"]["tenderPeriod"]["endDate"]:
         response = client.patch_tender(
             tender_id, tender_token, data,
             success_handler=tender_patch_period_success_handler
@@ -457,17 +457,6 @@ def extend_tender_period_min(tender_period, client, args, tender_id, tender_toke
         tender_id=tender_id,
         tender_token=tender_token,
         period_timedelta=TENDER_PERIOD_MIN_TIMEDELTA,
-    )
-
-
-def extend_tender_period_max(tender_period, client, args, tender_id, tender_token):
-    return extend_tender_period(
-        tender_period=tender_period,
-        client=client,
-        args=args,
-        tender_id=tender_id,
-        tender_token=tender_token,
-        period_timedelta=TENDER_PERIOD_MAX_TIMEDELTA,
     )
 
 
