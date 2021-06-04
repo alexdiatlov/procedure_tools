@@ -1,14 +1,14 @@
 import math
 
-from datetime import datetime, timedelta
-from dateutil import tz
+from datetime import timedelta
 
-TZ = tz.gettz("Europe/Kiev")
+from procedure_tools.utils.date import get_now, fix_datetime
 
 ACCELERATION_DEFAULT = 460800
 PERIOD_MIN_DEFAULT_TIMEDELTA = timedelta(seconds=0)
 TENDER_PERIOD_DEFAULT_TIMEDELTA = timedelta(days=30)
 TENDER_PERIOD_MIN_TIMEDELTA = timedelta(seconds=60)
+TENDER_PERIOD_MAX_TIMEDELTA = timedelta(days=365)
 TENDER_SECONDS_BUFFER = 20
 AGREEMENT_PERIOD_DEFAULT_TIMEDELTA = timedelta(days=365 * 2)
 
@@ -44,14 +44,15 @@ def set_acceleration_data(
     data,
     acceleration=ACCELERATION_DEFAULT,
     period_timedelta=TENDER_PERIOD_DEFAULT_TIMEDELTA,
-    submission=SUBMISSION_QUICK_NO_AUCTION
+    submission=SUBMISSION_QUICK_NO_AUCTION,
+    client_timedelta=timedelta()
 ):
     try:
         data["procurementMethodDetails"] = "quick, accelerator={}".format(acceleration)
         if data.get("procurementMethod") != "limited":
             data["submissionMethodDetails"] = submission
 
-        now = datetime.now(TZ)
+        now = fix_datetime(get_now(), client_timedelta)
 
         enquiry_period_delta = get_period_delta(
             acceleration=acceleration,
@@ -121,10 +122,11 @@ def set_tender_period_data(
     period_data,
     acceleration=ACCELERATION_DEFAULT,
     period_timedelta=TENDER_PERIOD_DEFAULT_TIMEDELTA,
-    min_period_timedelta=PERIOD_MIN_DEFAULT_TIMEDELTA
+    min_period_timedelta=PERIOD_MIN_DEFAULT_TIMEDELTA,
+    client_timedelta=timedelta()
 ):
     try:
-        now = datetime.now(TZ)
+        now = fix_datetime(get_now(), client_timedelta)
         if "startDate" in period_data:
             if period_data["startDate"] == DATETIME_MASK:
                 period_data["startDate"] = now.isoformat()
@@ -144,10 +146,11 @@ def set_tender_period_data(
 
 def set_agreement_period(
     period_data,
-    period_timedelta=AGREEMENT_PERIOD_DEFAULT_TIMEDELTA
+    period_timedelta=AGREEMENT_PERIOD_DEFAULT_TIMEDELTA,
+    client_timedelta=timedelta(),
 ):
     try:
-        now = datetime.now(TZ)
+        now = fix_datetime(get_now(), client_timedelta)
         period_data["startDate"] = now.isoformat()
         period_data["endDate"] = (now + period_timedelta).isoformat()
     except KeyError:

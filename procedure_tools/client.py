@@ -2,6 +2,9 @@ from __future__ import absolute_import
 
 from copy import deepcopy, copy
 from base64 import b64encode
+from datetime import timedelta
+
+from procedure_tools.utils.date import get_utcnow, parse_date_header
 
 try:
     from urllib.parse import urljoin
@@ -11,7 +14,10 @@ except ImportError:
 import requests
 
 from procedure_tools.utils import adapters
-from procedure_tools.utils.handlers import response_handler
+from procedure_tools.utils.handlers import (
+    response_handler,
+    client_init_response_handler,
+)
 from procedure_tools.version import __version__
 
 API_PATH_PREFIX_DEFAULT = "/api/0/"
@@ -89,8 +95,15 @@ class BaseCDBClient(BaseApiClient):
         self.path_prefix = path_prefix
         self.set_kwargs(auth_token)
         spore_url = self.get_url(self.get_api_path(self.SPORE_PATH))
-        response = self.session.get(spore_url)  # GET request to retrieve SERVER_ID cookie
-        response_handler(response)
+        # GET request to retrieve SERVER_ID cookie and server time
+        response = self.session.get(spore_url)
+        client_datetime = get_utcnow()
+        try:
+            server_datetime = parse_date_header(response.headers.get('date'))
+            self.client_timedelta = server_datetime - client_datetime
+        except:
+            self.client_timedelta = timedelta()
+        client_init_response_handler(response, self.client_timedelta)
 
     def set_kwargs(self, auth_token):
         self.kwargs["headers"].update({"Content-Type": "application/json"})
