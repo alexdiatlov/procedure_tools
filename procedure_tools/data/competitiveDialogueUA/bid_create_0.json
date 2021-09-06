@@ -25,10 +25,6 @@
         "name": "Тестове підприємство", 
         "scale": "micro"
       }
-    ], 
-    "value": {
-      "amount": 501, 
-      "currency": "UAH"
-    }
+    ]
   }
 }
