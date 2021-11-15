@@ -574,7 +574,7 @@ def wait_auction_participation_urls(client, tender_id, bids):
     for bid in bids:
         while True:
             response = client.get_bid(tender_id, bid["data"]["id"], bid["access"]["token"])
-            if bid["status"] == "unsuccessful":
+            if bid.get("status") == "unsuccessful":
                 break
             if "lotValues" in response.json()["data"]:
                 if all([
