@@ -31,7 +31,12 @@
         "description": "Тестова назва предмета закупівлі", 
         "description_en": "Procurement item test name", 
         "description_ru": "Тестовое название предмета закупки", 
-        "id": "2dc54675d6364e2baffbc0f8e74432ac"
+        "id": "2dc54675d6364e2baffbc0f8e74432ac",
+        "quantity": 1,
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        }
       }
     ], 
     "mainProcurementCategory": "services", 

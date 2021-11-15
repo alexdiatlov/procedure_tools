@@ -1,18 +1,28 @@
+import sys
+
 from setuptools import setup, find_packages
 from procedure_tools.version import __version__
 
-install_requires = [
-    "requests",
-    "pathlib",
-    "python-dateutil",
-]
-
-tests_require = [
-    "pytest<=4.6.9",
-    "mock<4.0.0",
-    "configparser<5.0.0",
-    "zipp<3.1.0",
-]
+if sys.version_info >= (3,4):
+    install_requires = [
+        "requests",
+        "python-dateutil",
+    ]
+    tests_require = [
+        "pytest",
+    ]
+else:
+    install_requires = [
+        "requests",
+        "pathlib",
+        "python-dateutil",
+    ]
+    tests_require = [
+        "pytest<=4.6.9",
+        "mock<4.0.0",
+        "configparser<5.0.0",
+        "zipp<3.1.0",
+    ]
 
 setup(
     name="procedure_tools",
