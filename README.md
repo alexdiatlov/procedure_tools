@@ -23,7 +23,7 @@ positional arguments:
   ds_username           DS API Username
   ds_password           DS API Password
 
-optional arguments:
+options:
   -h, --help            show this help message and exit
   -a 460800, --acceleration 460800
                         acceleration multiplier
@@ -90,61 +90,61 @@ procedure https://lb-api-sandbox-2.prozorro.gov.ua broker_api_token https://uplo
 procedure https://lb-api-sandbox-2.prozorro.gov.ua broker_api_token https://upload-docs-sandbox-2.prozorro.gov.ua broker_ds_username broker_ds_password --acceleration=1000000 --path=/api/0/ --data=closeFrameworkAgreementUA --stop=bid_create_4.json
 ```
 ```
-[10:44:46] [GET] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/spore
-[10:44:46] Starting new HTTPS connection (1): lb-api-sandbox-2.prozorro.gov.ua:443
-[10:44:46] https://lb-api-sandbox-2.prozorro.gov.ua:443 "GET /api/0/spore HTTP/1.1" 200 1230991
-[10:44:46] Response status code: 200
+[13:14:15] [GET] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/spore
+[13:14:15] Starting new HTTPS connection (1): lb-api-sandbox-2.prozorro.gov.ua:443
+[13:14:15] https://lb-api-sandbox-2.prozorro.gov.ua:443 "GET /api/0/spore HTTP/1.1" 200 1204862
+[13:14:15] Response status code: 200
 
-[10:44:46] Client time delta with server: 0 seconds
+[13:14:15] Client time delta with server: 0 seconds
 
-[10:44:46] [GET] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/spore
-[10:44:47] https://lb-api-sandbox-2.prozorro.gov.ua:443 "GET /api/0/spore HTTP/1.1" 200 1230991
-[10:44:47] Response status code: 200
+[13:14:15] [GET] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/spore
+[13:14:15] https://lb-api-sandbox-2.prozorro.gov.ua:443 "GET /api/0/spore HTTP/1.1" 200 1204862
+[13:14:16] Response status code: 200
 
-[10:44:47] Client time delta with server: 0 seconds
+[13:14:16] Client time delta with server: -1 seconds
 
-[10:44:47] Creating plan...
+[13:14:16] Creating plan...
 
-[10:44:47] Processing data file: plan_create.json
+[13:14:16] Processing data file: plan_create.json
 
-[10:44:47] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/plans
-[10:44:47] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/plans HTTP/1.1" 201 4135
-[10:44:47] Response status code: 201
+[13:14:16] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/plans
+[13:14:16] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/plans HTTP/1.1" 201 4135
+[13:14:16] Response status code: 201
 
-[10:44:47] Plan created:
- - id 				ce3b01973eb1464c9883d8035648a1db
- - token 			8525790c6f414f30839f74d960af6952
- - transfer 			2304e1d551bb4f7ba7d3c97a1159e54c
+[13:14:16] Plan created:
+ - id 				aafa2d2ef06a4bfea5546a875db539f4
+ - token 			8490d873a5844e62b8329738ed72ec63
+ - transfer 			1e7ea892e5d647c498af661b97ed7e80
 
-[10:44:47] Creating tender...
+[13:14:16] Creating tender...
 
-[10:44:47] Processing data file: tender_create.json
+[13:14:16] Processing data file: tender_create.json
 
-[10:44:47] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/plans/ce3b01973eb1464c9883d8035648a1db/tenders
-[10:44:47] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/plans/ce3b01973eb1464c9883d8035648a1db/tenders HTTP/1.1" 201 7100
-[10:44:47] Response status code: 201
+[13:14:16] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/plans/aafa2d2ef06a4bfea5546a875db539f4/tenders
+[13:14:16] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/plans/aafa2d2ef06a4bfea5546a875db539f4/tenders HTTP/1.1" 201 7149
+[13:14:16] Response status code: 201
 
-[10:44:47] Tender created:
- - id 				1f3b075ae2c5480aad722020a1585b67
- - token 			2db3542fb7364e499aeae8db60425abb
- - transfer 			82ebd778922248af85622aeb8ecc17a3
+[13:14:16] Tender created:
+ - id 				0c34a62d9f274a83b11b2cf569eacdce
+ - token 			66c92ea15684493382ac1a224c438f6a
+ - transfer 			9a2a74aa6d3444c1b1cfb639cbe355ff
  - status 			draft
- - tenderID 			UA-2021-09-07-000056-b
+ - tenderID 			UA-2021-11-16-000088-a
  - procurementMethodType 	closeFrameworkAgreementUA
 
-[10:44:47] [GET] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/1f3b075ae2c5480aad722020a1585b67
-[10:44:47] https://lb-api-sandbox-2.prozorro.gov.ua:443 "GET /api/0/tenders/1f3b075ae2c5480aad722020a1585b67 HTTP/1.1" 200 6995
-[10:44:47] Response status code: 200
+[13:14:16] [GET] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce
+[13:14:16] https://lb-api-sandbox-2.prozorro.gov.ua:443 "GET /api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce HTTP/1.1" 200 7044
+[13:14:16] Response status code: 200
 
-[10:44:47] Create tender criteria...
+[13:14:16] Create tender criteria...
 
-[10:44:47] Processing data file: criteria_create.json
+[13:14:16] Processing data file: criteria_create.json
 
-[10:44:47] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/1f3b075ae2c5480aad722020a1585b67/criteria?acc_token=2db3542fb7364e499aeae8db60425abb
-[10:44:47] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/tenders/1f3b075ae2c5480aad722020a1585b67/criteria?acc_token=2db3542fb7364e499aeae8db60425abb HTTP/1.1" 201 53725
-[10:44:47] Response status code: 201
+[13:14:16] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce/criteria?acc_token=66c92ea15684493382ac1a224c438f6a
+[13:14:16] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce/criteria?acc_token=66c92ea15684493382ac1a224c438f6a HTTP/1.1" 201 53725
+[13:14:16] Response status code: 201
 
-[10:44:47] Tender criteria created:
+[13:14:16] Tender criteria created:
  - classification.id 				CRITERION.EXCLUSION.CONVICTIONS.PARTICIPATION_IN_CRIMINAL_ORGANISATION
  - classification.id 				CRITERION.EXCLUSION.CONVICTIONS.FRAUD
  - classification.id 				CRITERION.EXCLUSION.CONVICTIONS.CORRUPTION
@@ -156,87 +156,87 @@ procedure https://lb-api-sandbox-2.prozorro.gov.ua broker_api_token https://uplo
  - classification.id 				CRITERION.EXCLUSION.NATIONAL.OTHER
  - classification.id 				CRITERION.OTHER.BID.LANGUAGE
 
-[10:44:47] Patching tender...
+[13:14:16] Patching tender...
 
-[10:44:47] Processing data file: tender_patch.json
+[13:14:16] Processing data file: tender_patch.json
 
-[10:44:47] [PATCH] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/1f3b075ae2c5480aad722020a1585b67?acc_token=2db3542fb7364e499aeae8db60425abb
-[10:44:48] https://lb-api-sandbox-2.prozorro.gov.ua:443 "PATCH /api/0/tenders/1f3b075ae2c5480aad722020a1585b67?acc_token=2db3542fb7364e499aeae8db60425abb HTTP/1.1" 200 60916
-[10:44:48] Response status code: 200
+[13:14:16] [PATCH] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce?acc_token=66c92ea15684493382ac1a224c438f6a
+[13:14:17] https://lb-api-sandbox-2.prozorro.gov.ua:443 "PATCH /api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce?acc_token=66c92ea15684493382ac1a224c438f6a HTTP/1.1" 200 60965
+[13:14:17] Response status code: 200
 
-[10:44:48] Tender status patched:
- - id 				1f3b075ae2c5480aad722020a1585b67
+[13:14:17] Tender status patched:
+ - id 				0c34a62d9f274a83b11b2cf569eacdce
  - status 			active.tendering
 
-[10:44:48] Creating bids...
+[13:14:17] Creating bids...
 
-[10:44:48] Processing data file: bid_document.txt
+[13:14:17] Processing data file: bid_document.txt
 
-[10:44:48] [POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
-[10:44:48] Starting new HTTPS connection (1): upload-docs-sandbox-2.prozorro.gov.ua:443
-[10:44:50] https://upload-docs-sandbox-2.prozorro.gov.ua:443 "POST /upload HTTP/1.1" 200 586
-[10:44:50] Response status code: 200
+[13:14:17] [POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
+[13:14:17] Starting new HTTPS connection (1): upload-docs-sandbox-2.prozorro.gov.ua:443
+[13:14:19] https://upload-docs-sandbox-2.prozorro.gov.ua:443 "POST /upload HTTP/1.1" 200 582
+[13:14:19] Response status code: 200
 
-[10:44:50] Processing data file: bid_create_0.json
+[13:14:19] Processing data file: bid_create_0.json
 
-[10:44:50] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/1f3b075ae2c5480aad722020a1585b67/bids
-[10:44:50] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/tenders/1f3b075ae2c5480aad722020a1585b67/bids HTTP/1.1" 201 1933
-[10:44:50] Response status code: 201
+[13:14:19] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce/bids
+[13:14:19] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce/bids HTTP/1.1" 201 1947
+[13:14:19] Response status code: 201
 
-[10:44:50] Bid created:
- - id 				e7407b6bcce84f57897c3c9d0184635c
- - token 			fd9ca07a64d5491c94be03bb6e6b8440
+[13:14:19] Bid created:
+ - id 				f8f728cbac90467088653f3f2e531da6
+ - token 			8a85707c203f4f4491721980bde20fe8
  - status 			draft
 
-[10:44:50] Processing data file: bid_document.txt
+[13:14:19] Processing data file: bid_document.txt
 
-[10:44:50] [POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
-[10:44:50] https://upload-docs-sandbox-2.prozorro.gov.ua:443 "POST /upload HTTP/1.1" 200 582
-[10:44:50] Response status code: 200
+[13:14:19] [POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
+[13:14:21] https://upload-docs-sandbox-2.prozorro.gov.ua:443 "POST /upload HTTP/1.1" 200 576
+[13:14:21] Response status code: 200
 
-[10:44:50] Processing data file: bid_create_1.json
+[13:14:21] Processing data file: bid_create_1.json
 
-[10:44:50] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/1f3b075ae2c5480aad722020a1585b67/bids
-[10:44:50] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/tenders/1f3b075ae2c5480aad722020a1585b67/bids HTTP/1.1" 201 2036
-[10:44:50] Response status code: 201
+[13:14:21] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce/bids
+[13:14:21] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce/bids HTTP/1.1" 201 2050
+[13:14:21] Response status code: 201
 
-[10:44:50] Bid created:
- - id 				30e477fbea7a4348aab0c2fe1611edaf
- - token 			7eefbd8f00ae4d52b4c074b4fe2a0745
+[13:14:21] Bid created:
+ - id 				5e68e7b8abd74a7487270b53c25773a7
+ - token 			ac1cfc77db514a879f743b395cc15c7d
  - status 			draft
 
-[10:44:50] Processing data file: bid_document.txt
+[13:14:21] Processing data file: bid_document.txt
 
-[10:44:50] [POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
-[10:44:52] https://upload-docs-sandbox-2.prozorro.gov.ua:443 "POST /upload HTTP/1.1" 200 572
-[10:44:52] Response status code: 200
+[13:14:21] [POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
+[13:14:21] https://upload-docs-sandbox-2.prozorro.gov.ua:443 "POST /upload HTTP/1.1" 200 580
+[13:14:21] Response status code: 200
 
-[10:44:52] Processing data file: bid_create_2.json
+[13:14:21] Processing data file: bid_create_2.json
 
-[10:44:52] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/1f3b075ae2c5480aad722020a1585b67/bids
-[10:44:52] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/tenders/1f3b075ae2c5480aad722020a1585b67/bids HTTP/1.1" 201 2032
-[10:44:52] Response status code: 201
+[13:14:21] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce/bids
+[13:14:21] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce/bids HTTP/1.1" 201 2048
+[13:14:21] Response status code: 201
 
-[10:44:52] Bid created:
- - id 				2bccfd59a9154b6596118e9700b86849
- - token 			a2cab32c8c3f4c31a8cb40112794ffe0
+[13:14:21] Bid created:
+ - id 				56baecfca88b49b6bea1440dc8a379d1
+ - token 			dfd457f8a4af425c84368999e1e4f942
  - status 			draft
 
-[10:44:52] Processing data file: bid_document.txt
+[13:14:21] Processing data file: bid_document.txt
 
-[10:44:52] [POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
-[10:44:52] https://upload-docs-sandbox-2.prozorro.gov.ua:443 "POST /upload HTTP/1.1" 200 574
-[10:44:52] Response status code: 200
+[13:14:21] [POST] https://upload-docs-sandbox-2.prozorro.gov.ua/upload
+[13:14:21] https://upload-docs-sandbox-2.prozorro.gov.ua:443 "POST /upload HTTP/1.1" 200 586
+[13:14:21] Response status code: 200
 
-[10:44:52] Processing data file: bid_create_3.json
+[13:14:21] Processing data file: bid_create_3.json
 
-[10:44:52] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/1f3b075ae2c5480aad722020a1585b67/bids
-[10:44:52] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/tenders/1f3b075ae2c5480aad722020a1585b67/bids HTTP/1.1" 201 2030
-[10:44:52] Response status code: 201
+[13:14:21] [POST] https://lb-api-sandbox-2.prozorro.gov.ua/api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce/bids
+[13:14:21] https://lb-api-sandbox-2.prozorro.gov.ua:443 "POST /api/0/tenders/0c34a62d9f274a83b11b2cf569eacdce/bids HTTP/1.1" 201 2050
+[13:14:21] Response status code: 201
 
-[10:44:52] Bid created:
- - id 				8a212803de2b4f50b49470cbbcb51f75
- - token 			f1574dfea8fa45048a2fd96512a781b9
+[13:14:21] Bid created:
+ - id 				9b4a7b9c306540fc9b2b66ffc6f715c5
+ - token 			97b8054bab6d434b8b88bf9cace5864d
  - status 			draft
 
 ```
