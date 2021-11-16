@@ -84,7 +84,11 @@
         "description_en": "Procurement item test name", 
         "id": "e30bb60e8df74b85b1da9a4b999654ca", 
         "quantity": 5, 
-        "relatedLot": "ddb35dd0e9904726aafd18baed24863a"
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        }
       }
     ], 
     "lots": [
