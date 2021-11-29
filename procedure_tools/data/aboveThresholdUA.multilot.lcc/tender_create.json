@@ -152,6 +152,10 @@
     "value": {
       "amount": 60.0,
       "currency": "UAH"
+    },
+    "guarantee": {
+      "amount": 0.0,
+      "currency": "UAH"
     }
   }
 }
