@@ -1,168 +1,168 @@
 {
   "data": {
-    "agreementDuration": "P3Y3M3D", 
+    "agreementDuration": "P3Y3M3D",
     "features": [
       {
-        "code": "OCDS-123454-AIR-INTAKE", 
-        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)", 
+        "code": "OCDS-123454-AIR-INTAKE",
+        "description": "Ефективна потужність всмоктування пилососа, в ватах (аероватах)",
         "enum": [
           {
-            "title": "До 1000 Вт", 
+            "title": "До 1000 Вт",
             "value": 0.1
-          }, 
+          },
           {
-            "title": "Більше 1000 Вт", 
+            "title": "Більше 1000 Вт",
             "value": 0.15
           }
-        ], 
-        "featureOf": "item", 
-        "relatedItem": "7fa0fbf85aab4f48a43afb8ccbc944e4", 
-        "title": "Потужність всмоктування", 
+        ],
+        "featureOf": "item",
+        "relatedItem": "7fa0fbf85aab4f48a43afb8ccbc944e4",
+        "title": "Потужність всмоктування",
         "title_en": "Air Intake"
       }
-    ], 
+    ],
     "items": [
       {
         "additionalClassifications": [
           {
-            "description": "Техніка конторська/офісна, інша", 
-            "id": "28.23.23", 
+            "description": "Техніка конторська/офісна, інша",
+            "id": "28.23.23",
             "scheme": "ДКПП"
           }
-        ], 
+        ],
         "classification": {
-          "description": "Промислова техніка", 
-          "id": "42000000-6", 
+          "description": "Промислова техніка",
+          "id": "42000000-6",
           "scheme": "ДК021"
-        }, 
+        },
         "deliveryAddress": {
-          "countryName": "Україна", 
-          "locality": "м. Київ", 
-          "postalCode": "79000", 
-          "region": "м. Київ", 
+          "countryName": "Україна",
+          "locality": "м. Київ",
+          "postalCode": "79000",
+          "region": "м. Київ",
           "streetAddress": "вул. Тестова 1"
-        }, 
+        },
         "deliveryDate": {
-          "endDate": "2018-06-30T13:39:09.362837", 
+          "endDate": "2018-06-30T13:39:09.362837",
           "startDate": "2018-06-27T13:39:09.362837"
-        }, 
-        "description": "Тестова назва предмета закупівлі", 
-        "description_en": "Procurement item test name", 
-        "id": "7fa0fbf85aab4f48a43afb8ccbc944e4", 
-        "quantity": 5, 
-        "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
+        },
+        "description": "Тестова назва предмета закупівлі",
+        "description_en": "Procurement item test name",
+        "id": "7fa0fbf85aab4f48a43afb8ccbc944e4",
+        "quantity": 5,
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
         "unit": {
           "code": "KGM",
           "name": "кг"
         }
-      }, 
+      },
       {
         "additionalClassifications": [
           {
-            "description": "Техніка конторська/офісна, інша", 
-            "id": "28.23.23", 
+            "description": "Техніка конторська/офісна, інша",
+            "id": "28.23.23",
             "scheme": "ДКПП"
           }
-        ], 
+        ],
         "classification": {
-          "description": "Промислова техніка", 
-          "id": "42000000-6", 
+          "description": "Промислова техніка",
+          "id": "42000000-6",
           "scheme": "ДК021"
-        }, 
+        },
         "deliveryAddress": {
-          "countryName": "Україна", 
-          "locality": "м. Київ", 
-          "postalCode": "79000", 
-          "region": "м. Київ", 
+          "countryName": "Україна",
+          "locality": "м. Київ",
+          "postalCode": "79000",
+          "region": "м. Київ",
           "streetAddress": "вул. Тестова 1"
-        }, 
+        },
         "deliveryDate": {
-          "endDate": "2018-06-30T13:39:09.362837", 
+          "endDate": "2018-06-30T13:39:09.362837",
           "startDate": "2018-06-27T13:39:09.362837"
-        }, 
-        "description": "Тестова назва предмета закупівлі", 
-        "description_en": "Procurement item test name", 
-        "id": "e30bb60e8df74b85b1da9a4b999654ca", 
-        "quantity": 5, 
+        },
+        "description": "Тестова назва предмета закупівлі",
+        "description_en": "Procurement item test name",
+        "id": "e30bb60e8df74b85b1da9a4b999654ca",
+        "quantity": 5,
         "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
         "unit": {
           "code": "KGM",
           "name": "кг"
         }
       }
-    ], 
+    ],
     "lots": [
       {
-        "description": "Опис Лот №1", 
-        "id": "ddb35dd0e9904726aafd18baed24863a", 
+        "description": "Опис Лот №1",
+        "id": "ddb35dd0e9904726aafd18baed24863a",
         "minimalStep": {
-          "amount": 10, 
-          "currency": "UAH", 
+          "amount": 10,
+          "currency": "UAH",
           "valueAddedTaxIncluded": true
-        }, 
-        "title": "Лот №1", 
+        },
+        "title": "Лот №1",
         "value": {
-          "amount": 500, 
-          "currency": "UAH", 
+          "amount": 500,
+          "currency": "UAH",
           "valueAddedTaxIncluded": true
         }
       }
-    ], 
-    "mainProcurementCategory": "services", 
-    "maxAwardsCount": 4, 
+    ],
+    "mainProcurementCategory": "services",
+    "maxAwardsCount": 4,
     "milestones": [
       {
-        "code": "prepayment", 
+        "code": "prepayment",
         "duration": {
-          "days": 2, 
+          "days": 2,
           "type": "banking"
-        }, 
-        "percentage": 100, 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        },
+        "percentage": 100,
+        "sequenceNumber": 0,
+        "title": "signingTheContract",
         "type": "financing"
       }
-    ], 
+    ],
     "minimalStep": {
-      "amount": 10, 
-      "currency": "UAH", 
+      "amount": 10,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }, 
-    "procurementMethodType": "closeFrameworkAgreementUA", 
+    },
+    "procurementMethodType": "closeFrameworkAgreementUA",
     "procuringEntity": {
       "address": {
-        "countryName": "Україна", 
-        "locality": "м. Київ", 
-        "postalCode": "01220", 
-        "region": "м. Київ", 
+        "countryName": "Україна",
+        "locality": "м. Київ",
+        "postalCode": "01220",
+        "region": "м. Київ",
         "streetAddress": "вул. Тестова, 11, корпус 1"
-      }, 
+      },
       "contactPoint": {
-        "name": "Державне управління справами", 
-        "name_en": "State administration", 
+        "name": "Державне управління справами",
+        "name_en": "State administration",
         "telephone": "+380440000000"
-      }, 
+      },
       "identifier": {
-        "id": "00037256", 
-        "legalName_en": "dus.gov.ua", 
-        "scheme": "UA-EDR", 
+        "id": "00037256",
+        "legalName_en": "dus.gov.ua",
+        "scheme": "UA-EDR",
         "uri": "http://www.dus.gov.ua/"
-      }, 
-      "kind": "general", 
-      "name": "Державне управління справами", 
+      },
+      "kind": "general",
+      "name": "Державне управління справами",
       "name_en": "State administration"
-    }, 
-    "status": "draft", 
+    },
+    "status": "draft",
     "tenderPeriod": {
-      "endDate": "XXXX-XX-XXTXX:XX+XX:XX", 
+      "endDate": "XXXX-XX-XXTXX:XX+XX:XX",
       "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
-    }, 
-    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)", 
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)", 
-    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)", 
+    },
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
     "value": {
-      "amount": 500, 
-      "currency": "UAH", 
+      "amount": 500,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
     "guarantee": {

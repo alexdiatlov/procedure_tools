@@ -2,66 +2,66 @@
   "data": {
     "parameters": [
       {
-        "code": "ee3e24bc17234a41bd3e3a04cc28e9c6", 
+        "code": "ee3e24bc17234a41bd3e3a04cc28e9c6",
         "value": 0.05
-      }, 
+      },
       {
-        "code": "48cfd91612c04125ab406374d7cc8d93", 
+        "code": "48cfd91612c04125ab406374d7cc8d93",
         "value": 0.01
       }
-    ], 
-    "status": "draft", 
+    ],
+    "status": "draft",
     "tenderers": [
       {
         "address": {
-          "countryName": "Україна", 
-          "locality": "м. Львів", 
-          "postalCode": "79013", 
-          "region": "Львівська область", 
+          "countryName": "Україна",
+          "locality": "м. Львів",
+          "postalCode": "79013",
+          "region": "Львівська область",
           "streetAddress": "вул. Островського, 35"
-        }, 
+        },
         "contactPoint": {
-          "email": "fake@mail.com", 
-          "name": "Іван Іваненко", 
+          "email": "fake@mail.com",
+          "name": "Іван Іваненко",
           "telephone": "+380322123456"
-        }, 
+        },
         "identifier": {
-          "id": "00137226", 
-          "scheme": "UA-EDR", 
+          "id": "00137226",
+          "scheme": "UA-EDR",
           "uri": "http://factory.example.com"
-        }, 
-        "name": "«Снігур»", 
+        },
+        "name": "«Снігур»",
         "scale": "micro"
       }
-    ], 
+    ],
     "value": {
       "annualCostsReduction": [
-        200, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
-        800, 
+        200,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
+        800,
         800
-      ], 
+      ],
       "contractDuration": {
-        "days": 40, 
+        "days": 40,
         "years": 13
-      }, 
+      },
       "yearlyPaymentsPercentage": 0.86
     }
   }

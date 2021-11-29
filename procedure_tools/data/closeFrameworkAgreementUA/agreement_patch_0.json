@@ -1,9 +1,9 @@
 {
   "data": {
     "period": {
-      "endDate": "XXXX-XX-XXTXX:XX+XX:XX", 
+      "endDate": "XXXX-XX-XXTXX:XX+XX:XX",
       "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
-    }, 
+    },
     "status": "active"
   }
 }

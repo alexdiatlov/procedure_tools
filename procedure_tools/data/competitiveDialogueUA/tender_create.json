@@ -4,116 +4,116 @@
       {
         "additionalClassifications": [
           {
-            "description": "Техніка конторська/офісна, інша", 
-            "id": "28.23.23", 
+            "description": "Техніка конторська/офісна, інша",
+            "id": "28.23.23",
             "scheme": "ДКПП"
           }
-        ], 
+        ],
         "classification": {
-          "description": "Промислова техніка", 
-          "id": "42000000-6", 
+          "description": "Промислова техніка",
+          "id": "42000000-6",
           "scheme": "ДК021"
-        }, 
+        },
         "deliveryAddress": {
-          "countryName": "Україна", 
-          "locality": "м. Київ", 
-          "postalCode": "79000", 
-          "region": "м. Київ", 
+          "countryName": "Україна",
+          "locality": "м. Київ",
+          "postalCode": "79000",
+          "region": "м. Київ",
           "streetAddress": "вул. Тестова 1"
-        }, 
+        },
         "deliveryDate": {
-          "endDate": "2017-08-10T17:04:37.418606+03:00", 
+          "endDate": "2017-08-10T17:04:37.418606+03:00",
           "startDate": "2017-07-11T17:04:37.418546+03:00"
-        }, 
-        "description": "Тестова назва предмета закупівлі", 
-        "quantity": 1, 
+        },
+        "description": "Тестова назва предмета закупівлі",
+        "quantity": 1,
         "unit": {
           "code": "KGM",
           "name": "кг"
         }
-      }, 
+      },
       {
         "additionalClassifications": [
           {
-            "description": "Техніка конторська/офісна, інша", 
-            "id": "28.23.23", 
+            "description": "Техніка конторська/офісна, інша",
+            "id": "28.23.23",
             "scheme": "ДКПП"
           }
-        ], 
+        ],
         "classification": {
-          "description": "Промислова техніка", 
-          "id": "42000000-6", 
+          "description": "Промислова техніка",
+          "id": "42000000-6",
           "scheme": "ДК021"
-        }, 
+        },
         "deliveryAddress": {
-          "countryName": "Україна", 
-          "locality": "м. Київ", 
-          "postalCode": "79000", 
-          "region": "м. Київ", 
+          "countryName": "Україна",
+          "locality": "м. Київ",
+          "postalCode": "79000",
+          "region": "м. Київ",
           "streetAddress": "вул. Тестова 1"
-        }, 
+        },
         "deliveryDate": {
-          "endDate": "2017-08-10T17:04:37.418662+03:00", 
+          "endDate": "2017-08-10T17:04:37.418662+03:00",
           "startDate": "2017-07-11T17:04:37.418636+03:00"
-        }, 
-        "description": "Тестова назва предмета закупівлі", 
-        "quantity": 1, 
+        },
+        "description": "Тестова назва предмета закупівлі",
+        "quantity": 1,
         "unit": {
           "code": "KGM",
           "name": "кг"
         }
       }
-    ], 
-    "mainProcurementCategory": "services", 
+    ],
+    "mainProcurementCategory": "services",
     "milestones": [
       {
-        "code": "prepayment", 
+        "code": "prepayment",
         "duration": {
-          "days": 2, 
+          "days": 2,
           "type": "banking"
-        }, 
-        "percentage": 100, 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        },
+        "percentage": 100,
+        "sequenceNumber": 0,
+        "title": "signingTheContract",
         "type": "financing"
       }
-    ], 
+    ],
     "minimalStep": {
-      "amount": 10, 
+      "amount": 10,
       "currency": "UAH"
-    }, 
-    "procurementMethodType": "competitiveDialogueUA", 
+    },
+    "procurementMethodType": "competitiveDialogueUA",
     "procuringEntity": {
       "address": {
-        "countryName": "Україна", 
-        "locality": "м. Київ", 
-        "postalCode": "42000", 
-        "region": "м. Київ", 
+        "countryName": "Україна",
+        "locality": "м. Київ",
+        "postalCode": "42000",
+        "region": "м. Київ",
         "streetAddress": "вул. Тестова 22"
-      }, 
+      },
       "contactPoint": {
-        "name": "Тестовенко Тест Тестович", 
+        "name": "Тестовенко Тест Тестович",
         "telephone": "+380424424242",
         "url": "https://example.com"
-      }, 
+      },
       "identifier": {
-        "id": "21725150", 
-        "legalName": "Тестовий заклад", 
+        "id": "21725150",
+        "legalName": "Тестовий заклад",
         "scheme": "UA-EDR"
-      }, 
-      "kind": "general", 
+      },
+      "kind": "general",
       "name": "Тестовий заклад #1 м.Київ"
-    }, 
-    "status": "draft", 
+    },
+    "status": "draft",
     "tenderPeriod": {
-      "endDate": "XXXX-XX-XXTXX:XX+XX:XX", 
+      "endDate": "XXXX-XX-XXTXX:XX+XX:XX",
       "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
-    }, 
-    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)", 
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)", 
-    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)", 
+    },
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
     "value": {
-      "amount": 500, 
+      "amount": 500,
       "currency": "UAH"
     },
     "guarantee": {

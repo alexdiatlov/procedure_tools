@@ -4,10 +4,10 @@
       {
         "id": "dd426ce4c76f48849b3d8e8699b0b3ce",
         "identifier": {
-          "id": "111983", 
-          "legalName": "Державне тестове підприемство", 
+          "id": "111983",
+          "legalName": "Державне тестове підприемство",
           "scheme": "UA-EDR"
-        }, 
+        },
         "name": "ДТП"
       },
       {
@@ -28,38 +28,38 @@
         },
         "name": "ЗІТП"
       }
-    ], 
+    ],
     "enquiryPeriod": {
       "endDate": "XXXX-XX-XXTXX:XX+XX:XX"
-    }, 
+    },
     "items": [
       {
         "relatedBuyer": "dd426ce4c76f48849b3d8e8699b0b3ce",
         "additionalClassifications": [
           {
-            "description": "Техніка конторська/офісна, інша", 
-            "id": "28.23.23", 
+            "description": "Техніка конторська/офісна, інша",
+            "id": "28.23.23",
             "scheme": "ДКПП"
           }
-        ], 
+        ],
         "classification": {
-          "description": "Промислова техніка", 
-          "id": "42000000-6", 
+          "description": "Промислова техніка",
+          "id": "42000000-6",
           "scheme": "ДК021"
-        }, 
+        },
         "deliveryAddress": {
-          "countryName": "Україна", 
-          "locality": "м. Київ", 
-          "postalCode": "79000", 
-          "region": "м. Київ", 
+          "countryName": "Україна",
+          "locality": "м. Київ",
+          "postalCode": "79000",
+          "region": "м. Київ",
           "streetAddress": "вул. Тестова 1"
-        }, 
+        },
         "deliveryDate": {
-          "endDate": "2017-07-30T17:36:49.306344", 
+          "endDate": "2017-07-30T17:36:49.306344",
           "startDate": "2017-07-27T17:36:49.306344"
-        }, 
-        "description": "Тестова назва предмета закупівлі", 
-        "quantity": 5, 
+        },
+        "description": "Тестова назва предмета закупівлі",
+        "quantity": 5,
         "unit": {
           "code": "KGM",
           "name": "кг"
@@ -129,56 +129,56 @@
           "name": "кг"
         }
       }
-    ], 
-    "mainProcurementCategory": "services", 
+    ],
+    "mainProcurementCategory": "services",
     "milestones": [
       {
-        "code": "prepayment", 
+        "code": "prepayment",
         "duration": {
-          "days": 2, 
+          "days": 2,
           "type": "banking"
-        }, 
-        "percentage": 100, 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        },
+        "percentage": 100,
+        "sequenceNumber": 0,
+        "title": "signingTheContract",
         "type": "financing"
       }
-    ], 
+    ],
     "minimalStep": {
-      "amount": 10, 
+      "amount": 10,
       "currency": "UAH"
-    }, 
-    "procurementMethodType": "belowThreshold", 
+    },
+    "procurementMethodType": "belowThreshold",
     "procuringEntity": {
       "address": {
-        "countryName": "Україна", 
-        "locality": "м. Київ", 
-        "postalCode": "01220", 
-        "region": "м. Київ", 
+        "countryName": "Україна",
+        "locality": "м. Київ",
+        "postalCode": "01220",
+        "region": "м. Київ",
         "streetAddress": "вул. Тестова, 11, корпус 1"
-      }, 
+      },
       "contactPoint": {
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "telephone": "+380440000000"
-      }, 
+      },
       "identifier": {
-        "id": "00037256", 
-        "scheme": "UA-EDR", 
+        "id": "00037256",
+        "scheme": "UA-EDR",
         "uri": "http://www.dus.gov.ua/"
-      }, 
-      "kind": "central", 
+      },
+      "kind": "central",
       "name": "Державне управління справами"
-    }, 
-    "status": "draft", 
+    },
+    "status": "draft",
     "tenderPeriod": {
-      "endDate": "XXXX-XX-XXTXX:XX+XX:XX", 
+      "endDate": "XXXX-XX-XXTXX:XX+XX:XX",
       "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
-    }, 
-    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)", 
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)", 
-    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)", 
+    },
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
     "value": {
-      "amount": 500, 
+      "amount": 500,
       "currency": "UAH"
     },
     "guarantee": {

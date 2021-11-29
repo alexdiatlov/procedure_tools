@@ -96,36 +96,36 @@
           "name": "кг"
         }
       }
-    ], 
+    ],
     "lots": [
       {
-        "description": "Тестовий опис лоту", 
-        "id": "ddb35dd0e9904726aafd18baed24863a", 
+        "description": "Тестовий опис лоту",
+        "id": "ddb35dd0e9904726aafd18baed24863a",
         "title": "Тестова назва лоту"
       }
-    ], 
-    "procurementMethodDetails": "quick, accelerator=1440", 
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    ],
+    "procurementMethodDetails": "quick, accelerator=1440",
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "procuringEntity": {
       "address": {
-        "countryName": "Україна", 
-        "locality": "м. Київ", 
-        "postalCode": "01220", 
-        "region": "м. Київ", 
+        "countryName": "Україна",
+        "locality": "м. Київ",
+        "postalCode": "01220",
+        "region": "м. Київ",
         "streetAddress": "вул. Тестова, 11, корпус 1"
-      }, 
+      },
       "contactPoint": {
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "telephone": "+380440000000"
-      }, 
+      },
       "identifier": {
-        "id": "00037256", 
-        "scheme": "UA-EDR", 
+        "id": "00037256",
+        "scheme": "UA-EDR",
         "uri": "http://www.dus.gov.ua/"
-      }, 
-      "kind": "general", 
+      },
+      "kind": "general",
       "name": "Державне управління справами"
-    }, 
+    },
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)"
   }
 }

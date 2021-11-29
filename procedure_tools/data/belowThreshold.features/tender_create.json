@@ -2,137 +2,137 @@
   "data": {
     "enquiryPeriod": {
       "endDate": "XXXX-XX-XXTXX:XX+XX:XX"
-    }, 
+    },
     "features": [
       {
-        "code": "ee3e24bc17234a41bd3e3a04cc28e9c6", 
-        "description": "Умови відстрочки платежу після поставки товару", 
+        "code": "ee3e24bc17234a41bd3e3a04cc28e9c6",
+        "description": "Умови відстрочки платежу після поставки товару",
         "enum": [
           {
-            "title": "180 днів та більше", 
+            "title": "180 днів та більше",
             "value": 0.15
-          }, 
+          },
           {
-            "title": "90-179 днів", 
+            "title": "90-179 днів",
             "value": 0.1
-          }, 
+          },
           {
-            "title": "30-89 днів", 
+            "title": "30-89 днів",
             "value": 0.05
-          }, 
+          },
           {
-            "title": "Менше 30 днів", 
+            "title": "Менше 30 днів",
             "value": 0
           }
-        ], 
-        "featureOf": "tenderer", 
+        ],
+        "featureOf": "tenderer",
         "title": "Термін оплати"
-      }, 
+      },
       {
-        "code": "48cfd91612c04125ab406374d7cc8d93", 
-        "description": "Сорт продукції", 
+        "code": "48cfd91612c04125ab406374d7cc8d93",
+        "description": "Сорт продукції",
         "enum": [
           {
-            "title": "Вищий", 
+            "title": "Вищий",
             "value": 0.05
-          }, 
+          },
           {
-            "title": "Перший", 
+            "title": "Перший",
             "value": 0.01
-          }, 
+          },
           {
-            "title": "Другий", 
+            "title": "Другий",
             "value": 0
           }
-        ], 
-        "featureOf": "item", 
-        "relatedItem": "edd0032574bf4402877ad5f362df225a", 
+        ],
+        "featureOf": "item",
+        "relatedItem": "edd0032574bf4402877ad5f362df225a",
         "title": "Сорт"
       }
-    ], 
+    ],
     "items": [
       {
         "additionalClassifications": [
           {
-            "description": "Техніка конторська/офісна, інша", 
-            "id": "28.23.23", 
+            "description": "Техніка конторська/офісна, інша",
+            "id": "28.23.23",
             "scheme": "ДКПП"
           }
-        ], 
+        ],
         "classification": {
-          "description": "Промислова техніка", 
-          "id": "42000000-6", 
+          "description": "Промислова техніка",
+          "id": "42000000-6",
           "scheme": "ДК021"
-        }, 
+        },
         "deliveryAddress": {
-          "countryName": "Україна", 
-          "locality": "м. Київ", 
-          "postalCode": "79000", 
-          "region": "м. Київ", 
+          "countryName": "Україна",
+          "locality": "м. Київ",
+          "postalCode": "79000",
+          "region": "м. Київ",
           "streetAddress": "вул. Тестова 1"
-        }, 
+        },
         "deliveryDate": {
-          "endDate": "2017-07-30T17:36:49.306344", 
+          "endDate": "2017-07-30T17:36:49.306344",
           "startDate": "2017-07-27T17:36:49.306344"
-        }, 
-        "description": "Тестова назва предмета закупівлі", 
-        "id": "edd0032574bf4402877ad5f362df225a", 
+        },
+        "description": "Тестова назва предмета закупівлі",
+        "id": "edd0032574bf4402877ad5f362df225a",
         "quantity": 5,
         "unit": {
           "code": "KGM",
           "name": "кг"
         }
       }
-    ], 
-    "mainProcurementCategory": "services", 
+    ],
+    "mainProcurementCategory": "services",
     "milestones": [
       {
-        "code": "prepayment", 
+        "code": "prepayment",
         "duration": {
-          "days": 2, 
+          "days": 2,
           "type": "banking"
-        }, 
-        "percentage": 100, 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        },
+        "percentage": 100,
+        "sequenceNumber": 0,
+        "title": "signingTheContract",
         "type": "financing"
       }
-    ], 
+    ],
     "minimalStep": {
-      "amount": 10, 
+      "amount": 10,
       "currency": "UAH"
-    }, 
-    "procurementMethodType": "belowThreshold", 
+    },
+    "procurementMethodType": "belowThreshold",
     "procuringEntity": {
       "address": {
-        "countryName": "Україна", 
-        "locality": "м. Київ", 
-        "postalCode": "01220", 
-        "region": "м. Київ", 
+        "countryName": "Україна",
+        "locality": "м. Київ",
+        "postalCode": "01220",
+        "region": "м. Київ",
         "streetAddress": "вул. Тестова, 11, корпус 1"
-      }, 
+      },
       "contactPoint": {
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "telephone": "+380440000000"
-      }, 
+      },
       "identifier": {
-        "id": "00037256", 
-        "scheme": "UA-EDR", 
+        "id": "00037256",
+        "scheme": "UA-EDR",
         "uri": "http://www.dus.gov.ua/"
-      }, 
-      "kind": "general", 
+      },
+      "kind": "general",
       "name": "Державне управління справами"
-    }, 
-    "status": "draft", 
+    },
+    "status": "draft",
     "tenderPeriod": {
-      "endDate": "XXXX-XX-XXTXX:XX+XX:XX", 
+      "endDate": "XXXX-XX-XXTXX:XX+XX:XX",
       "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
-    }, 
-    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)", 
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)", 
-    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)", 
+    },
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
     "value": {
-      "amount": 500, 
+      "amount": 500,
       "currency": "UAH"
     },
     "guarantee": {
