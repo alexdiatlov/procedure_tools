@@ -2,13 +2,13 @@
   "data": {
     "unitPrices": [
       {
-        "relatedItem": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", 
+        "relatedItem": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         "value": {
           "amount": 0.5
         }
-      }, 
+      },
       {
-        "relatedItem": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX", 
+        "relatedItem": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         "value": {
           "amount": 0.5
         }

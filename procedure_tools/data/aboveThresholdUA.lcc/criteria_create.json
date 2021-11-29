@@ -599,6 +599,70 @@
           ]
         }
       ]
+    },
+    {
+      "title": "Забезпечення тендерних пропозицій",
+      "source": "tenderer",
+      "classification": {
+        "scheme": "ESPD211",
+        "id": "CRITERION.OTHER.BID.GUARANTEE"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2020-04-19",
+          "identifier": {
+            "id": "922-VIII",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+          },
+          "type": "NATIONAL_LEGISLATION"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Учасник підтверджує, що",
+          "requirements": [
+            {
+              "title": "Вид та умови надання забезпечення тендерних пропозицій",
+              "dataType": "boolean",
+              "expectedValue": "true"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Забезпечення виконання договору",
+      "source": "winner",
+      "classification": {
+        "scheme": "ESPD211",
+        "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"
+      },
+      "relatesTo": "tender",
+      "legislation": [
+        {
+          "version": "2020-04-19",
+          "identifier": {
+            "id": "922-VIII",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19"
+          },
+          "type": "NATIONAL_LEGISLATION"
+        }
+      ],
+      "requirementGroups": [
+        {
+          "description": "Учасник підтверджує, що",
+          "requirements": [
+            {
+              "title": "Розмір та умови надання забезпечення виконання договору про закупівлю",
+              "dataType": "boolean",
+              "expectedValue": "true"
+            }
+          ]
+        }
+      ]
     }
   ]
 }

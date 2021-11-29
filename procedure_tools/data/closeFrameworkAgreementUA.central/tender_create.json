@@ -1,6 +1,6 @@
 {
   "data": {
-    "agreementDuration": "P3Y3M3D", 
+    "agreementDuration": "P3Y3M3D",
     "buyers": [
       {
         "id": "dd426ce4c76f48849b3d8e8699b0b3ce",
@@ -156,80 +156,84 @@
           "name": "кг"
         }
       }
-    ], 
+    ],
     "lots": [
       {
-        "description": "Опис Лот №1", 
-        "id": "ddb35dd0e9904726aafd18baed24863a", 
+        "description": "Опис Лот №1",
+        "id": "ddb35dd0e9904726aafd18baed24863a",
         "minimalStep": {
-          "amount": 10, 
-          "currency": "UAH", 
+          "amount": 10,
+          "currency": "UAH",
           "valueAddedTaxIncluded": true
-        }, 
-        "title": "Лот №1", 
+        },
+        "title": "Лот №1",
         "value": {
-          "amount": 500, 
-          "currency": "UAH", 
+          "amount": 500,
+          "currency": "UAH",
           "valueAddedTaxIncluded": true
         }
       }
-    ], 
-    "mainProcurementCategory": "services", 
-    "maxAwardsCount": 4, 
+    ],
+    "mainProcurementCategory": "services",
+    "maxAwardsCount": 4,
     "milestones": [
       {
-        "code": "prepayment", 
+        "code": "prepayment",
         "duration": {
-          "days": 2, 
+          "days": 2,
           "type": "banking"
-        }, 
-        "percentage": 100, 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        },
+        "percentage": 100,
+        "sequenceNumber": 0,
+        "title": "signingTheContract",
         "type": "financing"
       }
-    ], 
+    ],
     "minimalStep": {
-      "amount": 10, 
-      "currency": "UAH", 
+      "amount": 10,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }, 
-    "procurementMethodType": "closeFrameworkAgreementUA", 
+    },
+    "procurementMethodType": "closeFrameworkAgreementUA",
     "procuringEntity": {
       "address": {
-        "countryName": "Україна", 
-        "locality": "м. Київ", 
-        "postalCode": "01220", 
-        "region": "м. Київ", 
+        "countryName": "Україна",
+        "locality": "м. Київ",
+        "postalCode": "01220",
+        "region": "м. Київ",
         "streetAddress": "вул. Тестова, 11, корпус 1"
-      }, 
+      },
       "contactPoint": {
-        "name": "Державне управління справами", 
-        "name_en": "State administration", 
+        "name": "Державне управління справами",
+        "name_en": "State administration",
         "telephone": "+380440000000"
-      }, 
+      },
       "identifier": {
-        "id": "00037256", 
-        "legalName_en": "dus.gov.ua", 
-        "scheme": "UA-EDR", 
+        "id": "00037256",
+        "legalName_en": "dus.gov.ua",
+        "scheme": "UA-EDR",
         "uri": "http://www.dus.gov.ua/"
-      }, 
-      "kind": "central", 
-      "name": "Державне управління справами", 
+      },
+      "kind": "central",
+      "name": "Державне управління справами",
       "name_en": "State administration"
-    }, 
-    "status": "draft", 
+    },
+    "status": "draft",
     "tenderPeriod": {
-      "endDate": "XXXX-XX-XXTXX:XX+XX:XX", 
+      "endDate": "XXXX-XX-XXTXX:XX+XX:XX",
       "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
-    }, 
-    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)", 
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)", 
-    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)", 
+    },
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
     "value": {
-      "amount": 500, 
-      "currency": "UAH", 
+      "amount": 500,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
+    },
+    "guarantee": {
+      "amount": 0.0,
+      "currency": "UAH"
     }
   }
 }

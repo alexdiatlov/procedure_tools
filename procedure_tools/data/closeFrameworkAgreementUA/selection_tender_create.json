@@ -4,72 +4,72 @@
       {
         "id": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
       }
-    ], 
+    ],
     "items": [
       {
         "additionalClassifications": [
           {
-            "description": "Техніка конторська/офісна, інша", 
-            "id": "28.23.23", 
+            "description": "Техніка конторська/офісна, інша",
+            "id": "28.23.23",
             "scheme": "ДКПП"
           }
-        ], 
+        ],
         "classification": {
-          "description": "Промислова техніка", 
-          "id": "42000000-6", 
+          "description": "Промислова техніка",
+          "id": "42000000-6",
           "scheme": "ДК021"
-        }, 
+        },
         "deliveryAddress": {
-          "countryName": "Україна", 
-          "locality": "м. Київ", 
-          "postalCode": "79000", 
-          "region": "м. Київ", 
+          "countryName": "Україна",
+          "locality": "м. Київ",
+          "postalCode": "79000",
+          "region": "м. Київ",
           "streetAddress": "вул. Тестова 1"
-        }, 
+        },
         "deliveryDate": {
-          "endDate": "2019-01-30T15:48:03.841685+02:00", 
+          "endDate": "2019-01-30T15:48:03.841685+02:00",
           "startDate": "2019-01-27T15:48:03.841685+02:00"
-        }, 
-        "description": "Тестова назва предмета закупівлі", 
-        "description_en": "Procurement item test name", 
-        "id": "7fa0fbf85aab4f48a43afb8ccbc944e4", 
-        "quantity": 5, 
-        "relatedLot": "ddb35dd0e9904726aafd18baed24863a", 
+        },
+        "description": "Тестова назва предмета закупівлі",
+        "description_en": "Procurement item test name",
+        "id": "7fa0fbf85aab4f48a43afb8ccbc944e4",
+        "quantity": 5,
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
         "unit": {
           "code": "KGM",
           "name": "кг"
         }
       }
-    ], 
+    ],
     "lots": [
       {
-        "description": "Тестовий опис лоту", 
-        "id": "ddb35dd0e9904726aafd18baed24863a", 
+        "description": "Тестовий опис лоту",
+        "id": "ddb35dd0e9904726aafd18baed24863a",
         "title": "Тестова назва лоту"
       }
-    ], 
-    "procurementMethodDetails": "quick, accelerator=1440", 
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA", 
+    ],
+    "procurementMethodDetails": "quick, accelerator=1440",
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "procuringEntity": {
       "address": {
-        "countryName": "Україна", 
-        "locality": "м. Київ", 
-        "postalCode": "01220", 
-        "region": "м. Київ", 
+        "countryName": "Україна",
+        "locality": "м. Київ",
+        "postalCode": "01220",
+        "region": "м. Київ",
         "streetAddress": "вул. Тестова, 11, корпус 1"
-      }, 
+      },
       "contactPoint": {
-        "name": "Державне управління справами", 
+        "name": "Державне управління справами",
         "telephone": "+380440000000"
-      }, 
+      },
       "identifier": {
-        "id": "00037256", 
-        "scheme": "UA-EDR", 
+        "id": "00037256",
+        "scheme": "UA-EDR",
         "uri": "http://www.dus.gov.ua/"
-      }, 
-      "kind": "general", 
+      },
+      "kind": "general",
       "name": "Державне управління справами"
-    }, 
+    },
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)"
   }
 }

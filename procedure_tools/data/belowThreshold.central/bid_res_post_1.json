@@ -1,222 +1,197 @@
 {
   "data": [
     {
-      "description": "критерій 1 група 1", 
+      "description": "критерій 1 група 1",
       "evidences": [
         {
-          "id": "a673736e101c49c6b3f3767a27dc1ae2", 
           "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf", 
             "title": "name.doc"
-          }, 
-          "title": "Requirement response", 
+          },
+          "title": "Requirement response",
           "type": "document"
         }
-      ], 
-      "id": "ae615b0b6a70468ca500d7debfb4beab", 
+      ],
       "requirement": {
-        "id": "330621a627db41799222074feeb6b633", 
         "title": "Фізична особа, яка є учасником процедури закупівлі, не була засуджена за злочин, учинений з корисливих мотивів (зокрема, пов'язаний з хабарництвом та відмиванням коштів), судимість з якої знято або погашено у встановленому законом порядку"
-      }, 
-      "title": "Requirement response", 
+      },
+      "title": "Requirement response",
       "value": "true"
-    }, 
+    },
     {
-      "description": "критерій 2 група 1", 
+      "description": "критерій 2 група 1",
       "evidences": [
         {
-          "id": "78f16de6f38a4203a875ccfb285a9683", 
           "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf", 
             "title": "name.doc"
-          }, 
-          "title": "Requirement response", 
+          },
+          "title": "Requirement response",
           "type": "document"
         }
-      ], 
-      "id": "092c99cbc74c4a57987ac9db60f7f024", 
+      ],
       "requirement": {
-        "id": "94ae3c131c2c4d67bf42c15f5d9fc781", 
         "title": "Суб'єкт господарювання (учасник) протягом останніх трьох років не притягувався до відповідальності за порушення, передбачене пунктом 4 частини другої статті 6, пунктом 1 статті 50 Закону України \"Про захист економічної конкуренції\", у вигляді вчинення антиконкурентних узгоджених дій, що стосуються спотворення результатів тендерів"
-      }, 
-      "title": "Requirement response", 
+      },
+      "title": "Requirement response",
       "value": "true"
-    }, 
+    },
     {
-      "description": "критерій 3 група 1", 
+      "description": "критерій 3 група 1",
       "evidences": [
         {
-          "id": "f4c380bbe8304738bfcf005c1f0142b1", 
           "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf", 
             "title": "name.doc"
-          }, 
-          "title": "Requirement response", 
+          },
+          "title": "Requirement response",
           "type": "document"
         }
-      ], 
-      "id": "68b2142fb1454f02b6860ee30ed73704", 
+      ],
       "requirement": {
-        "id": "a8d1ae692782402aa70b616bcc57870a", 
         "title": "Відомості про юридичну особу, яка є учасником процедури закупівлі, не внесено до Єдиного державного реєстру осіб, які вчинили корупційні або пов'язані з корупцією правопорушення"
-      }, 
-      "title": "Requirement response", 
+      },
+      "title": "Requirement response",
       "value": "true"
-    }, 
+    },
     {
-      "description": "критерій 3 група 2", 
+      "description": "критерій 3 група 2",
       "evidences": [
         {
-          "id": "e429e08db40f48b9af22ef2fc4af76e6", 
           "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf", 
             "title": "name.doc"
-          }, 
-          "title": "Requirement response", 
+          },
+          "title": "Requirement response",
           "type": "document"
         }
-      ], 
-      "id": "26405589e8154246aaadbffb9d1bbab6", 
+      ],
       "requirement": {
-        "id": "2166bc524f6b4068a7f84bfd5316ded1", 
         "title": "Службову (посадову) особу учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення корупційного правопорушення або правопорушення, пов'язаного з корупцією"
-      }, 
-      "title": "Requirement response", 
+      },
+      "title": "Requirement response",
       "value": "true"
-    }, 
+    },
     {
-      "description": "критерій 4 група 1", 
+      "description": "критерій 4 група 1",
       "evidences": [
         {
-          "id": "1ff38626537d4b548eb9ba0a0e515189", 
           "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf", 
             "title": "name.doc"
-          }, 
-          "title": "Requirement response", 
+          },
+          "title": "Requirement response",
           "type": "document"
         }
-      ], 
-      "id": "0ac6c4a966eb470b8d8cf995e385c6c7", 
+      ],
       "requirement": {
-        "id": "07702b8ea11a47e196907510d0aa2284", 
         "title": "Службова (посадова) особа учасника процедури закупівлі, яку уповноважено учасником представляти його інтереси під час проведення процедури закупівлі, фізичну особу, яка є учасником, не було притягнуто згідно із законом до відповідальності за вчинення правопорушення, пов'язаного з використанням дитячої праці чи будь-якими формами торгівлі людьми"
-      }, 
-      "title": "Requirement response", 
+      },
+      "title": "Requirement response",
       "value": "true"
-    }, 
+    },
     {
-      "description": "критерій 5 група 1 не має заборгованості", 
+      "description": "критерій 5 група 1 не має заборгованості",
       "evidences": [
         {
-          "id": "a7722527ef41476d804d056fd0e9e0a0", 
           "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf", 
             "title": "name.doc"
-          }, 
-          "title": "Requirement response", 
+          },
+          "title": "Requirement response",
           "type": "document"
         }
-      ], 
-      "id": "a118d93084e144f592da1f4bd4bb7439", 
+      ],
       "requirement": {
-        "id": "b54fac4bb61e44958daeb14283ef9fff", 
         "title": "Він не має заборгованості зі сплати податків і зборів (обов'язкових платежів)"
-      }, 
-      "title": "Requirement response", 
+      },
+      "title": "Requirement response",
       "value": "true"
-    }, 
+    },
     {
-      "description": "критерій 6 група 1", 
+      "description": "критерій 6 група 1",
       "evidences": [
         {
-          "id": "d1a68de2c1584f5fb1b2846f0d74af6b", 
           "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf", 
             "title": "name.doc"
-          }, 
-          "title": "Requirement response", 
+          },
+          "title": "Requirement response",
           "type": "document"
         }
-      ], 
-      "id": "d64a2d32c1b4458fa5db55a2c8aa815a", 
+      ],
       "requirement": {
-        "id": "b6b2c30ddba246d28004f0fdec4279fd", 
         "title": "Учасник процедури закупівлі не визнаний у встановленому законом порядку банкрутом та стосовно нього не відкрита ліквідаційна процедура"
-      }, 
-      "title": "Requirement response", 
+      },
+      "title": "Requirement response",
       "value": "true"
-    }, 
+    },
     {
-      "description": "критерій 7 інше 1", 
+      "description": "критерій 7 інше 1",
       "evidences": [
         {
-          "id": "142e0c31e4224ead9c47a0493bb54e56", 
           "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf", 
             "title": "name.doc"
-          }, 
-          "title": "Requirement response", 
+          },
+          "title": "Requirement response",
           "type": "document"
         }
-      ], 
-      "id": "96dd87ca16bd4e9caf2823b8b9b2cb81", 
+      ],
       "requirement": {
-        "id": "33fd320c9304485cbd2a4b4fa40e62a4", 
         "title": "У Єдиному державному реєстрі юридичних осіб, фізичних осіб - підприємців та громадських формувань присутня інформація, передбачена пунктом 9 частини другої статті 9 Закону України \"Про державну реєстрацію юридичних осіб, фізичних осіб - підприємців та громадських формувань\" (крім нерезидентів)"
-      }, 
-      "title": "Requirement response", 
+      },
+      "title": "Requirement response",
       "value": "true"
-    }, 
+    },
     {
-      "description": "критерій 7 інше 2", 
+      "description": "критерій 7 інше 2",
       "evidences": [
         {
-          "id": "8100f33bdf5d4a7b86da44dac82478ab", 
           "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf", 
             "title": "name.doc"
-          }, 
-          "title": "Requirement response", 
+          },
+          "title": "Requirement response",
           "type": "document"
         }
-      ], 
-      "id": "41e5a7d7fb054045b20d5fd55065c97b", 
+      ],
       "requirement": {
-        "id": "6b9b694cba7545178968ce8686d77efc", 
         "title": "Юридична особа, яка є учасником процедури закупівлі (крім нерезидентів), має антикорупційну програму чи уповноваженого з реалізації антикорупційної програми, якщо вартість закупівлі товару (товарів), послуги (послуг) або робіт дорівнює чи перевищує 20 мільйонів гривень (у тому числі за лотом)"
-      }, 
-      "title": "Requirement response", 
+      },
+      "title": "Requirement response",
       "value": "true"
-    }, 
+    },
     {
-      "description": "критерій 7 інше 3", 
+      "description": "критерій 7 інше 3",
       "evidences": [
         {
-          "id": "d09718cddec14a0587ffc5f7a6f30eb7", 
           "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf", 
             "title": "name.doc"
-          }, 
-          "title": "Requirement response", 
+          },
+          "title": "Requirement response",
           "type": "document"
         }
-      ], 
-      "id": "f91de4be706246b0ad322559f6a53915", 
+      ],
       "requirement": {
-        "id": "f91de4be706246b0ad322559f6a53915", 
         "title": "Учасник процедури закупівлі не є особою, до якої застосовано санкцію у вигляді заборони на здійснення у неї публічних закупівель товарів, робіт і послуг згідно із Законом України \"Про санкції\""
-      }, 
-      "title": "Requirement response", 
+      },
+      "title": "Requirement response",
       "value": "true"
     },
     {
       "requirement": {
-        "id": "dcfc601bb796406ba508a450382d614f",
         "title": "Мова тендерної пропозиції українська"
       },
       "title": "Мова (мови), якою (якими) повинні готуватися тендерні пропозиції",
       "description": "Учасник фізична особа підтверджує, що",
+      "value": "true"
+    },
+    {
+      "requirement": {
+        "title": "Вид та умови надання забезпечення тендерних пропозицій"
+      },
+      "title": "Забезпечення виконання договору",
+      "description": "Учасник підтверджує, що",
+      "value": "true"
+    },
+    {
+      "requirement": {
+        "title": "Розмір та умови надання забезпечення виконання договору про закупівлю"
+      },
+      "title": "Забезпечення виконання договору",
+      "description": "Учасник підтверджує, що",
       "value": "true"
     }
   ]

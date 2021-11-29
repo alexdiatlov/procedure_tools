@@ -1,36 +1,36 @@
 {
   "data": {
-    "description": "Тестова назва предмета закупівлі", 
-    "description_en": "Procurement item test name", 
-    "description_ru": "Тестовое название предмета закупки", 
+    "description": "Тестова назва предмета закупівлі",
+    "description_en": "Procurement item test name",
+    "description_ru": "Тестовое название предмета закупки",
     "items": [
       {
         "additionalClassifications": [
           {
-            "description": "Техніка конторська/офісна, інша", 
-            "id": "28.23.23", 
+            "description": "Техніка конторська/офісна, інша",
+            "id": "28.23.23",
             "scheme": "ДКПП"
           }
-        ], 
+        ],
         "classification": {
-          "description": "Промислова техніка", 
-          "id": "42000000-6", 
+          "description": "Промислова техніка",
+          "id": "42000000-6",
           "scheme": "ДК021"
-        }, 
+        },
         "deliveryAddress": {
-          "countryName": "Україна", 
-          "locality": "м. Київ", 
-          "postalCode": "79000", 
-          "region": "м. Київ", 
+          "countryName": "Україна",
+          "locality": "м. Київ",
+          "postalCode": "79000",
+          "region": "м. Київ",
           "streetAddress": "вул. Тестова 1"
-        }, 
+        },
         "deliveryDate": {
-          "endDate": "2017-09-19T19:39:39.580353", 
+          "endDate": "2017-09-19T19:39:39.580353",
           "startDate": "2017-09-16T19:39:39.580353"
-        }, 
-        "description": "Тестова назва предмета закупівлі", 
-        "description_en": "Procurement item test name", 
-        "description_ru": "Тестовое название предмета закупки", 
+        },
+        "description": "Тестова назва предмета закупівлі",
+        "description_en": "Procurement item test name",
+        "description_ru": "Тестовое название предмета закупки",
         "id": "2dc54675d6364e2baffbc0f8e74432ac",
         "quantity": 1,
         "unit": {
@@ -38,52 +38,52 @@
           "name": "кг"
         }
       }
-    ], 
-    "mainProcurementCategory": "services", 
+    ],
+    "mainProcurementCategory": "services",
     "milestones": [
       {
-        "code": "prepayment", 
+        "code": "prepayment",
         "duration": {
-          "days": 2, 
+          "days": 2,
           "type": "banking"
-        }, 
-        "percentage": 100, 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        },
+        "percentage": 100,
+        "sequenceNumber": 0,
+        "title": "signingTheContract",
         "type": "financing"
       }
-    ], 
-    "owner": "broker", 
-    "procurementMethod": "limited", 
-    "procurementMethodType": "reporting", 
+    ],
+    "owner": "broker",
+    "procurementMethod": "limited",
+    "procurementMethodType": "reporting",
     "procuringEntity": {
       "address": {
-        "countryName": "Україна", 
-        "locality": "м. Київ", 
-        "postalCode": "42000", 
-        "region": "м. Київ", 
+        "countryName": "Україна",
+        "locality": "м. Київ",
+        "postalCode": "42000",
+        "region": "м. Київ",
         "streetAddress": "вул. Тестова 22"
-      }, 
+      },
       "contactPoint": {
-        "name": "Тестовенко Тест Тестович", 
+        "name": "Тестовенко Тест Тестович",
         "telephone": "+380424424242",
         "url": "https://example.com"
-      }, 
+      },
       "identifier": {
-        "id": "21725150", 
-        "legalName": "Тестовий заклад", 
+        "id": "21725150",
+        "legalName": "Тестовий заклад",
         "scheme": "UA-EDR"
-      }, 
-      "kind": "general", 
+      },
+      "kind": "general",
       "name": "Тестовий заклад #1 м.Київ"
-    }, 
+    },
     "status": "draft",
-    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)", 
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)", 
-    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)", 
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
     "value": {
-      "amount": 500000, 
-      "currency": "UAH", 
+      "amount": 500000,
+      "currency": "UAH",
       "valueAddedTaxIncluded": true
     }
   }

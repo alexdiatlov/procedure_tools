@@ -1,170 +1,174 @@
 {
   "data": {
-    "NBUdiscountRate": 0.22986, 
+    "NBUdiscountRate": 0.22986,
     "features": [
       {
-        "code": "ee3e24bc17234a41bd3e3a04cc28e9c6", 
-        "description": "Умови відстрочки платежу після поставки товару", 
+        "code": "ee3e24bc17234a41bd3e3a04cc28e9c6",
+        "description": "Умови відстрочки платежу після поставки товару",
         "enum": [
           {
-            "title": "180 днів та більше", 
+            "title": "180 днів та більше",
             "value": 0.15
-          }, 
+          },
           {
-            "title": "90-179 днів", 
+            "title": "90-179 днів",
             "value": 0.1
-          }, 
+          },
           {
-            "title": "30-89 днів", 
+            "title": "30-89 днів",
             "value": 0.05
-          }, 
+          },
           {
-            "title": "Менше 30 днів", 
+            "title": "Менше 30 днів",
             "value": 0
           }
-        ], 
-        "featureOf": "tenderer", 
+        ],
+        "featureOf": "tenderer",
         "title": "Термін оплати"
-      }, 
+      },
       {
-        "code": "48cfd91612c04125ab406374d7cc8d93", 
-        "description": "Сорт продукції", 
+        "code": "48cfd91612c04125ab406374d7cc8d93",
+        "description": "Сорт продукції",
         "enum": [
           {
-            "title": "Вищий", 
+            "title": "Вищий",
             "value": 0.05
-          }, 
+          },
           {
-            "title": "Перший", 
+            "title": "Перший",
             "value": 0.01
-          }, 
+          },
           {
-            "title": "Другий", 
+            "title": "Другий",
             "value": 0
           }
-        ], 
-        "featureOf": "item", 
-        "relatedItem": "edd0032574bf4402877ad5f362df225a", 
+        ],
+        "featureOf": "item",
+        "relatedItem": "edd0032574bf4402877ad5f362df225a",
         "title": "Сорт"
       }
-    ], 
-    "fundingKind": "other", 
+    ],
+    "fundingKind": "other",
     "items": [
       {
         "additionalClassifications": [
           {
-            "description": "Техніка конторська/офісна, інша", 
-            "id": "28.23.23", 
+            "description": "Техніка конторська/офісна, інша",
+            "id": "28.23.23",
             "scheme": "ДКПП"
           }
-        ], 
+        ],
         "classification": {
-          "description": "Промислова техніка", 
-          "id": "42000000-6", 
+          "description": "Промислова техніка",
+          "id": "42000000-6",
           "scheme": "ДК021"
-        }, 
+        },
         "deliveryAddress": {
-          "countryName": "Україна", 
-          "locality": "м. Київ", 
-          "postalCode": "79000", 
-          "region": "м. Київ", 
+          "countryName": "Україна",
+          "locality": "м. Київ",
+          "postalCode": "79000",
+          "region": "м. Київ",
           "streetAddress": "вул. Тестова 1"
-        }, 
+        },
         "deliveryDate": {
-          "endDate": "2017-11-30T17:19:48.277078+03:00", 
+          "endDate": "2017-11-30T17:19:48.277078+03:00",
           "startDate": "2017-10-31T17:19:48.277018+03:00"
-        }, 
-        "description": "Тестова назва предмета закупівлі", 
-        "description_en": "Procurement item test name", 
-        "id": "edd0032574bf4402877ad5f362df225a", 
-        "quantity": 1, 
+        },
+        "description": "Тестова назва предмета закупівлі",
+        "description_en": "Procurement item test name",
+        "id": "edd0032574bf4402877ad5f362df225a",
+        "quantity": 1,
         "unit": {
           "code": "KGM",
           "name": "кг"
         }
-      }, 
+      },
       {
         "additionalClassifications": [
           {
-            "description": "Техніка конторська/офісна, інша", 
-            "id": "28.23.23", 
+            "description": "Техніка конторська/офісна, інша",
+            "id": "28.23.23",
             "scheme": "ДКПП"
           }
-        ], 
+        ],
         "classification": {
-          "description": "Промислова техніка", 
-          "id": "42000000-6", 
+          "description": "Промислова техніка",
+          "id": "42000000-6",
           "scheme": "ДК021"
-        }, 
+        },
         "deliveryAddress": {
-          "countryName": "Україна", 
-          "locality": "м. Київ", 
-          "postalCode": "79000", 
-          "region": "м. Київ", 
+          "countryName": "Україна",
+          "locality": "м. Київ",
+          "postalCode": "79000",
+          "region": "м. Київ",
           "streetAddress": "вул. Тестова 1"
-        }, 
+        },
         "deliveryDate": {
-          "endDate": "2017-11-30T17:19:48.277124+03:00", 
+          "endDate": "2017-11-30T17:19:48.277124+03:00",
           "startDate": "2017-10-31T17:19:48.277104+03:00"
-        }, 
-        "description": "Тестова назва предмета закупівлі", 
-        "description_en": "Procurement item test name", 
-        "quantity": 1, 
+        },
+        "description": "Тестова назва предмета закупівлі",
+        "description_en": "Procurement item test name",
+        "quantity": 1,
         "unit": {
           "code": "KGM",
           "name": "кг"
         }
       }
-    ], 
-    "mainProcurementCategory": "services", 
+    ],
+    "mainProcurementCategory": "services",
     "milestones": [
       {
-        "code": "prepayment", 
+        "code": "prepayment",
         "duration": {
-          "days": 2, 
+          "days": 2,
           "type": "banking"
-        }, 
-        "percentage": 100, 
-        "sequenceNumber": 0, 
-        "title": "signingTheContract", 
+        },
+        "percentage": 100,
+        "sequenceNumber": 0,
+        "title": "signingTheContract",
         "type": "financing"
       }
-    ], 
-    "minimalStepPercentage": 0.006, 
-    "procurementMethodType": "esco", 
+    ],
+    "minimalStepPercentage": 0.006,
+    "procurementMethodType": "esco",
     "procuringEntity": {
       "address": {
-        "countryName": "Україна", 
-        "locality": "м. Київ", 
-        "postalCode": "42000", 
-        "region": "м. Київ", 
+        "countryName": "Україна",
+        "locality": "м. Київ",
+        "postalCode": "42000",
+        "region": "м. Київ",
         "streetAddress": "вул. Тестова 22"
-      }, 
+      },
       "contactPoint": {
-        "availableLanguage": "uk", 
-        "name": "Тестовенко Тест Тестович", 
-        "name_en": "Testovenko Test Testovych", 
+        "availableLanguage": "uk",
+        "name": "Тестовенко Тест Тестович",
+        "name_en": "Testovenko Test Testovych",
         "telephone": "+380424424242",
         "url": "https://example.com"
-      }, 
+      },
       "identifier": {
-        "id": "21725150", 
-        "legalName": "Тестовий заклад", 
-        "legalName_en": "Test facility", 
+        "id": "21725150",
+        "legalName": "Тестовий заклад",
+        "legalName_en": "Test facility",
         "scheme": "UA-EDR"
-      }, 
-      "kind": "general", 
-      "name": "Тестовий заклад #1 м.Київ", 
+      },
+      "kind": "general",
+      "name": "Тестовий заклад #1 м.Київ",
       "name_en": "Test facility #1 of Kyiv"
-    }, 
-    "status": "draft", 
+    },
+    "status": "draft",
     "tenderPeriod": {
-      "endDate": "XXXX-XX-XXTXX:XX+XX:XX", 
+      "endDate": "XXXX-XX-XXTXX:XX+XX:XX",
       "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
-    }, 
-    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)", 
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)", 
-    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)", 
-    "yearlyPaymentsPercentageRange": 0.8
+    },
+    "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
+    "yearlyPaymentsPercentageRange": 0.8,
+    "guarantee": {
+      "amount": 1,
+      "currency": "UAH"
+    }
   }
 }
