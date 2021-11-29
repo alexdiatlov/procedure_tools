@@ -88,7 +88,7 @@
       "currency": "UAH"
     },
     "guarantee": {
-      "amount": 0.0,
+      "amount": 100,
       "currency": "UAH"
     }
   }

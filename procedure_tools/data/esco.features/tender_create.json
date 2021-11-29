@@ -167,7 +167,7 @@
     "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
     "yearlyPaymentsPercentageRange": 0.8,
     "guarantee": {
-      "amount": 0.0,
+      "amount": 1,
       "currency": "UAH"
     }
   }

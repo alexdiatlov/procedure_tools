@@ -209,6 +209,22 @@
         "title": "title of CRITERION.OTHER.LIFE_CYCLE_COST.ECOLOGICAL_COST"
       },
       "title": "Requirement response"
+    },
+    {
+      "requirement": {
+        "title": "Вид та умови надання забезпечення тендерних пропозицій"
+      },
+      "title": "Забезпечення виконання договору",
+      "description": "Учасник підтверджує, що",
+      "value": "true"
+    },
+    {
+      "requirement": {
+        "title": "Розмір та умови надання забезпечення виконання договору про закупівлю"
+      },
+      "title": "Забезпечення виконання договору",
+      "description": "Учасник підтверджує, що",
+      "value": "true"
     }
   ]
 }
