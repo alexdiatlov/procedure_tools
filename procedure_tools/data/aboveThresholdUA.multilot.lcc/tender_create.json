@@ -83,6 +83,10 @@
           "amount": 30.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
+        },
+        "guarantee": {
+          "amount": 2,
+          "currency": "UAH"
         }
       },
       {
@@ -98,6 +102,10 @@
           "amount": 30.0,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
+        },
+        "guarantee": {
+          "amount": 2,
+          "currency": "UAH"
         }
       }
     ],
@@ -151,10 +159,6 @@
     "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
     "value": {
       "amount": 60.0,
-      "currency": "UAH"
-    },
-    "guarantee": {
-      "amount": 0.0,
       "currency": "UAH"
     }
   }

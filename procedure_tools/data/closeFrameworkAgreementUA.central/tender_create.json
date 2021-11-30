@@ -230,10 +230,6 @@
       "amount": 500,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
-    },
-    "guarantee": {
-      "amount": 0.0,
-      "currency": "UAH"
     }
   }
 }
