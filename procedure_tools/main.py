@@ -1,0 +1,112 @@
+import argparse
+import sys
+import logging
+
+import requests
+
+from procedure_tools.client import API_PATH_PREFIX_DEFAULT
+from procedure_tools.procedure import WAIT_EDR_QUAL, create_procedure, WAIT_EDR_PRE_QUAL
+from procedure_tools.utils import adapters
+from procedure_tools.utils.data import (
+    ACCELERATION_DEFAULT,
+    SUBMISSIONS,
+    SUBMISSION_QUICK_NO_AUCTION,
+)
+from procedure_tools.utils.file import get_default_data_dirs, DATA_DIR_DEFAULT
+from procedure_tools.utils.handlers import EX_OK
+from procedure_tools.version import __version__
+
+logging.basicConfig(
+    stream=sys.stdout,
+    level=logging.DEBUG,
+    format="[%(asctime)s] %(message)s",
+    datefmt="%H:%M:%S",
+)
+
+WAIT_EVENTS = (WAIT_EDR_QUAL, WAIT_EDR_PRE_QUAL)
+
+
+class Formatter(argparse.RawTextHelpFormatter):
+    def _format_action(self, action):
+        return "\n\n" + super()._format_action(action)
+
+
+def _format_choices(choices):
+    return " - " + f"\n - ".join(choices)
+
+
+def main():
+    if "--version" in sys.argv or "-v" in sys.argv:
+        print(__version__)
+        sys.exit(EX_OK)
+
+    parser = argparse.ArgumentParser(
+        formatter_class=Formatter,
+    )
+    parser.add_argument("host", help="CDB API Host")
+    parser.add_argument("token", help="CDB API Token")
+    parser.add_argument("ds_host", help="DS API Host")
+    parser.add_argument("ds_username", help="DS API Username")
+    parser.add_argument("ds_password", help="DS API Password")
+    parser.add_argument(
+        "-a",
+        "--acceleration",
+        help="acceleration multiplier",
+        metavar=str(ACCELERATION_DEFAULT),
+        default=ACCELERATION_DEFAULT,
+        type=int,
+    )
+    parser.add_argument(
+        "-p",
+        "--path",
+        help="api path",
+        metavar=str(API_PATH_PREFIX_DEFAULT),
+        default=API_PATH_PREFIX_DEFAULT,
+    )
+    parser.add_argument(
+        "-d",
+        "--data",
+        help="data files path custom or one of:\n{}".format(
+            _format_choices(get_default_data_dirs()),
+        ),
+        metavar=str(DATA_DIR_DEFAULT),
+        default=DATA_DIR_DEFAULT,
+    )
+    parser.add_argument(
+        "-m",
+        "--submission",
+        help="value for submissionMethodDetails one of:\n{}".format(
+            _format_choices(SUBMISSIONS),
+        ),
+        metavar=str(SUBMISSION_QUICK_NO_AUCTION),
+        default=SUBMISSION_QUICK_NO_AUCTION,
+    )
+    parser.add_argument(
+        "-s",
+        "--stop",
+        help="data file name to stop after\n",
+        metavar="tender_create.json",
+    )
+    parser.add_argument(
+        "-w",
+        "--wait",
+        help="wait for event, one or many of (divided by comma):\n{}".format(
+            _format_choices(WAIT_EVENTS),
+        ),
+        metavar=WAIT_EDR_QUAL,
+        default="",
+    )
+
+    try:
+        args = parser.parse_args()
+        session = requests.Session()
+        adapters.mount(session)
+        create_procedure(args, session=session)
+    except SystemExit as e:
+        sys.exit(e)
+    else:
+        sys.exit(EX_OK)
+
+
+if __name__ == "__main__":
+    main()

@@ -44,7 +44,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "procedure=procedure_tools.procedure:main",
+            "procedure=procedure_tools.main:main",
         ],
     },
     package_data={"": ["data/*.json"]},
