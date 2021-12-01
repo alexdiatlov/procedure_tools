@@ -1,0 +1,32 @@
+{
+  "data": {
+    "selfQualified": true,
+    "status": "draft",
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Львів",
+          "postalCode": "79013",
+          "region": "Львівська область",
+          "streetAddress": "вул. Тестова 34"
+        },
+        "contactPoint": {
+          "email": "business@example.com",
+          "name": "Контактенко Контакт Контактович",
+          "telephone": "+380111111111"
+        },
+        "identifier": {
+          "id": "00137227",
+          "scheme": "UA-EDR",
+          "uri": "http://factory.example.com"
+        },
+        "name": "Тестове державне комунальне підприємство",
+        "scale": "micro"
+      }
+    ],
+    "value": {
+      "amount": 500
+    }
+  }
+}
