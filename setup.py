@@ -3,7 +3,7 @@ import sys
 from setuptools import setup, find_packages
 from procedure_tools.version import __version__
 
-if sys.version_info >= (3,4):
+if sys.version_info >= (3, 4):
     install_requires = [
         "requests",
         "python-dateutil",
