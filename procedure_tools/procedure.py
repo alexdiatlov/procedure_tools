@@ -65,6 +65,12 @@ from procedure_tools.utils.data import (
 from procedure_tools.utils.handlers import EX_OK
 from procedure_tools.utils import adapters
 
+try:
+    from colorama import init
+    init()
+except ImportError:
+    pass
+
 logging.basicConfig(
     stream=sys.stdout,
     level=logging.DEBUG,
