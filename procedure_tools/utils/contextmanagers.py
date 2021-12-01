@@ -5,6 +5,7 @@ import io
 from contextlib import contextmanager
 
 from procedure_tools.utils.handlers import EX_OK
+from procedure_tools.utils.style import fore_error
 
 
 @contextmanager
@@ -45,5 +46,7 @@ def ignore(*exceptions):
     try:
         yield
     except exceptions as e:
-        logging.info("{}\n".format(e))
+        msg = fore_error(str(e))
+        msg += "\n"
+        logging.info(msg)
         logging.info("Skipping...\n")

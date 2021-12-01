@@ -7,6 +7,7 @@ if sys.version_info >= (3,4):
     install_requires = [
         "requests",
         "python-dateutil",
+        "colorama",
     ]
     tests_require = [
         "pytest",
@@ -16,6 +17,7 @@ else:
         "requests",
         "pathlib",
         "python-dateutil",
+        "colorama",
     ]
     tests_require = [
         "pytest<=4.6.9",
@@ -23,6 +25,10 @@ else:
         "configparser<5.0.0",
         "zipp<3.1.0",
     ]
+
+color_require = [
+    "colorama",
+]
 
 setup(
     name="procedure_tools",
@@ -32,7 +38,14 @@ setup(
     install_requires=install_requires,
     tests_require=tests_require,
     setup_requires=["pytest-runner"],
-    extras_require={"test": tests_require},
-    entry_points={"console_scripts": ["procedure=procedure_tools.procedure:main"]},
+    extras_require={
+        "test": tests_require,
+        "color": color_require,
+    },
+    entry_points={
+        "console_scripts": [
+            "procedure=procedure_tools.procedure:main",
+        ],
+    },
     package_data={"": ["data/*.json"]},
 )
