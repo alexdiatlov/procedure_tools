@@ -16,30 +16,30 @@ DS_USERNAME = "DS_USERNAME"
 DS_PASSWORD = "DS_PASSWORD"
 
 
-REQUIRED_ENV_VARIABLES = [
-    API_HOST,
-    API_TOKEN,
-    DS_HOST,
-    DS_USERNAME,
-    DS_PASSWORD
-]
+REQUIRED_ENV_VARIABLES = [API_HOST, API_TOKEN, DS_HOST, DS_USERNAME, DS_PASSWORD]
 
 
 skipifenv = pytest.mark.skipif(
     any([not os.environ.get(v) for v in REQUIRED_ENV_VARIABLES]),
-    reason="One of {} env variables not specified".format(", ".join(REQUIRED_ENV_VARIABLES))
+    reason="One of {} env variables not specified".format(
+        ", ".join(REQUIRED_ENV_VARIABLES)
+    ),
 )
 
 
 def run_test(argv):
     default_args = ["--acceleration", "100000", "--path", "/api/2.5/"]
-    args = [
-        os.environ.get(API_HOST),
-        os.environ.get(API_TOKEN),
-        os.environ.get(DS_HOST),
-        os.environ.get(DS_USERNAME),
-        os.environ.get(DS_PASSWORD)
-    ] + default_args + argv
+    args = (
+        [
+            os.environ.get(API_HOST),
+            os.environ.get(API_TOKEN),
+            os.environ.get(DS_HOST),
+            os.environ.get(DS_USERNAME),
+            os.environ.get(DS_PASSWORD),
+        ]
+        + default_args
+        + argv
+    )
 
     print("\n\nTest with args: %s\n\n" % (args))
 

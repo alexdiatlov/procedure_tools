@@ -90,7 +90,14 @@ class BaseApiClient(object):
 class BaseCDBClient(BaseApiClient):
     SPORE_PATH = "spore"
 
-    def __init__(self, host, auth_token=None, path_prefix=API_PATH_PREFIX_DEFAULT, session=None, **request_kwargs):
+    def __init__(
+        self,
+        host,
+        auth_token=None,
+        path_prefix=API_PATH_PREFIX_DEFAULT,
+        session=None,
+        **request_kwargs
+    ):
         super(BaseCDBClient, self).__init__(host, session=session, **request_kwargs)
         self.path_prefix = path_prefix
         self.set_kwargs(auth_token)
@@ -99,7 +106,7 @@ class BaseCDBClient(BaseApiClient):
         response = self.session.get(spore_url)
         client_datetime = get_utcnow()
         try:
-            server_datetime = parse_date_header(response.headers.get('date'))
+            server_datetime = parse_date_header(response.headers.get("date"))
             self.client_timedelta = server_datetime - client_datetime
         except:
             self.client_timedelta = timedelta()
@@ -111,7 +118,10 @@ class BaseCDBClient(BaseApiClient):
             self.kwargs["headers"].update({"Authorization": "Bearer " + auth_token})
 
     def get_api_path(self, path, acc_token=None):
-        return urljoin(self.path_prefix, urljoin(path, "?acc_token={}".format(acc_token) if acc_token else None))
+        return urljoin(
+            self.path_prefix,
+            urljoin(path, "?acc_token={}".format(acc_token) if acc_token else None),
+        )
 
 
 class TendersApiClient(BaseCDBClient):
@@ -184,12 +194,18 @@ class TendersApiClient(BaseCDBClient):
         return self.get(path, **kwargs)
 
     def get_qualification(self, tender_id, qualification_id, **kwargs):
-        qualifications_path = self.QUALIFICATIONS_PATH.format(tender_id, qualification_id)
+        qualifications_path = self.QUALIFICATIONS_PATH.format(
+            tender_id, qualification_id
+        )
         path = self.get_api_path(qualifications_path)
         return self.get(path, **kwargs)
 
-    def patch_qualification(self, tender_id, qualification_id, acc_token, json, **kwargs):
-        qualifications_path = self.QUALIFICATIONS_PATH.format(tender_id, qualification_id, acc_token)
+    def patch_qualification(
+        self, tender_id, qualification_id, acc_token, json, **kwargs
+    ):
+        qualifications_path = self.QUALIFICATIONS_PATH.format(
+            tender_id, qualification_id, acc_token
+        )
         path = self.get_api_path(qualifications_path, acc_token=acc_token)
         return self.patch(path, json, **kwargs)
 
@@ -229,17 +245,25 @@ class TendersApiClient(BaseCDBClient):
         return self.get(path, **kwargs)
 
     def patch_agreement(self, tender_id, agreement_id, acc_token, json, **kwargs):
-        agreements_path = self.AGREEMENTS_PATH.format(tender_id, agreement_id, acc_token)
+        agreements_path = self.AGREEMENTS_PATH.format(
+            tender_id, agreement_id, acc_token
+        )
         path = self.get_api_path(agreements_path, acc_token=acc_token)
         return self.patch(path, json, **kwargs)
 
     def get_agreement_contracts(self, tender_id, agreement_id, **kwargs):
-        agreement_contracts_path = self.AGREEMENT_CONTRACT_COLLECTION_PATH.format(tender_id, agreement_id)
+        agreement_contracts_path = self.AGREEMENT_CONTRACT_COLLECTION_PATH.format(
+            tender_id, agreement_id
+        )
         path = self.get_api_path(agreement_contracts_path)
         return self.get(path, **kwargs)
 
-    def patch_agreement_contract(self, tender_id, agreement_id, contract_id, acc_token, json, **kwargs):
-        agreement_contracts_path = self.AGREEMENT_CONTRACT_PATH.format(tender_id, agreement_id, contract_id, acc_token)
+    def patch_agreement_contract(
+        self, tender_id, agreement_id, contract_id, acc_token, json, **kwargs
+    ):
+        agreement_contracts_path = self.AGREEMENT_CONTRACT_PATH.format(
+            tender_id, agreement_id, contract_id, acc_token
+        )
         path = self.get_api_path(agreement_contracts_path, acc_token=acc_token)
         return self.patch(path, json, **kwargs)
 
@@ -302,15 +326,20 @@ class PlansApiClient(BaseCDBClient):
 class DsApiClient(BaseApiClient):
     UPLOAD_PATH = "upload"
 
-    def __init__(self, host, username=None, password=None, session=None, **request_kwargs):
+    def __init__(
+        self, host, username=None, password=None, session=None, **request_kwargs
+    ):
         super(DsApiClient, self).__init__(host, session=session, **request_kwargs)
         self.set_kwargs(username, password)
 
     def set_kwargs(self, username, password):
         if username and password:
-            self.kwargs["headers"].update({"Authorization": "Basic " + b64encode(
-                "{}:{}".format(username, password).encode()
-            ).decode()})
+            self.kwargs["headers"].update(
+                {
+                    "Authorization": "Basic "
+                    + b64encode("{}:{}".format(username, password).encode()).decode()
+                }
+            )
 
     def post_document_upload(self, files, **kwargs):
         path = self.UPLOAD_PATH

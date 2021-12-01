@@ -26,7 +26,7 @@ def default_success_handler(response):
 def response_handler(
     response,
     success_handler=default_success_handler,
-    error_handler=default_error_handler
+    error_handler=default_error_handler,
 ):
     msg = "Response status code: "
     msg += fore_status_code(response.status_code)
@@ -43,8 +43,10 @@ def client_init_response_handler(
     client_timedelta,
 ):
     response_handler(response)
-    logging.info("Client time delta with server: {} seconds\n".format(
-        int(client_timedelta.total_seconds())),
+    logging.info(
+        "Client time delta with server: {} seconds\n".format(
+            int(client_timedelta.total_seconds())
+        ),
     )
 
 
@@ -59,7 +61,9 @@ def tender_create_success_handler(response):
         msg += " - transfer \t\t\t{}\n".format(fore_success(access["transfer"]))
     msg += " - status \t\t\t{}\n".format(fore_success(data["status"]))
     msg += " - tenderID \t\t\t{}\n".format(fore_success(data["tenderID"]))
-    msg += " - procurementMethodType \t{}\n".format(fore_success(data["procurementMethodType"]))
+    msg += " - procurementMethodType \t{}\n".format(
+        fore_success(data["procurementMethodType"])
+    )
 
     logging.info(msg)
 
@@ -145,7 +149,9 @@ def tender_post_criteria_success_handler(response):
 
     msg = "Tender criteria created:\n"
     for item in data:
-        msg += " - classification.id \t\t\t\t{}\n".format(fore_success(item["classification"]["id"]))
+        msg += " - classification.id \t\t\t\t{}\n".format(
+            fore_success(item["classification"]["id"])
+        )
 
     logging.info(msg)
 
@@ -187,7 +193,11 @@ def tender_patch_period_success_handler(response):
     data = response.json()["data"]
 
     msg = "Tender patched:\n"
-    msg += " - tenderPeriod.startDate \t{}\n".format(fore_success(data["tenderPeriod"]["startDate"]))
-    msg += " - tenderPeriod.endDate \t{}\n".format(fore_success(data["tenderPeriod"]["endDate"]))
+    msg += " - tenderPeriod.startDate \t{}\n".format(
+        fore_success(data["tenderPeriod"]["startDate"])
+    )
+    msg += " - tenderPeriod.endDate \t{}\n".format(
+        fore_success(data["tenderPeriod"]["endDate"])
+    )
 
     logging.info(msg)

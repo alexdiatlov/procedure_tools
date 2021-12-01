@@ -12,16 +12,16 @@ TENDER_PERIOD_MAX_TIMEDELTA = timedelta(days=365)
 TENDER_SECONDS_BUFFER = 20
 AGREEMENT_PERIOD_DEFAULT_TIMEDELTA = timedelta(days=365 * 2)
 
-SUBMISSION_QUICK = 'quick'
-SUBMISSION_QUICK_NO_AUCTION = 'quick(mode:no-auction)'
-SUBMISSION_QUICK_FAST_FORWARD = 'quick(mode:fast-forward)'
+SUBMISSION_QUICK = "quick"
+SUBMISSION_QUICK_NO_AUCTION = "quick(mode:no-auction)"
+SUBMISSION_QUICK_FAST_FORWARD = "quick(mode:fast-forward)"
 
 DATETIME_MASK = "XXXX-XX-XXTXX:XX+XX:XX"
 
 SUBMISSIONS = [
     SUBMISSION_QUICK,
     SUBMISSION_QUICK_NO_AUCTION,
-    SUBMISSION_QUICK_FAST_FORWARD
+    SUBMISSION_QUICK_FAST_FORWARD,
 ]
 
 
@@ -32,7 +32,9 @@ def get_period_delta(
     seconds_buffer=TENDER_SECONDS_BUFFER,
 ):
     period_seconds = int(period_timedelta.total_seconds())
-    accelerated_period_timedelta = timedelta(seconds=period_seconds / acceleration + seconds_buffer)
+    accelerated_period_timedelta = timedelta(
+        seconds=period_seconds / acceleration + seconds_buffer
+    )
     return max(accelerated_period_timedelta, min_period_timedelta)
 
 
@@ -45,7 +47,7 @@ def set_acceleration_data(
     acceleration=ACCELERATION_DEFAULT,
     period_timedelta=TENDER_PERIOD_DEFAULT_TIMEDELTA,
     submission=SUBMISSION_QUICK_NO_AUCTION,
-    client_timedelta=timedelta()
+    client_timedelta=timedelta(),
 ):
     try:
         data["procurementMethodDetails"] = "quick, accelerator={}".format(acceleration)
@@ -57,14 +59,14 @@ def set_acceleration_data(
         enquiry_period_delta = get_period_delta(
             acceleration=acceleration,
             period_timedelta=period_timedelta,
-            seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER)
+            seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER),
         )
 
         tender_period_delta = get_period_delta(
             acceleration=acceleration,
             period_timedelta=period_timedelta,
             seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER),
-            min_period_timedelta=TENDER_PERIOD_MIN_TIMEDELTA
+            min_period_timedelta=TENDER_PERIOD_MIN_TIMEDELTA,
         )
 
         if "tenderPeriod" in data and "enquiryPeriod" in data:
@@ -123,7 +125,7 @@ def set_tender_period_data(
     acceleration=ACCELERATION_DEFAULT,
     period_timedelta=TENDER_PERIOD_DEFAULT_TIMEDELTA,
     min_period_timedelta=PERIOD_MIN_DEFAULT_TIMEDELTA,
-    client_timedelta=timedelta()
+    client_timedelta=timedelta(),
 ):
     try:
         now = fix_datetime(get_now(), client_timedelta)
@@ -136,7 +138,7 @@ def set_tender_period_data(
                     acceleration=acceleration,
                     period_timedelta=period_timedelta,
                     min_period_timedelta=min_period_timedelta,
-                    seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER)
+                    seconds_buffer=math.ceil(TENDER_SECONDS_BUFFER),
                 )
                 period_data["endDate"] = (now + period_delta).isoformat()
     except KeyError:

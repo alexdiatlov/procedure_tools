@@ -2,7 +2,7 @@ from datetime import datetime
 
 from dateutil import parser, tz
 
-DATE_HEADER_FORMAT = '%a, %d %b %Y %H:%M:%S GMT'
+DATE_HEADER_FORMAT = "%a, %d %b %Y %H:%M:%S GMT"
 
 TZ = tz.gettz("Europe/Kiev")
 

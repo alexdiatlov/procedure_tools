@@ -11,7 +11,11 @@ def sort_data_json():
                 with open(os.path.join(root, file), "r") as f:
                     lines = json.loads(f.read())
                 with open(os.path.join(root, file), "w") as f:
-                    f.write(json.dumps(lines, sort_keys=True, indent=2, ensure_ascii=False).encode('utf8'))
+                    f.write(
+                        json.dumps(
+                            lines, sort_keys=True, indent=2, ensure_ascii=False
+                        ).encode("utf8")
+                    )
             except ValueError:
                 pass
 
