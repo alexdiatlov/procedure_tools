@@ -6,8 +6,7 @@ except ImportError:
     import mock
 import os
 
-from procedure_tools.procedure import main
-
+from procedure_tools.main import main
 
 API_HOST = "API_HOST"
 API_TOKEN = "API_TOKEN"

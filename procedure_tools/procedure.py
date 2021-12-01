@@ -1,12 +1,7 @@
 from __future__ import absolute_import
 
-import argparse
-import sys
 import logging
 
-import requests
-
-from procedure_tools.version import __version__
 from procedure_tools.utils.process import (
     patch_agreements_with_contracts,
     get_tender,
@@ -41,18 +36,13 @@ from procedure_tools.utils.process import (
     post_bid_res,
 )
 from procedure_tools.client import (
-    API_PATH_PREFIX_DEFAULT,
     TendersApiClient,
     AgreementsApiClient,
     ContractsApiClient,
     PlansApiClient,
     DsApiClient,
 )
-from procedure_tools.utils.file import get_default_data_dirs, DATA_DIR_DEFAULT
 from procedure_tools.utils.data import (
-    ACCELERATION_DEFAULT,
-    SUBMISSIONS,
-    SUBMISSION_QUICK_NO_AUCTION,
     get_id,
     get_token,
     get_procurement_method_type,
@@ -62,8 +52,6 @@ from procedure_tools.utils.data import (
     get_ids,
     get_tender_period,
 )
-from procedure_tools.utils.handlers import EX_OK
-from procedure_tools.utils import adapters
 
 try:
     from colorama import init
@@ -72,17 +60,8 @@ try:
 except ImportError:
     pass
 
-logging.basicConfig(
-    stream=sys.stdout,
-    level=logging.DEBUG,
-    format="[%(asctime)s] %(message)s",
-    datefmt="%H:%M:%S",
-)
-
 WAIT_EDR_QUAL = "edr-qualification"
 WAIT_EDR_PRE_QUAL = "edr-pre-qualification"
-
-WAIT_EVENTS = (WAIT_EDR_QUAL, WAIT_EDR_PRE_QUAL)
 
 
 def create_procedure(args, session=None):
@@ -480,72 +459,3 @@ def process_procedure(
             filename_prefix="selection_",
             session=session,
         )
-
-
-def main():
-    if "--version" in sys.argv or "-v" in sys.argv:
-        print(__version__)
-        sys.exit(EX_OK)
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument("host", help="CDB API Host")
-    parser.add_argument("token", help="CDB API Token")
-    parser.add_argument("ds_host", help="DS API Host")
-    parser.add_argument("ds_username", help="DS API Username")
-    parser.add_argument("ds_password", help="DS API Password")
-    parser.add_argument(
-        "-a",
-        "--acceleration",
-        help="acceleration multiplier",
-        metavar=str(ACCELERATION_DEFAULT),
-        default=ACCELERATION_DEFAULT,
-        type=int,
-    )
-    parser.add_argument(
-        "-p",
-        "--path",
-        help="api path",
-        metavar=str(API_PATH_PREFIX_DEFAULT),
-        default=API_PATH_PREFIX_DEFAULT,
-    )
-    parser.add_argument(
-        "-d",
-        "--data",
-        help="data files path custom or one of {}".format(get_default_data_dirs()),
-        metavar=str(DATA_DIR_DEFAULT),
-        default=DATA_DIR_DEFAULT,
-    )
-    parser.add_argument(
-        "-m",
-        "--submission",
-        help="value for submissionMethodDetails one of {}".format(SUBMISSIONS),
-        metavar=str(SUBMISSION_QUICK_NO_AUCTION),
-        default=SUBMISSION_QUICK_NO_AUCTION,
-    )
-    parser.add_argument(
-        "-s",
-        "--stop",
-        help="data file name to stop after",
-        metavar="tender_create.json",
-    )
-    parser.add_argument(
-        "-w",
-        "--wait",
-        help="wait for event {} divided by comma)".format(WAIT_EVENTS),
-        metavar=WAIT_EDR_QUAL,
-        default="",
-    )
-
-    try:
-        args = parser.parse_args()
-        session = requests.Session()
-        adapters.mount(session)
-        create_procedure(args, session=session)
-    except SystemExit as e:
-        sys.exit(e)
-    else:
-        sys.exit(EX_OK)
-
-
-if __name__ == "__main__":
-    main()
