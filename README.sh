@@ -74,11 +74,6 @@ cat >> $FILE <<- EOM
 
 ## Update readme
 
-Pass API token as parameter to README.sh
-\`\`\`
-API_HOST=${API_HOST} API_TOKEN=broker_api_token DS_HOST=${DS_HOST} DS_USERNAME=broker_ds_username DS_PASSWORD=broker_ds_password ./README.sh
-\`\`\`
-or
 \`\`\`
 export API_HOST=${API_HOST}
 export API_TOKEN=broker_api_token
@@ -88,13 +83,13 @@ export DS_PASSWORD=broker_ds_password
 
 ./README.sh
 \`\`\`
+or
+\`\`\`
+API_HOST=${API_HOST} API_TOKEN=broker_api_token DS_HOST=${DS_HOST} DS_USERNAME=broker_ds_username DS_PASSWORD=broker_ds_password ./README.sh
+\`\`\`
 
 ## Run tests
 
-\`\`\`
-API_HOST=${API_HOST} API_TOKEN=broker_api_token DS_HOST=${DS_HOST} DS_USERNAME=broker_ds_username DS_PASSWORD=broker_ds_password python setup.py test
-\`\`\`
-or
 \`\`\`
 export API_HOST=${API_HOST}
 export API_TOKEN=broker_api_token
@@ -103,6 +98,10 @@ export DS_USERNAME=broker_ds_username
 export DS_PASSWORD=broker_ds_password
 
 python setup.py test
+\`\`\`
+or
+\`\`\`
+API_HOST=${API_HOST} API_TOKEN=broker_api_token DS_HOST=${DS_HOST} DS_USERNAME=broker_ds_username DS_PASSWORD=broker_ds_password python setup.py test
 \`\`\`
 EOM
 
