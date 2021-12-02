@@ -36,10 +36,6 @@ def _format_choices(choices):
 
 
 def main():
-    if "--version" in sys.argv or "-v" in sys.argv:
-        print(__version__)
-        sys.exit(EX_OK)
-
     parser = argparse.ArgumentParser(
         formatter_class=Formatter,
     )
@@ -48,6 +44,12 @@ def main():
     parser.add_argument("ds_host", help="DS API Host")
     parser.add_argument("ds_username", help="DS API Username")
     parser.add_argument("ds_password", help="DS API Password")
+    parser.add_argument(
+        "-v",
+        "--version",
+        action="version",
+        version=__version__,
+    )
     parser.add_argument(
         "-a",
         "--acceleration",
@@ -66,7 +68,7 @@ def main():
     parser.add_argument(
         "-d",
         "--data",
-        help="data files path custom or one of:\n{}".format(
+        help="data files, custom path or one of:\n{}".format(
             _format_choices(get_default_data_dirs()),
         ),
         metavar=str(DATA_DIR_DEFAULT),
@@ -75,7 +77,7 @@ def main():
     parser.add_argument(
         "-m",
         "--submission",
-        help="value for submissionMethodDetails one of:\n{}".format(
+        help="value for submissionMethodDetails, one of:\n{}".format(
             _format_choices(SUBMISSIONS),
         ),
         metavar=str(SUBMISSION_QUICK_NO_AUCTION),
@@ -84,7 +86,7 @@ def main():
     parser.add_argument(
         "-s",
         "--stop",
-        help="data file name to stop after\n",
+        help="data file name to stop after",
         metavar="tender_create.json",
     )
     parser.add_argument(
