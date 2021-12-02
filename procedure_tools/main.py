@@ -69,7 +69,7 @@ def main():
         "-d",
         "--data",
         help="data files, custom path or one of:\n{}".format(
-            _format_choices(get_default_data_dirs()),
+            _format_choices(sorted(get_default_data_dirs())),
         ),
         metavar=str(DATA_DIR_DEFAULT),
         default=DATA_DIR_DEFAULT,
