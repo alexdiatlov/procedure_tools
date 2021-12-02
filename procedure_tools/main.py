@@ -32,7 +32,7 @@ class Formatter(argparse.RawTextHelpFormatter):
 
 
 def _format_choices(choices):
-    return " - " + f"\n - ".join(choices)
+    return " - " + "\n - ".join(choices)
 
 
 def main():
