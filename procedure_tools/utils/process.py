@@ -743,7 +743,9 @@ def wait_auction_participation_urls(client, tender_id, bids):
                     sleep(TENDER_SECONDS_BUFFER)
 
 
-def patch_tender_plan(client, args, tender_id, tender_token, plan_id, filename_prefix=""):
+def patch_tender_plan(
+    client, args, tender_id, tender_token, plan_id, filename_prefix=""
+):
     logging.info("Connecting plan to tender...\n")
     tender_patch_data = {"data": {"id": plan_id}}
     return client.post_plan(
