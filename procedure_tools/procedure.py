@@ -92,6 +92,9 @@ def process_procedure(
             plan_id = None
             response = create_tender(tenders_client, args)
 
+        if not response:
+            return
+
         tender_id = get_id(response)
         tender_token = get_token(response)
 
