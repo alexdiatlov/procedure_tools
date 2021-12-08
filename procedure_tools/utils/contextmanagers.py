@@ -50,11 +50,12 @@ def open_file_or_exit(path, mode="r", encoding="UTF-8", exit_filename=None, **kw
 
 
 @contextmanager
-def ignore(*exceptions):
+def ignore(*exceptions, silent=False):
     try:
         yield
     except exceptions as e:
-        msg = fore_error(str(e))
-        msg += "\n"
-        logging.info(msg)
+        if not silent:
+            msg = fore_error(str(e))
+            msg += "\n"
+            logging.info(msg)
         logging.info("Skipping...\n")

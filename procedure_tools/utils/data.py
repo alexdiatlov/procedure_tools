@@ -184,6 +184,10 @@ def get_submission_method_details(response):
     return response.json()["data"].get("submissionMethodDetails")
 
 
+def get_procurement_entity_kind(response):
+    return response.json()["data"].get("procurementEntity", {}).get("kind")
+
+
 def get_complaint_period_end_date(response):
     return [item["complaintPeriod"]["endDate"] for item in response.json()["data"]]
 

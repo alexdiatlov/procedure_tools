@@ -134,10 +134,10 @@ def item_patch_success_handler(response):
     logging.info(msg)
 
 
-def tender_patch_status_success_handler(response):
+def tender_patch_success_handler(response):
     data = response.json()["data"]
 
-    msg = "Tender status patched:\n"
+    msg = "Tender patched:\n"
     msg += " - id \t\t\t\t{}\n".format(fore_success(data["id"]))
     msg += " - status \t\t\t{}\n".format(fore_success(data["status"]))
 
@@ -199,5 +199,15 @@ def tender_patch_period_success_handler(response):
     msg += " - tenderPeriod.endDate \t{}\n".format(
         fore_success(data["tenderPeriod"]["endDate"])
     )
+
+    logging.info(msg)
+
+
+def tender_post_plan_success_handler(response):
+    data = response.json()["data"]
+
+    msg = "Tender plans:\n"
+    for plan in response.json()["data"]:
+        msg += " - id \t\t\t\t{}\n".format(fore_success(plan["id"]))
 
     logging.info(msg)
