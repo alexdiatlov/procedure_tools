@@ -9,6 +9,7 @@ from time import sleep
 
 from procedure_tools.utils.contextmanagers import (
     ignore,
+    ignore_silent,
     open_file_or_exit,
     open_file,
 )
@@ -484,7 +485,7 @@ def create_plans(client, args, filename_prefix=""):
 
 def create_plan(client, args, filename_prefix=""):
     logging.info("Creating plan...\n")
-    with ignore(IOError, silent=True):
+    with ignore_silent(IOError):
         path = get_data_file_path(
             "{}plan_create.json".format(filename_prefix), get_data_path(args.data)
         )
