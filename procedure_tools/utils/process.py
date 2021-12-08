@@ -37,7 +37,7 @@ from procedure_tools.utils.file import (
 )
 from procedure_tools.utils.handlers import (
     item_patch_success_handler,
-    tender_patch_status_success_handler,
+    tender_patch_success_handler,
     item_create_success_handler,
     bid_create_success_handler,
     tender_create_success_handler,
@@ -50,6 +50,7 @@ from procedure_tools.utils.handlers import (
     tender_post_criteria_success_handler,
     tender_patch_period_success_handler,
     auction_multilot_participation_url_success_handler,
+    tender_post_plan_success_handler,
 )
 
 
@@ -275,7 +276,7 @@ def patch_tender_qual(client, args, tender_id, tender_token):
                 tender_id,
                 tender_token,
                 tender_patch_data,
-                success_handler=tender_patch_status_success_handler,
+                success_handler=tender_patch_success_handler,
             )
 
 
@@ -289,7 +290,7 @@ def patch_tender_waiting(client, args, tender_id, tender_token):
                 tender_id,
                 tender_token,
                 tender_patch_data,
-                success_handler=tender_patch_status_success_handler,
+                success_handler=tender_patch_success_handler,
             )
 
 
@@ -365,7 +366,7 @@ def patch_tender_pre(client, args, tender_id, tender_token, filename_prefix=""):
                 tender_id,
                 tender_token,
                 tender_patch_data,
-                success_handler=tender_patch_status_success_handler,
+                success_handler=tender_patch_success_handler,
             )
 
 
@@ -426,7 +427,7 @@ def create_bids(client, ds_client, args, tender_id, filename_prefix=""):
     for data_file in get_data_all_files(get_data_path(args.data)):
         if data_file.startswith("{}bid_create".format(filename_prefix)):
             bid_files.append(data_file)
-    results = []
+    responses = []
     for bid_file in bid_files:
         bid_document_files = []
         bid_documents = []
@@ -452,13 +453,38 @@ def create_bids(client, ds_client, args, tender_id, filename_prefix=""):
                     bid_create_data,
                     success_handler=bid_create_success_handler,
                 )
-                results.append(response.json())
-    return results
+                responses.append(response)
+    return responses
+
+
+def create_plans(client, args, filename_prefix=""):
+    logging.info("Creating plans...\n")
+    plan_files = []
+    for data_file in get_data_all_files(get_data_path(args.data)):
+        if data_file.startswith("{}plan_create".format(filename_prefix)):
+            plan_files.append(data_file)
+    responses = []
+    for plan_file in plan_files:
+        with ignore(IOError):
+            path = get_data_file_path(plan_file, get_data_path(args.data))
+            with open_file_or_exit(path, exit_filename=args.stop) as f:
+                plan_create_data = json.loads(f.read())
+                set_mode_data(plan_create_data)
+                set_tender_period_data(
+                    plan_create_data["data"]["tender"]["tenderPeriod"],
+                    acceleration=args.acceleration,
+                    client_timedelta=client.client_timedelta,
+                )
+                response = client.post_plan(
+                    plan_create_data, success_handler=plan_create_success_handler
+                )
+                responses.append(response)
+    return responses
 
 
 def create_plan(client, args, filename_prefix=""):
     logging.info("Creating plan...\n")
-    with ignore(IOError):
+    with ignore(IOError, silent=True):
         path = get_data_file_path(
             "{}plan_create.json".format(filename_prefix), get_data_path(args.data)
         )
@@ -609,7 +635,7 @@ def patch_tender_tendering(client, args, tender_id, tender_token, filename_prefi
                 tender_id,
                 tender_token,
                 tender_patch_data,
-                success_handler=tender_patch_status_success_handler,
+                success_handler=tender_patch_success_handler,
             )
 
 
@@ -626,7 +652,7 @@ def patch_tender_pending(client, args, tender_id, tender_token, filename_prefix=
                 tender_id,
                 tender_token,
                 tender_patch_data,
-                success_handler=tender_patch_status_success_handler,
+                success_handler=tender_patch_success_handler,
             )
 
 
@@ -658,7 +684,7 @@ def patch_tender(client, args, tender_id, tender_token, filename_prefix=""):
                 tender_id,
                 tender_token,
                 tender_patch_data,
-                success_handler=tender_patch_status_success_handler,
+                success_handler=tender_patch_success_handler,
             )
 
 
@@ -715,3 +741,16 @@ def wait_auction_participation_urls(client, tender_id, bids):
                     break
                 else:
                     sleep(TENDER_SECONDS_BUFFER)
+
+
+def patch_tender_plan(
+    client, args, tender_id, tender_token, plan_id, filename_prefix=""
+):
+    logging.info("Connecting plan to tender...\n")
+    tender_patch_data = {"data": {"id": plan_id}}
+    return client.post_plan(
+        tender_id,
+        tender_token,
+        tender_patch_data,
+        success_handler=tender_post_plan_success_handler,
+    )

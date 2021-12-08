@@ -5,7 +5,7 @@ import logging
 import requests
 
 from procedure_tools.client import API_PATH_PREFIX_DEFAULT
-from procedure_tools.procedure import WAIT_EDR_QUAL, create_procedure, WAIT_EDR_PRE_QUAL
+from procedure_tools.procedure import WAIT_EDR_QUAL, init_procedure, WAIT_EDR_PRE_QUAL
 from procedure_tools.utils import adapters
 from procedure_tools.utils.data import (
     ACCELERATION_DEFAULT,
@@ -103,7 +103,7 @@ def main():
         args = parser.parse_args()
         session = requests.Session()
         adapters.mount(session)
-        create_procedure(args, session=session)
+        init_procedure(args, session=session)
     except SystemExit as e:
         sys.exit(e)
     else:
