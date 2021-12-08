@@ -106,6 +106,8 @@ def main():
         init_procedure(args, session=session)
     except SystemExit as e:
         sys.exit(e)
+    except KeyboardInterrupt as e:
+        sys.exit(e)
     else:
         sys.exit(EX_OK)
 
