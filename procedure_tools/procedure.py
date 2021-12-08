@@ -34,7 +34,7 @@ from procedure_tools.utils.process import (
     patch_bids,
     post_bid_res,
     create_plans,
-    patch_tender_plan,
+    post_tender_plan,
     create_plan,
 )
 from procedure_tools.client import (
@@ -102,7 +102,7 @@ def process_procedure(
             plans_responses = create_plans(plans_client, args)
             for plan_response in plans_responses:
                 plan_id = plan_response.json()["data"]["id"]
-                patch_tender_plan(
+                post_tender_plan(
                     tenders_client,
                     args,
                     tender_id,
