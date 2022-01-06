@@ -3,7 +3,6 @@ from __future__ import absolute_import
 import logging
 
 from procedure_tools.utils.process import (
-    patch_agreements_with_contracts,
     get_tender,
     patch_tender_qual,
     patch_tender_waiting,
@@ -36,6 +35,9 @@ from procedure_tools.utils.process import (
     create_plans,
     post_tender_plan,
     create_plan,
+    get_agreements,
+    patch_agreements_contracts,
+    patch_agreements,
 )
 from procedure_tools.client import (
     TendersApiClient,
@@ -50,10 +52,11 @@ from procedure_tools.utils.data import (
     get_procurement_method_type,
     get_submission_method_details,
     get_next_check,
-    get_complaint_period_end_date,
+    get_complaint_period_end_dates,
     get_ids,
     get_tender_period,
     get_procurement_entity_kind,
+    get_contract_period_clarif_date,
 )
 
 try:
@@ -436,7 +439,7 @@ def process_procedure(
         "simple.defense",
     ):
         response = get_awards(tenders_client, args, tender_id)
-        awards_complaint_dates = get_complaint_period_end_date(response)
+        awards_complaint_dates = get_complaint_period_end_dates(response)
         wait(
             max(awards_complaint_dates),
             client_timedelta=tenders_client.client_timedelta,
@@ -499,7 +502,17 @@ def process_procedure(
             )
 
     if method_type in ("closeFrameworkAgreementUA",):
-        patch_agreements_with_contracts(tenders_client, args, tender_id, tender_token)
+        response = get_tender(tenders_client, args, tender_id)
+        contract_period_clarif_date = get_contract_period_clarif_date(response)
+        wait(
+            contract_period_clarif_date,
+            client_timedelta=tenders_client.client_timedelta,
+            date_info_str="contract period clarifications until date",
+        )
+        response = get_agreements(tenders_client, args, tender_id)
+        agreements_ids = get_ids(response)
+        patch_agreements_contracts(tenders_client, args, tender_id, agreements_ids, tender_token)
+        patch_agreements(tenders_client, args, tender_id, agreements_ids, tender_token)
 
     if method_type in (
         "closeFrameworkAgreementUA",

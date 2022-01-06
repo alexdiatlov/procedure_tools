@@ -127,10 +127,7 @@ def post_bid_res(
                 )
 
 
-def patch_agreements_with_contracts(client, args, tender_id, tender_token):
-    logging.info("Checking agreements...\n")
-    response = get_agreements(client, args, tender_id)
-    agreements_ids = get_ids(response)
+def patch_agreements_contracts(client, args, tender_id, agreements_ids, tender_token):
     response = get_tender(client, args, tender_id)
     items_ids = get_items_ids(response)
     response = get_bids(client, args, tender_id)
@@ -152,30 +149,6 @@ def patch_agreements_with_contracts(client, args, tender_id, tender_token):
             items_ids,
             tender_token,
         )
-    patch_agreements(client, args, tender_id, agreements_ids, tender_token)
-
-
-def patch_agreements(client, args, tender_id, agreements_ids, tender_token):
-    logging.info("Patching agreements...\n")
-    for agreement_index, agreement_id in enumerate(agreements_ids):
-        with ignore(IOError):
-            path = get_data_file_path(
-                "agreement_patch_{}.json".format(agreement_index),
-                get_data_path(args.data),
-            )
-            with open_file_or_exit(path, exit_filename=args.stop) as f:
-                agreement_patch_data = json.loads(f.read())
-                set_agreement_period(
-                    agreement_patch_data["data"]["period"],
-                    client_timedelta=client.client_timedelta,
-                )
-                client.patch_agreement(
-                    tender_id,
-                    agreement_id,
-                    tender_token,
-                    agreement_patch_data,
-                    success_handler=item_patch_success_handler,
-                )
 
 
 def patch_agreement_contract(
@@ -218,6 +191,29 @@ def patch_agreement_contract(
                 )
 
 
+def patch_agreements(client, args, tender_id, agreements_ids, tender_token):
+    logging.info("Patching agreements...\n")
+    for agreement_index, agreement_id in enumerate(agreements_ids):
+        with ignore(IOError):
+            path = get_data_file_path(
+                "agreement_patch_{}.json".format(agreement_index),
+                get_data_path(args.data),
+            )
+            with open_file_or_exit(path, exit_filename=args.stop) as f:
+                agreement_patch_data = json.loads(f.read())
+                set_agreement_period(
+                    agreement_patch_data["data"]["period"],
+                    client_timedelta=client.client_timedelta,
+                )
+                client.patch_agreement(
+                    tender_id,
+                    agreement_id,
+                    tender_token,
+                    agreement_patch_data,
+                    success_handler=item_patch_success_handler,
+                )
+
+
 def get_agreement_contract(client, args, tender_id, agreement_id):
     logging.info("Checking agreement contracts...")
     while True:
@@ -234,6 +230,7 @@ def get_tender(client, args, tender_id):
 
 
 def get_agreements(client, args, tender_id):
+    logging.info("Check agreements...\n")
     while True:
         response = client.get_agreements(tender_id)
         if not response.json()["data"]:
@@ -244,6 +241,7 @@ def get_agreements(client, args, tender_id):
 
 
 def get_agreement(client, args, agreement_id):
+    logging.info("Check agreement...\n")
     while True:
         response = client.get_agreement(
             agreement_id, error_handler=default_success_handler
@@ -256,6 +254,7 @@ def get_agreement(client, args, agreement_id):
 
 
 def get_contract(client, args, contract_id):
+    logging.info("Check contract...\n")
     while True:
         response = client.get_contract(
             contract_id, error_handler=default_success_handler
