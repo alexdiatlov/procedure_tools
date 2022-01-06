@@ -274,7 +274,7 @@ def process_procedure(
             filename_prefix=filename_prefix,
         )
     else:
-        bids_responses = None
+        bids_jsons = None
 
     if method_type in (
         "closeFrameworkAgreementUA",
@@ -370,7 +370,7 @@ def process_procedure(
             "esco",
             "simple.defense",
         )
-        and bids_responses
+        and bids_jsons
         and all(
             [
                 "mode:fast-forward" not in submission_method_details,
@@ -378,7 +378,7 @@ def process_procedure(
             ]
         )
     ):
-        wait_auction_participation_urls(tenders_client, tender_id, bids_responses)
+        wait_auction_participation_urls(tenders_client, tender_id, bids_jsons)
 
     if method_type in ("negotiation", "negotiation.quick", "reporting"):
         create_awards(tenders_client, args, tender_id, tender_token)
