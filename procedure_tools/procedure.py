@@ -511,7 +511,9 @@ def process_procedure(
         )
         response = get_agreements(tenders_client, args, tender_id)
         agreements_ids = get_ids(response)
-        patch_agreements_contracts(tenders_client, args, tender_id, agreements_ids, tender_token)
+        patch_agreements_contracts(
+            tenders_client, args, tender_id, agreements_ids, tender_token
+        )
         patch_agreements(tenders_client, args, tender_id, agreements_ids, tender_token)
 
     if method_type in (
