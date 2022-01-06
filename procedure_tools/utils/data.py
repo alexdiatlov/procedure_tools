@@ -188,8 +188,12 @@ def get_procurement_entity_kind(response):
     return response.json()["data"].get("procurementEntity", {}).get("kind")
 
 
-def get_complaint_period_end_date(response):
+def get_complaint_period_end_dates(response):
     return [item["complaintPeriod"]["endDate"] for item in response.json()["data"]]
+
+
+def get_contract_period_clarif_date(response):
+    return response.json()["data"]["contractPeriod"]["clarificationsUntil"]
 
 
 def get_bids_ids(response):
