@@ -1,9 +1,7 @@
 import logging
 
 from procedure_tools.utils.style import (
-    fore,
-    fore_success,
-    fore_warning,
+    fore_info,
     fore_error,
     fore_status_code,
 )
@@ -55,14 +53,14 @@ def tender_create_success_handler(response):
     access = response.json()["access"]
 
     msg = "Tender created:\n"
-    msg += " - id \t\t\t\t{}\n".format(fore_success(data["id"]))
-    msg += " - token \t\t\t{}\n".format(fore_success(access["token"]))
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+    msg += " - token \t\t\t{}\n".format(fore_info(access["token"]))
     if "transfer" in access:
-        msg += " - transfer \t\t\t{}\n".format(fore_success(access["transfer"]))
-    msg += " - status \t\t\t{}\n".format(fore_success(data["status"]))
-    msg += " - tenderID \t\t\t{}\n".format(fore_success(data["tenderID"]))
+        msg += " - transfer \t\t\t{}\n".format(fore_info(access["transfer"]))
+    msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
+    msg += " - tenderID \t\t\t{}\n".format(fore_info(data["tenderID"]))
     msg += " - procurementMethodType \t{}\n".format(
-        fore_success(data["procurementMethodType"])
+        fore_info(data["procurementMethodType"])
     )
 
     logging.info(msg)
@@ -73,10 +71,10 @@ def plan_create_success_handler(response):
     access = response.json()["access"]
 
     msg = "Plan created:\n"
-    msg += " - id \t\t\t\t{}\n".format(fore_success(data["id"]))
-    msg += " - token \t\t\t{}\n".format(fore_success(access["token"]))
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+    msg += " - token \t\t\t{}\n".format(fore_info(access["token"]))
     if "transfer" in access:
-        msg += " - transfer \t\t\t{}\n".format(fore_success(access["transfer"]))
+        msg += " - transfer \t\t\t{}\n".format(fore_info(access["transfer"]))
 
     logging.info(msg)
 
@@ -86,8 +84,8 @@ def contract_credentials_success_handler(response):
     access = response.json()["access"]
 
     msg = "Contract patched:\n"
-    msg += " - id \t\t\t\t{}\n".format(fore_success(data["id"]))
-    msg += " - token \t\t\t{}\n".format(fore_success(access["token"]))
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+    msg += " - token \t\t\t{}\n".format(fore_info(access["token"]))
 
     logging.info(msg)
 
@@ -97,9 +95,9 @@ def bid_create_success_handler(response):
     access = response.json()["access"]
 
     msg = "Bid created:\n"
-    msg += " - id \t\t\t\t{}\n".format(fore_success(data["id"]))
-    msg += " - token \t\t\t{}\n".format(fore_success(access["token"]))
-    msg += " - status \t\t\t{}\n".format(fore_success(data["status"]))
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+    msg += " - token \t\t\t{}\n".format(fore_info(access["token"]))
+    msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
 
     logging.info(msg)
 
@@ -108,8 +106,8 @@ def item_create_success_handler(response):
     data = response.json()["data"]
 
     msg = "Item created:\n"
-    msg += " - id \t\t\t\t{}\n".format(fore_success(data["id"]))
-    msg += " - status \t\t\t{}\n".format(fore_success(data["status"]))
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+    msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
 
     logging.info(msg)
 
@@ -118,8 +116,8 @@ def item_get_success_handler(response):
     data = response.json()["data"]
     for item in data:
         msg = "Item found:\n"
-        msg += " - id \t\t\t\t{}\n".format(fore_success(data["id"]))
-        msg += " - status \t\t\t{}\n".format(fore_success(item["status"]))
+        msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+        msg += " - status \t\t\t{}\n".format(fore_info(item["status"]))
 
         logging.info(msg)
 
@@ -128,8 +126,8 @@ def item_patch_success_handler(response):
     data = response.json()["data"]
 
     msg = "Item patched:\n"
-    msg += " - id \t\t\t\t{}\n".format(fore_success(data["id"]))
-    msg += " - status \t\t\t{}\n".format(fore_success(data["status"]))
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+    msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
 
     logging.info(msg)
 
@@ -138,8 +136,8 @@ def tender_patch_success_handler(response):
     data = response.json()["data"]
 
     msg = "Tender patched:\n"
-    msg += " - id \t\t\t\t{}\n".format(fore_success(data["id"]))
-    msg += " - status \t\t\t{}\n".format(fore_success(data["status"]))
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+    msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
 
     logging.info(msg)
 
@@ -150,7 +148,7 @@ def tender_post_criteria_success_handler(response):
     msg = "Tender criteria created:\n"
     for item in data:
         msg += " - classification.id \t\t\t\t{}\n".format(
-            fore_success(item["classification"]["id"])
+            fore_info(item["classification"]["id"])
         )
 
     logging.info(msg)
@@ -160,8 +158,8 @@ def tender_check_status_success_handler(response):
     data = response.json()["data"]
 
     msg = "Tender info:\n"
-    msg += " - id \t\t\t\t{}\n".format(fore_success(data["id"]))
-    msg += " - status \t\t\t{}\n".format(fore_success(data["status"]))
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+    msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
 
     logging.info(msg)
 
@@ -170,8 +168,8 @@ def auction_participation_url_success_handler(response):
     data = response.json()["data"]
 
     msg = "Auction participation url for bid:\n"
-    msg += " - id \t\t\t\t{}\n".format(fore_success(data["id"]))
-    msg += " - url \t\t\t{}\n".format(fore_success(data["participationUrl"]))
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+    msg += " - url \t\t\t{}\n".format(fore_info(data["participationUrl"]))
 
     logging.info(msg)
 
@@ -180,11 +178,11 @@ def auction_multilot_participation_url_success_handler(response):
     data = response.json()["data"]
 
     msg = "Auction participation url for bid:\n"
-    msg += " - id \t\t\t\t{}\n".format(fore_success(data["id"]))
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
     for lot_value in response.json()["data"]["lotValues"]:
         msg += "Lot:\n"
-        msg += " - relatedLot\t\t\t{}\n".format(fore_success(lot_value["relatedLot"]))
-        msg += " - url \t\t\t\t{}\n".format(fore_success(lot_value["participationUrl"]))
+        msg += " - relatedLot\t\t\t{}\n".format(fore_info(lot_value["relatedLot"]))
+        msg += " - url \t\t\t\t{}\n".format(fore_info(lot_value["participationUrl"]))
 
     logging.info(msg)
 
@@ -194,10 +192,10 @@ def tender_patch_period_success_handler(response):
 
     msg = "Tender patched:\n"
     msg += " - tenderPeriod.startDate \t{}\n".format(
-        fore_success(data["tenderPeriod"]["startDate"])
+        fore_info(data["tenderPeriod"]["startDate"])
     )
     msg += " - tenderPeriod.endDate \t{}\n".format(
-        fore_success(data["tenderPeriod"]["endDate"])
+        fore_info(data["tenderPeriod"]["endDate"])
     )
 
     logging.info(msg)
@@ -208,6 +206,6 @@ def tender_post_plan_success_handler(response):
 
     msg = "Tender plans:\n"
     for plan in response.json()["data"]:
-        msg += " - id \t\t\t\t{}\n".format(fore_success(plan["id"]))
+        msg += " - id \t\t\t\t{}\n".format(fore_info(plan["id"]))
 
     logging.info(msg)
