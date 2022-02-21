@@ -3,7 +3,7 @@ name: Full Test Workflow
 on: [workflow_dispatch]
 
 jobs:
-  pytest:full:
+  pytest-full:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
