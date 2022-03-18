@@ -24,7 +24,6 @@ from procedure_tools.utils.data import (
     set_mode_data,
     DATETIME_MASK,
     TENDER_PERIOD_MIN_TIMEDELTA,
-    TENDER_PERIOD_MAX_TIMEDELTA,
 )
 from procedure_tools.utils.date import (
     fix_datetime,
@@ -559,15 +558,14 @@ def extend_tender_period(
         min_period_timedelta=period_timedelta,
         client_timedelta=client.client_timedelta,
     )
-    if (
-        tender_period
-        and tender_period["endDate"] < data["data"]["tenderPeriod"]["endDate"]
-    ):
+    new_end_date = data["data"]["tenderPeriod"]["endDate"]
+    if tender_period and tender_period["endDate"] < new_end_date:
         response = client.patch_tender(
             tender_id,
             tender_token,
             data,
             success_handler=tender_patch_period_success_handler,
+            error_handler=default_success_handler,
         )
         return response
 

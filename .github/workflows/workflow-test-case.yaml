@@ -6,7 +6,6 @@ on:
       case:
         description: 'Test Case'
         required: false
-
 jobs:
   pytest-case:
     if: github.event.inputs.case != ''
