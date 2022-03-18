@@ -502,7 +502,7 @@ def create_plan(client, args, filename_prefix=""):
             return response
 
 
-def patch_plan(client, args, plan_id=None, plan_token=None, filename_prefix=""):
+def patch_plan(client, args, plan_id, plan_token, filename_prefix=""):
     logging.info("Patching plan...\n")
     with ignore_silent(IOError):
         path = get_data_file_path(

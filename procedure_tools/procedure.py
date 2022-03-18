@@ -93,12 +93,22 @@ def process_procedure(
             plan_id = get_id(response)
             plan_token = get_token(response)
             response = patch_plan(
-                plans_client, args, plan_id=plan_id, plan_token=plan_token
+                plans_client,
+                args,
+                plan_id,
+                plan_token,
             )
-            response = create_tender(plans_client, args, plan_id=plan_id)
+            response = create_tender(
+                plans_client,
+                args,
+                plan_id=plan_id,
+            )
         else:
             plan_id = None
-            response = create_tender(tenders_client, args)
+            response = create_tender(
+                tenders_client,
+                args,
+            )
 
         if not response:
             return
