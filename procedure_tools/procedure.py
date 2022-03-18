@@ -35,6 +35,7 @@ from procedure_tools.utils.process import (
     create_plans,
     post_tender_plan,
     create_plan,
+    patch_plan,
     get_agreements,
     patch_agreements_contracts,
     patch_agreements,
@@ -90,6 +91,10 @@ def process_procedure(
 
         if response:
             plan_id = get_id(response)
+            plan_token = get_token(response)
+            response = patch_plan(
+                plans_client, args, plan_id=plan_id, plan_token=plan_token
+            )
             response = create_tender(plans_client, args, plan_id=plan_id)
         else:
             plan_id = None

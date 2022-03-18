@@ -40,7 +40,7 @@ jobs:
       - name: Run black
         run: |
           black . --check
-  pytest:
+  pytest-fast:
     runs-on: ubuntu-latest
     strategy:
       max-parallel: 1
