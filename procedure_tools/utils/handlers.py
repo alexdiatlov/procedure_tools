@@ -75,6 +75,17 @@ def plan_create_success_handler(response):
     msg += " - token \t\t\t{}\n".format(fore_info(access["token"]))
     if "transfer" in access:
         msg += " - transfer \t\t\t{}\n".format(fore_info(access["transfer"]))
+    msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
+
+    logging.info(msg)
+
+
+def plan_patch_success_handler(response):
+    data = response.json()["data"]
+
+    msg = "Plan patched:\n"
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+    msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
 
     logging.info(msg)
 

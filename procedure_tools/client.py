@@ -319,7 +319,7 @@ class PlansApiClient(BaseCDBClient):
         return self.post(path, json, **kwargs)
 
     def patch_plan(self, plan_id, acc_token, json, **kwargs):
-        tenders_path = self.PLANS_COLLECTION_PATH.format(plan_id)
+        tenders_path = self.PLANS_PATH.format(plan_id)
         path = self.get_api_path(tenders_path, acc_token=acc_token)
         return self.patch(path, json, **kwargs)
 
