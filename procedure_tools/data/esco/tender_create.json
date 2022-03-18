@@ -23,17 +23,8 @@
           "region": "м. Київ",
           "streetAddress": "вул. Тестова 1"
         },
-        "deliveryDate": {
-          "endDate": "2017-11-30T17:19:48.277078+03:00",
-          "startDate": "2017-10-31T17:19:48.277018+03:00"
-        },
         "description": "Тестова назва предмета закупівлі",
-        "description_en": "Procurement item test name",
-        "quantity": 1,
-        "unit": {
-          "code": "KGM",
-          "name": "кг"
-        }
+        "description_en": "Procurement item test name"
       },
       {
         "additionalClassifications": [
@@ -55,17 +46,8 @@
           "region": "м. Київ",
           "streetAddress": "вул. Тестова 1"
         },
-        "deliveryDate": {
-          "endDate": "2017-11-30T17:19:48.277124+03:00",
-          "startDate": "2017-10-31T17:19:48.277104+03:00"
-        },
         "description": "Тестова назва предмета закупівлі",
-        "description_en": "Procurement item test name",
-        "quantity": 1,
-        "unit": {
-          "code": "KGM",
-          "name": "кг"
-        }
+        "description_en": "Procurement item test name"
       }
     ],
     "mainProcurementCategory": "services",

@@ -55,15 +55,7 @@
           "id": "42000000-6",
           "scheme": "ДК021"
         },
-        "deliveryDate": {
-          "endDate": "2019-10-16T01:00:00+03:00"
-        },
-        "description": "Тестова назва предмета закупівлі",
-        "quantity": 1000,
-        "unit": {
-          "code": "KGM",
-          "name": "кг"
-        }
+        "description": "Тестова назва предмета закупівлі"
       },
       {
         "classification": {
@@ -71,15 +63,7 @@
           "id": "42000000-6",
           "scheme": "ДК021"
         },
-        "deliveryDate": {
-          "endDate": "2019-10-17T01:00:00+03:00"
-        },
-        "description": "Тестова назва предмета закупівлі",
-        "quantity": 2000,
-        "unit": {
-          "code": "KGM",
-          "name": "кг"
-        }
+        "description": "Тестова назва предмета закупівлі"
       }
     ],
     "procuringEntity": {
