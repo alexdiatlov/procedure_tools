@@ -158,7 +158,7 @@ def tender_post_criteria_success_handler(response):
 
     msg = "Tender criteria created:\n"
     for item in data:
-        msg += " - classification.id \t\t\t\t{}\n".format(
+        msg += " - classification.id \t\t{}\n".format(
             fore_info(item["classification"]["id"])
         )
 
@@ -180,7 +180,7 @@ def auction_participation_url_success_handler(response):
 
     msg = "Auction participation url for bid:\n"
     msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
-    msg += " - url \t\t\t{}\n".format(fore_info(data["participationUrl"]))
+    msg += " - url \t\t\t\t{}\n".format(fore_info(data["participationUrl"]))
 
     logging.info(msg)
 

@@ -195,7 +195,7 @@ def get_contract_period_clarif_date(response):
     return response.json()["data"]["contractPeriod"]["clarificationsUntil"]
 
 
-def get_bids_ids(response):
+def get_contracts_bids_ids(response):
     return [i["bidID"] for i in response.json()["data"]]
 
 

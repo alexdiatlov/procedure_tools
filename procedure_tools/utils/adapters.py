@@ -17,8 +17,11 @@ class HTTPAdapter(adapters.HTTPAdapter):
         **kwargs,
     ):
         self.timeout = timeout
-        super(HTTPAdapter, self).__init__(max_retries=max_retries, *args, **kwargs)
-
+        super(HTTPAdapter, self).__init__(
+            max_retries=max_retries,
+            *args,
+            **kwargs,
+        )
 
     def send(self, request, *args, **kwargs):
         exc = None
