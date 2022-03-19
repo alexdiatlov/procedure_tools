@@ -17,12 +17,6 @@ def default_error_handler(response):
     raise SystemExit(EX_DATAERR)
 
 
-def pass_error_handler(response):
-    msg = "Response text:\n"
-    msg += fore_error(response.text)
-    logging.info(msg)
-
-
 def default_success_handler(response):
     pass
 

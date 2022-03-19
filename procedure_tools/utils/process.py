@@ -52,7 +52,6 @@ from procedure_tools.utils.handlers import (
     tender_patch_period_success_handler,
     auction_multilot_participation_url_success_handler,
     tender_post_plan_success_handler,
-    pass_error_handler,
 )
 
 
@@ -568,7 +567,7 @@ def extend_tender_period(
                 tender_token,
                 {"data": {"tenderPeriod": tender_period}},
                 success_handler=tender_patch_period_success_handler,
-                error_handler=pass_error_handler,
+                error_handler=default_success_handler,
             )
             return response
 
