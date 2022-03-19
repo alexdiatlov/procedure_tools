@@ -552,23 +552,25 @@ def create_tender(client, args, plan_id=None, agreement_id=None, filename_prefix
 def extend_tender_period(
     tender_period, client, args, tender_id, tender_token, period_timedelta
 ):
-    data = {"data": {"tenderPeriod": {"endDate": DATETIME_MASK}}}
-    set_tender_period_data(
-        data["data"]["tenderPeriod"],
-        acceleration=args.acceleration,
-        min_period_timedelta=period_timedelta,
-        client_timedelta=client.client_timedelta,
-    )
-    new_end_date = data["data"]["tenderPeriod"]["endDate"]
-    if tender_period and tender_period["endDate"] < new_end_date:
-        response = client.patch_tender(
-            tender_id,
-            tender_token,
-            data,
-            success_handler=tender_patch_period_success_handler,
-            error_handler=pass_error_handler,
+    if tender_period:
+        old_end_date = tender_period["endDate"]
+        tender_period["endDate"] = DATETIME_MASK
+        set_tender_period_data(
+            tender_period,
+            acceleration=args.acceleration,
+            min_period_timedelta=period_timedelta,
+            client_timedelta=client.client_timedelta,
         )
-        return response
+        new_end_date = tender_period["endDate"]
+        if old_end_date < new_end_date:
+            response = client.patch_tender(
+                tender_id,
+                tender_token,
+                {"data": {"tenderPeriod": tender_period}},
+                success_handler=tender_patch_period_success_handler,
+                error_handler=pass_error_handler,
+            )
+            return response
 
 
 def extend_tender_period_min(tender_period, client, args, tender_id, tender_token):
