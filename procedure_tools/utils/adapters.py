@@ -1,6 +1,6 @@
 import logging
 
-from requests import adapters
+from requests import adapters, ConnectionError
 from urllib3 import Retry
 
 DEFAULT_TIMEOUT = 60
@@ -9,19 +9,9 @@ DEFAULT_RETRY_FORCELIST = (408, 409, 412, 429, 500, 502, 503, 504)
 
 
 class HTTPAdapter(adapters.HTTPAdapter):
-    def __init__(
-        self,
-        timeout=DEFAULT_TIMEOUT,
-        max_retries=DEFAULT_MAX_RETRIES,
-        *args,
-        **kwargs,
-    ):
+    def __init__(self, timeout, max_retries):
         self.timeout = timeout
-        super(HTTPAdapter, self).__init__(
-            max_retries=max_retries,
-            *args,
-            **kwargs,
-        )
+        super(HTTPAdapter, self).__init__(max_retries=max_retries)
 
     def send(self, request, *args, **kwargs):
         exc = None
@@ -31,7 +21,7 @@ class HTTPAdapter(adapters.HTTPAdapter):
             try:
                 kwargs["timeout"] = self.timeout
                 logging.info("[{}] {}".format(request.method, request.url))
-                return super().send(request, *args, **kwargs)
+                return super(HTTPAdapter, self).send(request, *args, **kwargs)
             except ConnectionError as exc:
                 logging.info("Connection error: %s", exc)
                 continue
@@ -41,15 +31,16 @@ class HTTPAdapter(adapters.HTTPAdapter):
 
 def mount(
     session,
-    max_reties=DEFAULT_MAX_RETRIES,
+    timeout=DEFAULT_TIMEOUT,
+    max_reties_total=DEFAULT_MAX_RETRIES,
     status_forcelist=DEFAULT_RETRY_FORCELIST,
 ):
-    retry_strategy = Retry(
-        total=max_reties,
+    max_retries = Retry(
+        total=max_reties_total,
         status_forcelist=status_forcelist,
         raise_on_redirect=False,
         raise_on_status=False,
     )
-    adapter = HTTPAdapter(max_retries=retry_strategy)
+    adapter = HTTPAdapter(timeout, max_retries)
     session.mount("https://", adapter)
     session.mount("http://", adapter)
