@@ -3,6 +3,7 @@
     "status": "active",
     "value": {
       "amount": 20.0,
+      "amountNet": 20.0,
       "valueAddedTaxIncluded": false
     }
   }
