@@ -2,11 +2,19 @@
 
 ## Install
 
-Clone and install with pip
+1. Clone
+2. Navigate to cloned folder:
 ```
 cd procedure_tools
-
+```
+3. Install with pip
+* vanilla:
+```
 pip install -e .
+```
+* colorized output:
+```
+pip install -e .[color]
 ```
 
 ## Usage
