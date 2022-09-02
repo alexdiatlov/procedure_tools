@@ -134,9 +134,10 @@ def process_procedure(
     procurement_entity_kind = get_procurement_entity_kind(response)
 
     if method_type in (
-        "aboveThresholdEU",
-        "aboveThresholdUA",
         "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
         "closeFrameworkAgreementUA",
         "competitiveDialogueEU",
         "competitiveDialogueUA",
@@ -159,10 +160,11 @@ def process_procedure(
         tender_criteria = None
 
     if method_type in (
-        "aboveThresholdEU",
-        "aboveThresholdUA",
-        "aboveThresholdUA.defense",
         "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
+        "aboveThresholdUA.defense",
         "closeFrameworkAgreementUA",
         "competitiveDialogueEU",
         "competitiveDialogueUA",
@@ -239,12 +241,13 @@ def process_procedure(
         )
 
     if method_type in (
+        "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
         "closeFrameworkAgreementUA",
         "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA",
         "aboveThresholdUA.defense",
-        "aboveThresholdEU",
-        "belowThreshold",
         "competitiveDialogueEU",
         "competitiveDialogueUA",
         "competitiveDialogueEU.stage2",
@@ -292,12 +295,13 @@ def process_procedure(
         bids_jsons = None
 
     if method_type in (
+        "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
         "closeFrameworkAgreementUA",
         "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA",
         "aboveThresholdUA.defense",
-        "aboveThresholdEU",
-        "belowThreshold",
         "competitiveDialogueEU",
         "competitiveDialogueUA",
         "competitiveDialogueEU.stage2",
@@ -374,12 +378,13 @@ def process_procedure(
     if (
         method_type
         in (
+            "belowThreshold",
+            "aboveThreshold",
+            "aboveThresholdUA",
+            "aboveThresholdEU",
             "closeFrameworkAgreementUA",
             "closeFrameworkAgreementSelectionUA",
-            "aboveThresholdUA",
             "aboveThresholdUA.defense",
-            "aboveThresholdEU",
-            "belowThreshold",
             "competitiveDialogueEU.stage2",
             "competitiveDialogueUA.stage2",
             "esco",
@@ -405,12 +410,13 @@ def process_procedure(
         wait_edr_qual(tenders_client, args, tender_id)
 
     if method_type in (
+        "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
         "closeFrameworkAgreementUA",
         "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA",
         "aboveThresholdUA.defense",
-        "aboveThresholdEU",
-        "belowThreshold",
         "competitiveDialogueEU.stage2",
         "competitiveDialogueUA.stage2",
         "negotiation",
@@ -442,10 +448,11 @@ def process_procedure(
         wait_status(tenders_client, args, tender_id, "active.awarded")
 
     if method_type in (
-        "aboveThresholdUA",
-        "aboveThresholdUA.defense",
-        "aboveThresholdEU",
         "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
+        "aboveThresholdUA.defense",
         "competitiveDialogueEU.stage2",
         "competitiveDialogueUA.stage2",
         "negotiation",
@@ -464,11 +471,12 @@ def process_procedure(
     contracts_ids = []
 
     if method_type in (
-        "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA",
-        "aboveThresholdUA.defense",
-        "aboveThresholdEU",
         "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
+        "closeFrameworkAgreementSelectionUA",
+        "aboveThresholdUA.defense",
         "competitiveDialogueEU.stage2",
         "competitiveDialogueUA.stage2",
         "negotiation",
@@ -489,11 +497,12 @@ def process_procedure(
         )
 
     if method_type in (
-        "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA",
-        "aboveThresholdUA.defense",
-        "aboveThresholdEU",
         "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
+        "closeFrameworkAgreementSelectionUA",
+        "aboveThresholdUA.defense",
         "competitiveDialogueEU.stage2",
         "competitiveDialogueUA.stage2",
         "negotiation",
@@ -542,11 +551,12 @@ def process_procedure(
         )
 
     if method_type in (
-        "closeFrameworkAgreementUA",
-        "aboveThresholdUA",
-        "aboveThresholdUA.defense",
-        "aboveThresholdEU",
         "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
+        "closeFrameworkAgreementUA",
+        "aboveThresholdUA.defense",
         "competitiveDialogueEU",
         "competitiveDialogueUA",
         "competitiveDialogueEU.stage2",
