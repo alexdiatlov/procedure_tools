@@ -740,7 +740,7 @@ def wait_auction_participation_urls(client, tender_id, bids):
             if "lotValues" in response.json()["data"]:
                 lot_values = data["lotValues"]
                 active_lot_values = [
-                    value for value in lot_values if value["status"] == "active"
+                    value for value in lot_values if value.get("status", "active") == "active"
                 ]
                 if all(map(participation_url_exists, active_lot_values)):
                     response_handler(
