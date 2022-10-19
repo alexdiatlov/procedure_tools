@@ -127,6 +127,7 @@ class BaseCDBClient(BaseApiClient):
 class TendersApiClient(BaseCDBClient):
     TENDERS_COLLECTION_PATH = "tenders"
     TENDERS_PATH = "tenders/{}"
+    TENDERS_DOCUMENTS_COLLECTION_PATH = "tenders/{}/documents"
     PLANS_PATH = "tenders/{}/plans"
     CRITERIA_COLLECTION_PATH = "tenders/{}/criteria"
     BIDS_COLLECTION_PATH = "tenders/{}/bids"
@@ -140,8 +141,9 @@ class TendersApiClient(BaseCDBClient):
     QUALIFICATIONS_PATH = "tenders/{}/qualifications/{}"
     AGREEMENTS_COLLECTION_PATH = "tenders/{}/agreements"
     AGREEMENTS_PATH = "tenders/{}/agreements/{}"
-    AGREEMENT_CONTRACT_COLLECTION_PATH = "tenders/{}/agreements/{}/contracts"
-    AGREEMENT_CONTRACT_PATH = "tenders/{}/agreements/{}/contracts/{}"
+    AGREEMENTS_DOCUMENTS_COLLECTION_PATH = "tenders/{}/agreements/{}/documents"
+    AGREEMENTS_CONTRACTS_COLLECTION_PATH = "tenders/{}/agreements/{}/contracts"
+    AGREEMENTS_CONTRACTS_PATH = "tenders/{}/agreements/{}/contracts/{}"
     CREDENTIALS_PATH = "tenders/{}/credentials"
 
     def get_tender(self, tender_id, **kwargs):
@@ -158,6 +160,11 @@ class TendersApiClient(BaseCDBClient):
         tenders_path = self.TENDERS_PATH.format(tender_id)
         path = self.get_api_path(tenders_path, acc_token=acc_token)
         return self.patch(path, json, **kwargs)
+
+    def post_tender_document(self, tender_id, acc_token, json, **kwargs):
+        documents_path = self.TENDERS_DOCUMENTS_COLLECTION_PATH.format(tender_id)
+        path = self.get_api_path(documents_path, acc_token=acc_token)
+        return self.post(path, json, **kwargs)
 
     def post_plan(self, tender_id, acc_token, json, **kwargs):
         tenders_path = self.PLANS_PATH.format(tender_id)
@@ -257,8 +264,17 @@ class TendersApiClient(BaseCDBClient):
         path = self.get_api_path(agreements_path, acc_token=acc_token)
         return self.patch(path, json, **kwargs)
 
+    def post_agreement_document(
+        self, tender_id, agreement_id, acc_token, json, **kwargs
+    ):
+        agreements_path = self.AGREEMENTS_DOCUMENTS_COLLECTION_PATH.format(
+            tender_id, agreement_id
+        )
+        path = self.get_api_path(agreements_path, acc_token=acc_token)
+        return self.post(path, json, **kwargs)
+
     def get_agreement_contracts(self, tender_id, agreement_id, **kwargs):
-        agreement_contracts_path = self.AGREEMENT_CONTRACT_COLLECTION_PATH.format(
+        agreement_contracts_path = self.AGREEMENTS_CONTRACTS_COLLECTION_PATH.format(
             tender_id, agreement_id
         )
         path = self.get_api_path(agreement_contracts_path)
@@ -267,7 +283,7 @@ class TendersApiClient(BaseCDBClient):
     def patch_agreement_contract(
         self, tender_id, agreement_id, contract_id, acc_token, json, **kwargs
     ):
-        agreement_contracts_path = self.AGREEMENT_CONTRACT_PATH.format(
+        agreement_contracts_path = self.AGREEMENTS_CONTRACTS_PATH.format(
             tender_id, agreement_id, contract_id, acc_token
         )
         path = self.get_api_path(agreement_contracts_path, acc_token=acc_token)

@@ -4,13 +4,17 @@
       {
         "relatedItem": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         "value": {
-          "amount": 0.5
+          "amount": 0.5,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
         }
       },
       {
         "relatedItem": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
         "value": {
-          "amount": 0.5
+          "amount": 0.5,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
         }
       }
     ]
