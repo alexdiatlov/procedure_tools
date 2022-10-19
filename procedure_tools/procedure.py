@@ -39,6 +39,7 @@ from procedure_tools.utils.process import (
     get_agreements,
     patch_agreements_contracts,
     patch_agreements,
+    upload_tender_documents,
 )
 from procedure_tools.client import (
     TendersApiClient,
@@ -85,6 +86,9 @@ def process_procedure(
 ):
     tenders_client = TendersApiClient(args.host, args.token, args.path, session=session)
     plans_client = PlansApiClient(args.host, args.token, args.path, session=session)
+    ds_client = DsApiClient(
+        args.ds_host, args.ds_username, args.ds_password, session=session
+    )
 
     if not tender_id and not tender_token:
         response = create_plan(plans_client, args)
@@ -100,6 +104,7 @@ def process_procedure(
             )
             response = create_tender(
                 plans_client,
+                ds_client,
                 args,
                 plan_id=plan_id,
             )
@@ -107,6 +112,7 @@ def process_procedure(
             plan_id = None
             response = create_tender(
                 tenders_client,
+                ds_client,
                 args,
             )
 
@@ -132,6 +138,15 @@ def process_procedure(
     method_type = get_procurement_method_type(response)
     submission_method_details = get_submission_method_details(response)
     procurement_entity_kind = get_procurement_entity_kind(response)
+
+    upload_tender_documents(
+        tenders_client,
+        ds_client,
+        args,
+        tender_id,
+        tender_token,
+        filename_prefix=filename_prefix,
+    )
 
     if method_type in (
         "belowThreshold",
@@ -255,12 +270,6 @@ def process_procedure(
         "esco",
         "simple.defense",
     ):
-        ds_client = DsApiClient(
-            args.ds_host,
-            args.ds_username,
-            args.ds_password,
-            session=session,
-        )
         bids_responses = create_bids(
             tenders_client,
             ds_client,
@@ -544,6 +553,7 @@ def process_procedure(
         )
         patch_agreements(
             tenders_client,
+            ds_client,
             args,
             tender_id,
             agreements_ids,
