@@ -615,6 +615,7 @@ def process_procedure(
 
         response = create_tender(
             tenders_client,
+            ds_client,
             args,
             agreement_id=agreement_id,
             filename_prefix="selection_",
