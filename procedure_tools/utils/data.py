@@ -44,14 +44,15 @@ def set_mode_data(data):
 def set_acceleration_data(
     data,
     acceleration=ACCELERATION_DEFAULT,
+    submission=None,
     period_timedelta=TENDER_PERIOD_DEFAULT_TIMEDELTA,
-    submission=SUBMISSION_QUICK_NO_AUCTION,
     client_timedelta=timedelta(),
 ):
     try:
-        data["procurementMethodDetails"] = "quick, accelerator={}".format(acceleration)
-        if data.get("procurementMethod") != "limited":
+        if submission:
             data["submissionMethodDetails"] = submission
+
+        data["procurementMethodDetails"] = "quick, accelerator={}".format(acceleration)
 
         now = fix_datetime(get_now(), client_timedelta)
 
