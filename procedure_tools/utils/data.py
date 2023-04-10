@@ -188,8 +188,8 @@ def get_procurement_entity_kind(response):
     return response.json()["data"].get("procurementEntity", {}).get("kind")
 
 
-def get_config_has_auction(response):
-    return response.json()["config"]
+def get_config(response):
+    return response.json().get("config", {})
 
 
 def get_complaint_period_end_dates(response):

@@ -58,7 +58,7 @@ from procedure_tools.utils.data import (
     get_ids,
     get_tender_period,
     get_procurement_entity_kind,
-    get_contract_period_clarif_date,
+    get_contract_period_clarif_date, get_config,
 )
 
 try:
@@ -402,7 +402,7 @@ def process_procedure(
             "simple.defense",
         )
         and bids_jsons
-        and config.get("hasAuction") is True
+        and config.get("hasAuction", True) is True
         and (
             not submission_method_details
             or all(
