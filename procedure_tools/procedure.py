@@ -135,6 +135,8 @@ def process_procedure(
                 )
 
     response = get_tender(tenders_client, args, tender_id)
+    config = get_config(response)
+
     method_type = get_procurement_method_type(response)
     submission_method_details = get_submission_method_details(response)
     procurement_entity_kind = get_procurement_entity_kind(response)
@@ -400,11 +402,15 @@ def process_procedure(
             "simple.defense",
         )
         and bids_jsons
-        and all(
-            [
-                "mode:fast-forward" not in submission_method_details,
-                "mode:no-auction" not in submission_method_details,
-            ]
+        and config.get("hasAuction") is True
+        and (
+            not submission_method_details
+            or all(
+                [
+                    "mode:fast-forward" not in submission_method_details,
+                    "mode:no-auction" not in submission_method_details,
+                ]
+            )
         )
     ):
         wait_auction_participation_urls(tenders_client, tender_id, bids_jsons)
