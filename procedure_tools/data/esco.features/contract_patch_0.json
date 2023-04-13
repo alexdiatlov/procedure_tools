@@ -2,6 +2,7 @@
   "data": {
     "status": "active",
     "value": {
+      "amountNet": 8900.0,
       "valueAddedTaxIncluded": false
     }
   }

@@ -137,6 +137,7 @@ class TendersApiClient(BaseCDBClient):
     AWARDS_PATH = "tenders/{}/awards/{}"
     CONTRACTS_COLLECTION_PATH = "tenders/{}/contracts"
     CONTRACTS_PATH = "tenders/{}/contracts/{}"
+    CONTRACT_UNIT_VALUE_PATH = "tenders/{}/contracts/{}/items/{}/unit/value"
     QUALIFICATIONS_COLLECTION_PATH = "tenders/{}/qualifications"
     QUALIFICATIONS_PATH = "tenders/{}/qualifications/{}"
     AGREEMENTS_COLLECTION_PATH = "tenders/{}/agreements"
@@ -249,6 +250,15 @@ class TendersApiClient(BaseCDBClient):
 
     def patch_contract(self, tender_id, contract_id, acc_token, json, **kwargs):
         awards_path = self.CONTRACTS_PATH.format(tender_id, contract_id, acc_token)
+        path = self.get_api_path(awards_path, acc_token=acc_token)
+        return self.patch(path, json, **kwargs)
+
+    def patch_contract_unit_value(
+        self, tender_id, contract_id, item_id, acc_token, json, **kwargs
+    ):
+        awards_path = self.CONTRACT_UNIT_VALUE_PATH.format(
+            tender_id, contract_id, item_id, acc_token
+        )
         path = self.get_api_path(awards_path, acc_token=acc_token)
         return self.patch(path, json, **kwargs)
 

@@ -210,3 +210,10 @@ def get_items_ids(response):
 
 def get_ids(response):
     return [item["id"] for item in response.json()["data"]]
+
+
+def get_contracts_items_ids(response):
+    return [
+        [item["id"] for item in contract["items"]]
+        for contract in response.json()["data"]
+    ]

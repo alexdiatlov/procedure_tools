@@ -1,4 +1,7 @@
 {
+  "config": {
+    "hasAuction": true
+  },
   "data": {
     "agreementDuration": "P3Y3M3D",
     "buyers": [

@@ -49,6 +49,7 @@ from procedure_tools.utils.handlers import (
     tender_patch_period_success_handler,
     auction_multilot_participation_url_success_handler,
     tender_post_plan_success_handler,
+    value_patch_success_handler,
 )
 
 
@@ -325,10 +326,10 @@ def get_awards(client, args, tender_id):
 
 
 def patch_contracts(
-    client, args, tender_id, awards_ids, tender_token, filename_prefix=""
+    client, args, tender_id, contracts_ids, tender_token, filename_prefix=""
 ):
     logging.info("Patching contracts...\n")
-    for contract_index, contract_id in enumerate(awards_ids):
+    for contract_index, contract_id in enumerate(contracts_ids):
         data_file = "{}contract_patch_{}.json".format(
             filename_prefix,
             contract_index,
@@ -343,6 +344,31 @@ def patch_contracts(
                 contract_patch_data,
                 success_handler=item_patch_success_handler,
             )
+
+
+def patch_contract_unit_values(
+    client, args, tender_id, contracts_ids, items_ids, tender_token, filename_prefix=""
+):
+    logging.info("Patching contract unit values...\n")
+    unit_value_index = 0
+    for contract_index, contract_id in enumerate(contracts_ids):
+        for item_index, item_id in enumerate(items_ids[contract_index]):
+            data_file = "{}contract_unit_value_patch_{}.json".format(
+                filename_prefix,
+                unit_value_index,
+            )
+            path = get_data_file_path(data_file, get_data_path(args.data))
+            with open_file(path, exit_filename=args.stop) as f:
+                contract_patch_data = json.loads(f.read())
+                client.patch_contract_unit_value(
+                    tender_id,
+                    contract_id,
+                    item_id,
+                    tender_token,
+                    contract_patch_data,
+                    success_handler=value_patch_success_handler,
+                )
+            unit_value_index += 1
 
 
 def get_contracts(client, args, tender_id):

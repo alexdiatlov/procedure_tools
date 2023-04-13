@@ -1,4 +1,7 @@
 {
+  "config": {
+    "hasAuction": true
+  },
   "data": {
     "enquiryPeriod": {
       "endDate": "XXXX-XX-XXTXX:XX+XX:XX"
