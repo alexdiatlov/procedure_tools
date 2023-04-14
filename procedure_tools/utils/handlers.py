@@ -140,6 +140,13 @@ def item_patch_success_handler(response):
     msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
     msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
 
+
+def value_patch_success_handler(response):
+    data = response.json()["data"]
+
+    msg = "Value patched:\n"
+    msg += " - amount \t\t\t{}\n".format(fore_info(str(data["amount"])))
+
     logging.info(msg)
 
 

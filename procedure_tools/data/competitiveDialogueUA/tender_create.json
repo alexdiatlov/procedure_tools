@@ -1,4 +1,7 @@
 {
+  "config": {
+    "hasAuction": false
+  },
   "data": {
     "items": [
       {

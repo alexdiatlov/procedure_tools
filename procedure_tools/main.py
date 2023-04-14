@@ -81,7 +81,6 @@ def main():
             _format_choices(SUBMISSIONS),
         ),
         metavar=str(SUBMISSION_QUICK_NO_AUCTION),
-        default=SUBMISSION_QUICK_NO_AUCTION,
     )
     parser.add_argument(
         "-s",

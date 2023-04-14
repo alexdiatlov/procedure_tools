@@ -1,4 +1,7 @@
 {
+  "config": {
+    "hasAuction": true
+  },
   "data": {
     "NBUdiscountRate": 0.22986,
     "fundingKind": "budget",

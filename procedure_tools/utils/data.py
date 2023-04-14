@@ -44,14 +44,15 @@ def set_mode_data(data):
 def set_acceleration_data(
     data,
     acceleration=ACCELERATION_DEFAULT,
+    submission=None,
     period_timedelta=TENDER_PERIOD_DEFAULT_TIMEDELTA,
-    submission=SUBMISSION_QUICK_NO_AUCTION,
     client_timedelta=timedelta(),
 ):
     try:
-        data["procurementMethodDetails"] = "quick, accelerator={}".format(acceleration)
-        if data.get("procurementMethod") != "limited":
+        if submission:
             data["submissionMethodDetails"] = submission
+
+        data["procurementMethodDetails"] = "quick, accelerator={}".format(acceleration)
 
         now = fix_datetime(get_now(), client_timedelta)
 
@@ -187,6 +188,10 @@ def get_procurement_entity_kind(response):
     return response.json()["data"].get("procurementEntity", {}).get("kind")
 
 
+def get_config(response):
+    return response.json().get("config", {})
+
+
 def get_complaint_period_end_dates(response):
     return [item["complaintPeriod"]["endDate"] for item in response.json()["data"]]
 
@@ -205,3 +210,10 @@ def get_items_ids(response):
 
 def get_ids(response):
     return [item["id"] for item in response.json()["data"]]
+
+
+def get_contracts_items_ids(response):
+    return [
+        [item["id"] for item in contract["items"]]
+        for contract in response.json()["data"]
+    ]

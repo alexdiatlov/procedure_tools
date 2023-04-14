@@ -40,6 +40,7 @@ from procedure_tools.utils.process import (
     patch_agreements_contracts,
     patch_agreements,
     upload_tender_documents,
+    patch_contract_unit_values,
 )
 from procedure_tools.client import (
     TendersApiClient,
@@ -59,6 +60,8 @@ from procedure_tools.utils.data import (
     get_tender_period,
     get_procurement_entity_kind,
     get_contract_period_clarif_date,
+    get_config,
+    get_contracts_items_ids,
 )
 
 try:
@@ -135,6 +138,8 @@ def process_procedure(
                 )
 
     response = get_tender(tenders_client, args, tender_id)
+    config = get_config(response)
+
     method_type = get_procurement_method_type(response)
     submission_method_details = get_submission_method_details(response)
     procurement_entity_kind = get_procurement_entity_kind(response)
@@ -400,11 +405,15 @@ def process_procedure(
             "simple.defense",
         )
         and bids_jsons
-        and all(
-            [
-                "mode:fast-forward" not in submission_method_details,
-                "mode:no-auction" not in submission_method_details,
-            ]
+        and config.get("hasAuction", True) is True
+        and (
+            not submission_method_details
+            or all(
+                [
+                    "mode:fast-forward" not in submission_method_details,
+                    "mode:no-auction" not in submission_method_details,
+                ]
+            )
         )
     ):
         wait_auction_participation_urls(tenders_client, tender_id, bids_jsons)
@@ -478,6 +487,7 @@ def process_procedure(
         )
 
     contracts_ids = []
+    items_ids = []
 
     if method_type in (
         "belowThreshold",
@@ -496,6 +506,47 @@ def process_procedure(
     ):
         response = get_contracts(tenders_client, args, tender_id)
         contracts_ids = get_ids(response)
+        items_ids = get_contracts_items_ids(response)
+
+    if method_type in (
+        "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
+        "closeFrameworkAgreementSelectionUA",
+        "aboveThresholdUA.defense",
+        "competitiveDialogueEU.stage2",
+        "competitiveDialogueUA.stage2",
+        "negotiation",
+        "negotiation.quick",
+        "reporting",
+        "simple.defense",
+    ):
+        patch_contract_unit_values(
+            tenders_client,
+            args,
+            tender_id,
+            contracts_ids,
+            items_ids,
+            tender_token,
+            filename_prefix=filename_prefix,
+        )
+
+    if method_type in (
+        "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
+        "closeFrameworkAgreementSelectionUA",
+        "aboveThresholdUA.defense",
+        "competitiveDialogueEU.stage2",
+        "competitiveDialogueUA.stage2",
+        "negotiation",
+        "negotiation.quick",
+        "reporting",
+        "esco",
+        "simple.defense",
+    ):
         patch_contracts(
             tenders_client,
             args,

@@ -1,4 +1,7 @@
 {
+  "config": {
+    "hasAuction": true
+  },
   "data": {
     "awardCriteria": "lifeCycleCost",
     "items": [
