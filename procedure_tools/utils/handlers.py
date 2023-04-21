@@ -203,7 +203,9 @@ def auction_multilot_participation_url_success_handler(response):
         if "status" in lot_value:
             msg += " - status \t\t\t{}\n".format(fore_info(lot_value["status"]))
         if lot_value.get("status", "active") == "active":
-            msg += " - url \t\t\t\t{}\n".format(fore_info(lot_value["participationUrl"]))
+            msg += " - url \t\t\t\t{}\n".format(
+                fore_info(lot_value["participationUrl"])
+            )
 
     logging.info(msg)
 
