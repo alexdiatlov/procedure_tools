@@ -198,9 +198,12 @@ def auction_multilot_participation_url_success_handler(response):
     msg = "Auction participation url for bid:\n"
     msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
     for lot_value in response.json()["data"]["lotValues"]:
-        msg += "Lot:\n"
+        msg += "Lot value:\n"
         msg += " - relatedLot\t\t\t{}\n".format(fore_info(lot_value["relatedLot"]))
-        msg += " - url \t\t\t\t{}\n".format(fore_info(lot_value["participationUrl"]))
+        if "status" in lot_value:
+            msg += " - status \t\t\t{}\n".format(fore_info(lot_value["status"]))
+        if lot_value.get("status", "active") == "active":
+            msg += " - url \t\t\t\t{}\n".format(fore_info(lot_value["participationUrl"]))
 
     logging.info(msg)
 
