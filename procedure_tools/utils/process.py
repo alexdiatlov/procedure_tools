@@ -762,10 +762,16 @@ def wait_edr_qual(client, args, tender_id):
             award = client.get_award(tender_id, award["id"]).json()["data"]
 
 
-def wait_auction_participation_urls(client, tender_id, bids):
+def wait_auction_participation_urls(client, tender_id, bids, max_retries=10):
     logging.info("Waiting for the auction participation urls...\n")
     for bid in bids:
+        retries = 0
         while True:
+            retries += 1
+            if retries > max_retries:
+                logging.info("Max retries reached. Skipping...")
+                break
+
             response = client.get_bid(
                 tender_id,
                 bid["data"]["id"],
@@ -782,20 +788,20 @@ def wait_auction_participation_urls(client, tender_id, bids):
                     for value in lot_values
                     if value.get("status", "active") == "active"
                 ]
+                response_handler(
+                    response,
+                    success_handler=auction_multilot_participation_url_success_handler,
+                )
                 if all(map(participation_url_exists, active_lot_values)):
-                    response_handler(
-                        response,
-                        success_handler=auction_multilot_participation_url_success_handler,
-                    )
                     break
                 else:
                     sleep(TENDER_SECONDS_BUFFER)
             else:
+                response_handler(
+                    response,
+                    success_handler=auction_participation_url_success_handler,
+                )
                 if participation_url_exists(data):
-                    response_handler(
-                        response,
-                        success_handler=auction_participation_url_success_handler,
-                    )
                     break
                 else:
                     sleep(TENDER_SECONDS_BUFFER)

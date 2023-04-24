@@ -405,10 +405,7 @@ def process_procedure(
             "simple.defense",
         )
         and bids_jsons
-        and (
-            "hasAuction" not in config
-            or config.get("hasAuction") is True
-        )
+        and ("hasAuction" not in config or config.get("hasAuction") is True)
         and (
             not submission_method_details
             or all(
