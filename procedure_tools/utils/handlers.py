@@ -187,7 +187,8 @@ def auction_participation_url_success_handler(response):
 
     msg = "Auction participation url for bid:\n"
     msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
-    msg += " - url \t\t\t\t{}\n".format(fore_info(data["participationUrl"]))
+    if "participationUrl" in data:
+        msg += " - url \t\t\t\t{}\n".format(fore_info(data["participationUrl"]))
 
     logging.info(msg)
 
@@ -202,10 +203,11 @@ def auction_multilot_participation_url_success_handler(response):
         msg += " - relatedLot\t\t\t{}\n".format(fore_info(lot_value["relatedLot"]))
         if "status" in lot_value:
             msg += " - status \t\t\t{}\n".format(fore_info(lot_value["status"]))
-        if lot_value.get("status", "active") == "active":
-            msg += " - url \t\t\t\t{}\n".format(
-                fore_info(lot_value["participationUrl"])
-            )
+        if "participationUrl" in lot_value:
+            if lot_value.get("status", "active") == "active":
+                msg += " - url \t\t\t\t{}\n".format(
+                    fore_info(lot_value["participationUrl"])
+                )
 
     logging.info(msg)
 
