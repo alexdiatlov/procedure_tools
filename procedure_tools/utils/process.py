@@ -789,13 +789,17 @@ def wait_auction_participation_urls(client, tender_id, bids):
                 active_lot_values = [
                     value
                     for value in lot_values
-                    if all([
-                        value.get("status", "active") == "active",
-                        "auctionPeriod" in [
-                            lot for lot in tender_data["lots"]
-                            if lot["id"] == value["relatedLot"]
-                        ][0].keys(),
-                    ])
+                    if all(
+                        [
+                            value.get("status", "active") == "active",
+                            "auctionPeriod"
+                            in [
+                                lot
+                                for lot in tender_data["lots"]
+                                if lot["id"] == value["relatedLot"]
+                            ][0].keys(),
+                        ]
+                    )
                 ]
                 for lot_value in active_lot_values:
                     related_lot = lot_value["relatedLot"]
