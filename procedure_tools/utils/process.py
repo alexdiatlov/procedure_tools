@@ -1,5 +1,6 @@
 import json
 import logging
+from functools import partial
 
 import math
 
@@ -762,49 +763,63 @@ def wait_edr_qual(client, args, tender_id):
             award = client.get_award(tender_id, award["id"]).json()["data"]
 
 
-def wait_auction_participation_urls(client, tender_id, bids, max_retries=10):
+def wait_auction_participation_urls(client, tender_id, bids):
     logging.info("Waiting for the auction participation urls...\n")
-    for bid in bids:
-        retries = 0
-        while True:
-            retries += 1
-            if retries > max_retries:
-                logging.info("Max retries reached. Skipping...")
-                break
-
-            response = client.get_bid(
-                tender_id,
-                bid["data"]["id"],
-                bid["access"]["token"],
-            )
+    active_bids = [bid for bid in bids if bid["data"].get("status") != "unsuccessful"]
+    active_bids_ids = [bid["data"]["id"] for bid in active_bids]
+    success_bids_ids = []
+    success_lots_ids = {}
+    while True:
+        response = client.get_tender(tender_id)
+        tender_data = response.json()["data"]
+        if set(success_bids_ids) == set(active_bids_ids):
+            break
+        for bid in active_bids:
+            bid_id = bid["data"]["id"]
+            bid_token = bid["access"]["token"]
+            if bid_id in success_bids_ids:
+                continue
+            if bid_id not in success_lots_ids:
+                success_lots_ids[bid_id] = []
+            response = client.get_bid(tender_id, bid_id, bid_token)
             data = response.json()["data"]
-            if bid.get("status") == "unsuccessful":
-                break
             participation_url_exists = lambda x: "participationUrl" in x
             if "lotValues" in response.json()["data"]:
                 lot_values = data["lotValues"]
                 active_lot_values = [
                     value
                     for value in lot_values
-                    if value.get("status", "active") == "active"
+                    if all([
+                        value.get("status", "active") == "active",
+                        "auctionPeriod" in [
+                            lot for lot in tender_data["lots"]
+                            if lot["id"] == value["relatedLot"]
+                        ][0].keys(),
+                    ])
                 ]
-                response_handler(
-                    response,
-                    success_handler=auction_multilot_participation_url_success_handler,
-                )
+                for lot_value in active_lot_values:
+                    related_lot = lot_value["relatedLot"]
+                    if related_lot in success_lots_ids[bid_id]:
+                        continue
+                    if participation_url_exists(lot_value):
+                        success_lots_ids[bid_id].append(related_lot)
+                        response_handler(
+                            response,
+                            success_handler=partial(
+                                auction_multilot_participation_url_success_handler,
+                                related_lot=related_lot,
+                            ),
+                        )
                 if all(map(participation_url_exists, active_lot_values)):
-                    break
-                else:
-                    sleep(TENDER_SECONDS_BUFFER)
+                    success_bids_ids.append(bid_id)
             else:
-                response_handler(
-                    response,
-                    success_handler=auction_participation_url_success_handler,
-                )
                 if participation_url_exists(data):
-                    break
-                else:
-                    sleep(TENDER_SECONDS_BUFFER)
+                    response_handler(
+                        response,
+                        success_handler=auction_participation_url_success_handler,
+                    )
+                    success_bids_ids.append(bid_id)
+        sleep(TENDER_SECONDS_BUFFER)
 
 
 def post_tender_plan(
