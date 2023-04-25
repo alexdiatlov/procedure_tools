@@ -63,6 +63,7 @@ from procedure_tools.utils.data import (
     get_config,
     get_contracts_items_ids,
 )
+from procedure_tools.utils.file import DataPathError, get_data_path
 
 try:
     from colorama import init
@@ -76,8 +77,12 @@ WAIT_EDR_PRE_QUAL = "edr-pre-qualification"
 
 
 def init_procedure(args, session=None):
-    process_procedure(args, session=session)
-    logging.info("Completed.\n")
+    data_path = get_data_path(args.data)
+    if data_path is None:
+        logging.error("Data path not found.\n")
+    else:
+        process_procedure(args, session=session)
+        logging.info("Completed.\n")
 
 
 def process_procedure(

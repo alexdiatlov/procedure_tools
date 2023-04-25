@@ -193,12 +193,14 @@ def auction_participation_url_success_handler(response):
     logging.info(msg)
 
 
-def auction_multilot_participation_url_success_handler(response):
+def auction_multilot_participation_url_success_handler(response, related_lot=None):
     data = response.json()["data"]
 
     msg = "Auction participation url for bid:\n"
     msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
     for lot_value in response.json()["data"]["lotValues"]:
+        if related_lot and lot_value["relatedLot"] != related_lot:
+            continue
         msg += "Lot value:\n"
         msg += " - relatedLot\t\t\t{}\n".format(fore_info(lot_value["relatedLot"]))
         if "status" in lot_value:
