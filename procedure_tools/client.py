@@ -1,5 +1,7 @@
 from __future__ import absolute_import
 
+import json
+import logging
 from copy import deepcopy, copy
 from base64 import b64encode
 from datetime import timedelta
@@ -30,9 +32,10 @@ class BaseApiClient(object):
         "User-Agent": "procedure_tools/{}".format(__version__),
     }
 
-    def __init__(self, host, session=None, **kwargs):
+    def __init__(self, host, session=None, debug=False, **kwargs):
         self.host = host
         self.kwargs = kwargs
+        self.debug = debug
         if session:
             self.session = session
         else:
@@ -59,32 +62,48 @@ class BaseApiClient(object):
     def get_url(self, api_path):
         return urljoin(self.host, api_path)
 
-    def get(self, path, **kwargs):
+    def format_data(self, data):
+        try:
+            text = json.dumps(data, ensure_ascii=False, indent=4)
+        except TypeError:
+            text = str(data)
+        return text
+
+    def log_request(self, data):
+        if data is not None:
+            request_text = self.format_data(data)
+            logging.debug(f"Request:\n {request_text}")
+
+    def log_response(self, text):
+        if text is not None:
+            try:
+                data = json.loads(text)
+            except json.JSONDecodeError:
+                response_text = text
+            else:
+                response_text = self.format_data(data)
+            logging.debug(f"Response:\n {response_text}")
+
+    def request(self, method, path, **kwargs):
         request_kwargs = deepcopy(self.kwargs)
         handlers = self.pop_handlers(kwargs)
         request_kwargs.update(kwargs)
         url = self.get_url(path)
-        response = self.session.get(url=url, **request_kwargs)
+        response = self.session.request(method=method, url=url, **request_kwargs)
+        if self.debug:
+            self.log_request(request_kwargs.get("json", None))
+            self.log_response(response.text)
         response_handler(response, **handlers)
         return response
+
+    def get(self, path, **kwargs):
+        return self.request("GET", path, **kwargs)
 
     def post(self, path, json=None, **kwargs):
-        request_kwargs = deepcopy(self.kwargs)
-        handlers = self.pop_handlers(kwargs)
-        request_kwargs.update(kwargs)
-        url = self.get_url(path)
-        response = self.session.post(url=url, json=json, **request_kwargs)
-        response_handler(response, **handlers)
-        return response
+        return self.request("POST", path, json=json, **kwargs)
 
     def patch(self, path, json=None, **kwargs):
-        request_kwargs = deepcopy(self.kwargs)
-        handlers = self.pop_handlers(kwargs)
-        request_kwargs.update(kwargs)
-        url = self.get_url(path)
-        response = self.session.patch(url=url, json=json, **request_kwargs)
-        response_handler(response, **handlers)
-        return response
+        return self.request("PATCH", path, json=json, **kwargs)
 
 
 class BaseCDBClient(BaseApiClient):

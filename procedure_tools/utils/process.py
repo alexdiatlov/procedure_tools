@@ -6,10 +6,11 @@ import math
 
 from datetime import timedelta
 from mimetypes import MimeTypes
+
 from time import sleep
 
 from procedure_tools.utils.contextmanagers import (
-    open_file,
+    read_file, open_file,
 )
 from procedure_tools.utils.data import (
     DATETIME_MASK,
@@ -73,8 +74,8 @@ def patch_bids(client, args, tender_id, bids_ids, bids_tokens, filename_prefix="
     for bid_index, bid_id in enumerate(bids_ids):
         data_file = "{}bid_patch_{}.json".format(filename_prefix, bid_index)
         path = get_data_file_path(data_file, get_data_path(args.data))
-        with open_file(path, exit_filename=args.stop) as f:
-            bid_patch_data = json.loads(f.read())
+        with read_file(path, exit_filename=args.stop) as content:
+            bid_patch_data = json.loads(content)
             client.patch_bid(
                 tender_id,
                 bid_id,
@@ -98,8 +99,8 @@ def post_bid_res(
     for bid_index, bid_id in enumerate(bids_ids):
         data_file = "{}bid_res_post_{}.json".format(filename_prefix, bid_index)
         path = get_data_file_path(data_file, get_data_path(args.data))
-        with open_file(path, exit_filename=args.stop) as f:
-            bid_res_data = json.loads(f.read())
+        with read_file(path, exit_filename=args.stop) as content:
+            bid_res_data = json.loads(content)
             for bid_res in bid_res_data["data"]:
                 if "evidences" in bid_res:
                     for evidence in bid_res["evidences"]:
@@ -167,8 +168,8 @@ def patch_agreement_contract(
         data_file_pattern = "agreement_{}_contracts_patch_{}.json"
         data_file = data_file_pattern.format(agreement_index, index)
         path = get_data_file_path(data_file, get_data_path(args.data))
-        with open_file(path, exit_filename=args.stop) as f:
-            agreement_contract_patch_data = json.loads(f.read())
+        with read_file(path, exit_filename=args.stop) as content:
+            agreement_contract_patch_data = json.loads(content)
             for item_index, items_id in enumerate(items_ids):
                 unit_prices = agreement_contract_patch_data["data"]["unitPrices"]
                 unit_price = unit_prices[item_index]
@@ -202,8 +203,8 @@ def patch_agreements(client, ds_client, args, tender_id, agreements_ids, tender_
                     )
         data_file = "agreement_patch_{}.json".format(agreement_index)
         path = get_data_file_path(data_file, get_data_path(args.data))
-        with open_file(path, exit_filename=args.stop) as f:
-            agreement_patch_data = json.loads(f.read())
+        with read_file(path, exit_filename=args.stop) as content:
+            agreement_patch_data = json.loads(content)
             set_agreement_period(
                 agreement_patch_data["data"]["period"],
                 client_timedelta=client.client_timedelta,
@@ -275,8 +276,8 @@ def patch_tender_qual(client, args, tender_id, tender_token):
     logging.info("Approving awards by switching to next status...\n")
     data_file = "tender_patch_qual.json"
     path = get_data_file_path(data_file, get_data_path(args.data))
-    with open_file(path, exit_filename=args.stop) as f:
-        tender_patch_data = json.loads(f.read())
+    with read_file(path, exit_filename=args.stop) as content:
+        tender_patch_data = json.loads(content)
         return client.patch_tender(
             tender_id,
             tender_token,
@@ -289,8 +290,8 @@ def patch_tender_waiting(client, args, tender_id, tender_token):
     logging.info("Finishing first stage by switching to next status...\n")
     data_file = "tender_patch_waiting.json"
     path = get_data_file_path(data_file, get_data_path(args.data))
-    with open_file(path, exit_filename=args.stop) as f:
-        tender_patch_data = json.loads(f.read())
+    with read_file(path, exit_filename=args.stop) as content:
+        tender_patch_data = json.loads(content)
         return client.patch_tender(
             tender_id,
             tender_token,
@@ -304,8 +305,8 @@ def patch_awards(client, args, tender_id, awards_ids, tender_token, filename_pre
     for award_index, awards_id in enumerate(awards_ids):
         data_file = "{}award_patch_{}.json".format(filename_prefix, award_index)
         path = get_data_file_path(data_file, get_data_path(args.data))
-        with open_file(path, exit_filename=args.stop) as f:
-            award_patch_data = json.loads(f.read())
+        with read_file(path, exit_filename=args.stop) as content:
+            award_patch_data = json.loads(content)
             client.patch_award(
                 tender_id,
                 awards_id,
@@ -336,8 +337,8 @@ def patch_contracts(
             contract_index,
         )
         path = get_data_file_path(data_file, get_data_path(args.data))
-        with open_file(path, exit_filename=args.stop) as f:
-            contract_patch_data = json.loads(f.read())
+        with read_file(path, exit_filename=args.stop) as content:
+            contract_patch_data = json.loads(content)
             client.patch_contract(
                 tender_id,
                 contract_id,
@@ -359,8 +360,8 @@ def patch_contract_unit_values(
                 unit_value_index,
             )
             path = get_data_file_path(data_file, get_data_path(args.data))
-            with open_file(path, exit_filename=args.stop) as f:
-                contract_patch_data = json.loads(f.read())
+            with read_file(path, exit_filename=args.stop) as content:
+                contract_patch_data = json.loads(content)
                 client.patch_contract_unit_value(
                     tender_id,
                     contract_id,
@@ -387,8 +388,8 @@ def patch_tender_pre(client, args, tender_id, tender_token, filename_prefix=""):
     logging.info("Approving qualifications by switching to next status...\n")
     data_file = "{}tender_patch_pre.json".format(filename_prefix)
     path = get_data_file_path(data_file, get_data_path(args.data))
-    with open_file(path, exit_filename=args.stop) as f:
-        tender_patch_data = json.loads(f.read())
+    with read_file(path, exit_filename=args.stop) as content:
+        tender_patch_data = json.loads(content)
         return client.patch_tender(
             tender_id,
             tender_token,
@@ -407,8 +408,8 @@ def patch_qualifications(
             qualification_index,
         )
         path = get_data_file_path(data_file, get_data_path(args.data))
-        with open_file(path, exit_filename=args.stop) as f:
-            qualification_patch_data = json.loads(f.read())
+        with read_file(path, exit_filename=args.stop) as content:
+            qualification_patch_data = json.loads(content)
             client.patch_qualification(
                 tender_id,
                 qualification_id,
@@ -437,8 +438,8 @@ def create_awards(client, args, tender_id, tender_token):
             award_data_files.append(data_file)
     for award_data_file in award_data_files:
         path = get_data_file_path(award_data_file, get_data_path(args.data))
-        with open_file(path, exit_filename=args.stop) as f:
-            award_create_data = json.loads(f.read())
+        with read_file(path, exit_filename=args.stop) as content:
+            award_create_data = json.loads(content)
             client.post_award(
                 tender_id,
                 tender_token,
@@ -462,8 +463,8 @@ def create_bids(client, ds_client, args, tender_id, filename_prefix=""):
                 if ds_response:
                     bid_documents.append(ds_response.json()["data"])
         path = get_data_file_path(bid_data_file, get_data_path(args.data))
-        with open_file(path, exit_filename=args.stop) as f:
-            bid_create_data = json.loads(f.read())
+        with read_file(path, exit_filename=args.stop) as content:
+            bid_create_data = json.loads(content)
             bid_create_data["data"]["documents"] = bid_documents
             response = client.post_bid(
                 tender_id,
@@ -494,8 +495,8 @@ def create_plans(client, args, filename_prefix=""):
     responses = []
     for plan_data_file in plan_data_files:
         path = get_data_file_path(plan_data_file, get_data_path(args.data))
-        with open_file(path, exit_filename=args.stop) as f:
-            plan_create_data = json.loads(f.read())
+        with read_file(path, exit_filename=args.stop) as content:
+            plan_create_data = json.loads(content)
             set_mode_data(plan_create_data)
             set_tender_period_data(
                 plan_create_data["data"]["tender"]["tenderPeriod"],
@@ -514,8 +515,8 @@ def create_plan(client, args, filename_prefix=""):
     logging.info("Creating plan...\n")
     data_file = "{}plan_create.json".format(filename_prefix)
     path = get_data_file_path(data_file, get_data_path(args.data))
-    with open_file(path, exit_filename=args.stop, silent_error=True) as f:
-        plan_create_data = json.loads(f.read())
+    with read_file(path, exit_filename=args.stop, silent_error=True) as content:
+        plan_create_data = json.loads(content)
         set_mode_data(plan_create_data)
         set_tender_period_data(
             plan_create_data["data"]["tender"]["tenderPeriod"],
@@ -533,8 +534,8 @@ def patch_plan(client, args, plan_id, plan_token, filename_prefix=""):
     logging.info("Patching plan...\n")
     data_file = "{}plan_patch.json".format(filename_prefix)
     path = get_data_file_path(data_file, get_data_path(args.data))
-    with open_file(path, exit_filename=args.stop, silent_error=True) as f:
-        plan_patch_data = json.loads(f.read())
+    with read_file(path, exit_filename=args.stop, silent_error=True) as content:
+        plan_patch_data = json.loads(content)
         response = client.patch_plan(
             plan_id,
             plan_token,
@@ -550,8 +551,8 @@ def create_tender(
     logging.info("Creating tender...\n")
     data_file = "{}tender_create.json".format(filename_prefix)
     path = get_data_file_path(data_file, get_data_path(args.data))
-    with open_file(path, exit_filename=args.stop) as f:
-        tender_create_data = json.loads(f.read())
+    with read_file(path, exit_filename=args.stop) as content:
+        tender_create_data = json.loads(content)
         set_mode_data(tender_create_data["data"])
         set_acceleration_data(
             tender_create_data["data"],
@@ -665,8 +666,8 @@ def patch_stage2_credentials(client, args, stage2_tender_id, tender_token):
     logging.info("Getting credentials for second stage...\n")
     data_file = "stage2_tender_credentials.json"
     path = get_data_file_path(data_file, get_data_path(args.data))
-    with open_file(path, exit_filename=args.stop) as f:
-        tender_patch_data = json.loads(f.read())
+    with read_file(path, exit_filename=args.stop) as content:
+        tender_patch_data = json.loads(content)
         return client.patch_credentials(
             stage2_tender_id,
             tender_token,
@@ -689,8 +690,8 @@ def patch_tender_tendering(client, args, tender_id, tender_token, filename_prefi
     logging.info("Activating tender by switching to next status...\n")
     data_file = "{}tender_patch_tendering.json".format(filename_prefix)
     path = get_data_file_path(data_file, get_data_path(args.data))
-    with open_file(path, exit_filename=args.stop) as f:
-        tender_patch_data = json.loads(f.read())
+    with read_file(path, exit_filename=args.stop) as content:
+        tender_patch_data = json.loads(content)
         return client.patch_tender(
             tender_id,
             tender_token,
@@ -703,8 +704,8 @@ def patch_tender_pending(client, args, tender_id, tender_token, filename_prefix=
     logging.info("Activating tender by switching to next status...\n")
     data_file = "{}tender_patch_pending.json".format(filename_prefix)
     path = get_data_file_path(data_file, get_data_path(args.data))
-    with open_file(path, exit_filename=args.stop) as f:
-        tender_patch_data = json.loads(f.read())
+    with read_file(path, exit_filename=args.stop) as content:
+        tender_patch_data = json.loads(content)
         return client.patch_tender(
             tender_id,
             tender_token,
@@ -717,8 +718,8 @@ def post_criteria(client, args, tender_id, tender_token, filename_prefix=""):
     logging.info("Create tender criteria...\n")
     data_file = "{}criteria_create.json".format(filename_prefix)
     path = get_data_file_path(data_file, get_data_path(args.data))
-    with open_file(path, exit_filename=args.stop) as f:
-        criteria_data = json.loads(f.read())
+    with read_file(path, exit_filename=args.stop) as content:
+        criteria_data = json.loads(content)
         return client.post_criteria(
             tender_id,
             tender_token,
@@ -731,8 +732,8 @@ def patch_tender(client, args, tender_id, tender_token, filename_prefix=""):
     logging.info("Patching tender...\n")
     data_file = "{}tender_patch.json".format(filename_prefix)
     path = get_data_file_path(data_file, get_data_path(args.data))
-    with open_file(path, exit_filename=args.stop) as f:
-        tender_patch_data = json.loads(f.read())
+    with read_file(path, exit_filename=args.stop) as content:
+        tender_patch_data = json.loads(content)
         return client.patch_tender(
             tender_id,
             tender_token,

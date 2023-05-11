@@ -97,6 +97,17 @@ def main():
         metavar=WAIT_EDR_QUAL,
         default="",
     )
+    parser.add_argument(
+        "-e",
+        "--seed",
+        type=int,
+        help="faker seed",
+    )
+    parser.add_argument(
+        "--debug",
+        help="Show requests and responses",
+        action='store_true'
+    )
 
     try:
         args = parser.parse_args()

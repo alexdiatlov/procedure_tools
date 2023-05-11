@@ -5,10 +5,6 @@ DATA_DIR_DEFAULT = "aboveThresholdUA"
 DATA_SUB_DIR_DEFAULT = "data"
 
 
-class DataPathError(IOError):
-    pass
-
-
 def get_data_file_path(filename, path):
     return os.path.join(path, filename)
 

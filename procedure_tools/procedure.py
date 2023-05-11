@@ -1,6 +1,9 @@
 from __future__ import absolute_import
 
 import logging
+import random
+
+from faker import Faker
 
 from procedure_tools.utils.process import (
     get_tender,
@@ -63,7 +66,7 @@ from procedure_tools.utils.data import (
     get_config,
     get_contracts_items_ids,
 )
-from procedure_tools.utils.file import DataPathError, get_data_path
+from procedure_tools.utils.file import get_data_path
 
 try:
     from colorama import init
@@ -77,6 +80,9 @@ WAIT_EDR_PRE_QUAL = "edr-pre-qualification"
 
 
 def init_procedure(args, session=None):
+    faker_seed = args.seed or random.randint(0, 1000000)
+    logging.info(f"Using seed {faker_seed}\n")
+    Faker.seed(faker_seed)
     data_path = get_data_path(args.data)
     if data_path is None:
         logging.error("Data path not found.\n")
@@ -92,10 +98,26 @@ def process_procedure(
     filename_prefix="",
     session=None,
 ):
-    tenders_client = TendersApiClient(args.host, args.token, args.path, session=session)
-    plans_client = PlansApiClient(args.host, args.token, args.path, session=session)
+    tenders_client = TendersApiClient(
+        args.host,
+        args.token,
+        args.path,
+        session=session,
+        debug=args.debug,
+    )
+    plans_client = PlansApiClient(
+        args.host,
+        args.token,
+        args.path,
+        session=session,
+        debug=args.debug,
+    )
     ds_client = DsApiClient(
-        args.ds_host, args.ds_username, args.ds_password, session=session
+        args.ds_host,
+        args.ds_username,
+        args.ds_password,
+        session=session,
+        debug=args.debug,
     )
 
     if not tender_id and not tender_token:
@@ -581,6 +603,7 @@ def process_procedure(
                 args.token,
                 args.path,
                 session=session,
+                debug=args.debug,
             )
             get_contract(contracts_client, args, contracts_id)
             patch_contract_credentials(
@@ -666,6 +689,7 @@ def process_procedure(
             args.token,
             args.path,
             session=session,
+            debug=args.debug,
         )
         get_agreement(agreement_client, args, agreement_id)
 
