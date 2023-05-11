@@ -52,6 +52,7 @@ from procedure_tools.utils.handlers import (
     auction_multilot_participation_url_success_handler,
     tender_post_plan_success_handler,
     value_patch_success_handler,
+    tender_post_complaint_success_handler,
 )
 
 
@@ -843,3 +844,22 @@ def post_tender_plan(
         tender_patch_data,
         success_handler=tender_post_plan_success_handler,
     )
+
+def post_tender_complaint(
+    client,
+    args,
+    tender_id,
+    tender_token,
+    filename_prefix="",
+):
+    logging.info("Create tender complaint...\n")
+    data_file = "{}complaint_create.json".format(filename_prefix)
+    path = get_data_file_path(data_file, get_data_path(args.data))
+    with read_file(path, exit_filename=args.stop, silent_error=True) as content:
+        complaint_data = json.loads(content)
+        return client.post_complaint(
+            tender_id,
+            tender_token,
+            complaint_data,
+            success_handler=tender_post_complaint_success_handler,
+        )

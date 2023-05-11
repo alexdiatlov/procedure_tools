@@ -44,6 +44,7 @@ from procedure_tools.utils.process import (
     patch_agreements,
     upload_tender_documents,
     patch_contract_unit_values,
+    post_tender_complaint,
 )
 from procedure_tools.client import (
     TendersApiClient,
@@ -78,11 +79,15 @@ except ImportError:
 WAIT_EDR_QUAL = "edr-qualification"
 WAIT_EDR_PRE_QUAL = "edr-pre-qualification"
 
-
-def init_procedure(args, session=None):
+def set_faker_seed(args):
     faker_seed = args.seed or random.randint(0, 1000000)
     logging.info(f"Using seed {faker_seed}\n")
     Faker.seed(faker_seed)
+
+
+def init_procedure(args, session=None):
+    set_faker_seed(args)
+
     data_path = get_data_path(args.data)
     if data_path is None:
         logging.error("Data path not found.\n")
@@ -286,6 +291,14 @@ def process_procedure(
             tender_token,
             filename_prefix=filename_prefix,
         )
+
+    post_tender_complaint(
+        tenders_client,
+        args,
+        tender_id,
+        tender_token,
+        filename_prefix=filename_prefix,
+    )
 
     if method_type in (
         "belowThreshold",

@@ -236,3 +236,14 @@ def tender_post_plan_success_handler(response):
         msg += " - id \t\t\t\t{}\n".format(fore_info(plan["id"]))
 
     logging.info(msg)
+
+
+def tender_post_complaint_success_handler(response):
+    data = response.json()["data"]
+
+    msg = "Tender complaints:\n"
+    complaint = response.json()["data"]
+    msg += " - id \t\t\t\t{}\n".format(fore_info(complaint["id"]))
+    msg += " - status \t\t\t{}\n".format(fore_info(complaint["status"]))
+
+    logging.info(msg)

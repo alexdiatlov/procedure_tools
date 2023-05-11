@@ -165,6 +165,8 @@ class TendersApiClient(BaseCDBClient):
     AGREEMENTS_CONTRACTS_COLLECTION_PATH = "tenders/{}/agreements/{}/contracts"
     AGREEMENTS_CONTRACTS_PATH = "tenders/{}/agreements/{}/contracts/{}"
     CREDENTIALS_PATH = "tenders/{}/credentials"
+    COMPLAINTS_COLLECTION_PATH = "tenders/{}/complaints"
+    COMPLAINTS_PATH = "tenders/{}/complaints/{}"
 
     def get_tender(self, tender_id, **kwargs):
         tenders_path = self.TENDERS_PATH.format(tender_id)
@@ -220,6 +222,32 @@ class TendersApiClient(BaseCDBClient):
         bid_res_path = self.BIDS_RES_COLLECTION_PATH.format(tender_id, bid_id)
         path = self.get_api_path(bid_res_path, acc_token=acc_token)
         return self.post(path, json, **kwargs)
+
+    def get_complaints(self, tender_id, **kwargs):
+        complaints_path = self.COMPLAINTS_COLLECTION_PATH.format(tender_id)
+        path = self.get_api_path(complaints_path)
+        return self.get(path, **kwargs)
+
+    def get_complaint(self, tender_id, complaint_id, **kwargs):
+        complaints_path = self.COMPLAINTS_PATH.format(
+            tender_id, complaint_id
+        )
+        path = self.get_api_path(complaints_path)
+        return self.get(path, **kwargs)
+
+    def post_complaint(self, tender_id, acc_token, json, **kwargs):
+        complaints_path = self.COMPLAINTS_COLLECTION_PATH.format(tender_id)
+        path = self.get_api_path(complaints_path, acc_token=acc_token)
+        return self.post(path, json, **kwargs)
+
+    def patch_complaint(
+        self, tender_id, complaint_id, acc_token, json, **kwargs
+    ):
+        complaints_path = self.COMPLAINTS_PATH.format(
+            tender_id, complaint_id, acc_token
+        )
+        path = self.get_api_path(complaints_path, acc_token=acc_token)
+        return self.patch(path, json, **kwargs)
 
     def get_qualifications(self, tender_id, **kwargs):
         qualifications_path = self.QUALIFICATIONS_COLLECTION_PATH.format(tender_id)
