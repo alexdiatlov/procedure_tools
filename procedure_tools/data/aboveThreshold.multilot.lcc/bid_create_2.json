@@ -1,15 +1,5 @@
 {
   "data": {
-    "parameters": [
-      {
-        "code": "73763ce0c908466ead064f8a2de02a9f",
-        "value": 0.0
-      },
-      {
-        "code": "48cfd91612c04125ab406374d7cc8d93",
-        "value": 0.0
-      }
-    ],
     "lotValues": [
       {
         "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",

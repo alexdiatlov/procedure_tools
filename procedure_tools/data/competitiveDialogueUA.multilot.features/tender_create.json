@@ -3,33 +3,53 @@
     "hasAuction": false
   },
   "data": {
-    "NBUdiscountRate": 0.22986,
-    "fundingKind": "other",
-    "items": [
+    "features": [
       {
-        "additionalClassifications": [
+        "code": "73763ce0c908466ead064f8a2de02a9f",
+        "description": "Розмір товару",
+        "enum": [
           {
-            "description": "Техніка конторська/офісна, інша",
-            "id": "28.23.23",
-            "scheme": "ДКПП"
+            "title": "Великий",
+            "value": 0.15
+          },
+          {
+            "title": "Середній",
+            "value": 0.1
+          },
+          {
+            "title": "Малий",
+            "value": 0.05
           }
         ],
-        "classification": {
-          "description": "Промислова техніка",
-          "id": "42000000-6",
-          "scheme": "ДК021"
-        },
-        "deliveryAddress": {
-          "countryName": "Україна",
-          "locality": "м. Київ",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "streetAddress": "вул. Тестова 1"
-        },
-        "description": "Тестова назва предмета закупівлі",
-        "description_en": "Procurement item test name"
+        "featureOf": "lot",
+        "relatedItem": "dd22c9c085f64e019f943999b5b41fe5",
+        "title": "Розмір"
       },
       {
+        "code": "48cfd91612c04125ab406374d7cc8d93",
+        "description": "Сорт продукції",
+        "enum": [
+          {
+            "title": "Вищий",
+            "value": 0.05
+          },
+          {
+            "title": "Перший",
+            "value": 0.01
+          },
+          {
+            "title": "Другий",
+            "value": 0
+          }
+        ],
+        "featureOf": "item",
+        "relatedItem": "edd0032574bf4402877ad5f362df225a",
+        "title": "Сорт"
+      }
+    ],
+    "items": [
+      {
+        "id": "edd0032574bf4402877ad5f362df225a",
         "additionalClassifications": [
           {
             "description": "Техніка конторська/офісна, інша",
@@ -49,8 +69,84 @@
           "region": "м. Київ",
           "streetAddress": "вул. Тестова 1"
         },
+        "deliveryDate": {
+          "endDate": "2017-08-10T16:02:36.221295+03:00",
+          "startDate": "2017-07-11T16:02:36.221241+03:00"
+        },
         "description": "Тестова назва предмета закупівлі",
-        "description_en": "Procurement item test name"
+        "description_en": "Procurement item test name",
+        "quantity": 1,
+        "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        }
+      },
+      {
+        "id": "6c8d4d0f33a548fa872c350df69579a8",
+        "additionalClassifications": [
+          {
+            "description": "Техніка конторська/офісна, інша",
+            "id": "28.23.23",
+            "scheme": "ДКПП"
+          }
+        ],
+        "classification": {
+          "description": "Промислова техніка",
+          "id": "42000000-6",
+          "scheme": "ДК021"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "locality": "м. Київ",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "streetAddress": "вул. Тестова 1"
+        },
+        "deliveryDate": {
+          "endDate": "2017-08-10T16:02:36.221351+03:00",
+          "startDate": "2017-07-11T16:02:36.221327+03:00"
+        },
+        "description": "Тестова назва предмета закупівлі",
+        "description_en": "Procurement item test name",
+        "quantity": 1,
+        "relatedLot": "9d4fc4783ebb4a99b10cc9a2f7d7552f",
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        }
+      }
+    ],
+    "lots": [
+      {
+        "description": "Опис Лот №1",
+        "id": "dd22c9c085f64e019f943999b5b41fe5",
+        "minimalStep": {
+          "amount": 10,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "title": "Лот №1",
+        "value": {
+          "amount": 500,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
+      },
+      {
+        "description": "Опис Лот №2",
+        "id": "9d4fc4783ebb4a99b10cc9a2f7d7552f",
+        "minimalStep": {
+          "amount": 10,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "title": "Лот №2",
+        "value": {
+          "amount": 500,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        }
       }
     ],
     "mainProcurementCategory": "services",
@@ -67,8 +163,11 @@
         "type": "financing"
       }
     ],
-    "minimalStepPercentage": 0.006,
-    "procurementMethodType": "esco",
+    "minimalStep": {
+      "amount": 10,
+      "currency": "UAH"
+    },
+    "procurementMethodType": "competitiveDialogueUA",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",
@@ -78,21 +177,17 @@
         "streetAddress": "вул. Тестова 22"
       },
       "contactPoint": {
-        "availableLanguage": "uk",
         "name": "Тестовенко Тест Тестович",
-        "name_en": "Testovenko Test Testovych",
         "telephone": "+380424424242",
         "url": "https://example.com"
       },
       "identifier": {
         "id": "21725150",
         "legalName": "Тестовий заклад",
-        "legalName_en": "Test facility",
         "scheme": "UA-EDR"
       },
       "kind": "general",
-      "name": "Тестовий заклад #1 м.Київ",
-      "name_en": "Test facility #1 of Kyiv"
+      "name": "Тестовий заклад #1 м.Київ"
     },
     "status": "draft",
     "tenderPeriod": {
@@ -102,9 +197,8 @@
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
     "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
     "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
-    "yearlyPaymentsPercentageRange": 0.8,
-    "guarantee": {
-      "amount": 1,
+    "value": {
+      "amount": 500,
       "currency": "UAH"
     }
   }
