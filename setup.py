@@ -8,6 +8,7 @@ if sys.version_info >= (3, 4):
         "requests",
         "python-dateutil",
         "colorama",
+        "faker",
     ]
     tests_require = [
         "pytest",
@@ -18,6 +19,7 @@ else:
         "pathlib",
         "python-dateutil",
         "colorama",
+        "faker",
     ]
     tests_require = [
         "pytest<=4.6.9",
