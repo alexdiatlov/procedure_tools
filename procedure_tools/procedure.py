@@ -1,6 +1,9 @@
 from __future__ import absolute_import
 
 import logging
+import random
+
+from faker import Faker
 
 from procedure_tools.utils.process import (
     get_tender,
@@ -17,7 +20,6 @@ from procedure_tools.utils.process import (
     create_bids,
     create_tender,
     patch_tender,
-    extend_tender_period_min,
     wait,
     wait_status,
     patch_stage2_credentials,
@@ -41,6 +43,8 @@ from procedure_tools.utils.process import (
     patch_agreements,
     upload_tender_documents,
     patch_contract_unit_values,
+    post_tender_complaint,
+    extend_tender_period,
 )
 from procedure_tools.client import (
     TendersApiClient,
@@ -62,8 +66,10 @@ from procedure_tools.utils.data import (
     get_contract_period_clarif_date,
     get_config,
     get_contracts_items_ids,
+    TENDER_PERIOD_MIN_TIMEDELTA,
+    TENDER_PERIOD_MIN_BELOW_TIMEDELTA,
 )
-from procedure_tools.utils.file import DataPathError, get_data_path
+from procedure_tools.utils.file import get_data_path
 
 try:
     from colorama import init
@@ -75,8 +81,15 @@ except ImportError:
 WAIT_EDR_QUAL = "edr-qualification"
 WAIT_EDR_PRE_QUAL = "edr-pre-qualification"
 
+def set_faker_seed(args):
+    faker_seed = args.seed or random.randint(0, 1000000)
+    logging.info(f"Using seed {faker_seed}\n")
+    Faker.seed(faker_seed)
+
 
 def init_procedure(args, session=None):
+    set_faker_seed(args)
+
     data_path = get_data_path(args.data)
     if data_path is None:
         logging.error("Data path not found.\n")
@@ -92,10 +105,26 @@ def process_procedure(
     filename_prefix="",
     session=None,
 ):
-    tenders_client = TendersApiClient(args.host, args.token, args.path, session=session)
-    plans_client = PlansApiClient(args.host, args.token, args.path, session=session)
+    tenders_client = TendersApiClient(
+        args.host,
+        args.token,
+        args.path,
+        session=session,
+        debug=args.debug,
+    )
+    plans_client = PlansApiClient(
+        args.host,
+        args.token,
+        args.path,
+        session=session,
+        debug=args.debug,
+    )
     ds_client = DsApiClient(
-        args.ds_host, args.ds_username, args.ds_password, session=session
+        args.ds_host,
+        args.ds_username,
+        args.ds_password,
+        session=session,
+        debug=args.debug,
     )
 
     if not tender_id and not tender_token:
@@ -230,12 +259,19 @@ def process_procedure(
         response = get_tender(tenders_client, args, tender_id)
 
         def fallback():
-            extend_tender_period_min(
-                get_tender_period(response),
-                tenders_client,
-                args,
-                tender_id,
-                tender_token,
+            """
+            We need to extend tender period
+            so that we don't switch to active.tendering
+            after tenderPeriod.endDate
+            :return:
+            """
+            extend_tender_period(
+                tender_period=get_tender_period(response),
+                client=tenders_client,
+                args=args,
+                tender_id=tender_id,
+                tender_token=tender_token,
+                period_timedelta=TENDER_PERIOD_MIN_BELOW_TIMEDELTA,
             )
 
         wait_status(
@@ -243,17 +279,19 @@ def process_procedure(
             args,
             tender_id,
             "active.tendering",
+            delay=TENDER_PERIOD_MIN_BELOW_TIMEDELTA.seconds * 0.9,
             fallback=fallback,
         )
 
     if method_type in ("competitiveDialogueEU.stage2", "competitiveDialogueUA.stage2"):
         response = get_tender(tenders_client, args, tender_id)
-        extend_tender_period_min(
-            get_tender_period(response),
-            tenders_client,
-            args,
-            tender_id,
-            tender_token,
+        extend_tender_period(
+            tender_period=get_tender_period(response),
+            client=tenders_client,
+            args=args,
+            tender_id=tender_id,
+            tender_token=tender_token,
+            period_timedelta=TENDER_PERIOD_MIN_TIMEDELTA,
         )
 
     if method_type in ("competitiveDialogueEU.stage2", "competitiveDialogueUA.stage2"):
@@ -264,6 +302,14 @@ def process_procedure(
             tender_token,
             filename_prefix=filename_prefix,
         )
+
+    post_tender_complaint(
+        tenders_client,
+        args,
+        tender_id,
+        tender_token,
+        filename_prefix=filename_prefix,
+    )
 
     if method_type in (
         "belowThreshold",
@@ -345,7 +391,7 @@ def process_procedure(
         "competitiveDialogueUA",
         "competitiveDialogueEU.stage2",
         "esco",
-    ):
+    ) or config.get("hasPrequalification", False):
         response = get_qualifications(tenders_client, args, tender_id)
         qualifications_ids = get_ids(response)
         patch_qualifications(
@@ -364,7 +410,7 @@ def process_procedure(
         "competitiveDialogueUA",
         "competitiveDialogueEU.stage2",
         "esco",
-    ):
+    ) or config.get("hasPrequalification", False):
         patch_tender_pre(
             tenders_client,
             args,
@@ -581,6 +627,7 @@ def process_procedure(
                 args.token,
                 args.path,
                 session=session,
+                debug=args.debug,
             )
             get_contract(contracts_client, args, contracts_id)
             patch_contract_credentials(
@@ -666,6 +713,7 @@ def process_procedure(
             args.token,
             args.path,
             session=session,
+            debug=args.debug,
         )
         get_agreement(agreement_client, args, agreement_id)
 

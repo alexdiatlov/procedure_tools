@@ -1,6 +1,6 @@
 {
   "config": {
-    "hasAuction": true
+    "hasAuction": false
   },
   "data": {
     "NBUdiscountRate": 0.22986,

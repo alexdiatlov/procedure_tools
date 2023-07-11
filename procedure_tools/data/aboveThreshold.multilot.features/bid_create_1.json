@@ -1,0 +1,56 @@
+{
+  "data": {
+    "parameters": [
+      {
+        "code": "73763ce0c908466ead064f8a2de02a9f",
+        "value": 0.0
+      },
+      {
+        "code": "48cfd91612c04125ab406374d7cc8d93",
+        "value": 0.0
+      }
+    ],
+    "lotValues": [
+      {
+        "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
+        "subcontractingDetails": "Тестове підприємство, Україна",
+        "value": {
+          "amount": 500
+        }
+      },
+      {
+        "relatedLot": "9d4fc4783ebb4a99b10cc9a2f7d7552f",
+        "subcontractingDetails": "Тестове підприємство, Україна",
+        "value": {
+          "amount": 500
+        }
+      }
+    ],
+    "selfQualified": true,
+    "status": "draft",
+    "subcontractingDetails": "Тестове підприємство, Україна, м. Київ, вул. Тестова, 33",
+    "tenderers": [
+      {
+        "address": {
+          "countryName": "Україна",
+          "locality": "м. Київ",
+          "postalCode": "21100",
+          "region": "м. Київ",
+          "streetAddress": "вул. Тестова, 33"
+        },
+        "contactPoint": {
+          "email": "factory@example.com",
+          "name": "Нейменко Нейм Неймович",
+          "telephone": "+380000000000"
+        },
+        "identifier": {
+          "id": "00137255",
+          "scheme": "UA-EDR",
+          "uri": "http://factory.example.com"
+        },
+        "name": "Тестове підприємство",
+        "scale": "micro"
+      }
+    ]
+  }
+}
