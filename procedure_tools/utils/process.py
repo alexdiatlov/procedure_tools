@@ -644,14 +644,14 @@ def wait(date_str, client_timedelta=timedelta(), date_info_str=None):
     sleep(date_seconds)
 
 
-def wait_status(client, args, tender_id, status, fallback=None):
+def wait_status(client, args, tender_id, status, delay=TENDER_SECONDS_BUFFER, fallback=None):
     logging.info("Waiting for {}...\n".format(status))
     if not isinstance(status, list):
         status = [status]
     while True:
         response = client.get_tender(tender_id)
         if response.json()["data"]["status"] not in status:
-            sleep(TENDER_SECONDS_BUFFER)
+            sleep(delay)
             if fallback:
                 fallback()
         else:
