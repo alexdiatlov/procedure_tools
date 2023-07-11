@@ -10,7 +10,8 @@ from mimetypes import MimeTypes
 from time import sleep
 
 from procedure_tools.utils.contextmanagers import (
-    read_file, open_file,
+    read_file,
+    open_file,
 )
 from procedure_tools.utils.data import (
     DATETIME_MASK,
@@ -633,7 +634,9 @@ def wait(date_str, client_timedelta=timedelta(), date_info_str=None):
     sleep(date_seconds)
 
 
-def wait_status(client, args, tender_id, status, delay=TENDER_SECONDS_BUFFER, fallback=None):
+def wait_status(
+    client, args, tender_id, status, delay=TENDER_SECONDS_BUFFER, fallback=None
+):
     logging.info("Waiting for {}...\n".format(status))
     if not isinstance(status, list):
         status = [status]
@@ -833,6 +836,7 @@ def post_tender_plan(
         tender_patch_data,
         success_handler=tender_post_plan_success_handler,
     )
+
 
 def post_tender_complaint(
     client,

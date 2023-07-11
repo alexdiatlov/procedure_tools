@@ -115,7 +115,7 @@ class BaseCDBClient(BaseApiClient):
         auth_token=None,
         path_prefix=API_PATH_PREFIX_DEFAULT,
         session=None,
-        **request_kwargs
+        **request_kwargs,
     ):
         super(BaseCDBClient, self).__init__(host, session=session, **request_kwargs)
         self.path_prefix = path_prefix
@@ -229,9 +229,7 @@ class TendersApiClient(BaseCDBClient):
         return self.get(path, **kwargs)
 
     def get_complaint(self, tender_id, complaint_id, **kwargs):
-        complaints_path = self.COMPLAINTS_PATH.format(
-            tender_id, complaint_id
-        )
+        complaints_path = self.COMPLAINTS_PATH.format(tender_id, complaint_id)
         path = self.get_api_path(complaints_path)
         return self.get(path, **kwargs)
 
@@ -240,9 +238,7 @@ class TendersApiClient(BaseCDBClient):
         path = self.get_api_path(complaints_path, acc_token=acc_token)
         return self.post(path, json, **kwargs)
 
-    def patch_complaint(
-        self, tender_id, complaint_id, acc_token, json, **kwargs
-    ):
+    def patch_complaint(self, tender_id, complaint_id, acc_token, json, **kwargs):
         complaints_path = self.COMPLAINTS_PATH.format(
             tender_id, complaint_id, acc_token
         )

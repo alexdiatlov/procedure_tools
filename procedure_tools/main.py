@@ -106,7 +106,7 @@ def main():
     parser.add_argument(
         "--debug",
         help="Show requests and responses",
-        action='store_true'
+        action="store_true",
     )
 
     try:

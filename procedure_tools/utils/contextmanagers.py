@@ -39,9 +39,7 @@ def open_file(
 
 
 @contextmanager
-def read_file(
-    path, exit_filename=None, silent_error=False, **kwargs
-):
+def read_file(path, exit_filename=None, silent_error=False, **kwargs):
     with open_file(
         path,
         mode="r",
