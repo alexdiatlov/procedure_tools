@@ -617,17 +617,6 @@ def extend_tender_period(
             return response
 
 
-def extend_tender_period_min(tender_period, client, args, tender_id, tender_token):
-    return extend_tender_period(
-        tender_period=tender_period,
-        client=client,
-        args=args,
-        tender_id=tender_id,
-        tender_token=tender_token,
-        period_timedelta=TENDER_PERIOD_MIN_TIMEDELTA,
-    )
-
-
 def wait(date_str, client_timedelta=timedelta(), date_info_str=None):
     now = fix_datetime(get_utcnow(), client_timedelta)
     date_timedelta = parse_date(date_str) - now
@@ -651,9 +640,9 @@ def wait_status(client, args, tender_id, status, delay=TENDER_SECONDS_BUFFER, fa
     while True:
         response = client.get_tender(tender_id)
         if response.json()["data"]["status"] not in status:
-            sleep(delay)
             if fallback:
                 fallback()
+            sleep(delay)
         else:
             response_handler(
                 response,

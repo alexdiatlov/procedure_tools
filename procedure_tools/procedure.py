@@ -1,6 +1,5 @@
 from __future__ import absolute_import
 
-import datetime
 import logging
 import random
 
@@ -21,7 +20,6 @@ from procedure_tools.utils.process import (
     create_bids,
     create_tender,
     patch_tender,
-    extend_tender_period_min,
     wait,
     wait_status,
     patch_stage2_credentials,
@@ -45,7 +43,8 @@ from procedure_tools.utils.process import (
     patch_agreements,
     upload_tender_documents,
     patch_contract_unit_values,
-    post_tender_complaint, extend_tender_period,
+    post_tender_complaint,
+    extend_tender_period,
 )
 from procedure_tools.client import (
     TendersApiClient,
@@ -66,7 +65,9 @@ from procedure_tools.utils.data import (
     get_procurement_entity_kind,
     get_contract_period_clarif_date,
     get_config,
-    get_contracts_items_ids, TENDER_PERIOD_MIN_TIMEDELTA,
+    get_contracts_items_ids,
+    TENDER_PERIOD_MIN_TIMEDELTA,
+    TENDER_PERIOD_MIN_BELOW_TIMEDELTA,
 )
 from procedure_tools.utils.file import get_data_path
 
@@ -258,13 +259,19 @@ def process_procedure(
         response = get_tender(tenders_client, args, tender_id)
 
         def fallback():
+            """
+            We need to extend tender period
+            so that we don't switch to active.tendering
+            after tenderPeriod.endDate
+            :return:
+            """
             extend_tender_period(
                 tender_period=get_tender_period(response),
                 client=tenders_client,
                 args=args,
                 tender_id=tender_id,
                 tender_token=tender_token,
-                period_timedelta=TENDER_PERIOD_MIN_TIMEDELTA,
+                period_timedelta=TENDER_PERIOD_MIN_BELOW_TIMEDELTA,
             )
 
         wait_status(
@@ -272,18 +279,19 @@ def process_procedure(
             args,
             tender_id,
             "active.tendering",
-            delay=TENDER_PERIOD_MIN_TIMEDELTA.seconds * 0.75,
+            delay=TENDER_PERIOD_MIN_BELOW_TIMEDELTA.seconds * 0.9,
             fallback=fallback,
         )
 
     if method_type in ("competitiveDialogueEU.stage2", "competitiveDialogueUA.stage2"):
         response = get_tender(tenders_client, args, tender_id)
-        extend_tender_period_min(
-            get_tender_period(response),
-            tenders_client,
-            args,
-            tender_id,
-            tender_token,
+        extend_tender_period(
+            tender_period=get_tender_period(response),
+            client=tenders_client,
+            args=args,
+            tender_id=tender_id,
+            tender_token=tender_token,
+            period_timedelta=TENDER_PERIOD_MIN_TIMEDELTA,
         )
 
     if method_type in ("competitiveDialogueEU.stage2", "competitiveDialogueUA.stage2"):
