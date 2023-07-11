@@ -8,6 +8,7 @@ if sys.version_info >= (3, 4):
         "requests",
         "python-dateutil",
         "colorama",
+        "jinja2",
         "faker",
     ]
     tests_require = [
@@ -19,6 +20,7 @@ else:
         "pathlib",
         "python-dateutil",
         "colorama",
+        "jinja2",
         "faker",
     ]
     tests_require = [

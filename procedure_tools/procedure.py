@@ -81,6 +81,7 @@ except ImportError:
 WAIT_EDR_QUAL = "edr-qualification"
 WAIT_EDR_PRE_QUAL = "edr-pre-qualification"
 
+
 def set_faker_seed(args):
     faker_seed = args.seed or random.randint(0, 1000000)
     logging.info(f"Using seed {faker_seed}\n")
