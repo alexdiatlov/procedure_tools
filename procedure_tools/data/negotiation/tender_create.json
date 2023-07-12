@@ -1,6 +1,10 @@
 {
   "config": {
-    "hasAuction": false
+    "hasAuction": false,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false
   },
   "data": {
     "cause": "twiceUnsuccessful",

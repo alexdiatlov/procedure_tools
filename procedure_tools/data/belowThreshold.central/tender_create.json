@@ -1,6 +1,10 @@
 {
   "config": {
-    "hasAuction": true
+    "hasAuction": true,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": false
   },
   "data": {
     "buyers": [
