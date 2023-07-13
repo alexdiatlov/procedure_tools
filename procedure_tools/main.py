@@ -104,6 +104,14 @@ def main():
         help="faker seed",
     )
     parser.add_argument(
+        "--reviewer-token",
+        help="reviewer token",
+    )
+    parser.add_argument(
+        "--bot-token",
+        help="bot token",
+    )
+    parser.add_argument(
         "--debug",
         help="Show requests and responses",
         action="store_true",
