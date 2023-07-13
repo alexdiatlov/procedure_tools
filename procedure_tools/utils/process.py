@@ -865,9 +865,9 @@ def create_complaints(
         filename_base = "complaint_create"
 
     complaints_data_files = []
-    data_path = get_data_path(os.path.join(args.data, file_subpath))
+    data_path = get_data_path(os.path.join(args.data, "{}{}".format(filename_prefix, file_subpath)))
     for data_file in get_data_all_files(data_path):
-        if data_file.startswith("{}{}".format(filename_prefix, filename_base)):
+        if data_file.startswith(filename_base):
             complaints_data_files.append(data_file)
     responses = []
     for complaints_data_file in complaints_data_files:
@@ -957,11 +957,10 @@ def patch_complaints(
     for complaint_index, complaint_id in enumerate(complaints_ids):
         complaint_token = complaints_tokens[complaint_index]
         complaints_data_files = []
-        data_path = get_data_path(os.path.join(args.data, file_subpath))
+        data_path = get_data_path(os.path.join(args.data, "{}{}".format(filename_prefix, file_subpath)))
         for data_file in get_data_all_files(data_path):
             if data_file.startswith(
-                "{}{}_{}_".format(
-                    filename_prefix,
+                "{}_{}_".format(
                     filename_base,
                     complaint_index,
                 )
@@ -972,8 +971,7 @@ def patch_complaints(
             complaints_action_data_files = []
             for data_file in get_data_all_files(data_path):
                 if data_file.startswith(
-                    "{}{}_{}_{}_".format(
-                        filename_prefix,
+                    "{}_{}_{}_".format(
                         filename_base,
                         complaint_index,
                         action_index,
