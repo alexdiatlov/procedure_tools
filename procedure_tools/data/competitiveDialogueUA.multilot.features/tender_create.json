@@ -4,7 +4,8 @@
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
-    "hasPrequalification": true
+    "hasPrequalification": true,
+    "minBidsNumber": 3
   },
   "data": {
     "features": [

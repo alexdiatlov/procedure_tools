@@ -4,7 +4,8 @@
     "hasAwardingOrder": true,
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
-    "hasPrequalification": true
+    "hasPrequalification": true,
+    "minBidsNumber": 2
   },
   "data": {
     "NBUdiscountRate": 0.22986,
