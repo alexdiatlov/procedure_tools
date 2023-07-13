@@ -1,6 +1,10 @@
 {
   "config": {
-    "hasAuction": false
+    "hasAuction": true,
+    "hasAwardingOrder": true,
+    "hasValueRestriction": true,
+    "valueCurrencyEquality": true,
+    "hasPrequalification": true
   },
   "data": {
     "NBUdiscountRate": 0.22986,
