@@ -785,7 +785,7 @@ def wait_auction_participation_urls(client, tender_id, bids):
                     for value in lot_values
                     if all(
                         [
-                            value.get("status", "active") == "active",
+                            value.get("status", "active") in ("pending", "active"),
                             "auctionPeriod"
                             in [
                                 lot
