@@ -10,11 +10,16 @@ EX_OK = 0
 EX_DATAERR = 65
 
 
-def default_error_handler(response):
-    msg = "Response text:\n"
-    msg += fore_error(response.text)
+def error(text):
+    msg = fore_error(text)
     logging.info(msg)
     raise SystemExit(EX_DATAERR)
+
+
+def default_error_handler(response):
+    msg = "Response text:\n"
+    logging.info(msg)
+    error(response.text)
 
 
 def default_success_handler(response):
@@ -140,6 +145,8 @@ def item_patch_success_handler(response):
     msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
     msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
 
+    logging.info(msg)
+
 
 def value_patch_success_handler(response):
     data = response.json()["data"]
@@ -241,7 +248,7 @@ def tender_post_plan_success_handler(response):
 def tender_post_complaint_success_handler(response):
     data = response.json()["data"]
 
-    msg = "Tender complaints:\n"
+    msg = "Complaint created:\n"
     complaint = response.json()["data"]
     msg += " - id \t\t\t\t{}\n".format(fore_info(complaint["id"]))
     msg += " - status \t\t\t{}\n".format(fore_info(complaint["status"]))

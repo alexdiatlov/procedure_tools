@@ -5,7 +5,7 @@ DATA_DIR_DEFAULT = "aboveThresholdUA"
 DATA_SUB_DIR_DEFAULT = "data"
 
 
-def get_data_file_path(filename, path):
+def get_data_file_path(path, filename):
     return os.path.join(path, filename)
 
 

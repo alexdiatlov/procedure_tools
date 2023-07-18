@@ -43,8 +43,9 @@ from procedure_tools.utils.process import (
     patch_agreements,
     upload_tender_documents,
     patch_contract_unit_values,
-    post_tender_complaint,
     extend_tender_period,
+    create_complaints,
+    patch_complaints,
 )
 from procedure_tools.client import (
     TendersApiClient,
@@ -112,6 +113,28 @@ def process_procedure(
         args.path,
         session=session,
         debug=args.debug,
+    )
+    tenders_reviewer_client = (
+        TendersApiClient(
+            args.host,
+            args.reviewer_token,
+            args.path,
+            session=session,
+            debug=args.debug,
+        )
+        if args.reviewer_token
+        else None
+    )
+    tenders_bot_client = (
+        TendersApiClient(
+            args.host,
+            args.bot_token,
+            args.path,
+            session=session,
+            debug=args.debug,
+        )
+        if args.bot_token
+        else None
     )
     plans_client = PlansApiClient(
         args.host,
@@ -304,13 +327,32 @@ def process_procedure(
             filename_prefix=filename_prefix,
         )
 
-    post_tender_complaint(
+    comp_responses = create_complaints(
         tenders_client,
         args,
         tender_id,
         tender_token,
+        file_subpath="complaints",
         filename_prefix=filename_prefix,
     )
+    if comp_responses:
+        comp_jsons = [comp_response.json() for comp_response in comp_responses]
+        comp_ids = [comp_json["data"]["id"] for comp_json in comp_jsons]
+        comp_tokens = [comp_json["access"]["token"] for comp_json in comp_jsons]
+        patch_complaints(
+            tenders_client,
+            tenders_bot_client,
+            tenders_reviewer_client,
+            args,
+            tender_id,
+            tender_token,
+            comp_ids,
+            comp_tokens,
+            file_subpath="complaints",
+            filename_prefix=filename_prefix,
+        )
+
+    bids_tokens = []
 
     if method_type in (
         "belowThreshold",
@@ -385,14 +427,9 @@ def process_procedure(
     if WAIT_EDR_PRE_QUAL in args.wait.split(","):
         wait_edr_pre_qual(tenders_client, args, tender_id)
 
-    if method_type in (
-        "closeFrameworkAgreementUA",
-        "aboveThresholdEU",
-        "competitiveDialogueEU",
-        "competitiveDialogueUA",
-        "competitiveDialogueEU.stage2",
-        "esco",
-    ) or config.get("hasPrequalification", False):
+    qualifications_ids = []
+
+    if config.get("hasPrequalification", False):
         response = get_qualifications(tenders_client, args, tender_id)
         qualifications_ids = get_ids(response)
         patch_qualifications(
@@ -404,14 +441,53 @@ def process_procedure(
             filename_prefix=filename_prefix,
         )
 
-    if method_type in (
-        "closeFrameworkAgreementUA",
-        "aboveThresholdEU",
-        "competitiveDialogueEU",
-        "competitiveDialogueUA",
-        "competitiveDialogueEU.stage2",
-        "esco",
-    ) or config.get("hasPrequalification", False):
+        patch_tender_pre(
+            tenders_client,
+            args,
+            tender_id,
+            tender_token,
+            filename_prefix=filename_prefix,
+        )
+
+    if bids_tokens:
+        for qualification_index, qualification_id in enumerate(qualifications_ids):
+            comp_responses = create_complaints(
+                tenders_client,
+                args,
+                tender_id,
+                bids_tokens[0],  # any of suppliers can create complaint
+                obj_type="qualification",
+                obj_index=qualification_index,
+                obj_id=qualification_id,
+                file_subpath="qualifications_complaints",
+                filename_prefix=filename_prefix,
+            )
+            if comp_responses:
+                comp_jsons = [comp_response.json() for comp_response in comp_responses]
+                comp_ids = [comp_json["data"]["id"] for comp_json in comp_jsons]
+                comp_tokens = [comp_json["access"]["token"] for comp_json in comp_jsons]
+                patch_complaints(
+                    tenders_client,
+                    tenders_bot_client,
+                    tenders_reviewer_client,
+                    args,
+                    tender_id,
+                    tender_token,
+                    comp_ids,
+                    comp_tokens,
+                    obj_type="qualification",
+                    obj_index=qualification_index,
+                    obj_id=qualification_id,
+                    file_subpath="qualifications_complaints",
+                    filename_prefix=filename_prefix,
+                )
+
+    response = get_tender(tenders_client, args, tender_id)
+    tender_status = response.json()["data"]["status"]
+
+    if tender_status == "active.pre-qualification":
+        # satisfied complaint changes tender status to active.pre-qualification,
+        # so we need to switch it again to active.pre-qualification.stand-still
         patch_tender_pre(
             tenders_client,
             args,
@@ -442,22 +518,8 @@ def process_procedure(
         )
 
     if (
-        method_type
-        in (
-            "belowThreshold",
-            "aboveThreshold",
-            "aboveThresholdUA",
-            "aboveThresholdEU",
-            "closeFrameworkAgreementUA",
-            "closeFrameworkAgreementSelectionUA",
-            "aboveThresholdUA.defense",
-            "competitiveDialogueEU.stage2",
-            "competitiveDialogueUA.stage2",
-            "esco",
-            "simple.defense",
-        )
+        config.get("hasAuction")
         and bids_jsons
-        and ("hasAuction" not in config or config.get("hasAuction") is True)
         and (
             not submission_method_details
             or all(
@@ -478,6 +540,8 @@ def process_procedure(
 
     if WAIT_EDR_QUAL in args.wait.split(","):
         wait_edr_qual(tenders_client, args, tender_id)
+
+    awards_ids = []
 
     if method_type in (
         "belowThreshold",
@@ -508,6 +572,48 @@ def process_procedure(
 
     if method_type in ("closeFrameworkAgreementUA",):
         patch_tender_qual(tenders_client, args, tender_id, tender_token)
+
+    if bids_tokens:
+        for award_index, award_id in enumerate(awards_ids):
+            comp_responses = create_complaints(
+                tenders_client,
+                args,
+                tender_id,
+                bids_tokens[0],  # any of suppliers can create complaint
+                obj_type="award",
+                obj_index=award_index,
+                obj_id=award_id,
+                file_subpath="awards_complaints",
+                filename_prefix=filename_prefix,
+            )
+            if comp_responses:
+                comp_jsons = [comp_response.json() for comp_response in comp_responses]
+                comp_ids = [comp_json["data"]["id"] for comp_json in comp_jsons]
+                comp_tokens = [comp_json["access"]["token"] for comp_json in comp_jsons]
+                patch_complaints(
+                    tenders_client,
+                    tenders_bot_client,
+                    tenders_reviewer_client,
+                    args,
+                    tender_id,
+                    tender_token,
+                    comp_ids,
+                    comp_tokens,
+                    obj_type="award",
+                    obj_index=award_index,
+                    obj_id=award_id,
+                    file_subpath="awards_complaints",
+                    filename_prefix=filename_prefix,
+                )
+
+    if method_type in ("closeFrameworkAgreementUA",):
+        response = get_tender(tenders_client, args, tender_id)
+        tender_status = response.json()["data"]["status"]
+
+        if tender_status == "active.qualification":
+            # satisfied complaint changes tender status to active.qualification,
+            # so we need to switch it again to active.qualification.stand-still
+            patch_tender_qual(tenders_client, args, tender_id, tender_token)
 
     if method_type in (
         "closeFrameworkAgreementUA",
