@@ -851,7 +851,9 @@ def create_complaints(
     filename_prefix="",
 ):
     if not args.bot_token or not args.reviewer_token:
-        logging.info("Skipping complaints creating: bot and reviewer tokens are required\n")
+        logging.info(
+            "Skipping complaints creating: bot and reviewer tokens are required\n"
+        )
         return
 
     if obj_type == "award":
@@ -865,7 +867,9 @@ def create_complaints(
         filename_base = "complaint_create"
 
     complaints_data_files = []
-    data_path = get_data_path(os.path.join(args.data, "{}{}".format(filename_prefix, file_subpath)))
+    data_path = get_data_path(
+        os.path.join(args.data, "{}{}".format(filename_prefix, file_subpath))
+    )
     for data_file in get_data_all_files(data_path):
         if data_file.startswith(filename_base):
             complaints_data_files.append(data_file)
@@ -941,7 +945,9 @@ def patch_complaints(
             error("Unknown role: {}".format(role))
 
     if not args.bot_token or not args.reviewer_token:
-        logging.info("Skipping complaints patching: bot and reviewer tokens are required\n")
+        logging.info(
+            "Skipping complaints patching: bot and reviewer tokens are required\n"
+        )
         return
 
     if obj_type == "award":
@@ -957,7 +963,9 @@ def patch_complaints(
     for complaint_index, complaint_id in enumerate(complaints_ids):
         complaint_token = complaints_tokens[complaint_index]
         complaints_data_files = []
-        data_path = get_data_path(os.path.join(args.data, "{}{}".format(filename_prefix, file_subpath)))
+        data_path = get_data_path(
+            os.path.join(args.data, "{}{}".format(filename_prefix, file_subpath))
+        )
         for data_file in get_data_all_files(data_path):
             if data_file.startswith(
                 "{}_{}_".format(

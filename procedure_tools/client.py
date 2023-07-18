@@ -169,7 +169,9 @@ class TendersApiClient(BaseCDBClient):
     COMPLAINTS_PATH = "tenders/{}/complaints/{}"
     AWARDS_COMPLAINTS_COLLECTION_PATH = "tenders/{}/awards/{}/complaints"
     AWARDS_COMPLAINTS_PATH = "tenders/{}/awards/{}/complaints/{}"
-    QUALIFICATIONS_COMPLAINTS_COLLECTION_PATH = "tenders/{}/qualifications/{}/complaints"
+    QUALIFICATIONS_COMPLAINTS_COLLECTION_PATH = (
+        "tenders/{}/qualifications/{}/complaints"
+    )
     QUALIFICATIONS_COMPLAINTS_PATH = "tenders/{}/qualifications/{}/complaints/{}"
 
     def get_tender(self, tender_id, **kwargs):
@@ -275,14 +277,18 @@ class TendersApiClient(BaseCDBClient):
         path = self.get_api_path(complaints_path)
         return self.get(path, **kwargs)
 
-    def get_qualification_complaint(self, tender_id, qualification_id, complaint_id, **kwargs):
+    def get_qualification_complaint(
+        self, tender_id, qualification_id, complaint_id, **kwargs
+    ):
         complaints_path = self.QUALIFICATIONS_COMPLAINTS_PATH.format(
             tender_id, qualification_id, complaint_id
         )
         path = self.get_api_path(complaints_path)
         return self.get(path, **kwargs)
 
-    def post_qualification_complaint(self, tender_id, qualification_id, acc_token, json, **kwargs):
+    def post_qualification_complaint(
+        self, tender_id, qualification_id, acc_token, json, **kwargs
+    ):
         complaints_path = self.QUALIFICATIONS_COMPLAINTS_COLLECTION_PATH.format(
             tender_id, qualification_id
         )
