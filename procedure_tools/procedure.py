@@ -352,6 +352,8 @@ def process_procedure(
             filename_prefix=filename_prefix,
         )
 
+    bids_tokens = []
+
     if method_type in (
         "belowThreshold",
         "aboveThreshold",
@@ -447,37 +449,38 @@ def process_procedure(
             filename_prefix=filename_prefix,
         )
 
-    for qualification_index, qualification_id in enumerate(qualifications_ids):
-        comp_responses = create_complaints(
-            tenders_client,
-            args,
-            tender_id,
-            bids_tokens[0],  # any of suppliers can create complaint
-            obj_type="qualification",
-            obj_index=qualification_index,
-            obj_id=qualification_id,
-            file_subpath="qualifications_complaints",
-            filename_prefix=filename_prefix,
-        )
-        if comp_responses:
-            comp_jsons = [comp_response.json() for comp_response in comp_responses]
-            comp_ids = [comp_json["data"]["id"] for comp_json in comp_jsons]
-            comp_tokens = [comp_json["access"]["token"] for comp_json in comp_jsons]
-            patch_complaints(
+    if bids_tokens:
+        for qualification_index, qualification_id in enumerate(qualifications_ids):
+            comp_responses = create_complaints(
                 tenders_client,
-                tenders_bot_client,
-                tenders_reviewer_client,
                 args,
                 tender_id,
-                tender_token,
-                comp_ids,
-                comp_tokens,
+                bids_tokens[0],  # any of suppliers can create complaint
                 obj_type="qualification",
                 obj_index=qualification_index,
                 obj_id=qualification_id,
                 file_subpath="qualifications_complaints",
                 filename_prefix=filename_prefix,
             )
+            if comp_responses:
+                comp_jsons = [comp_response.json() for comp_response in comp_responses]
+                comp_ids = [comp_json["data"]["id"] for comp_json in comp_jsons]
+                comp_tokens = [comp_json["access"]["token"] for comp_json in comp_jsons]
+                patch_complaints(
+                    tenders_client,
+                    tenders_bot_client,
+                    tenders_reviewer_client,
+                    args,
+                    tender_id,
+                    tender_token,
+                    comp_ids,
+                    comp_tokens,
+                    obj_type="qualification",
+                    obj_index=qualification_index,
+                    obj_id=qualification_id,
+                    file_subpath="qualifications_complaints",
+                    filename_prefix=filename_prefix,
+                )
 
     response = get_tender(tenders_client, args, tender_id)
     tender_status = response.json()["data"]["status"]
@@ -570,37 +573,38 @@ def process_procedure(
     if method_type in ("closeFrameworkAgreementUA",):
         patch_tender_qual(tenders_client, args, tender_id, tender_token)
 
-    for award_index, award_id in enumerate(awards_ids):
-        comp_responses = create_complaints(
-            tenders_client,
-            args,
-            tender_id,
-            bids_tokens[0],  # any of suppliers can create complaint
-            obj_type="award",
-            obj_index=award_index,
-            obj_id=award_id,
-            file_subpath="awards_complaints",
-            filename_prefix=filename_prefix,
-        )
-        if comp_responses:
-            comp_jsons = [comp_response.json() for comp_response in comp_responses]
-            comp_ids = [comp_json["data"]["id"] for comp_json in comp_jsons]
-            comp_tokens = [comp_json["access"]["token"] for comp_json in comp_jsons]
-            patch_complaints(
+    if bids_tokens:
+        for award_index, award_id in enumerate(awards_ids):
+            comp_responses = create_complaints(
                 tenders_client,
-                tenders_bot_client,
-                tenders_reviewer_client,
                 args,
                 tender_id,
-                tender_token,
-                comp_ids,
-                comp_tokens,
+                bids_tokens[0],  # any of suppliers can create complaint
                 obj_type="award",
                 obj_index=award_index,
                 obj_id=award_id,
                 file_subpath="awards_complaints",
                 filename_prefix=filename_prefix,
             )
+            if comp_responses:
+                comp_jsons = [comp_response.json() for comp_response in comp_responses]
+                comp_ids = [comp_json["data"]["id"] for comp_json in comp_jsons]
+                comp_tokens = [comp_json["access"]["token"] for comp_json in comp_jsons]
+                patch_complaints(
+                    tenders_client,
+                    tenders_bot_client,
+                    tenders_reviewer_client,
+                    args,
+                    tender_id,
+                    tender_token,
+                    comp_ids,
+                    comp_tokens,
+                    obj_type="award",
+                    obj_index=award_index,
+                    obj_id=award_id,
+                    file_subpath="awards_complaints",
+                    filename_prefix=filename_prefix,
+                )
 
     if method_type in ("closeFrameworkAgreementUA",):
         response = get_tender(tenders_client, args, tender_id)
