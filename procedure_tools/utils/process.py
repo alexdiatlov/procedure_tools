@@ -275,6 +275,67 @@ def get_contract(client, args, contract_id):
     return response
 
 
+def patch_contracts_buyer_signer_info(
+    client, args, contracts_ids, contracts_tokens, filename_prefix=""
+):
+    logging.info("Patching contracts buyers signer info...\n")
+    for contract_index, contract_id in enumerate(contracts_ids):
+        contract_token = contracts_tokens[contract_index]
+        data_file = "{}contract_buyer_signer_info_patch_{}.json".format(
+            filename_prefix,
+            contract_index,
+        )
+        path = get_data_file_path(get_data_path(args.data), data_file)
+        with read_file(path, exit_filename=args.stop) as content:
+            contract_patch_data = json.loads(content)
+            client.patch_contract_buyer_signer_info(
+                contract_id,
+                contract_token,
+                contract_patch_data,
+                success_handler=default_success_handler,
+            )
+
+
+def patch_contracts_suppliers_signer_info(
+    client, args, contracts_ids, contracts_tokens, filename_prefix=""
+):
+    logging.info("Patching contracts suppliers signer info...\n")
+    for contract_index, contract_id in enumerate(contracts_ids):
+        contract_token = contracts_tokens[contract_index]
+        data_file = "{}contract_suppliers_signer_info_patch_{}.json".format(
+            filename_prefix,
+            contract_index,
+        )
+        path = get_data_file_path(get_data_path(args.data), data_file)
+        with read_file(path, exit_filename=args.stop) as content:
+            contract_patch_data = json.loads(content)
+            client.patch_contract_suppliers_signer_info(
+                contract_id,
+                contract_token,
+                contract_patch_data,
+                success_handler=default_success_handler,
+            )
+
+
+def patch_contracts(client, args, contracts_ids, contracts_tokens, filename_prefix=""):
+    logging.info("Patching contracts...\n")
+    for contract_index, contract_id in enumerate(contracts_ids):
+        contract_token = contracts_tokens[contract_index]
+        data_file = "{}contract_patch_{}.json".format(
+            filename_prefix,
+            contract_index,
+        )
+        path = get_data_file_path(get_data_path(args.data), data_file)
+        with read_file(path, exit_filename=args.stop) as content:
+            contract_patch_data = json.loads(content)
+            client.patch_contract(
+                contract_id,
+                contract_token,
+                contract_patch_data,
+                success_handler=item_patch_success_handler,
+            )
+
+
 def patch_tender_qual(client, args, tender_id, tender_token):
     logging.info("Approving awards by switching to next status...\n")
     data_file = "tender_patch_qual.json"
@@ -330,7 +391,7 @@ def get_awards(client, args, tender_id):
     return response
 
 
-def patch_contracts(
+def patch_tender_contracts(
     client, args, tender_id, contracts_ids, tender_token, filename_prefix=""
 ):
     logging.info("Patching contracts...\n")
@@ -351,7 +412,7 @@ def patch_contracts(
             )
 
 
-def patch_contract_unit_values(
+def patch_tender_contract_unit_values(
     client, args, tender_id, contracts_ids, items_ids, tender_token, filename_prefix=""
 ):
     logging.info("Patching contract unit values...\n")
@@ -376,7 +437,7 @@ def patch_contract_unit_values(
             unit_value_index += 1
 
 
-def get_contracts(client, args, tender_id):
+def get_tender_contracts(client, args, tender_id):
     logging.info("Checking contracts...\n")
     while True:
         response = client.get_contracts(tender_id)

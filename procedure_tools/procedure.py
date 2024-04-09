@@ -11,8 +11,8 @@ from procedure_tools.utils.process import (
     patch_tender_waiting,
     patch_awards,
     get_awards,
-    patch_contracts,
-    get_contracts,
+    patch_tender_contracts,
+    get_tender_contracts,
     patch_tender_pre,
     patch_qualifications,
     get_qualifications,
@@ -42,10 +42,13 @@ from procedure_tools.utils.process import (
     patch_agreements_contracts,
     patch_agreements,
     upload_tender_documents,
-    patch_contract_unit_values,
+    patch_tender_contract_unit_values,
     extend_tender_period,
     create_complaints,
     patch_complaints,
+    patch_contracts,
+    patch_contracts_buyer_signer_info,
+    patch_contracts_suppliers_signer_info,
 )
 from procedure_tools.client import (
     TendersApiClient,
@@ -69,8 +72,10 @@ from procedure_tools.utils.data import (
     get_contracts_items_ids,
     TENDER_PERIOD_MIN_TIMEDELTA,
     TENDER_PERIOD_MIN_BELOW_TIMEDELTA,
+    get_award_id,
 )
 from procedure_tools.utils.file import get_data_path
+from procedure_tools.utils.data import get_contracts_bid_tokens
 
 try:
     from colorama import init
@@ -352,6 +357,7 @@ def process_procedure(
             filename_prefix=filename_prefix,
         )
 
+    bids_ids = []
     bids_tokens = []
 
     if method_type in (
@@ -647,6 +653,8 @@ def process_procedure(
     contracts_ids = []
     items_ids = []
 
+    new_contracting = False
+
     if method_type in (
         "belowThreshold",
         "aboveThreshold",
@@ -662,11 +670,15 @@ def process_procedure(
         "esco",
         "simple.defense",
     ):
-        response = get_contracts(tenders_client, args, tender_id)
+        response = get_tender_contracts(tenders_client, args, tender_id)
         contracts_ids = get_ids(response)
-        items_ids = get_contracts_items_ids(response)
+        try:
+            items_ids = get_contracts_items_ids(response)
+        except KeyError:
+            logging.info(f"New contracting detected.\n")
+            new_contracting = True
 
-    if method_type in (
+    if new_contracting is False and method_type in (
         "belowThreshold",
         "aboveThreshold",
         "aboveThresholdUA",
@@ -680,7 +692,7 @@ def process_procedure(
         "reporting",
         "simple.defense",
     ):
-        patch_contract_unit_values(
+        patch_tender_contract_unit_values(
             tenders_client,
             args,
             tender_id,
@@ -690,7 +702,7 @@ def process_procedure(
             filename_prefix=filename_prefix,
         )
 
-    if method_type in (
+    if new_contracting is False and method_type in (
         "belowThreshold",
         "aboveThreshold",
         "aboveThresholdUA",
@@ -705,7 +717,7 @@ def process_procedure(
         "esco",
         "simple.defense",
     ):
-        patch_contracts(
+        patch_tender_contracts(
             tenders_client,
             args,
             tender_id,
@@ -713,6 +725,17 @@ def process_procedure(
             tender_token,
             filename_prefix=filename_prefix,
         )
+
+    contracts_client = ContractsApiClient(
+        args.host,
+        args.token,
+        args.path,
+        session=session,
+        debug=args.debug,
+    )
+
+    contracts_tokens = []
+    contracts_award_ids = []
 
     if method_type in (
         "belowThreshold",
@@ -729,20 +752,61 @@ def process_procedure(
         "simple.defense",
     ):
         for contracts_id in contracts_ids:
-            contracts_client = ContractsApiClient(
-                args.host,
-                args.token,
-                args.path,
-                session=session,
-                debug=args.debug,
-            )
             get_contract(contracts_client, args, contracts_id)
-            patch_contract_credentials(
+            response = patch_contract_credentials(
                 contracts_client,
                 args,
                 contracts_id,
                 tender_token,
             )
+            contracts_tokens.append(get_token(response))
+            contracts_award_ids.append(get_award_id(response))
+
+    if new_contracting is True and method_type in (
+        "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
+        "closeFrameworkAgreementSelectionUA",
+        "aboveThresholdUA.defense",
+        "competitiveDialogueEU.stage2",
+        "competitiveDialogueUA.stage2",
+        "negotiation",
+        "negotiation.quick",
+        "reporting",
+        "simple.defense",
+    ):
+        patch_contracts_buyer_signer_info(
+            contracts_client,
+            args,
+            contracts_ids,
+            contracts_tokens,
+            filename_prefix=filename_prefix,
+        )
+
+        response = get_awards(tenders_client, args, tender_id)
+        contracts_bid_tokens = get_contracts_bid_tokens(
+            response,
+            bids_ids,
+            bids_tokens,
+            contracts_award_ids,
+        )
+
+        patch_contracts_suppliers_signer_info(
+            contracts_client,
+            args,
+            contracts_ids,
+            contracts_bid_tokens,
+            filename_prefix=filename_prefix,
+        )
+
+        patch_contracts(
+            contracts_client,
+            args,
+            contracts_ids,
+            contracts_tokens,
+            filename_prefix=filename_prefix,
+        )
 
     if method_type in ("closeFrameworkAgreementUA",):
         response = get_tender(tenders_client, args, tender_id)

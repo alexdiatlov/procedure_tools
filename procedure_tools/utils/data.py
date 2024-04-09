@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import math
 
 from datetime import timedelta
@@ -213,8 +215,30 @@ def get_ids(response):
     return [item["id"] for item in response.json()["data"]]
 
 
+def get_bid_ids(response):
+    return [item["bid_id"] for item in response.json()["data"]]
+
+
+def get_award_id(response):
+    return response.json()["data"]["awardID"]
+
+
 def get_contracts_items_ids(response):
     return [
         [item["id"] for item in contract["items"]]
         for contract in response.json()["data"]
     ]
+
+
+def get_contracts_bid_tokens(response, bids_ids, bids_tokens, contracts_award_ids):
+    contracts_bid_tokens = []
+    awards = response.json()["data"]
+    for contracts_award_id in contracts_award_ids:
+        for award in awards:
+            if award["id"] == contracts_award_id:
+                for bids_id, bids_token in zip(bids_ids, bids_tokens):
+                    if bids_id == award["bid_id"]:
+                        contracts_bid_tokens.append(bids_token)
+                        break
+                break
+    return contracts_bid_tokens

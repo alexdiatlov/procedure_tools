@@ -102,6 +102,9 @@ class BaseApiClient(object):
     def post(self, path, json=None, **kwargs):
         return self.request("POST", path, json=json, **kwargs)
 
+    def put(self, path, json=None, **kwargs):
+        return self.request("PUT", path, json=json, **kwargs)
+
     def patch(self, path, json=None, **kwargs):
         return self.request("PATCH", path, json=json, **kwargs)
 
@@ -427,12 +430,31 @@ class AgreementsApiClient(BaseCDBClient):
 
 class ContractsApiClient(BaseCDBClient):
     CONTRACTS_PATH = "contracts/{}"
+    BUYERS_SIGNER_INFO_PATH = "contracts/{}/buyer/signer_info"
+    SUPPLIERS_SIGNER_INFO_PATH = "contracts/{}/suppliers/signer_info"
     CREDENTIALS_PATH = "contracts/{}/credentials"
 
     def get_contract(self, contract_id, **kwargs):
         contracts_path = self.CONTRACTS_PATH.format(contract_id)
         path = self.get_api_path(contracts_path)
         return self.get(path, **kwargs)
+
+    def patch_contract(self, contract_id, acc_token, json, **kwargs):
+        contracts_path = self.CONTRACTS_PATH.format(contract_id)
+        path = self.get_api_path(contracts_path, acc_token=acc_token)
+        return self.patch(path, json, **kwargs)
+
+    def patch_contract_buyer_signer_info(self, contract_id, acc_token, json, **kwargs):
+        contracts_path = self.BUYERS_SIGNER_INFO_PATH.format(contract_id)
+        path = self.get_api_path(contracts_path, acc_token=acc_token)
+        return self.put(path, json, **kwargs)
+
+    def patch_contract_suppliers_signer_info(
+        self, contract_id, acc_token, json, **kwargs
+    ):
+        contracts_path = self.SUPPLIERS_SIGNER_INFO_PATH.format(contract_id)
+        path = self.get_api_path(contracts_path, acc_token=acc_token)
+        return self.put(path, json, **kwargs)
 
     def patch_credentials(self, contract_id, acc_token, json, **kwargs):
         credentials_path = self.CREDENTIALS_PATH.format(contract_id)
