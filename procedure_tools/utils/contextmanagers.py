@@ -1,14 +1,16 @@
 import logging
 import os
 import io
+import datetime
 
 from contextlib import contextmanager
 
 from jinja2 import Template
 
-from procedure_tools.fake import faker, faker_en
+from procedure_tools.fake import fake, fake_en
 from procedure_tools.utils.handlers import EX_OK
 from procedure_tools.utils.style import fore_error
+from procedure_tools.utils import helpers
 
 
 @contextmanager
@@ -39,7 +41,8 @@ def open_file(
 
 
 @contextmanager
-def read_file(path, exit_filename=None, silent_error=False, **kwargs):
+def read_file(path, context=None, exit_filename=None, silent_error=False, **kwargs):
+    context = context or {}
     with open_file(
         path,
         mode="r",
@@ -51,8 +54,12 @@ def read_file(path, exit_filename=None, silent_error=False, **kwargs):
         if not file:
             yield
         content = file.read()
-        context = {
-            "fake": faker,
-            "fake_en": faker_en,
-        }
+        context.update(
+            {
+                "fake": fake,
+                "fake_en": fake_en,
+                "helpers": helpers,
+                "datetime": datetime,
+            }
+        )
         yield Template(content).render(context)

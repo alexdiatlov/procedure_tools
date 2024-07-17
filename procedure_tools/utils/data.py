@@ -46,13 +46,14 @@ def set_mode_data(data):
 
 def set_acceleration_data(
     data,
+    config,
     acceleration=ACCELERATION_DEFAULT,
     submission=None,
     period_timedelta=TENDER_PERIOD_DEFAULT_TIMEDELTA,
     client_timedelta=timedelta(),
 ):
     try:
-        if submission:
+        if submission and config["hasAuction"] is True:
             data["submissionMethodDetails"] = submission
 
         data["procurementMethodDetails"] = "quick, accelerator={}".format(acceleration)

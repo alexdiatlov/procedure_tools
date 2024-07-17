@@ -150,6 +150,7 @@ class TendersApiClient(BaseCDBClient):
     TENDERS_COLLECTION_PATH = "tenders"
     TENDERS_PATH = "tenders/{}"
     TENDERS_DOCUMENTS_COLLECTION_PATH = "tenders/{}/documents"
+    TENDERS_DOCUMENTS_PATH = "tenders/{}/documents/{}"
     PLANS_PATH = "tenders/{}/plans"
     CRITERIA_COLLECTION_PATH = "tenders/{}/criteria"
     BIDS_COLLECTION_PATH = "tenders/{}/bids"
@@ -196,6 +197,11 @@ class TendersApiClient(BaseCDBClient):
         documents_path = self.TENDERS_DOCUMENTS_COLLECTION_PATH.format(tender_id)
         path = self.get_api_path(documents_path, acc_token=acc_token)
         return self.post(path, json, **kwargs)
+
+    def put_tender_document(self, tender_id, document_id, acc_token, json, **kwargs):
+        documents_path = self.TENDERS_DOCUMENTS_PATH.format(tender_id, document_id)
+        path = self.get_api_path(documents_path, acc_token=acc_token)
+        return self.put(path, json, **kwargs)
 
     def post_plan(self, tender_id, acc_token, json, **kwargs):
         tenders_path = self.PLANS_PATH.format(tender_id)

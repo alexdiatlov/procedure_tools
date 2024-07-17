@@ -197,7 +197,7 @@
           "type": "banking"
         },
         "percentage": 100,
-        "sequenceNumber": 0,
+        "sequenceNumber": 1,
         "title": "signingTheContract",
         "type": "financing"
       }

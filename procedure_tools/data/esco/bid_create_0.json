@@ -1,5 +1,40 @@
 {
   "data": {
+    "lotValues": [
+      {
+        "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
+        "value": {
+          "annualCostsReduction": [
+            500,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ],
+          "contractDuration": {
+            "days": 74,
+            "years": 10
+          },
+          "yearlyPaymentsPercentage": 0.7
+        }
+      }
+    ],
     "status": "draft",
     "subcontractingDetails": "ДКП «Орфей», Україна",
     "tenderers": [
@@ -24,36 +59,6 @@
         "name": "Тестове підприємство",
         "scale": "micro"
       }
-    ],
-    "value": {
-      "annualCostsReduction": [
-        500,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000
-      ],
-      "contractDuration": {
-        "days": 74,
-        "years": 10
-      },
-      "yearlyPaymentsPercentage": 0.9
-    }
+    ]
   }
 }

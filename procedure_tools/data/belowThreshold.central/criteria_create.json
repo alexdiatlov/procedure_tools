@@ -475,7 +475,8 @@
         "scheme": "ESPD211",
         "id": "CRITERION.OTHER.BID.GUARANTEE"
       },
-      "relatesTo": "tender",
+      "relatesTo": "lot",
+      "relatedItem": "dd22c9c085f64e019f943999b5b41fe5",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -492,7 +493,7 @@
           "description": "Учасник підтверджує, що",
           "requirements": [
             {
-              "title": "Вид та умови надання забезпечення тендерних пропозицій",
+              "title": "Вид та умови надання забезпечення тендерних пропозицій (Лот №1)",
               "dataType": "boolean",
               "expectedValue": "true"
             }
@@ -507,7 +508,8 @@
         "scheme": "ESPD211",
         "id": "CRITERION.OTHER.CONTRACT.GUARANTEE"
       },
-      "relatesTo": "tender",
+      "relatesTo": "lot",
+      "relatedItem": "dd22c9c085f64e019f943999b5b41fe5",
       "legislation": [
         {
           "version": "2020-04-19",
@@ -524,7 +526,7 @@
           "description": "Учасник підтверджує, що",
           "requirements": [
             {
-              "title": "Розмір та умови надання забезпечення виконання договору про закупівлю",
+              "title": "Розмір та умови надання забезпечення виконання договору про закупівлю (Лот №1)",
               "dataType": "boolean",
               "expectedValue": "true"
             }

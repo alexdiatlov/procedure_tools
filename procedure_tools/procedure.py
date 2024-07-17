@@ -49,6 +49,9 @@ from procedure_tools.utils.process import (
     patch_contracts,
     patch_contracts_buyer_signer_info,
     patch_contracts_suppliers_signer_info,
+    upload_evaluation_report,
+    re_upload_evaluation_report,
+    upload_tender_notice,
 )
 from procedure_tools.client import (
     TendersApiClient,
@@ -241,6 +244,15 @@ def process_procedure(
             tender_criteria = None
     else:
         tender_criteria = None
+
+    upload_tender_notice(
+        tenders_client,
+        ds_client,
+        args,
+        tender_id,
+        tender_token,
+        filename_prefix=filename_prefix,
+    )
 
     if method_type in (
         "belowThreshold",
@@ -447,6 +459,17 @@ def process_procedure(
             filename_prefix=filename_prefix,
         )
 
+        response = upload_evaluation_report(
+            tenders_client,
+            ds_client,
+            args,
+            tender_id,
+            tender_token,
+            filename_prefix=filename_prefix,
+        )
+        if response:
+            evaluation_report_document_id = get_id(response)
+
         patch_tender_pre(
             tenders_client,
             args,
@@ -493,7 +516,20 @@ def process_procedure(
 
     if tender_status == "active.pre-qualification":
         # satisfied complaint changes tender status to active.pre-qualification,
-        # so we need to switch it again to active.pre-qualification.stand-still
+        # so we need to:
+        # - upload new version of evaluation report
+        # - switch again to active.pre-qualification.stand-still
+
+        re_upload_evaluation_report(
+            tenders_client,
+            ds_client,
+            args,
+            tender_id,
+            evaluation_report_document_id,
+            tender_token,
+            filename_prefix=filename_prefix,
+        )
+
         patch_tender_pre(
             tenders_client,
             args,
@@ -771,9 +807,6 @@ def process_procedure(
         "aboveThresholdUA.defense",
         "competitiveDialogueEU.stage2",
         "competitiveDialogueUA.stage2",
-        "negotiation",
-        "negotiation.quick",
-        "reporting",
         "simple.defense",
     ):
         patch_contracts_buyer_signer_info(
@@ -800,6 +833,20 @@ def process_procedure(
             filename_prefix=filename_prefix,
         )
 
+    if new_contracting is True and method_type in (
+        "belowThreshold",
+        "aboveThreshold",
+        "aboveThresholdUA",
+        "aboveThresholdEU",
+        "closeFrameworkAgreementSelectionUA",
+        "aboveThresholdUA.defense",
+        "competitiveDialogueEU.stage2",
+        "competitiveDialogueUA.stage2",
+        "negotiation",
+        "negotiation.quick",
+        "reporting",
+        "simple.defense",
+    ):
         patch_contracts(
             contracts_client,
             args,

@@ -5,6 +5,11 @@
       "amount": 1.1,
       "amountNet": 1.1,
       "valueAddedTaxIncluded": false
-    }
+    },
+    "period": {
+      "startDate": "{{ helpers.now() }}",
+      "endDate": "{{ helpers.now(days=365, acceleration=acceleration) }}"
+    },
+    "contractNumber": 1
   }
 }

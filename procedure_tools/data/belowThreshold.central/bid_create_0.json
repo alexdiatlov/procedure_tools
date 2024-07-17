@@ -1,5 +1,13 @@
 {
   "data": {
+    "lotValues": [
+      {
+        "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
+        "value": {
+          "amount": 500
+        }
+      }
+    ],
     "status": "draft",
     "tenderers": [
       {
@@ -23,9 +31,6 @@
         "name": "Тестове підприємство",
         "scale": "micro"
       }
-    ],
-    "value": {
-      "amount": 500
-    }
+    ]
   }
 }
