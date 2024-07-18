@@ -5,7 +5,12 @@
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false,
+    "hasTenderComplaints": false,
+    "hasAwardComplaints": false,
+    "hasCancellationComplaints": false,
+    "restricted": false
   },
   "data": {
     "buyers": [
@@ -68,6 +73,7 @@
         },
         "description": "Тестова назва предмета закупівлі",
         "quantity": 5,
+        "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
         "unit": {
           "code": "KGM",
           "name": "кг"
@@ -100,6 +106,7 @@
         },
         "description": "Інша тестова назва предмета закупівлі",
         "quantity": 5,
+        "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
         "unit": {
           "code": "KGM",
           "name": "кг"
@@ -132,9 +139,31 @@
         },
         "description": "Зовсім інша тестова назва предмета закупівлі",
         "quantity": 5,
+        "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
         "unit": {
           "code": "KGM",
           "name": "кг"
+        }
+      }
+    ],
+    "lots": [
+      {
+        "description": "Опис Лот №1",
+        "id": "dd22c9c085f64e019f943999b5b41fe5",
+        "minimalStep": {
+          "amount": 10,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "title": "Лот №1",
+        "value": {
+          "amount": 500,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "guarantee": {
+          "amount": 100,
+          "currency": "UAH"
         }
       }
     ],
@@ -147,7 +176,7 @@
           "type": "banking"
         },
         "percentage": 100,
-        "sequenceNumber": 0,
+        "sequenceNumber": 1,
         "title": "signingTheContract",
         "type": "financing"
       }
@@ -174,7 +203,7 @@
         "scheme": "UA-EDR",
         "uri": "http://www.dus.gov.ua/"
       },
-      "kind": "central",
+      "kind": "general",
       "name": "Державне управління справами"
     },
     "status": "draft",
@@ -187,10 +216,6 @@
     "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
     "value": {
       "amount": 500,
-      "currency": "UAH"
-    },
-    "guarantee": {
-      "amount": 100,
       "currency": "UAH"
     }
   }

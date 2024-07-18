@@ -1,0 +1,15 @@
+{
+  "data": {
+    "status": "active",
+    "value": {
+      "amount": 500,
+      "amountNet": 500,
+      "valueAddedTaxIncluded": false
+    },
+    "period": {
+      "startDate": "{{ helpers.now() }}",
+      "endDate": "{{ helpers.now(days=365, acceleration=acceleration) }}"
+    },
+    "contractNumber": 2
+  }
+}

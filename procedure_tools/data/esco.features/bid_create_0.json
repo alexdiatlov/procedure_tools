@@ -2,12 +2,47 @@
   "data": {
     "parameters": [
       {
-        "code": "ee3e24bc17234a41bd3e3a04cc28e9c6",
-        "value": 0.15
+        "code": "73763ce0c908466ead064f8a2de02a9f",
+        "value": 0.05
       },
       {
         "code": "48cfd91612c04125ab406374d7cc8d93",
-        "value": 0.05
+        "value": 0.01
+      }
+    ],
+    "lotValues": [
+      {
+        "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
+        "value": {
+          "annualCostsReduction": [
+            500,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000,
+            1000
+          ],
+          "contractDuration": {
+            "days": 74,
+            "years": 10
+          },
+          "yearlyPaymentsPercentage": 0.7
+        }
       }
     ],
     "status": "draft",
@@ -34,36 +69,6 @@
         "name": "Тестове підприємство",
         "scale": "micro"
       }
-    ],
-    "value": {
-      "annualCostsReduction": [
-        500,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000,
-        1000
-      ],
-      "contractDuration": {
-        "days": 74,
-        "years": 10
-      },
-      "yearlyPaymentsPercentage": 0.9
-    }
+    ]
   }
 }

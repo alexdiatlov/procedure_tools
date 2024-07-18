@@ -10,16 +10,24 @@ EX_OK = 0
 EX_DATAERR = 65
 
 
-def error(text):
+def error(text, allow_error=False):
     msg = fore_error(text)
+    msg += "\n"
     logging.info(msg)
-    raise SystemExit(EX_DATAERR)
+    if not allow_error:
+        raise SystemExit(EX_DATAERR)
 
 
 def default_error_handler(response):
     msg = "Response text:\n"
     logging.info(msg)
     error(response.text)
+
+
+def allow_error_handler(response):
+    msg = "Response text:\n"
+    logging.info(msg)
+    error(response.text, allow_error=True)
 
 
 def default_success_handler(response):

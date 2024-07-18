@@ -1,5 +1,7 @@
 {
   "data": {
-    "status": "unsuccessful"
+    "eligible": true,
+    "qualified": true,
+    "status": "active"
   }
 }

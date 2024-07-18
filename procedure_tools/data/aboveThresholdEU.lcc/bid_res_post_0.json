@@ -179,7 +179,7 @@
       "value": "true"
     },
     {
-      "value": "25",
+      "value": "10",
       "description": "response to CRITERION.OTHER.LIFE_CYCLE_COST.COST_OF_USE",
       "requirement": {
         "title": "title of CRITERION.OTHER.LIFE_CYCLE_COST.COST_OF_USE"
@@ -187,7 +187,7 @@
       "title": "Requirement response"
     },
     {
-      "value": "25",
+      "value": "15",
       "description": "response to CRITERION.OTHER.LIFE_CYCLE_COST.MAINTENANCE_COST",
       "requirement": {
         "title": "title of CRITERION.OTHER.LIFE_CYCLE_COST.MAINTENANCE_COST"
@@ -195,7 +195,7 @@
       "title": "Requirement response"
     },
     {
-      "value": "25",
+      "value": "20",
       "description": "response to CRITERION.OTHER.LIFE_CYCLE_COST.END_OF_LIFE_COST",
       "requirement": {
         "title": "title of CRITERION.OTHER.LIFE_CYCLE_COST.END_OF_LIFE_COST"
@@ -203,7 +203,7 @@
       "title": "Requirement response"
     },
     {
-      "value": "20",
+      "value": "25",
       "description": "response to CRITERION.OTHER.LIFE_CYCLE_COST.ECOLOGICAL_COST",
       "requirement": {
         "title": "title of CRITERION.OTHER.LIFE_CYCLE_COST.ECOLOGICAL_COST"
@@ -212,7 +212,7 @@
     },
     {
       "requirement": {
-        "title": "Вид та умови надання забезпечення тендерних пропозицій"
+        "title": "Вид та умови надання забезпечення тендерних пропозицій (Лот №1)"
       },
       "title": "Забезпечення виконання договору",
       "description": "Учасник підтверджує, що",
@@ -220,7 +220,23 @@
     },
     {
       "requirement": {
-        "title": "Розмір та умови надання забезпечення виконання договору про закупівлю"
+        "title": "Розмір та умови надання забезпечення виконання договору про закупівлю (Лот №1)"
+      },
+      "title": "Забезпечення виконання договору",
+      "description": "Учасник підтверджує, що",
+      "value": "true"
+    },
+    {
+      "requirement": {
+        "title": "Вид та умови надання забезпечення тендерних пропозицій (Лот №2)"
+      },
+      "title": "Забезпечення виконання договору",
+      "description": "Учасник підтверджує, що",
+      "value": "true"
+    },
+    {
+      "requirement": {
+        "title": "Розмір та умови надання забезпечення виконання договору про закупівлю (Лот №2)"
       },
       "title": "Забезпечення виконання договору",
       "description": "Учасник підтверджує, що",

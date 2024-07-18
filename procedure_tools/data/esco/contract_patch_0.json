@@ -1,5 +1,10 @@
 {
   "data": {
-    "status": "active"
+    "status": "active",
+    "period": {
+      "startDate": "{{ helpers.now() }}",
+      "endDate": "{{ helpers.now(days=365, acceleration=acceleration) }}"
+    },
+    "contractNumber": 1
   }
 }

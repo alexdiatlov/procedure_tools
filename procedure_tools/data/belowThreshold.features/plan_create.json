@@ -64,6 +64,22 @@
           "code": "KGM",
           "name": "кг"
         }
+      },
+      {
+        "classification": {
+          "description": "Промислова техніка",
+          "id": "42000000-6",
+          "scheme": "ДК021"
+        },
+        "deliveryDate": {
+          "endDate": "2019-10-17T01:00:00+03:00"
+        },
+        "description": "Тестова назва предмета закупівлі",
+        "quantity": 2000,
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        }
       }
     ],
     "procuringEntity": {

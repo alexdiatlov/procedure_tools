@@ -5,9 +5,15 @@
     "hasValueRestriction": true,
     "valueCurrencyEquality": true,
     "hasPrequalification": false,
-    "minBidsNumber": 1
+    "minBidsNumber": 1,
+    "hasPreSelectionAgreement": false,
+    "hasTenderComplaints": false,
+    "hasAwardComplaints": false,
+    "hasCancellationComplaints": false,
+    "restricted": false
   },
   "data": {
+    "cause": "openUnsuccessful",
     "description": "Тестова назва предмета закупівлі",
     "description_en": "Procurement item test name",
     "description_ru": "Тестовое название предмета закупки",
@@ -56,7 +62,7 @@
           "type": "banking"
         },
         "percentage": 100,
-        "sequenceNumber": 0,
+        "sequenceNumber": 1,
         "title": "signingTheContract",
         "type": "financing"
       }

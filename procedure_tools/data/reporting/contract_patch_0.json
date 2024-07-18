@@ -5,6 +5,11 @@
       "amount": 475000,
       "amountNet": 475000,
       "valueAddedTaxIncluded": false
-    }
+    },
+    "period": {
+      "startDate": "{{ helpers.now() }}",
+      "endDate": "{{ helpers.now(days=365, acceleration=acceleration) }}"
+    },
+    "contractNumber": 1
   }
 }
