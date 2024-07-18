@@ -551,9 +551,9 @@ def create_bids(client, ds_client, args, tender_id, filename_prefix=""):
                 if ds_response:
                     document_data = ds_response.json()["data"]
                     document_data["confidentiality"] = "buyerOnly"
-                    document_data[
-                        "confidentialityRationale"
-                    ] = f"Some {'long ' * 10}rationale"
+                    document_data["confidentialityRationale"] = (
+                        f"Some {'long ' * 10}rationale"
+                    )
                     bid_documents.append(document_data)
         bid_eligibility_documents = []
         for data_file in get_data_all_files(get_data_path(args.data)):
