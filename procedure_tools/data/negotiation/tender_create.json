@@ -16,10 +16,8 @@
     "cause": "twiceUnsuccessful",
     "causeDescription": "оригінальний тендер не вдався двічі",
     "causeDescription_en": "original tender has failed twice",
-    "causeDescription_ru": "оригинальный тендер не получился дважды",
     "description": "Тестова назва предмета закупівлі",
     "description_en": "Procurement item test name",
-    "description_ru": "Тестовое название предмета закупки",
     "items": [
       {
         "additionalClassifications": [
@@ -126,6 +124,7 @@
     ],
     "procurementMethod": "limited",
     "procurementMethodType": "negotiation",
+    "mode": "test",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",
@@ -150,7 +149,6 @@
     "status": "draft",
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
     "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
-    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
     "value": {
       "amount": 500,
       "currency": "UAH",

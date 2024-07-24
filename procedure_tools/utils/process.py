@@ -23,7 +23,6 @@ from procedure_tools.utils.data import (
     set_agreement_period,
     set_acceleration_data,
     set_tender_period_data,
-    set_mode_data,
 )
 from procedure_tools.utils.date import (
     fix_datetime,
@@ -622,7 +621,6 @@ def create_plans(client, args, filename_prefix=""):
         context = generate_default_context(args)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             plan_create_data = json.loads(content)
-            set_mode_data(plan_create_data)
             set_tender_period_data(
                 plan_create_data["data"]["tender"]["tenderPeriod"],
                 acceleration=args.acceleration,
@@ -645,7 +643,6 @@ def create_plan(client, args, filename_prefix=""):
         path, context=context, exit_filename=args.stop, silent_error=True
     ) as content:
         plan_create_data = json.loads(content)
-        set_mode_data(plan_create_data)
         set_tender_period_data(
             plan_create_data["data"]["tender"]["tenderPeriod"],
             acceleration=args.acceleration,
@@ -685,7 +682,6 @@ def create_tender(
     context = generate_default_context(args)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_create_data = json.loads(content)
-        set_mode_data(tender_create_data["data"])
         set_acceleration_data(
             tender_create_data["data"],
             tender_create_data["config"],

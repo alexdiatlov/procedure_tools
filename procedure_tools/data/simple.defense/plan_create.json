@@ -83,6 +83,7 @@
       "name": "ДТП"
     },
     "status": "draft",
+    "mode": "test",
     "tender": {
       "procurementMethod": "open",
       "procurementMethodType": "simple.defense",

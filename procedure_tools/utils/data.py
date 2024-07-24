@@ -40,10 +40,6 @@ def get_period_delta(
     return max(accelerated_period_timedelta, min_period_timedelta)
 
 
-def set_mode_data(data):
-    data["mode"] = "test"
-
-
 def set_acceleration_data(
     data,
     config,

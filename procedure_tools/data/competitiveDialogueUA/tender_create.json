@@ -132,6 +132,7 @@
       "currency": "UAH"
     },
     "procurementMethodType": "competitiveDialogueUA",
+    "mode": "test",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",
@@ -160,7 +161,6 @@
     },
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
     "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
-    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
     "value": {
       "amount": 500,
       "currency": "UAH"
