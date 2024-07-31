@@ -2,8 +2,8 @@ from __future__ import absolute_import
 
 import json
 import logging
-from copy import deepcopy, copy
 from base64 import b64encode
+from copy import copy, deepcopy
 from datetime import timedelta
 
 from procedure_tools.utils.date import get_utcnow, parse_date_header
@@ -17,8 +17,8 @@ import requests
 
 from procedure_tools.utils import adapters
 from procedure_tools.utils.handlers import (
-    response_handler,
     client_init_response_handler,
+    response_handler,
 )
 from procedure_tools.version import __version__
 
@@ -26,6 +26,8 @@ API_PATH_PREFIX_DEFAULT = "/api/0/"
 
 
 class BaseApiClient(object):
+    name = "api"
+
     SPORE_PATH = "spore"
 
     HEADERS_DEFAULT = {
@@ -33,6 +35,7 @@ class BaseApiClient(object):
     }
 
     def __init__(self, host, session=None, debug=False, **kwargs):
+        logging.info(f"Initializing {self.name} client\n")
         self.host = host
         self.kwargs = kwargs
         self.debug = debug
@@ -93,7 +96,10 @@ class BaseApiClient(object):
         if self.debug:
             self.log_request(request_kwargs.get("json", None))
             self.log_response(response.text)
-        response_handler(response, **handlers)
+        if response.status_code == 409:
+            response = self.request(method, path, **kwargs)
+        else:
+            response_handler(response, **handlers)
         return response
 
     def get(self, path, **kwargs):
@@ -110,6 +116,8 @@ class BaseApiClient(object):
 
 
 class BaseCDBClient(BaseApiClient):
+    name = "cdb"
+
     SPORE_PATH = "spore"
 
     def __init__(
@@ -124,7 +132,7 @@ class BaseCDBClient(BaseApiClient):
         self.path_prefix = path_prefix
         self.set_kwargs(auth_token)
         spore_url = self.get_url(self.get_api_path(self.SPORE_PATH))
-        # GET request to retrieve SERVER_ID cookie and server time
+        # GET request to retrieve cookies and server time
         response = self.session.get(spore_url)
         client_datetime = get_utcnow()
         try:
@@ -147,6 +155,8 @@ class BaseCDBClient(BaseApiClient):
 
 
 class TendersApiClient(BaseCDBClient):
+    name = "tenders"
+
     TENDERS_COLLECTION_PATH = "tenders"
     TENDERS_PATH = "tenders/{}"
     TENDERS_DOCUMENTS_COLLECTION_PATH = "tenders/{}/documents"
@@ -160,7 +170,6 @@ class TendersApiClient(BaseCDBClient):
     AWARDS_PATH = "tenders/{}/awards/{}"
     CONTRACTS_COLLECTION_PATH = "tenders/{}/contracts"
     CONTRACTS_PATH = "tenders/{}/contracts/{}"
-    CONTRACT_UNIT_VALUE_PATH = "tenders/{}/contracts/{}/items/{}/unit/value"
     QUALIFICATIONS_COLLECTION_PATH = "tenders/{}/qualifications"
     QUALIFICATIONS_PATH = "tenders/{}/qualifications/{}"
     AGREEMENTS_COLLECTION_PATH = "tenders/{}/agreements"
@@ -373,15 +382,6 @@ class TendersApiClient(BaseCDBClient):
         path = self.get_api_path(awards_path, acc_token=acc_token)
         return self.patch(path, json, **kwargs)
 
-    def patch_contract_unit_value(
-        self, tender_id, contract_id, item_id, acc_token, json, **kwargs
-    ):
-        awards_path = self.CONTRACT_UNIT_VALUE_PATH.format(
-            tender_id, contract_id, item_id, acc_token
-        )
-        path = self.get_api_path(awards_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
-
     def get_agreements(self, tender_id, **kwargs):
         agreements_path = self.AGREEMENTS_COLLECTION_PATH.format(tender_id)
         path = self.get_api_path(agreements_path)
@@ -426,6 +426,8 @@ class TendersApiClient(BaseCDBClient):
 
 
 class AgreementsApiClient(BaseCDBClient):
+    name = "agreements"
+
     AGREEMENTS_PATH = "agreements/{}"
 
     def get_agreement(self, agreement_id, **kwargs):
@@ -435,6 +437,8 @@ class AgreementsApiClient(BaseCDBClient):
 
 
 class ContractsApiClient(BaseCDBClient):
+    name = "contracts"
+
     CONTRACTS_PATH = "contracts/{}"
     BUYERS_SIGNER_INFO_PATH = "contracts/{}/buyer/signer_info"
     SUPPLIERS_SIGNER_INFO_PATH = "contracts/{}/suppliers/signer_info"
@@ -469,6 +473,8 @@ class ContractsApiClient(BaseCDBClient):
 
 
 class PlansApiClient(BaseCDBClient):
+    name = "plans"
+
     PLANS_COLLECTION_PATH = "plans"
     PLANS_PATH = "plans/{}"
     TENDERS_COLLECTION_PATH = "plans/{}/tenders"
@@ -495,6 +501,8 @@ class PlansApiClient(BaseCDBClient):
 
 
 class DsApiClient(BaseApiClient):
+    name = "ds"
+
     UPLOAD_PATH = "upload"
 
     def __init__(

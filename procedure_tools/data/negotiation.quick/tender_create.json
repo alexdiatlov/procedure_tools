@@ -147,6 +147,7 @@
       "name": "Тестовий заклад #1 м.Київ"
     },
     "status": "draft",
+    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
     "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
     "value": {

@@ -15,7 +15,7 @@
   "data": {
     "agreements": [
       {
-        "id": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        "id": "{{ agreement.id }}"
       }
     ],
     "items": [
@@ -63,6 +63,8 @@
     ],
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "mode": "test",
+    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
+    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",

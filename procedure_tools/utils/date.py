@@ -1,4 +1,5 @@
-from datetime import datetime
+import logging
+from datetime import datetime, timedelta
 
 from dateutil import parser, tz
 
@@ -28,3 +29,20 @@ def parse_date_header(header):
 
 def parse_date(datetime_str):
     return parser.parse(datetime_str)
+
+
+def get_client_timedelta(clients):
+    client_timedelta = timedelta(seconds=0)
+    for client in clients:
+        if client:
+            client_timedelta = min(client_timedelta, client.client_timedelta)
+    timedelta_string = client_timedelta_string(client_timedelta)
+    logging.info(f"Using client time delta with server: {timedelta_string}\n")
+    return client_timedelta
+
+
+def client_timedelta_string(client_timedelta):
+    total_seconds = client_timedelta.total_seconds()
+    if total_seconds > 1:
+        return "{} seconds".format(int(total_seconds))
+    return "{} milliseconds".format(int(total_seconds * 1000))

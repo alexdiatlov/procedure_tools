@@ -7,9 +7,50 @@
       "valueAddedTaxIncluded": false
     },
     "period": {
-      "startDate": "{{ helpers.now() }}",
-      "endDate": "{{ helpers.now(days=365, acceleration=acceleration) }}"
+      "startDate": "{{ from_now_iso() }}",
+      "endDate": "{{ from_now_iso(days=365) }}"
     },
-    "contractNumber": 3
+    "contractNumber": 3,
+    "items": [
+      {
+        "id": "{{ contracts[2]['items'][0].id }}",
+        "additionalClassifications": [
+          {
+            "description": "{{ contracts[2]['items'][0].additionalClassifications[0].description }}",
+            "id": "{{ contracts[2]['items'][0].additionalClassifications[0].id }}",
+            "scheme": "{{ contracts[2]['items'][0].additionalClassifications[0].scheme }}"
+          }
+        ],
+        "classification": {
+          "description": "{{ contracts[2]['items'][0].classification.description }}",
+          "id": "{{ contracts[2]['items'][0].classification.id }}",
+          "scheme": "{{ contracts[2]['items'][0].classification.scheme }}"
+        },
+        "deliveryAddress": {
+          "countryName": "{{ contracts[2]['items'][0].deliveryAddress.countryName }}",
+          "locality": "{{ contracts[2]['items'][0].deliveryAddress.locality }}",
+          "postalCode": "{{ contracts[2]['items'][0].deliveryAddress.postalCode }}",
+          "region": "{{ contracts[2]['items'][0].deliveryAddress.region }}",
+          "streetAddress": "{{ contracts[2]['items'][0].deliveryAddress.streetAddress }}"
+        },
+        "deliveryDate": {
+          "startDate": "{{ contracts[2]['items'][0].deliveryDate.startDate }}",
+          "endDate": "{{ contracts[2]['items'][0].deliveryDate.endDate }}"
+        },
+        "description": "{{ contracts[2]['items'][0].description }}",
+        "description_en": "{{ contracts[2]['items'][0].description_en }}",
+        "relatedLot": "{{ contracts[2]['items'][0].relatedLot }}",
+        "relatedBuyer": "{{ contracts[2]['items'][0].relatedBuyer }}",
+        "quantity": 1,
+        "unit": {
+          "code": "{{ contracts[2]['items'][0].unit.code }}",
+          "name": "{{ contracts[2]['items'][0].unit.name }}",
+          "value": {
+              "amount": 10.0,
+              "valueAddedTaxIncluded": false
+          }
+        }
+      }
+    ]
   }
 }

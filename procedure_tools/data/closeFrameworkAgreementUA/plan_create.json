@@ -104,7 +104,7 @@
       "procurementMethod": "open",
       "procurementMethodType": "closeFrameworkAgreementUA",
       "tenderPeriod": {
-        "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
+        "startDate": "{{ from_now_iso() }}"
       }
     }
   }

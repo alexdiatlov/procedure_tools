@@ -104,7 +104,7 @@
       "procurementMethod": "open",
       "procurementMethodType": "belowThreshold",
       "tenderPeriod": {
-        "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
+        "startDate": "{{ from_now_iso() }}"
       }
     }
   }

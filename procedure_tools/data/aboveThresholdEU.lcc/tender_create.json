@@ -167,10 +167,12 @@
       "name": "Тестовий заклад #1 м.Київ",
       "name_en": "Test facility #1 of Kyiv"
     },
+    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
+    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "status": "draft",
     "tenderPeriod": {
-      "endDate": "XXXX-XX-XXTXX:XX+XX:XX",
-      "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
+      "startDate": "{{ from_now_iso() }}",
+      "endDate": "{{ from_now_iso(days=30) }}"
     },
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
     "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
