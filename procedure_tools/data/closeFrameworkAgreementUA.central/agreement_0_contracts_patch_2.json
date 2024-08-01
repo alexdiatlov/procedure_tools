@@ -2,7 +2,7 @@
   "data": {
     "unitPrices": [
       {
-        "relatedItem": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "relatedItem": "{{ tender['items'][0].id }}",
         "value": {
           "amount": 0.5,
           "currency": "UAH",
@@ -10,7 +10,7 @@
         }
       },
       {
-        "relatedItem": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "relatedItem": "{{ tender['items'][1].id }}",
         "value": {
           "amount": 0.5,
           "currency": "UAH",
@@ -18,7 +18,7 @@
         }
       },
       {
-        "relatedItem": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
+        "relatedItem": "{{ tender['items'][2].id }}",
         "value": {
           "amount": 0.5,
           "currency": "UAH",

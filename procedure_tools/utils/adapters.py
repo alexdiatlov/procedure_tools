@@ -1,6 +1,6 @@
 import logging
 
-from requests import adapters, ConnectionError
+from requests import ConnectionError, adapters
 from urllib3 import Retry
 
 DEFAULT_TIMEOUT = 60

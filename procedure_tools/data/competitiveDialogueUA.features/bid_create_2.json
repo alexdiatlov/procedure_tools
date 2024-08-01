@@ -6,22 +6,22 @@
       {
         "address": {
           "countryName": "Україна",
-          "locality": "м. Запоріжя",
+          "locality": "м. Львів",
           "postalCode": "79013",
-          "region": "Запорізька область",
-          "streetAddress": "вул. Коцюбинського, 15"
+          "region": "Львівська область",
+          "streetAddress": "вул. Островського, 35"
         },
         "contactPoint": {
           "email": "fake@mail.com",
-          "name": "Іван Карпенко",
+          "name": "Іван Іваненко",
           "telephone": "+380322123456"
         },
         "identifier": {
-          "id": "00137228",
+          "id": "00137227",
           "scheme": "UA-EDR",
           "uri": "http://factory.example.com"
         },
-        "name": "«Кенгуру»",
+        "name": "«Снігур»",
         "scale": "micro"
       }
     ],

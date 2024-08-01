@@ -1,18 +1,18 @@
 import argparse
-import sys
 import logging
+import sys
 
 import requests
 
 from procedure_tools.client import API_PATH_PREFIX_DEFAULT
-from procedure_tools.procedure import WAIT_EDR_QUAL, init_procedure, WAIT_EDR_PRE_QUAL
+from procedure_tools.procedure import WAIT_EDR_PRE_QUAL, WAIT_EDR_QUAL, init_procedure
 from procedure_tools.utils import adapters
 from procedure_tools.utils.data import (
     ACCELERATION_DEFAULT,
-    SUBMISSIONS,
     SUBMISSION_QUICK_NO_AUCTION,
+    SUBMISSIONS,
 )
-from procedure_tools.utils.file import get_default_data_dirs, DATA_DIR_DEFAULT
+from procedure_tools.utils.file import DATA_DIR_DEFAULT, get_default_data_dirs
 from procedure_tools.utils.handlers import EX_OK
 from procedure_tools.version import __version__
 
@@ -55,7 +55,6 @@ def main():
         "--acceleration",
         help="acceleration multiplier",
         metavar=str(ACCELERATION_DEFAULT),
-        default=ACCELERATION_DEFAULT,
         type=int,
     )
     parser.add_argument(
@@ -125,7 +124,7 @@ def main():
     except SystemExit as e:
         sys.exit(e)
     except KeyboardInterrupt as e:
-        sys.exit(e)
+        sys.exit(str(e))
     else:
         sys.exit(EX_OK)
 

@@ -1,7 +1,6 @@
 from faker import Faker
 from faker.providers.phone_number import Provider
 
-
 fake = Faker("uk_UA")
 fake_en = Faker("en_US")
 

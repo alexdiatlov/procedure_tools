@@ -15,7 +15,7 @@
   "data": {
     "agreements": [
       {
-        "id": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+        "id": "{{ agreement.id }}"
       }
     ],
     "items": [
@@ -61,8 +61,10 @@
         "title": "Тестова назва лоту"
       }
     ],
-    "procurementMethodDetails": "quick, accelerator=1440",
     "procurementMethodType": "closeFrameworkAgreementSelectionUA",
+    "mode": "test",
+    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
+    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",

@@ -16,7 +16,6 @@
     "cause": "openUnsuccessful",
     "description": "Тестова назва предмета закупівлі",
     "description_en": "Procurement item test name",
-    "description_ru": "Тестовое название предмета закупки",
     "items": [
       {
         "additionalClassifications": [
@@ -44,7 +43,6 @@
         },
         "description": "Тестова назва предмета закупівлі",
         "description_en": "Procurement item test name",
-        "description_ru": "Тестовое название предмета закупки",
         "id": "2dc54675d6364e2baffbc0f8e74432ac",
         "quantity": 1,
         "unit": {
@@ -69,6 +67,7 @@
     ],
     "procurementMethod": "limited",
     "procurementMethodType": "reporting",
+    "mode": "test",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",
@@ -91,9 +90,9 @@
       "name": "Тестовий заклад #1 м.Київ"
     },
     "status": "draft",
+    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
     "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
-    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
     "value": {
       "amount": 500000,
       "currency": "UAH",

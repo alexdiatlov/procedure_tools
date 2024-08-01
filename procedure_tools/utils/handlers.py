@@ -1,10 +1,7 @@
 import logging
 
-from procedure_tools.utils.style import (
-    fore_info,
-    fore_error,
-    fore_status_code,
-)
+from procedure_tools.utils.date import client_timedelta_string
+from procedure_tools.utils.style import fore_error, fore_info, fore_status_code
 
 EX_OK = 0
 EX_DATAERR = 65
@@ -54,11 +51,8 @@ def client_init_response_handler(
     client_timedelta,
 ):
     response_handler(response)
-    logging.info(
-        "Client time delta with server: {} seconds\n".format(
-            int(client_timedelta.total_seconds())
-        ),
-    )
+    timedelta_string = client_timedelta_string(client_timedelta)
+    logging.info(f"Client time delta with server: {timedelta_string}\n")
 
 
 def tender_create_success_handler(response):
@@ -156,15 +150,6 @@ def item_patch_success_handler(response):
     logging.info(msg)
 
 
-def value_patch_success_handler(response):
-    data = response.json()["data"]
-
-    msg = "Value patched:\n"
-    msg += " - amount \t\t\t{}\n".format(fore_info(str(data["amount"])))
-
-    logging.info(msg)
-
-
 def tender_patch_success_handler(response):
     data = response.json()["data"]
 
@@ -197,6 +182,20 @@ def tender_check_status_success_handler(response):
     logging.info(msg)
 
 
+def tender_check_status_invalid_handler(response):
+    data = response.json()["data"]
+
+    msg = "Tender info:\n"
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+    msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
+    if "unsuccessfulReason" in data:
+        msg += " - unsuccessfulReason \t\t{}\n".format(
+            fore_info(" ".join(data["unsuccessfulReason"]))
+        )
+
+    logging.info(msg)
+
+
 def auction_participation_url_success_handler(response):
     data = response.json()["data"]
 
@@ -225,20 +224,6 @@ def auction_multilot_participation_url_success_handler(response, related_lot=Non
                 msg += " - url \t\t\t\t{}\n".format(
                     fore_info(lot_value["participationUrl"])
                 )
-
-    logging.info(msg)
-
-
-def tender_patch_period_success_handler(response):
-    data = response.json()["data"]
-
-    msg = "Tender patched:\n"
-    msg += " - tenderPeriod.startDate \t{}\n".format(
-        fore_info(data["tenderPeriod"]["startDate"])
-    )
-    msg += " - tenderPeriod.endDate \t{}\n".format(
-        fore_info(data["tenderPeriod"]["endDate"])
-    )
 
     logging.info(msg)
 

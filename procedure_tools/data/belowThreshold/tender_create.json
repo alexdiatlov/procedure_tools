@@ -13,9 +13,6 @@
     "restricted": false
   },
   "data": {
-    "enquiryPeriod": {
-      "endDate": "XXXX-XX-XXTXX:XX+XX:XX"
-    },
     "items": [
       {
         "additionalClassifications": [
@@ -143,6 +140,7 @@
       "currency": "UAH"
     },
     "procurementMethodType": "belowThreshold",
+    "mode": "test",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",
@@ -163,14 +161,18 @@
       "kind": "general",
       "name": "Державне управління справами"
     },
+    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
+    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "status": "draft",
+    "enquiryPeriod": {
+      "endDate": "{{ from_now_iso(days=30) }}"
+    },
     "tenderPeriod": {
-      "endDate": "XXXX-XX-XXTXX:XX+XX:XX",
-      "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
+      "startDate": "{{ from_now_iso(days=30) }}",
+      "endDate": "{{ from_now_iso(days=60) }}"
     },
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
     "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
-    "title_ru": "Тестовое описание предмета закупки в заголовке тендера (created with procedure_tools)",
     "value": {
       "amount": 500,
       "currency": "UAH"

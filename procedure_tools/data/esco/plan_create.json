@@ -83,11 +83,12 @@
       "name": "ДТП"
     },
     "status": "draft",
+    "mode": "test",
     "tender": {
       "procurementMethod": "open",
       "procurementMethodType": "esco",
       "tenderPeriod": {
-        "startDate": "XXXX-XX-XXTXX:XX+XX:XX"
+        "startDate": "{{ from_now_iso() }}"
       }
     }
   }

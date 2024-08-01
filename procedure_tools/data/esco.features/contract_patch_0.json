@@ -2,8 +2,8 @@
   "data": {
     "status": "active",
     "period": {
-      "startDate": "{{ helpers.now() }}",
-      "endDate": "{{ helpers.now(days=365, acceleration=acceleration) }}"
+      "startDate": "{{ from_now_iso() }}",
+      "endDate": "{{ from_now_iso(days=365) }}"
     },
     "contractNumber": 1
   }
