@@ -27,7 +27,14 @@ skipifenv = pytest.mark.skipif(
 
 
 def run_test(argv):
-    default_args = ["--acceleration", "10000", "--path", "/api/2.5/", "--submission", "quick(mode:no-auction)"]
+    default_args = [
+        "--acceleration",
+        "10000",
+        "--path",
+        "/api/2.5/",
+        "--submission",
+        "quick(mode:no-auction)",
+    ]
     args = (
         [
             os.environ.get(API_HOST),
