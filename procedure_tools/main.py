@@ -122,7 +122,7 @@ def main():
         adapters.mount(session)
         init_procedure(args, session=session)
     except SystemExit as e:
-        sys.exit(str(e))
+        sys.exit(e)
     except KeyboardInterrupt as e:
         sys.exit(str(e))
     else:
