@@ -181,6 +181,9 @@ def process_procedure(
     context["client_timedelta"] = client_timedelta
 
     if not tender_id and not tender_token:
+        # It means that we are starting a new procedure
+        # not a second stage of another
+
         response = create_plan(
             plans_client,
             args,
@@ -189,6 +192,7 @@ def process_procedure(
         )
 
         if response:
+            # Start a new procedure from a plan
             plan_id = get_id(response)
             plan_token = get_token(response)
             response = patch_plan(
@@ -208,6 +212,7 @@ def process_procedure(
                 prefix=prefix,
             )
         else:
+            # Start procedure without a plan
             plan_id = None
             response = create_tender(
                 tenders_client,
@@ -218,6 +223,8 @@ def process_procedure(
             )
 
         if not response:
+            # We haven't started a new procedure
+            # That's the end
             return
 
         tender = get_data(response)
@@ -233,6 +240,8 @@ def process_procedure(
         tender_token = get_token(response)
 
         if not plan_id:
+            # Create multiple plans
+            # Used in central kind procedures
             plans_responses = create_plans(
                 plans_client,
                 args,
@@ -240,6 +249,7 @@ def process_procedure(
                 prefix=prefix,
             )
             for plan_response in plans_responses:
+                # Attach multiple plans to the tender
                 plan_id = plan_response.json()["data"]["id"]
                 post_tender_plan(
                     tenders_client,
