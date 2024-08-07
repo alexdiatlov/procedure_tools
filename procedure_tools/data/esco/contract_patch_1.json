@@ -1,0 +1,10 @@
+{
+  "data": {
+    "status": "active",
+    "period": {
+      "startDate": "{{ from_now_iso() }}",
+      "endDate": "{{ from_now_iso(days=365) }}"
+    },
+    "contractNumber": 1
+  }
+}

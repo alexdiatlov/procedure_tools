@@ -79,6 +79,39 @@
           "code": "KGM",
           "name": "кг"
         }
+      },
+      {
+        "additionalClassifications": [
+          {
+            "description": "Техніка конторська/офісна, інша",
+            "id": "28.23.23",
+            "scheme": "ДКПП"
+          }
+        ],
+        "classification": {
+          "description": "Промислова техніка",
+          "id": "42000000-6",
+          "scheme": "ДК021"
+        },
+        "deliveryAddress": {
+          "countryName": "Україна",
+          "locality": "м. Київ",
+          "postalCode": "79000",
+          "region": "м. Київ",
+          "streetAddress": "вул. Тестова 1"
+        },
+        "deliveryDate": {
+          "endDate": "2017-08-10T16:02:36.221351+03:00",
+          "startDate": "2017-07-11T16:02:36.221327+03:00"
+        },
+        "description": "Тестова назва предмета закупівлі",
+        "description_en": "Procurement item test name",
+        "quantity": 1,
+        "relatedLot": "5f58e4e21baf4696bb1cfd67c4f86f73",
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        }
       }
     ],
     "lots": [
@@ -110,6 +143,25 @@
           "valueAddedTaxIncluded": true
         },
         "title": "Лот №2",
+        "value": {
+          "amount": 500,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "guarantee": {
+          "amount": 100,
+          "currency": "UAH"
+        }
+      },
+      {
+        "description": "Опис Лот №3",
+        "id": "5f58e4e21baf4696bb1cfd67c4f86f73",
+        "minimalStep": {
+          "amount": 10,
+          "currency": "UAH",
+          "valueAddedTaxIncluded": true
+        },
+        "title": "Лот №3",
         "value": {
           "amount": 500,
           "currency": "UAH",
