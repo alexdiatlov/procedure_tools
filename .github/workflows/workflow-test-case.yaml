@@ -13,13 +13,13 @@ jobs:
     env:
       PYTHONUNBUFFERED: 1
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Setup timezone
-        uses: zcong1993/setup-timezone@master
+        uses: szenius/set-timezone@v2.0
         with:
-          timezone: Europe/Kiev
+          timezoneLinux: Europe/Kiev
       - name: Set up python 3.x
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
       - name: Install dependencies
