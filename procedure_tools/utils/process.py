@@ -346,20 +346,32 @@ def patch_tender_waiting(client, args, context, tender_id, tender_token):
         )
 
 
-def patch_awards(client, args, context, tender_id, awards_ids, tender_token, prefix=""):
+def patch_award(client, args, context, tender_id, awards_ids, tender_token, action_index=0, prefix=""):
     logging.info("Patching awards...\n")
-    for award_index, awards_id in enumerate(awards_ids):
-        data_file = "{}award_patch_{}.json".format(prefix, award_index)
+    award_patch_data_files = []
+    filename_base = "{}award_patch_{}".format(prefix, action_index)
+    for data_file in get_data_all_files(get_data_path(args.data)):
+        if data_file.startswith(filename_base):
+            award_patch_data_files.append(data_file)
+    responses = []
+    for data_file in award_patch_data_files:
+        data_file_parts = data_file.split(".")
+        if len(data_file_parts) != 2 and data_file_parts[-1] != "json":
+            continue
         path = get_data_file_path(get_data_path(args.data), data_file)
+        award_index = int(data_file_parts[0].split("_")[-1])
+        awards_id = awards_ids[award_index]
         with read_file(path, context=context, exit_filename=args.stop) as content:
             award_patch_data = json.loads(content)
-            client.patch_award(
+            response = client.patch_award(
                 tender_id,
                 awards_id,
                 tender_token,
                 award_patch_data,
                 success_handler=item_patch_success_handler,
             )
+            responses.append(response)
+    return responses
 
 
 def get_awards(client, args, context, tender_id):

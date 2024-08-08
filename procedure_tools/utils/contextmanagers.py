@@ -56,21 +56,28 @@ def read_file(path, context=None, exit_filename=None, silent_error=False, **kwar
         content = file.read()
         acceleration = context.get("acceleration", 1)
         client_timedelta = context.get("client_timedelta")
+        context_fake = {
+            "fake": fake,
+            "fake_en": fake_en,
+        }
+        context_now = {
+            "from_now": partial(
+                helpers.from_now,
+                acceleration=acceleration,
+                client_timedelta=client_timedelta,
+            ),
+            "from_now_iso": partial(
+                helpers.from_now_iso,
+                acceleration=acceleration,
+                client_timedelta=client_timedelta,
+            ),
+        }
+        context_modules = {
+            "datetime": datetime,
+        }
         context.update(
-            {
-                "fake": fake,
-                "fake_en": fake_en,
-                "from_now": partial(
-                    helpers.from_now,
-                    acceleration=acceleration,
-                    client_timedelta=client_timedelta,
-                ),
-                "from_now_iso": partial(
-                    helpers.from_now_iso,
-                    acceleration=acceleration,
-                    client_timedelta=client_timedelta,
-                ),
-                "datetime": datetime,
-            }
+            **context_fake,
+            **context_now,
+            **context_modules,
         )
         yield Template(content).render(context)
