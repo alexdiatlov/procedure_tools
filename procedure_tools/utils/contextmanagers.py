@@ -9,6 +9,7 @@ from jinja2 import Template
 
 from procedure_tools.fake import fake, fake_en
 from procedure_tools.utils import helpers
+from procedure_tools.utils.file import get_actual_file_path
 from procedure_tools.utils.handlers import EX_OK
 from procedure_tools.utils.style import fore_error
 
@@ -17,12 +18,13 @@ from procedure_tools.utils.style import fore_error
 def open_file(
     path, mode="r", encoding="UTF-8", exit_filename=None, silent_error=False, **kwargs
 ):
-    _, file_name = os.path.split(path)
+    actual_path = get_actual_file_path(path)
+    _, file_name = os.path.split(actual_path)
     logging.info("Processing data file: {}\n".format(file_name))
     try:
         try:
             encoding = encoding if "b" not in mode else None
-            file = io.open(path, mode, encoding=encoding, **kwargs)
+            file = io.open(actual_path, mode, encoding=encoding, **kwargs)
             yield file
             file.close()
         except IOError as e:
@@ -49,7 +51,7 @@ def read_file(path, context=None, exit_filename=None, silent_error=False, **kwar
         encoding="UTF-8",
         exit_filename=exit_filename,
         silent_error=silent_error,
-        **kwargs
+        **kwargs,
     ) as file:
         if not file:
             yield
