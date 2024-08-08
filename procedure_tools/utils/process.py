@@ -12,7 +12,6 @@ from procedure_tools.utils.data import (
     TENDER_SECONDS_BUFFER,
     get_contracts_bids_ids,
     get_ids,
-    get_items_ids,
 )
 from procedure_tools.utils.date import fix_datetime, get_utcnow, parse_date
 from procedure_tools.utils.file import (
@@ -155,7 +154,7 @@ def patch_agreement_contract(
     ):
         bid_id = agreement_contracts_bids_ids[agreement_contract_index]
         index = bids_ids.index(bid_id)
-        data_file_pattern = "agreement_{}_contracts_patch_{}.json"
+        data_file_pattern = "agreement_contracts_patch_{}_{}.json"
         data_file = data_file_pattern.format(agreement_index, index)
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
@@ -171,12 +170,12 @@ def patch_agreement_contract(
 
 
 def patch_agreements(
-    client, ds_client, args, context, tender_id, agreements_ids, tender_token
+    client, ds_client, args, context, tender_id, agreements_ids, tender_token, prefix=""
 ):
     logging.info("Patching agreements...\n")
     for agreement_index, agreement_id in enumerate(agreements_ids):
         for data_file in get_data_all_files(get_data_path(args.data)):
-            if data_file.startswith("agreement_document"):
+            if data_file.startswith(prefix + "agreement_document"):
                 ds_response = upload_document(
                     ds_client,
                     args,
@@ -346,7 +345,16 @@ def patch_tender_waiting(client, args, context, tender_id, tender_token):
         )
 
 
-def patch_award(client, args, context, tender_id, awards_ids, tender_token, action_index=0, prefix=""):
+def patch_award(
+    client,
+    args,
+    context,
+    tender_id,
+    awards_ids,
+    tender_token,
+    action_index=0,
+    prefix="",
+):
     logging.info("Patching awards...\n")
     award_patch_data_files = []
     filename_base = "{}award_patch_{}".format(prefix, action_index)
@@ -469,11 +477,11 @@ def get_qualifications(client, args, context, tender_id):
     return response
 
 
-def create_awards(client, args, context, tender_id, tender_token):
+def create_awards(client, args, context, tender_id, tender_token, prefix=""):
     logging.info("Creating awards...\n")
     award_data_files = []
     for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("award_create"):
+        if data_file.startswith("{}award_create".format(prefix)):
             award_data_files.append(data_file)
     for award_data_file in award_data_files:
         path = get_data_file_path(get_data_path(args.data), award_data_file)
@@ -645,7 +653,7 @@ def upload_tender_documents(
     client, ds_client, args, context, tender_id, tender_token, prefix=""
 ):
     for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("tender_document"):
+        if data_file.startswith("{}tender_document".format(prefix)):
             ds_response = upload_document(
                 ds_client,
                 args,
@@ -661,7 +669,7 @@ def upload_tender_notice(
     client, ds_client, args, context, tender_id, tender_token, prefix=""
 ):
     for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("tender_notice"):
+        if data_file.startswith("{}tender_notice".format(prefix)):
             ds_response = upload_document(
                 ds_client,
                 args,
@@ -681,7 +689,7 @@ def upload_evaluation_report(
     client, ds_client, args, context, tender_id, tender_token, prefix=""
 ):
     for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("evaluation_report"):
+        if data_file.startswith("{}evaluation_report".format(prefix)):
             ds_response = upload_document(
                 ds_client,
                 args,
@@ -713,7 +721,7 @@ def re_upload_evaluation_report(
     prefix="",
 ):
     for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("evaluation_report"):
+        if data_file.startswith("{}evaluation_report".format(prefix)):
             ds_response = upload_document(
                 ds_client,
                 args,
