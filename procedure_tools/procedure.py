@@ -45,7 +45,7 @@ from procedure_tools.utils.process import (
     get_tender_contracts,
     patch_agreements,
     patch_agreements_contracts,
-    patch_awards,
+    patch_award,
     patch_bids,
     patch_complaints,
     patch_contract_credentials,
@@ -730,15 +730,25 @@ def process_procedure(
     ):
         response = get_awards(tenders_client, args, context, tender_id)
         awards_ids = get_ids(response)
-        patch_awards(
-            tenders_client,
-            args,
-            context,
-            tender_id,
-            awards_ids,
-            tender_token,
-            prefix=prefix,
-        )
+        award_action_index = 0
+        while True:
+            responses = patch_award(
+                tenders_client,
+                args,
+                context,
+                tender_id,
+                awards_ids,
+                tender_token,
+                action_index=award_action_index,
+                prefix=prefix,
+            )
+            if not responses:
+                # There were no files for this action index,
+                # that means we have reached the end of actions
+                break
+            award_action_index += 1
+            response = get_awards(tenders_client, args, context, tender_id)
+            awards_ids = get_ids(response)
 
     if method_type in ("closeFrameworkAgreementUA",):
         patch_tender_qual(tenders_client, args, context, tender_id, tender_token)
@@ -841,7 +851,7 @@ def process_procedure(
         "simple.defense",
     ):
         response = get_tender_contracts(tenders_client, args, context, tender_id)
-        contracts_ids = get_ids(response)
+        contracts_ids = get_ids(response, status_exclude="cancelled")
 
     if method_type in ("esco",):
         patch_tender_contracts(

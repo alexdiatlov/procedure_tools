@@ -68,8 +68,16 @@ def get_items_ids(response):
     return [item["id"] for item in response.json()["data"]["items"]]
 
 
-def get_ids(response):
-    return [item["id"] for item in response.json()["data"]]
+def get_ids(response, status_exclude=None):
+    if not status_exclude:
+        status_exclude = []
+    elif not isinstance(status_exclude, list):
+        status_exclude = [status_exclude]
+    return [item["id"] for item in response.json()["data"] if item["status"] not in status_exclude]
+
+
+def get_ids_with_status(response, status):
+    return [item["id"] for item in response.json()["data"] if item["status"] == status]
 
 
 def get_bid_ids(response):
