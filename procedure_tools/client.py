@@ -44,23 +44,7 @@ class BaseApiClient(object):
         else:
             self.session = requests.Session()
             adapters.mount(session)
-        self.set_default_kwargs()
-
-    def set_default_kwargs(self):
-        headers = copy(self.HEADERS_DEFAULT)
-        headers.update(self.kwargs.pop("headers", {}))
-        self.kwargs.update(dict(headers=headers))
-
-    @staticmethod
-    def pop_handlers(kwargs, success_handler=None, error_handler=None):
-        return dict(
-            (k, v)
-            for k, v in dict(
-                success_handler=kwargs.pop("success_handler", success_handler),
-                error_handler=kwargs.pop("error_handler", error_handler),
-            ).items()
-            if v is not None
-        )
+        self.headers = copy(self.HEADERS_DEFAULT)
 
     def get_url(self, api_path):
         return urljoin(self.host, api_path)
@@ -88,12 +72,15 @@ class BaseApiClient(object):
             logging.debug(f"Response:\n {response_text}")
 
     def request(self, method, path, **kwargs):
-        request_kwargs = deepcopy(self.kwargs)
-        auth_token = kwargs.pop("auth_token", None)
-        if auth_token:
-            request_kwargs["headers"].update({"Authorization": "Bearer " + auth_token})
-        handlers = self.pop_handlers(kwargs)
-        request_kwargs.update(kwargs)
+        request_kwargs = copy(kwargs)
+        auth_token = request_kwargs.pop("auth_token", None)
+        success_handler = request_kwargs.pop("success_handler", None)
+        error_handler = request_kwargs.pop("error_handler", None)
+        request_kwargs["headers"] = copy(self.headers)
+        request_kwargs["headers"].update(
+            {"Authorization": "Bearer " + auth_token} if auth_token else {}
+        )
+        request_kwargs["headers"].update(kwargs.get("headers", {}))
         url = self.get_url(path)
         response = self.session.request(method=method, url=url, **request_kwargs)
         if self.debug:
@@ -102,6 +89,11 @@ class BaseApiClient(object):
         if response.status_code == 409:
             response = self.request(method, path, **kwargs)
         else:
+            handlers = {}
+            if success_handler:
+                handlers["success_handler"] = success_handler
+            if error_handler:
+                handlers["error_handler"] = error_handler
             response_handler(response, **handlers)
         return response
 
@@ -133,10 +125,11 @@ class BaseCDBClient(BaseApiClient):
     ):
         super(BaseCDBClient, self).__init__(host, session=session, **request_kwargs)
         self.path_prefix = path_prefix
-        self.set_kwargs()
+        self.headers.update({"Content-Type": "application/json"})
         spore_url = self.get_url(self.get_api_path(self.SPORE_PATH))
         # GET request to retrieve cookies and server time
         response = self.session.get(spore_url)
+        # Calculate client time delta with server
         client_datetime = get_utcnow()
         try:
             server_datetime = parse_date_header(response.headers.get("date"))
@@ -144,9 +137,6 @@ class BaseCDBClient(BaseApiClient):
         except:
             self.client_timedelta = timedelta()
         client_init_response_handler(response, self.client_timedelta)
-
-    def set_kwargs(self):
-        self.kwargs["headers"].update({"Content-Type": "application/json"})
 
     def get_api_path(self, path, acc_token=None):
         return urljoin(
@@ -514,16 +504,12 @@ class DsApiClient(BaseApiClient):
         self, host, username=None, password=None, session=None, **request_kwargs
     ):
         super(DsApiClient, self).__init__(host, session=session, **request_kwargs)
-        self.set_kwargs(username, password)
-
-    def set_kwargs(self, username, password):
-        if username and password:
-            self.kwargs["headers"].update(
-                {
-                    "Authorization": "Basic "
-                    + b64encode("{}:{}".format(username, password).encode()).decode()
-                }
-            )
+        self.headers.update(
+            {
+                "Authorization": "Basic "
+                + b64encode("{}:{}".format(username, password).encode()).decode()
+            }
+        )
 
     def post_document_upload(self, files, **kwargs):
         path = self.UPLOAD_PATH
