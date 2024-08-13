@@ -57,36 +57,26 @@ def run_test(argv):
 
 
 @skipifenv
-def test_reporting():
-    argv = ["--data", "reporting"]
-    run_test(argv)
-
-
-@skipifenv
-def test_negotiation():
-    argv = ["--data", "negotiation"]
-    run_test(argv)
-
-
-@skipifenv
-def test_negotiation_quick():
-    argv = ["--data", "negotiation.quick"]
-    run_test(argv)
-
-
-@skipifenv
-def test_below_threshold():
-    argv = ["--data", "belowThreshold"]
+def test_above_threshold():
+    argv = ["--data", "aboveThreshold"]
     if os.environ.get("FAST_RUN"):
-        argv += ["--stop", "tender_patch.json"]
+        argv += ["--stop", "bid_patch_1.json"]
     run_test(argv)
 
 
 @skipifenv
-def test_below_threshold_multilot():
-    argv = ["--data", "belowThreshold.multilot"]
+def test_above_threshold_features():
+    argv = ["--data", "aboveThreshold.features"]
     if os.environ.get("FAST_RUN"):
-        argv += ["--stop", "tender_patch.json"]
+        argv += ["--stop", "bid_patch_1.json"]
+    run_test(argv)
+
+
+@skipifenv
+def test_above_threshold_lcc():
+    argv = ["--data", "aboveThreshold.lcc"]
+    if os.environ.get("FAST_RUN"):
+        argv += ["--stop", "bid_patch_1.json"]
     run_test(argv)
 
 
@@ -99,24 +89,16 @@ def test_above_threshold_eu():
 
 
 @skipifenv
-def test_above_threshold_eu_multilot():
-    argv = ["--data", "aboveThresholdEU.multilot"]
+def test_above_threshold_eu_features():
+    argv = ["--data", "aboveThresholdEU.features"]
     if os.environ.get("FAST_RUN"):
         argv += ["--stop", "bid_patch_1.json"]
     run_test(argv)
 
 
 @skipifenv
-def test_above_threshold_eu_plan():
-    argv = ["--data", "aboveThresholdEU.plan"]
-    if os.environ.get("FAST_RUN"):
-        argv += ["--stop", "bid_patch_1.json"]
-    run_test(argv)
-
-
-@skipifenv
-def test_above_threshold_eu_tender():
-    argv = ["--data", "aboveThresholdEU.tender"]
+def test_above_threshold_eu_lcc():
+    argv = ["--data", "aboveThresholdEU.lcc"]
     if os.environ.get("FAST_RUN"):
         argv += ["--stop", "bid_patch_1.json"]
     run_test(argv)
@@ -131,24 +113,8 @@ def test_above_threshold_ua():
 
 
 @skipifenv
-def test_above_threshold_ua_multilot():
-    argv = ["--data", "aboveThresholdUA.multilot"]
-    if os.environ.get("FAST_RUN"):
-        argv += ["--stop", "bid_patch_1.json"]
-    run_test(argv)
-
-
-@skipifenv
 def test_above_threshold_ua_features():
     argv = ["--data", "aboveThresholdUA.features"]
-    if os.environ.get("FAST_RUN"):
-        argv += ["--stop", "bid_patch_1.json"]
-    run_test(argv)
-
-
-@skipifenv
-def test_above_threshold_ua_multilot_features():
-    argv = ["--data", "aboveThresholdUA.multilot.features"]
     if os.environ.get("FAST_RUN"):
         argv += ["--stop", "bid_patch_1.json"]
     run_test(argv)
@@ -163,26 +129,26 @@ def test_above_threshold_ua_lcc():
 
 
 @skipifenv
-def test_above_threshold_ua_multilot_lcc():
-    argv = ["--data", "aboveThresholdUA.multilot.lcc"]
+def test_below_threshold():
+    argv = ["--data", "belowThreshold"]
     if os.environ.get("FAST_RUN"):
-        argv += ["--stop", "bid_patch_1.json"]
+        argv += ["--stop", "tender_patch.json"]
     run_test(argv)
 
 
 @skipifenv
-def test_above_threshold_ua_defense():
-    argv = ["--data", "aboveThresholdUA.defense"]
+def test_below_threshold_central():
+    argv = ["--data", "belowThreshold.central"]
     if os.environ.get("FAST_RUN"):
-        argv += ["--stop", "bid_patch_1.json"]
+        argv += ["--stop", "tender_patch.json"]
     run_test(argv)
 
 
 @skipifenv
-def test_simple_defense():
-    argv = ["--data", "simple.defense"]
+def test_below_threshold_features():
+    argv = ["--data", "belowThreshold.features"]
     if os.environ.get("FAST_RUN"):
-        argv += ["--stop", "bid_patch_1.json"]
+        argv += ["--stop", "tender_patch.json"]
     run_test(argv)
 
 
@@ -219,6 +185,14 @@ def test_competitive_dialogue_ua():
 
 
 @skipifenv
+def test_competitive_dialogue_ua_features():
+    argv = ["--data", "competitiveDialogueUA.features"]
+    if os.environ.get("FAST_RUN"):
+        argv += ["--stop", "bid_patch_1.json"]
+    run_test(argv)
+
+
+@skipifenv
 def test_esco():
     argv = ["--data", "esco"]
     if os.environ.get("FAST_RUN"):
@@ -235,8 +209,26 @@ def test_esco_features():
 
 
 @skipifenv
-def test_esco_multilot():
-    argv = ["--data", "esco.multilot"]
+def test_negotiation():
+    argv = ["--data", "negotiation"]
+    run_test(argv)
+
+
+@skipifenv
+def test_negotiation_quick():
+    argv = ["--data", "negotiation.quick"]
+    run_test(argv)
+
+
+@skipifenv
+def test_reporting():
+    argv = ["--data", "reporting"]
+    run_test(argv)
+
+
+@skipifenv
+def test_simple_defense():
+    argv = ["--data", "simple.defense"]
     if os.environ.get("FAST_RUN"):
         argv += ["--stop", "bid_patch_1.json"]
     run_test(argv)

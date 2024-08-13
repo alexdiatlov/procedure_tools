@@ -46,28 +46,28 @@ jobs:
       max-parallel: 5
       matrix:
         case:
-          - reporting
-          - negotiation
-          - negotiation_quick
-          - below_threshold
-          - below_threshold_multilot
+          - above_threshold
+          - above_threshold_features
+          - above_threshold_lcc
           - above_threshold_eu
-          - above_threshold_eu_multilot
-          - above_threshold_eu_plan
-          - above_threshold_eu_tender
+          - above_threshold_eu_features
+          - above_threshold_eu_lcc
           - above_threshold_ua
-          - above_threshold_ua_multilot
           - above_threshold_ua_features
-          - above_threshold_ua_multilot_features
           - above_threshold_ua_lcc
-          - above_threshold_ua_multilot_lcc
+          - below_threshold
+          - below_threshold_central
+          - below_threshold_features
           - close_framework_agreement_ua
           - close_framework_agreement_ua_central
           - competitive_dialogue_eu
           - competitive_dialogue_ua
+          - competitive_dialogue_ua_features
           - esco
           - esco_features
-          - esco_multilot
+          - negotiation
+          - negotiation_quick
+          - reporting
           - simple_defense
     env:
       PYTHONUNBUFFERED: 1
