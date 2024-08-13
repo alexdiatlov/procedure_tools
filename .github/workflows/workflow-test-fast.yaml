@@ -43,7 +43,7 @@ jobs:
   pytest-fast:
     runs-on: ubuntu-latest
     strategy:
-      max-parallel: 1
+      max-parallel: 5
       matrix:
         case:
           - reporting
