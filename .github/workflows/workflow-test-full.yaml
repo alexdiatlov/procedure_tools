@@ -6,6 +6,7 @@ jobs:
   pytest-full:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       max-parallel: 5
       matrix:
         case:
