@@ -39,6 +39,7 @@ from procedure_tools.utils.handlers import (
     tender_post_complaint_success_handler,
     tender_post_criteria_success_handler,
     tender_post_plan_success_handler,
+    document_attach_success_handler,
 )
 
 EDR_FILENAME = "edr_identification.yaml"
@@ -53,6 +54,23 @@ def get_bids(client, args, context, tender_id):
         else:
             break
     return response
+
+
+def upload_bids_proposal(
+    client, ds_client, args, context, tender_id, bids_ids, bids_tokens, prefix=""
+):
+    for bid_index, bid_id in enumerate(bids_ids):
+        upload_bid_proposal(
+            client,
+            ds_client,
+            args,
+            context,
+            tender_id,
+            bid_id,
+            bids_tokens[bid_index],
+            "bid_proposal_{}".format(bid_index),
+            prefix=prefix,
+        )
 
 
 def patch_bids(client, args, context, tender_id, bids_ids, bids_tokens, prefix=""):
@@ -179,12 +197,7 @@ def patch_agreements(
     for agreement_index, agreement_id in enumerate(agreements_ids):
         for data_file in get_data_all_files(get_data_path(args.data)):
             if data_file.startswith(prefix + "agreement_document"):
-                ds_response = upload_document(
-                    ds_client,
-                    args,
-                    context,
-                    data_file,
-                )
+                ds_response = upload_document_ds(ds_client, args, context, data_file)
                 if ds_response:
                     client.post_tender_agreement_document(
                         tender_id,
@@ -522,14 +535,14 @@ def create_bids(client, ds_client, args, context, tender_id, prefix=""):
     for bid_data_file in bid_data_files:
         bid_documents = []
         for data_file in get_data_all_files(get_data_path(args.data)):
-            if data_file.startswith("{}bid_document".format(prefix)):
-                ds_response = upload_document(ds_client, args, context, data_file)
+            if data_file.startswith("{}bid_document_file".format(prefix)):
+                ds_response = upload_document_ds(ds_client, args, context, data_file)
                 if ds_response:
                     document_data = ds_response.json()["data"]
                     bid_documents.append(document_data)
         for data_file in get_data_all_files(get_data_path(args.data)):
-            if data_file.startswith("{}bid_confidential_document".format(prefix)):
-                ds_response = upload_document(ds_client, args, context, data_file)
+            if data_file.startswith("{}bid_confidential_document_file".format(prefix)):
+                ds_response = upload_document_ds(ds_client, args, context, data_file)
                 if ds_response:
                     document_data = ds_response.json()["data"]
                     document_data["confidentiality"] = "buyerOnly"
@@ -539,22 +552,22 @@ def create_bids(client, ds_client, args, context, tender_id, prefix=""):
                     bid_documents.append(document_data)
         bid_eligibility_documents = []
         for data_file in get_data_all_files(get_data_path(args.data)):
-            if data_file.startswith("{}bid_eligibility_document".format(prefix)):
-                ds_response = upload_document(ds_client, args, context, data_file)
+            if data_file.startswith("{}bid_eligibility_document_file".format(prefix)):
+                ds_response = upload_document_ds(ds_client, args, context, data_file)
                 if ds_response:
                     document_data = ds_response.json()["data"]
                     bid_eligibility_documents.append(document_data)
         bid_financial_documents = []
         for data_file in get_data_all_files(get_data_path(args.data)):
-            if data_file.startswith("{}bid_financial_document".format(prefix)):
-                ds_response = upload_document(ds_client, args, context, data_file)
+            if data_file.startswith("{}bid_financial_document_file".format(prefix)):
+                ds_response = upload_document_ds(ds_client, args, context, data_file)
                 if ds_response:
                     document_data = ds_response.json()["data"]
                     bid_financial_documents.append(document_data)
         bid_qualification_documents = []
         for data_file in get_data_all_files(get_data_path(args.data)):
-            if data_file.startswith("{}bid_qualification_document".format(prefix)):
-                ds_response = upload_document(ds_client, args, context, data_file)
+            if data_file.startswith("{}bid_qualification_document_file".format(prefix)):
+                ds_response = upload_document_ds(ds_client, args, context, data_file)
                 if ds_response:
                     document_data = ds_response.json()["data"]
                     bid_qualification_documents.append(document_data)
@@ -577,7 +590,7 @@ def create_bids(client, ds_client, args, context, tender_id, prefix=""):
     return responses
 
 
-def upload_document(ds_client, args, context, filename):
+def upload_document_ds(ds_client, args, context, filename):
     path = get_data_file_path(get_data_path(args.data), filename)
     with open_file(path, mode="rb") as f:
         mime = MimeTypes()
@@ -672,61 +685,120 @@ def create_tender(
         return response
 
 
-def upload_tender_documents(
-    client, ds_client, args, context, tender_id, tender_token, prefix=""
+def upload_documents(
+    client,
+    ds_client,
+    args,
+    context,
+    data_name,
+    attach_callback,
+    prefix="",
 ):
     for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("{}tender_document".format(prefix)):
-            ds_response = upload_document(
-                ds_client,
-                args,
-                context,
-                data_file,
-            )
-            if ds_response:
-                data = ds_response.json()["data"]
-                client.post_tender_document(
-                    tender_id,
-                    tender_token,
-                    {"data": data},
-                    auth_token=args.token,
-                )
+        if data_file.startswith("{}{}_attach".format(prefix, data_name)):
+            path = get_data_file_path(get_data_path(args.data), data_file)
+            with read_file(path, context=context, exit_filename=args.stop) as content:
+                tender_document_data = json.loads(content)
+                upload_file = tender_document_data["data"]["title"]
+                ds_response = upload_document_ds(ds_client, args, context, upload_file)
+                if ds_response:
+                    data = ds_response.json()["data"]
+                    # apply data from data_file on top to add additional fields like documentType
+                    data.update(tender_document_data["data"])
+                    attach_callback(
+                        json={"data": data},
+                        auth_token=args.token,
+                        success_handler=document_attach_success_handler,
+                    )
+
+
+def upload_tender_documents(
+    client,
+    ds_client,
+    args,
+    context,
+    tender_id,
+    tender_token,
+    prefix="",
+):
+    upload_documents(
+        client,
+        ds_client,
+        args,
+        context,
+        data_name="tender_document",
+        attach_callback=partial(
+            client.post_tender_document,
+            tender_id,
+            tender_token,
+        ),
+        prefix=prefix,
+    )
 
 
 def upload_tender_notice(
-    client, ds_client, args, context, tender_id, tender_token, prefix=""
+    client,
+    ds_client,
+    args,
+    context,
+    tender_id,
+    tender_token,
+    prefix="",
 ):
-    for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("{}tender_notice".format(prefix)):
-            ds_response = upload_document(
-                ds_client,
-                args,
-                context,
-                data_file,
-            )
-            if ds_response:
-                data = ds_response.json()["data"]
-                data["documentType"] = "notice"
-                response = client.post_tender_document(
-                    tender_id,
-                    tender_token,
-                    {"data": data},
-                    auth_token=args.token,
-                )
-                return response
+    upload_documents(
+        client,
+        ds_client,
+        args,
+        context,
+        data_name="tender_notice",
+        attach_callback=partial(
+            client.post_tender_document,
+            tender_id,
+            tender_token,
+        ),
+        prefix=prefix,
+    )
+
+
+def upload_bid_proposal(
+    client,
+    ds_client,
+    args,
+    context,
+    tender_id,
+    bid_id,
+    bid_token,
+    data_name,
+    prefix="",
+):
+    upload_documents(
+        client,
+        ds_client,
+        args,
+        context,
+        data_name,
+        attach_callback=partial(
+            client.post_tender_bid_document,
+            tender_id,
+            bid_id,
+            bid_token,
+        ),
+        prefix=prefix,
+    )
 
 
 def upload_evaluation_report(
-    client, ds_client, args, context, tender_id, tender_token, prefix=""
+    client,
+    ds_client,
+    args,
+    context,
+    tender_id,
+    tender_token,
+    prefix="",
 ):
     for data_file in get_data_all_files(get_data_path(args.data)):
         if data_file.startswith("{}evaluation_report".format(prefix)):
-            ds_response = upload_document(
-                ds_client,
-                args,
-                context,
-                data_file,
-            )
+            ds_response = upload_document_ds(ds_client, args, context, data_file)
             if ds_response:
                 data = ds_response.json()["data"]
                 data["documentType"] = "evaluationReports"
@@ -754,12 +826,7 @@ def re_upload_evaluation_report(
 ):
     for data_file in get_data_all_files(get_data_path(args.data)):
         if data_file.startswith("{}evaluation_report".format(prefix)):
-            ds_response = upload_document(
-                ds_client,
-                args,
-                context,
-                data_file,
-            )
+            ds_response = upload_document_ds(ds_client, args, context, data_file)
             if ds_response:
                 data = ds_response.json()["data"]
                 data["documentType"] = "evaluationReports"

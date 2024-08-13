@@ -67,6 +67,7 @@ from procedure_tools.utils.process import (
     wait_edr_pre_qual,
     wait_edr_qual,
     wait_status,
+    upload_bids_proposal,
 )
 
 try:
@@ -416,6 +417,16 @@ def process_procedure(
                 tender_criteria,
                 prefix=prefix,
             )
+        upload_bids_proposal(
+            client,
+            ds_client,
+            args,
+            context,
+            tender_id,
+            bids_ids,
+            bids_tokens,
+            prefix=prefix,
+        )
         patch_bids(
             client,
             args,

@@ -247,3 +247,17 @@ def tender_post_complaint_success_handler(response):
     msg += " - status \t\t\t{}\n".format(fore_info(complaint["status"]))
 
     logging.info(msg)
+
+
+def document_attach_success_handler(response):
+    data = response.json()["data"]
+
+    msg = "Document attached:\n"
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+    msg += " - url \t\t\t\t{}\n".format(fore_info(data["url"]))
+    if "documentType" in data:
+        msg += " - documentType \t\t{}\n".format(fore_info(data["documentType"]))
+    if "confidentiality" in data:
+        msg += " - confidentiality \t\t{}\n".format(fore_info(data["confidentiality"]))
+
+    logging.info(msg)
