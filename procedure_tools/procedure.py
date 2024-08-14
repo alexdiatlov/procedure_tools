@@ -405,7 +405,9 @@ def process_procedure(
         bids_ids = [bid_json["data"]["id"] for bid_json in bids_jsons]
         bids_tokens = [bid_json["access"]["token"] for bid_json in bids_jsons]
         if tender_criteria:
-            bids_documents = [bid_json["data"].get("documents", []) for bid_json in bids_jsons]
+            bids_documents = [
+                bid_json["data"].get("documents", []) for bid_json in bids_jsons
+            ]
             post_bid_res(
                 client,
                 args,

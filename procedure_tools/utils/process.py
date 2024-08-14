@@ -544,9 +544,13 @@ def create_bids(client, ds_client, args, context, tender_id, prefix=""):
                 "qualificationDocuments",
             ):
                 bid_documents = []
-                for bid_document_data in bid_create_data["data"].get(bid_document_container, []):
+                for bid_document_data in bid_create_data["data"].get(
+                    bid_document_container, []
+                ):
                     upload_file = bid_document_data["title"]
-                    ds_response = upload_document_ds(ds_client, args, context, upload_file)
+                    ds_response = upload_document_ds(
+                        ds_client, args, context, upload_file
+                    )
                     if ds_response:
                         document_data = ds_response.json()["data"]
                         document_data.update(bid_document_data)
@@ -684,7 +688,11 @@ def upload_documents(
                         auth_token=args.token,
                         success_handler=document_attach_success_handler,
                     )
-                    if not ignore_error or ignore_error and 200 <= response.status_code < 300:
+                    if (
+                        not ignore_error
+                        or ignore_error
+                        and 200 <= response.status_code < 300
+                    ):
                         responses.append(response)
     return responses
 

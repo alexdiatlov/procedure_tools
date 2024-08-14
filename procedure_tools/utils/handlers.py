@@ -124,7 +124,9 @@ def bid_create_success_handler(response):
         "qualificationDocuments",
     ):
         for document in data.get(bid_document_container, []):
-            response = type('Response', (object,), {'json': lambda self: {"data": document}})()
+            response = type(
+                "Response", (object,), {"json": lambda self: {"data": document}}
+            )()
             document_attach_success_handler(response)
 
     logging.info(msg)
