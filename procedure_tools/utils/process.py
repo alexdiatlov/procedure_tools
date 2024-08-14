@@ -692,8 +692,10 @@ def upload_documents(
     context,
     data_name,
     attach_callback,
+    ignore_error=False,
     prefix="",
 ):
+    responses = []
     for data_file in get_data_all_files(get_data_path(args.data)):
         if data_file.startswith("{}{}_attach".format(prefix, data_name)):
             path = get_data_file_path(get_data_path(args.data), data_file)
@@ -705,11 +707,14 @@ def upload_documents(
                     data = ds_response.json()["data"]
                     # apply data from data_file on top to add additional fields like documentType
                     data.update(tender_document_data["data"])
-                    attach_callback(
+                    response = attach_callback(
                         json={"data": data},
                         auth_token=args.token,
                         success_handler=document_attach_success_handler,
                     )
+                    if not ignore_error or ignore_error and 200 <= response.status_code < 300:
+                        responses.append(response)
+    return responses
 
 
 def upload_tender_documents(
@@ -721,7 +726,7 @@ def upload_tender_documents(
     tender_token,
     prefix="",
 ):
-    upload_documents(
+    return upload_documents(
         client,
         ds_client,
         args,
@@ -745,7 +750,7 @@ def upload_tender_notice(
     tender_token,
     prefix="",
 ):
-    upload_documents(
+    return upload_documents(
         client,
         ds_client,
         args,
@@ -771,7 +776,7 @@ def upload_bid_proposal(
     data_name,
     prefix="",
 ):
-    upload_documents(
+    return upload_documents(
         client,
         ds_client,
         args,
@@ -796,22 +801,21 @@ def upload_evaluation_report(
     tender_token,
     prefix="",
 ):
-    for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("{}evaluation_report".format(prefix)):
-            ds_response = upload_document_ds(ds_client, args, context, data_file)
-            if ds_response:
-                data = ds_response.json()["data"]
-                data["documentType"] = "evaluationReports"
-                response = client.post_tender_document(
-                    tender_id,
-                    tender_token,
-                    {"data": data},
-                    auth_token=args.token,
-                    error_handler=allow_error_handler,  # TODO: Remove after feature release
-                )
-                if not response.status_code == 201:
-                    return  # TODO: Remove after feature release
-                return response
+    return upload_documents(
+        client,
+        ds_client,
+        args,
+        context,
+        "evaluation_report",
+        attach_callback=partial(
+            client.post_tender_document,
+            tender_id,
+            tender_token,
+            error_handler=allow_error_handler,  # TODO: Remove after feature release
+        ),
+        ignore_error=True,  # TODO: Remove after feature release
+        prefix=prefix,
+    )
 
 
 def re_upload_evaluation_report(
@@ -824,20 +828,22 @@ def re_upload_evaluation_report(
     tender_token,
     prefix="",
 ):
-    for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("{}evaluation_report".format(prefix)):
-            ds_response = upload_document_ds(ds_client, args, context, data_file)
-            if ds_response:
-                data = ds_response.json()["data"]
-                data["documentType"] = "evaluationReports"
-                client.put_tender_document(
-                    tender_id,
-                    document_id,
-                    tender_token,
-                    {"data": data},
-                    auth_token=args.token,
-                    error_handler=allow_error_handler,  # TODO: Remove after feature release
-                )
+    return upload_documents(
+        client,
+        ds_client,
+        args,
+        context,
+        "evaluation_report",
+        attach_callback=partial(
+            client.put_tender_document,
+            tender_id,
+            document_id,
+            tender_token,
+            error_handler=allow_error_handler,  # TODO: Remove after feature release
+        ),
+        ignore_error=True,  # TODO: Remove after feature release
+        prefix=prefix,
+    )
 
 
 def wait(date_str, client_timedelta=timedelta(), date_info_str=None):

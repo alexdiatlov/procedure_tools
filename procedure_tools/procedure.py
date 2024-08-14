@@ -491,7 +491,7 @@ def process_procedure(
             prefix=prefix,
         )
 
-        response = upload_evaluation_report(
+        responses = upload_evaluation_report(
             client,
             ds_client,
             args,
@@ -500,8 +500,8 @@ def process_procedure(
             tender_token,
             prefix=prefix,
         )
-        if response:
-            evaluation_report_document_id = get_id(response)
+        if responses and len(responses) >= 1:
+            evaluation_report_document_id = get_id(responses[-1])
 
         patch_tender_pre(
             client,
