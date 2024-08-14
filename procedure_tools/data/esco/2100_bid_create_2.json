@@ -91,6 +91,31 @@
         "name": "«Снігур»",
         "scale": "micro"
       }
+    ],
+    "documents": [
+      {
+        "title": "bid_document_file.txt"
+      },
+      {
+        "title": "bid_confidential_document_file.txt",
+        "confidentiality": "buyerOnly",
+        "confidentialityRationale": "Доступ до цього документу має бути обмежений лише для замовника"
+      }
+    ],
+    "eligibilityDocuments": [
+      {
+        "title": "bid_eligibility_document_file.txt"
+      }
+    ],
+    "financialDocuments": [
+      {
+        "title": "bid_financial_document_file.txt"
+      }
+    ],
+    "qualificationDocuments": [
+      {
+        "title": "bid_qualification_document_file.txt"
+      }
     ]
   }
 }

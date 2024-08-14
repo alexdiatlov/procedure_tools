@@ -5,13 +5,7 @@ import random
 
 from faker import Faker
 
-from procedure_tools.client import (
-    AgreementsApiClient,
-    ContractsApiClient,
-    DsApiClient,
-    PlansApiClient,
-    TendersApiClient,
-)
+from procedure_tools.client import CDBClient, DsApiClient
 from procedure_tools.utils.data import (
     get_access,
     get_award_id,
@@ -27,8 +21,7 @@ from procedure_tools.utils.data import (
     get_submission_method_details,
     get_token,
 )
-from procedure_tools.utils.date import get_client_timedelta
-from procedure_tools.utils.file import get_data_path
+from procedure_tools.utils.file import get_data_path, get_numberless_filename
 from procedure_tools.utils.process import (
     create_awards,
     create_bids,
@@ -74,6 +67,7 @@ from procedure_tools.utils.process import (
     wait_edr_pre_qual,
     wait_edr_qual,
     wait_status,
+    upload_bids_proposal,
 )
 
 try:
@@ -96,6 +90,9 @@ def set_faker_seed(args):
 def init_procedure(args, session=None):
     set_faker_seed(args)
 
+    if args.stop:
+        args.stop = get_numberless_filename(args.stop)
+
     data_path = get_data_path(args.data)
     if data_path is None:
         logging.error("Data path not found.\n")
@@ -114,48 +111,12 @@ def process_procedure(
 ):
     context = context or {}
 
-    tenders_client = TendersApiClient(
+    client = CDBClient(
         args.host,
         args.token,
         args.path,
         session=session,
         debug=args.debug,
-    )
-    contracts_client = ContractsApiClient(
-        args.host,
-        args.token,
-        args.path,
-        session=session,
-        debug=args.debug,
-    )
-    plans_client = PlansApiClient(
-        args.host,
-        args.token,
-        args.path,
-        session=session,
-        debug=args.debug,
-    )
-    tenders_reviewer_client = (
-        TendersApiClient(
-            args.host,
-            args.reviewer_token,
-            args.path,
-            session=session,
-            debug=args.debug,
-        )
-        if args.reviewer_token
-        else None
-    )
-    tenders_bot_client = (
-        TendersApiClient(
-            args.host,
-            args.bot_token,
-            args.path,
-            session=session,
-            debug=args.debug,
-        )
-        if args.bot_token
-        else None
     )
     ds_client = DsApiClient(
         args.ds_host,
@@ -167,25 +128,14 @@ def process_procedure(
 
     context["acceleration"] = args.acceleration
     context["submission"] = args.submission
-
-    client_timedelta = get_client_timedelta(
-        [
-            tenders_client,
-            contracts_client,
-            plans_client,
-            tenders_bot_client,
-            tenders_reviewer_client,
-        ]
-    )
-
-    context["client_timedelta"] = client_timedelta
+    context["client_timedelta"] = client.client_timedelta
 
     if not tender_id and not tender_token:
         # It means that we are starting a new procedure
         # not a second stage of another
 
         response = create_plan(
-            plans_client,
+            client,
             args,
             context,
             prefix=prefix,
@@ -196,7 +146,7 @@ def process_procedure(
             plan_id = get_id(response)
             plan_token = get_token(response)
             response = patch_plan(
-                plans_client,
+                client,
                 args,
                 context,
                 plan_id,
@@ -204,7 +154,7 @@ def process_procedure(
                 prefix=prefix,
             )
             response = create_tender(
-                plans_client,
+                client,
                 ds_client,
                 args,
                 context,
@@ -215,7 +165,7 @@ def process_procedure(
             # Start procedure without a plan
             plan_id = None
             response = create_tender(
-                tenders_client,
+                client,
                 ds_client,
                 args,
                 context,
@@ -243,7 +193,7 @@ def process_procedure(
             # Create multiple plans
             # Used in central kind procedures
             plans_responses = create_plans(
-                plans_client,
+                client,
                 args,
                 context,
                 prefix=prefix,
@@ -252,7 +202,7 @@ def process_procedure(
                 # Attach multiple plans to the tender
                 plan_id = plan_response.json()["data"]["id"]
                 post_tender_plan(
-                    tenders_client,
+                    client,
                     args,
                     context,
                     tender_id,
@@ -261,7 +211,7 @@ def process_procedure(
                     prefix=prefix,
                 )
 
-    response = get_tender(tenders_client, args, context, tender_id)
+    response = get_tender(client, args, context, tender_id)
 
     tender = get_data(response)
     context[f"{prefix}tender"] = tender
@@ -273,7 +223,7 @@ def process_procedure(
     submission_method_details = get_submission_method_details(response)
 
     upload_tender_documents(
-        tenders_client,
+        client,
         ds_client,
         args,
         context,
@@ -295,7 +245,7 @@ def process_procedure(
         "esco",
     ):
         criteria_response = post_criteria(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -310,7 +260,7 @@ def process_procedure(
         tender_criteria = None
 
     upload_tender_notice(
-        tenders_client,
+        client,
         ds_client,
         args,
         context,
@@ -335,7 +285,7 @@ def process_procedure(
         "simple.defense",
     ):
         response = patch_tender(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -345,7 +295,7 @@ def process_procedure(
 
     if method_type in ("closeFrameworkAgreementSelectionUA",):
         patch_tender_pending(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -355,7 +305,7 @@ def process_procedure(
 
     if method_type in ("closeFrameworkAgreementSelectionUA",):
         wait_status(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -367,7 +317,7 @@ def process_procedure(
     if method_type in ("belowThreshold",):
         wait(
             get_next_check(response),
-            client_timedelta=client_timedelta,
+            client_timedelta=client.client_timedelta,
             date_info_str="next chronograph check",
         )
 
@@ -375,10 +325,10 @@ def process_procedure(
         "belowThreshold",
         "closeFrameworkAgreementSelectionUA",
     ):
-        response = get_tender(tenders_client, args, context, tender_id)
+        response = get_tender(client, args, context, tender_id)
 
         wait_status(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -392,7 +342,7 @@ def process_procedure(
         "competitiveDialogueUA.stage2",
     ):
         patch_tender_tendering(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -401,7 +351,7 @@ def process_procedure(
         )
 
     comp_responses = create_complaints(
-        tenders_client,
+        client,
         args,
         context,
         tender_id,
@@ -414,9 +364,7 @@ def process_procedure(
         comp_ids = [comp_json["data"]["id"] for comp_json in comp_jsons]
         comp_tokens = [comp_json["access"]["token"] for comp_json in comp_jsons]
         patch_complaints(
-            tenders_client,
-            tenders_bot_client,
-            tenders_reviewer_client,
+            client,
             args,
             context,
             tender_id,
@@ -446,7 +394,7 @@ def process_procedure(
         "simple.defense",
     ):
         bids_responses = create_bids(
-            tenders_client,
+            client,
             ds_client,
             args,
             context,
@@ -457,9 +405,11 @@ def process_procedure(
         bids_ids = [bid_json["data"]["id"] for bid_json in bids_jsons]
         bids_tokens = [bid_json["access"]["token"] for bid_json in bids_jsons]
         if tender_criteria:
-            bids_documents = [bid_json["data"]["documents"] for bid_json in bids_jsons]
+            bids_documents = [
+                bid_json["data"].get("documents", []) for bid_json in bids_jsons
+            ]
             post_bid_res(
-                tenders_client,
+                client,
                 args,
                 context,
                 tender_id,
@@ -469,8 +419,18 @@ def process_procedure(
                 tender_criteria,
                 prefix=prefix,
             )
+        upload_bids_proposal(
+            client,
+            ds_client,
+            args,
+            context,
+            tender_id,
+            bids_ids,
+            bids_tokens,
+            prefix=prefix,
+        )
         patch_bids(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -496,16 +456,16 @@ def process_procedure(
         "esco",
         "simple.defense",
     ):
-        response = get_tender(tenders_client, args, context, tender_id)
+        response = get_tender(client, args, context, tender_id)
         wait(
             get_next_check(response),
-            client_timedelta=client_timedelta,
+            client_timedelta=client.client_timedelta,
             date_info_str="next chronograph check",
         )
 
     if config["hasPrequalification"]:
         wait_status(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -516,15 +476,15 @@ def process_procedure(
 
     if config["hasPrequalification"]:
         if WAIT_EDR_PRE_QUAL in args.wait.split(","):
-            wait_edr_pre_qual(tenders_client, args, context, tender_id)
+            wait_edr_pre_qual(client, args, context, tender_id)
 
     qualifications_ids = []
 
     if config["hasPrequalification"]:
-        response = get_qualifications(tenders_client, args, context, tender_id)
+        response = get_qualifications(client, args, context, tender_id)
         qualifications_ids = get_ids(response)
         patch_qualifications(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -533,8 +493,8 @@ def process_procedure(
             prefix=prefix,
         )
 
-        response = upload_evaluation_report(
-            tenders_client,
+        responses = upload_evaluation_report(
+            client,
             ds_client,
             args,
             context,
@@ -542,11 +502,11 @@ def process_procedure(
             tender_token,
             prefix=prefix,
         )
-        if response:
-            evaluation_report_document_id = get_id(response)
+        if responses and len(responses) >= 1:
+            evaluation_report_document_id = get_id(responses[-1])
 
         patch_tender_pre(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -557,7 +517,7 @@ def process_procedure(
     if bids_tokens:
         for qualification_index, qualification_id in enumerate(qualifications_ids):
             comp_responses = create_complaints(
-                tenders_client,
+                client,
                 args,
                 context,
                 tender_id,
@@ -573,9 +533,7 @@ def process_procedure(
                 comp_ids = [comp_json["data"]["id"] for comp_json in comp_jsons]
                 comp_tokens = [comp_json["access"]["token"] for comp_json in comp_jsons]
                 patch_complaints(
-                    tenders_client,
-                    tenders_bot_client,
-                    tenders_reviewer_client,
+                    client,
                     args,
                     context,
                     tender_id,
@@ -589,7 +547,7 @@ def process_procedure(
                     prefix=prefix,
                 )
 
-    response = get_tender(tenders_client, args, context, tender_id)
+    response = get_tender(client, args, context, tender_id)
     tender_status = response.json()["data"]["status"]
 
     if tender_status == "active.pre-qualification":
@@ -599,7 +557,7 @@ def process_procedure(
         # - switch again to active.pre-qualification.stand-still
 
         re_upload_evaluation_report(
-            tenders_client,
+            client,
             ds_client,
             args,
             context,
@@ -610,7 +568,7 @@ def process_procedure(
         )
 
         patch_tender_pre(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -623,7 +581,7 @@ def process_procedure(
         "competitiveDialogueUA",
     ):
         wait_status(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -631,7 +589,7 @@ def process_procedure(
             status="active.stage2.pending",
             fail_status="unsuccessful",
         )
-        patch_tender_waiting(tenders_client, args, context, tender_id, tender_token)
+        patch_tender_waiting(client, args, context, tender_id, tender_token)
 
     if method_type in (
         "belowThreshold",
@@ -647,7 +605,7 @@ def process_procedure(
         "simple.defense",
     ):
         wait_status(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -669,7 +627,7 @@ def process_procedure(
             )
         )
     ):
-        wait_auction_participation_urls(tenders_client, tender_id, bids_jsons)
+        wait_auction_participation_urls(client, args, tender_id, bids_jsons)
 
     if method_type in (
         "belowThreshold",
@@ -685,7 +643,7 @@ def process_procedure(
         "simple.defense",
     ):
         wait_status(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -695,11 +653,11 @@ def process_procedure(
         )
 
     if method_type in ("negotiation", "negotiation.quick", "reporting"):
-        create_awards(tenders_client, args, context, tender_id, tender_token)
+        create_awards(client, args, context, tender_id, tender_token)
 
     if method_type in ("negotiation", "negotiation.quick", "reporting"):
         wait_status(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -708,7 +666,7 @@ def process_procedure(
         )
 
     if WAIT_EDR_QUAL in args.wait.split(","):
-        wait_edr_qual(tenders_client, args, context, tender_id)
+        wait_edr_qual(client, args, context, tender_id)
 
     awards_ids = []
 
@@ -728,12 +686,12 @@ def process_procedure(
         "esco",
         "simple.defense",
     ):
-        response = get_awards(tenders_client, args, context, tender_id)
+        response = get_awards(client, args, context, tender_id)
         awards_ids = get_ids(response)
         award_action_index = 0
         while True:
             responses = patch_award(
-                tenders_client,
+                client,
                 args,
                 context,
                 tender_id,
@@ -747,16 +705,16 @@ def process_procedure(
                 # that means we have reached the end of actions
                 break
             award_action_index += 1
-            response = get_awards(tenders_client, args, context, tender_id)
+            response = get_awards(client, args, context, tender_id)
             awards_ids = get_ids(response)
 
     if method_type in ("closeFrameworkAgreementUA",):
-        patch_tender_qual(tenders_client, args, context, tender_id, tender_token)
+        patch_tender_qual(client, args, context, tender_id, tender_token)
 
     if bids_tokens:
         for award_index, award_id in enumerate(awards_ids):
             comp_responses = create_complaints(
-                tenders_client,
+                client,
                 args,
                 context,
                 tender_id,
@@ -772,9 +730,7 @@ def process_procedure(
                 comp_ids = [comp_json["data"]["id"] for comp_json in comp_jsons]
                 comp_tokens = [comp_json["access"]["token"] for comp_json in comp_jsons]
                 patch_complaints(
-                    tenders_client,
-                    tenders_bot_client,
-                    tenders_reviewer_client,
+                    client,
                     args,
                     context,
                     tender_id,
@@ -789,13 +745,13 @@ def process_procedure(
                 )
 
     if method_type in ("closeFrameworkAgreementUA",):
-        response = get_tender(tenders_client, args, context, tender_id)
+        response = get_tender(client, args, context, tender_id)
         tender_status = response.json()["data"]["status"]
 
         if tender_status == "active.qualification":
             # satisfied complaint changes tender status to active.qualification,
             # so we need to switch it again to active.qualification.stand-still
-            patch_tender_qual(tenders_client, args, context, tender_id, tender_token)
+            patch_tender_qual(client, args, context, tender_id, tender_token)
 
     if method_type in (
         "closeFrameworkAgreementUA",
@@ -804,7 +760,7 @@ def process_procedure(
         "esco",
     ):
         wait_status(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -825,11 +781,11 @@ def process_procedure(
         "esco",
         "simple.defense",
     ):
-        response = get_awards(tenders_client, args, context, tender_id)
+        response = get_awards(client, args, context, tender_id)
         awards_complaint_dates = get_complaint_period_end_dates(response)
         wait(
             max(awards_complaint_dates),
-            client_timedelta=client_timedelta,
+            client_timedelta=client.client_timedelta,
             date_info_str="end of award complaint period",
         )
 
@@ -850,12 +806,12 @@ def process_procedure(
         "esco",
         "simple.defense",
     ):
-        response = get_tender_contracts(tenders_client, args, context, tender_id)
+        response = get_tender_contracts(client, args, context, tender_id)
         contracts_ids = get_ids(response, status_exclude="cancelled")
 
     if method_type in ("esco",):
         patch_tender_contracts(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -884,10 +840,10 @@ def process_procedure(
         "simple.defense",
     ):
         for contracts_id in contracts_ids:
-            response = get_contract(contracts_client, args, context, contracts_id)
+            response = get_contract(client, args, context, contracts_id)
             context["contracts"].append(response.json()["data"])
             response = patch_contract_credentials(
-                contracts_client,
+                client,
                 args,
                 context,
                 contracts_id,
@@ -908,7 +864,7 @@ def process_procedure(
         "simple.defense",
     ):
         patch_contracts_buyer_signer_info(
-            contracts_client,
+            client,
             args,
             context,
             contracts_ids,
@@ -916,7 +872,7 @@ def process_procedure(
             prefix=prefix,
         )
 
-        response = get_awards(tenders_client, args, context, tender_id)
+        response = get_awards(client, args, context, tender_id)
         contracts_bid_tokens = get_contracts_bid_tokens(
             response,
             bids_ids,
@@ -925,7 +881,7 @@ def process_procedure(
         )
 
         patch_contracts_suppliers_signer_info(
-            contracts_client,
+            client,
             args,
             context,
             contracts_ids,
@@ -948,7 +904,7 @@ def process_procedure(
         "simple.defense",
     ):
         patch_contracts(
-            contracts_client,
+            client,
             args,
             context,
             contracts_ids,
@@ -957,17 +913,17 @@ def process_procedure(
         )
 
     if method_type in ("closeFrameworkAgreementUA",):
-        response = get_tender(tenders_client, args, context, tender_id)
+        response = get_tender(client, args, context, tender_id)
         contract_period_clarif_date = get_contract_period_clarif_date(response)
         wait(
             contract_period_clarif_date,
-            client_timedelta=client_timedelta,
+            client_timedelta=client.client_timedelta,
             date_info_str="contract period clarifications until date",
         )
-        response = get_agreements(tenders_client, args, context, tender_id)
+        response = get_agreements(client, args, context, tender_id)
         agreements_ids = get_ids(response)
         patch_agreements_contracts(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -975,7 +931,7 @@ def process_procedure(
             tender_token,
         )
         patch_agreements(
-            tenders_client,
+            client,
             ds_client,
             args,
             context,
@@ -1003,7 +959,7 @@ def process_procedure(
         "simple.defense",
     ):
         wait_status(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -1015,10 +971,10 @@ def process_procedure(
         "competitiveDialogueEU",
         "competitiveDialogueUA",
     ):
-        response = get_tender(tenders_client, args, context, tender_id)
+        response = get_tender(client, args, context, tender_id)
         tender_id = response.json()["data"]["stage2TenderID"]
         response = patch_stage2_credentials(
-            tenders_client,
+            client,
             args,
             context,
             tender_id,
@@ -1036,21 +992,14 @@ def process_procedure(
         )
 
     if method_type in ("closeFrameworkAgreementUA",):
-        response = get_tender(tenders_client, args, context, tender_id)
+        response = get_tender(client, args, context, tender_id)
         agreement_id = response.json()["data"]["agreements"][-1]["id"]
 
-        agreement_client = AgreementsApiClient(
-            args.host,
-            args.token,
-            args.path,
-            session=session,
-            debug=args.debug,
-        )
-        response = get_agreement(agreement_client, args, context, agreement_id)
+        response = get_agreement(client, args, context, agreement_id)
         context["agreement"] = response.json()["data"]
 
         response = create_tender(
-            tenders_client,
+            client,
             ds_client,
             args,
             context,

@@ -117,6 +117,18 @@ def bid_create_success_handler(response):
     msg += " - token \t\t\t{}\n".format(fore_info(access["token"]))
     msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
 
+    for bid_document_container in (
+        "documents",
+        "eligibilityDocuments",
+        "financialDocuments",
+        "qualificationDocuments",
+    ):
+        for document in data.get(bid_document_container, []):
+            response = type(
+                "Response", (object,), {"json": lambda self: {"data": document}}
+            )()
+            document_attach_success_handler(response)
+
     logging.info(msg)
 
 
@@ -245,5 +257,20 @@ def tender_post_complaint_success_handler(response):
     complaint = response.json()["data"]
     msg += " - id \t\t\t\t{}\n".format(fore_info(complaint["id"]))
     msg += " - status \t\t\t{}\n".format(fore_info(complaint["status"]))
+
+    logging.info(msg)
+
+
+def document_attach_success_handler(response):
+    data = response.json()["data"]
+
+    msg = "Document attached:\n"
+    msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
+    if "url" in data:
+        msg += " - url \t\t\t\t{}\n".format(fore_info(data["url"]))
+    if "documentType" in data:
+        msg += " - documentType \t\t{}\n".format(fore_info(data["documentType"]))
+    if "confidentiality" in data:
+        msg += " - confidentiality \t\t{}\n".format(fore_info(data["confidentiality"]))
 
     logging.info(msg)
