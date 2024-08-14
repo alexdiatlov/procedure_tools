@@ -117,6 +117,16 @@ def bid_create_success_handler(response):
     msg += " - token \t\t\t{}\n".format(fore_info(access["token"]))
     msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
 
+    for bid_document_container in (
+        "documents",
+        "eligibilityDocuments",
+        "financialDocuments",
+        "qualificationDocuments",
+    ):
+        for document in data.get(bid_document_container, []):
+            response = type('Response', (object,), {'json': lambda self: {"data": document}})()
+            document_attach_success_handler(response)
+
     logging.info(msg)
 
 
@@ -254,7 +264,8 @@ def document_attach_success_handler(response):
 
     msg = "Document attached:\n"
     msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
-    msg += " - url \t\t\t\t{}\n".format(fore_info(data["url"]))
+    if "url" in data:
+        msg += " - url \t\t\t\t{}\n".format(fore_info(data["url"]))
     if "documentType" in data:
         msg += " - documentType \t\t{}\n".format(fore_info(data["documentType"]))
     if "confidentiality" in data:

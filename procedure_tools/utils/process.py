@@ -111,10 +111,11 @@ def post_bid_res(
                 if "evidences" in bid_res:
                     for evidence in bid_res["evidences"]:
                         if evidence["type"] == "document":
-                            bid_document = bids_documents[bid_index][0]
-                            related_document = evidence["relatedDocument"]
-                            related_document["id"] = bid_document["id"]
-                            related_document["title"] = bid_document["title"]
+                            if bids_documents[bid_index]:
+                                bid_document = bids_documents[bid_index][0]
+                                related_document = evidence["relatedDocument"]
+                                related_document["id"] = bid_document["id"]
+                                related_document["title"] = bid_document["title"]
                 for tender_criteria_item in tender_criteria:
                     for group in tender_criteria_item["requirementGroups"]:
                         for req in group["requirements"]:
@@ -533,53 +534,24 @@ def create_bids(client, ds_client, args, context, tender_id, prefix=""):
             bid_data_files.append(data_file)
     responses = []
     for bid_data_file in bid_data_files:
-        bid_documents = []
-        for data_file in get_data_all_files(get_data_path(args.data)):
-            if data_file.startswith("{}bid_document_file".format(prefix)):
-                ds_response = upload_document_ds(ds_client, args, context, data_file)
-                if ds_response:
-                    document_data = ds_response.json()["data"]
-                    bid_documents.append(document_data)
-        for data_file in get_data_all_files(get_data_path(args.data)):
-            if data_file.startswith("{}bid_confidential_document_file".format(prefix)):
-                ds_response = upload_document_ds(ds_client, args, context, data_file)
-                if ds_response:
-                    document_data = ds_response.json()["data"]
-                    document_data["confidentiality"] = "buyerOnly"
-                    document_data["confidentialityRationale"] = (
-                        f"Some {'long ' * 10}rationale"
-                    )
-                    bid_documents.append(document_data)
-        bid_eligibility_documents = []
-        for data_file in get_data_all_files(get_data_path(args.data)):
-            if data_file.startswith("{}bid_eligibility_document_file".format(prefix)):
-                ds_response = upload_document_ds(ds_client, args, context, data_file)
-                if ds_response:
-                    document_data = ds_response.json()["data"]
-                    bid_eligibility_documents.append(document_data)
-        bid_financial_documents = []
-        for data_file in get_data_all_files(get_data_path(args.data)):
-            if data_file.startswith("{}bid_financial_document_file".format(prefix)):
-                ds_response = upload_document_ds(ds_client, args, context, data_file)
-                if ds_response:
-                    document_data = ds_response.json()["data"]
-                    bid_financial_documents.append(document_data)
-        bid_qualification_documents = []
-        for data_file in get_data_all_files(get_data_path(args.data)):
-            if data_file.startswith("{}bid_qualification_document_file".format(prefix)):
-                ds_response = upload_document_ds(ds_client, args, context, data_file)
-                if ds_response:
-                    document_data = ds_response.json()["data"]
-                    bid_qualification_documents.append(document_data)
         path = get_data_file_path(get_data_path(args.data), bid_data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             bid_create_data = json.loads(content)
-            bid_create_data["data"]["documents"] = bid_documents
-            bid_create_data["data"]["eligibilityDocuments"] = bid_eligibility_documents
-            bid_create_data["data"]["financialDocuments"] = bid_financial_documents
-            bid_create_data["data"][
-                "qualificationDocuments"
-            ] = bid_qualification_documents
+            for bid_document_container in (
+                "documents",
+                "eligibilityDocuments",
+                "financialDocuments",
+                "qualificationDocuments",
+            ):
+                bid_documents = []
+                for bid_document_data in bid_create_data["data"].get(bid_document_container, []):
+                    upload_file = bid_document_data["title"]
+                    ds_response = upload_document_ds(ds_client, args, context, upload_file)
+                    if ds_response:
+                        document_data = ds_response.json()["data"]
+                        document_data.update(bid_document_data)
+                        bid_documents.append(document_data)
+                bid_create_data["data"][bid_document_container] = bid_documents
             response = client.post_tender_bid(
                 tender_id,
                 bid_create_data,
@@ -704,11 +676,11 @@ def upload_documents(
                 upload_file = tender_document_data["data"]["title"]
                 ds_response = upload_document_ds(ds_client, args, context, upload_file)
                 if ds_response:
-                    data = ds_response.json()["data"]
+                    document_data = ds_response.json()["data"]
                     # apply data from data_file on top to add additional fields like documentType
-                    data.update(tender_document_data["data"])
+                    document_data.update(tender_document_data["data"])
                     response = attach_callback(
-                        json={"data": data},
+                        json={"data": document_data},
                         auth_token=args.token,
                         success_handler=document_attach_success_handler,
                     )
