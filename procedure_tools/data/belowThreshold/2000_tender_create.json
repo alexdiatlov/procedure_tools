@@ -10,7 +10,15 @@
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
-    "restricted": false
+    "restricted": false,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 2,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 1,
+    "qualificationDuration": 20
   },
   "data": {
     "items": [
@@ -114,6 +122,16 @@
         }
       }
     ],
+    "value": {
+      "amount": 0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
+    "minimalStep": {
+      "amount": 0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "lots": [
       {
         "description": "Опис Лот №1",
@@ -187,10 +205,6 @@
         "type": "financing"
       }
     ],
-    "minimalStep": {
-      "amount": 10,
-      "currency": "UAH"
-    },
     "procurementMethodType": "belowThreshold",
     "mode": "test",
     "procuringEntity": {
@@ -224,10 +238,6 @@
       "endDate": "{{ from_now_iso(days=60) }}"
     },
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
-    "value": {
-      "amount": 500,
-      "currency": "UAH"
-    }
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)"
   }
 }

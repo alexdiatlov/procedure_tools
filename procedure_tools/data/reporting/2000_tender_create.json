@@ -10,7 +10,15 @@
     "hasTenderComplaints": false,
     "hasAwardComplaints": false,
     "hasCancellationComplaints": false,
-    "restricted": false
+    "restricted": false,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 0,
+    "cancellationComplainDuration": 0,
+    "clarificationUntilDuration": 0,
+    "qualificationDuration": 0
   },
   "data": {
     "cause": "openUnsuccessful",
@@ -51,6 +59,11 @@
         }
       }
     ],
+    "value": {
+      "amount": 500000,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "mainProcurementCategory": "services",
     "milestones": [
       {
@@ -92,11 +105,6 @@
     "status": "draft",
     "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
-    "value": {
-      "amount": 500000,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    }
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)"
   }
 }
