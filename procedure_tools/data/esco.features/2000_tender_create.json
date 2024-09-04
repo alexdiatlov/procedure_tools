@@ -10,7 +10,15 @@
     "hasTenderComplaints": true,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
-    "restricted": false
+    "restricted": false,
+    "hasValueEstimation": false,
+    "hasQualificationComplaints": true,
+    "tenderComplainRegulation": 4,
+    "qualificationComplainDuration": 5,
+    "awardComplainDuration": 10,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 3,
+    "qualificationDuration": 20
   },
   "data": {
     "features": [

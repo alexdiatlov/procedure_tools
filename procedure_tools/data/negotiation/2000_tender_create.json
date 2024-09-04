@@ -10,7 +10,15 @@
     "hasTenderComplaints": false,
     "hasAwardComplaints": true,
     "hasCancellationComplaints": true,
-    "restricted": false
+    "restricted": false,
+    "hasValueEstimation": true,
+    "hasQualificationComplaints": false,
+    "tenderComplainRegulation": 0,
+    "qualificationComplainDuration": 0,
+    "awardComplainDuration": 10,
+    "cancellationComplainDuration": 10,
+    "clarificationUntilDuration": 0,
+    "qualificationDuration": 0
   },
   "data": {
     "cause": "twiceUnsuccessful",
@@ -86,6 +94,11 @@
         }
       }
     ],
+    "value": {
+      "amount": 0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "lots": [
       {
         "description": "Опис Лот №1",
@@ -149,11 +162,6 @@
     "status": "draft",
     "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
-    "value": {
-      "amount": 500,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    }
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)"
   }
 }
