@@ -15,12 +15,15 @@ from procedure_tools.utils.data import (
 )
 from procedure_tools.utils.date import fix_datetime, get_utcnow, parse_date
 from procedure_tools.utils.file import (
+    generate_data_file_name,
     get_data_all_files,
     get_data_file_path,
     get_data_path,
+    parse_data_file_parts,
 )
 from procedure_tools.utils.handlers import (
     allow_error_handler,
+    allow_null_success_handler,
     auction_multilot_participation_url_success_handler,
     auction_participation_url_success_handler,
     bid_create_success_handler,
@@ -68,7 +71,7 @@ def upload_bids_proposal(
             tender_id,
             bid_id,
             bids_tokens[bid_index],
-            "bid_proposal_{}".format(bid_index),
+            "bid_proposal_{}_attach".format(bid_index),
             prefix=prefix,
         )
 
@@ -371,8 +374,35 @@ def patch_tender_waiting(client, args, context, tender_id, tender_token):
         )
 
 
+def upload_award_documents(
+    client,
+    ds_client,
+    args,
+    context,
+    tender_id,
+    award_id,
+    tender_token,
+    data_file_prefix,
+    prefix="",
+):
+    return upload_documents(
+        ds_client,
+        args,
+        context,
+        data_file_prefix=data_file_prefix,
+        attach_callback=partial(
+            client.post_tender_award_document,
+            tender_id,
+            award_id,
+            tender_token,
+        ),
+        prefix=prefix,
+    )
+
+
 def patch_award(
     client,
+    ds_client,
     args,
     context,
     tender_id,
@@ -381,31 +411,64 @@ def patch_award(
     action_index=0,
     prefix="",
 ):
+    """
+    Patch awards by action index.
+
+    Note: Award filename has the following format:
+        award_patch_{action_index}_{award_index}_{award_action_index}.json
+        award_patch_0_0_0.json
+    """
     logging.info("Patching awards...\n")
     award_patch_data_files = []
-    filename_base = "{}award_patch_{}".format(prefix, action_index)
+    action_name = "award_patch"
+    filename_base = "{}{}_{}".format(prefix, action_name, action_index)
     for data_file in get_data_all_files(get_data_path(args.data)):
         if data_file.startswith(filename_base):
             award_patch_data_files.append(data_file)
     responses = []
     for data_file in award_patch_data_files:
-        data_file_parts = data_file.split(".")
-        if len(data_file_parts) != 2 and data_file_parts[-1] != "json":
-            continue
-        path = get_data_file_path(get_data_path(args.data), data_file)
-        award_index = int(data_file_parts[0].split("_")[-1])
-        awards_id = awards_ids[award_index]
-        with read_file(path, context=context, exit_filename=args.stop) as content:
-            award_patch_data = json.loads(content)
-            response = client.patch_tender_award(
-                tender_id,
-                awards_id,
-                tender_token,
-                award_patch_data,
-                auth_token=args.token,
-                success_handler=item_patch_success_handler,
+        action_name, action_parts, action_extra, extension_parts = (
+            parse_data_file_parts(data_file, action_name, 3)
+        )
+
+        print(data_file, action_name, action_parts, action_extra, extension_parts)
+
+        # Award index is the second last part of the filename
+        award_index = int(action_parts[1])
+
+        # Get award id by index
+        award_id = awards_ids[award_index]
+
+        if action_extra == "document_attach":
+            data_file_prefix = generate_data_file_name(
+                action_name, action_parts, action_extra, extension_parts
             )
-            responses.append(response)
+            upload_award_documents(
+                client,
+                ds_client,
+                args,
+                context,
+                tender_id,
+                award_id,
+                tender_token,
+                data_file_prefix=data_file_prefix,
+                prefix=prefix,
+            )
+        elif extension_parts[-1] == "json":
+            path = get_data_file_path(get_data_path(args.data), data_file)
+            with read_file(path, context=context, exit_filename=args.stop) as content:
+                award_patch_data = json.loads(content)
+                response = client.patch_tender_award(
+                    tender_id,
+                    award_id,
+                    tender_token,
+                    award_patch_data,
+                    auth_token=args.token,
+                    success_handler=allow_null_success_handler(
+                        item_patch_success_handler,
+                    ),
+                )
+                responses.append(response)
     return responses
 
 
@@ -662,22 +725,21 @@ def create_tender(
 
 
 def upload_documents(
-    client,
     ds_client,
     args,
     context,
-    data_name,
+    data_file_prefix,
     attach_callback,
     ignore_error=False,
     prefix="",
 ):
     responses = []
     for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("{}{}_attach".format(prefix, data_name)):
+        if data_file.startswith("{}{}".format(prefix, data_file_prefix)):
             path = get_data_file_path(get_data_path(args.data), data_file)
             with read_file(path, context=context, exit_filename=args.stop) as content:
                 tender_document_data = json.loads(content)
-                upload_file = tender_document_data["data"]["title"]
+                upload_file = f"{prefix}{tender_document_data["data"]["title"]}"
                 ds_response = upload_document_ds(ds_client, args, context, upload_file)
                 if ds_response:
                     document_data = ds_response.json()["data"]
@@ -707,11 +769,10 @@ def upload_tender_documents(
     prefix="",
 ):
     return upload_documents(
-        client,
         ds_client,
         args,
         context,
-        data_name="tender_document",
+        data_file_prefix="tender_document_attach",
         attach_callback=partial(
             client.post_tender_document,
             tender_id,
@@ -731,11 +792,10 @@ def upload_tender_notice(
     prefix="",
 ):
     return upload_documents(
-        client,
         ds_client,
         args,
         context,
-        data_name="tender_notice",
+        data_file_prefix="tender_notice_attach",
         attach_callback=partial(
             client.post_tender_document,
             tender_id,
@@ -753,15 +813,14 @@ def upload_bid_proposal(
     tender_id,
     bid_id,
     bid_token,
-    data_name,
+    data_file_prefix,
     prefix="",
 ):
     return upload_documents(
-        client,
         ds_client,
         args,
         context,
-        data_name,
+        data_file_prefix,
         attach_callback=partial(
             client.post_tender_bid_document,
             tender_id,
@@ -782,11 +841,10 @@ def upload_evaluation_report(
     prefix="",
 ):
     return upload_documents(
-        client,
         ds_client,
         args,
         context,
-        "evaluation_report",
+        "evaluation_report_attach",
         attach_callback=partial(
             client.post_tender_document,
             tender_id,
@@ -809,11 +867,10 @@ def re_upload_evaluation_report(
     prefix="",
 ):
     return upload_documents(
-        client,
         ds_client,
         args,
         context,
-        "evaluation_report",
+        "evaluation_report_attach",
         attach_callback=partial(
             client.put_tender_document,
             tender_id,

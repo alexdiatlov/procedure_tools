@@ -692,6 +692,7 @@ def process_procedure(
         while True:
             responses = patch_award(
                 client,
+                ds_client,
                 args,
                 context,
                 tender_id,
