@@ -14,19 +14,71 @@ cat > $FILE <<- EOM
 ## Install
 
 1. Clone
+
+    \`\`\`
+    git clone https://github.com/ProzorroUKR/procedure_tools.git
+    \`\`\`
+
 2. Navigate to cloned folder:
-\`\`\`
-cd procedure_tools
-\`\`\`
+
+    \`\`\`
+    cd procedure_tools
+    \`\`\`
+
 3. Install with pip
-* vanilla:
-\`\`\`
-pip install -e .
-\`\`\`
-* colorized output:
-\`\`\`
-pip install -e .[color]
-\`\`\`
+
+    * vanilla:
+
+        \`\`\`
+        pip install -e .
+        \`\`\`
+
+    * colorized output:
+
+        \`\`\`
+        pip install -e .[color]
+        \`\`\`
+
+## Update
+
+1. Pull
+
+    \`\`\`
+    git pull
+    \`\`\`
+
+    In case of conflicts:
+
+    * Undo changes in project folder or reset with command
+
+        \`\`\`
+        git reset --hard
+        \`\`\`
+
+    * Pull again
+
+        \`\`\`
+        git pull
+        \`\`\`
+
+    * If this did not help, clean project folder
+
+        \`\`\`
+        git clean -fd
+        \`\`\`
+
+    * Pull again
+
+        \`\`\`
+        git pull
+        \`\`\`
+
+2. Install
+
+    \`\`\`
+    pip install -e .
+    \`\`\`
+
 
 ## Usage
 \`\`\`
