@@ -7,6 +7,15 @@ EX_OK = 0
 EX_DATAERR = 65
 
 
+def allow_null_success_handler(handler):
+    def wrapper(response):
+        if response.text == "null":
+            return default_success_handler(response)
+        handler(response)
+
+    return wrapper
+
+
 def error(text, allow_error=False):
     msg = fore_error(text)
     msg += "\n"

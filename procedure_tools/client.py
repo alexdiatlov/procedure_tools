@@ -3,7 +3,7 @@ from __future__ import absolute_import
 import json
 import logging
 from base64 import b64encode
-from copy import copy, deepcopy
+from copy import copy
 from datetime import timedelta
 
 from procedure_tools.utils.date import get_utcnow, parse_date_header
@@ -164,6 +164,7 @@ class CDBClient(BaseCDBClient):
     TENDERS_BIDS_RES_COLLECTION_PATH = "tenders/{}/bids/{}/requirement_responses"
     TENDERS_AWARDS_COLLECTION_PATH = "tenders/{}/awards"
     TENDERS_AWARDS_PATH = "tenders/{}/awards/{}"
+    TENDERS_AWARDS_DOCS_COLLECTION_PATH = "tenders/{}/awards/{}/documents"
     TENDERS_CONTRACTS_COLLECTION_PATH = "tenders/{}/contracts"
     TENDERS_CONTRACTS_PATH = "tenders/{}/contracts/{}"
     TENDERS_QUALIFICATIONS_COLLECTION_PATH = "tenders/{}/qualifications"
@@ -373,6 +374,13 @@ class CDBClient(BaseCDBClient):
         sub_path = self.TENDERS_AWARDS_PATH.format(tender_id, award_id, acc_token)
         path = self.get_api_path(sub_path, acc_token=acc_token)
         return self.patch(path, json, **kwargs)
+
+    def post_tender_award_document(
+        self, tender_id, award_id, acc_token, json, **kwargs
+    ):
+        sub_path = self.TENDERS_AWARDS_DOCS_COLLECTION_PATH.format(tender_id, award_id)
+        path = self.get_api_path(sub_path, acc_token=acc_token)
+        return self.post(path, json, **kwargs)
 
     def get_tender_award_complaints(self, tender_id, award_id, **kwargs):
         sub_path = self.TENDERS_AWARDS_COMPLAINTS_COLLECTION_PATH.format(

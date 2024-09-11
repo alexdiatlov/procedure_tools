@@ -94,3 +94,39 @@ def get_actual_file_path(path):
     glob_paths = glob.glob(pattern_path)
     actual_path = glob_paths[0] if glob_paths else path
     return actual_path
+
+
+def parse_data_file_parts(data_file, first_part, middle_parts_count):
+    """
+    Parse the data file parts.
+
+    Example:
+        >>> parse_data_file_parts("award_patch_0_0_0_document_attach.json", "award_patch", 3)
+        ("award_patch", ["0", "0", "0"], "document_attach", ["json"])
+    """
+    # Result: ["award_patch_0_0_0_document_attach", "json"]
+    data_file_parts = data_file.split(".")
+
+    # Result: ["json"]
+    extension_parts = data_file_parts[1:]
+
+    # Result: "award_patch_0_0_0_document_attach"
+    data_file_name = data_file_parts[0]
+
+    # Result: "0_0_0_document_attach"
+    middle_and_last_part = data_file_name.split(f"{first_part}_")[-1]
+
+    # Result: ["0", "0", "0"]
+    middle_parts = middle_and_last_part.split("_")[:middle_parts_count]
+
+    # Result: "document_attach"
+    last_part = data_file_name.split(f"{first_part}_{"_".join(middle_parts)}_")[-1]
+
+    # Result: ("award_patch" ,["0", "0", "0"], "document_attach", ["json"])
+    return first_part, middle_parts, last_part, extension_parts
+
+
+def generate_data_file_name(first_part, middle_parts, last_part, extension_parts):
+    return (
+        f"{first_part}_{"_".join(middle_parts)}_{last_part}.{".".join(extension_parts)}"
+    )
