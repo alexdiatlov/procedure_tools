@@ -739,7 +739,8 @@ def upload_documents(
             path = get_data_file_path(get_data_path(args.data), data_file)
             with read_file(path, context=context, exit_filename=args.stop) as content:
                 tender_document_data = json.loads(content)
-                upload_file = f"{prefix}{tender_document_data["data"]["title"]}"
+                document_file = tender_document_data["data"]["title"]
+                upload_file = f"{prefix}{document_file}"
                 ds_response = upload_document_ds(ds_client, args, context, upload_file)
                 if ds_response:
                     document_data = ds_response.json()["data"]
