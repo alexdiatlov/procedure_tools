@@ -119,14 +119,17 @@ def parse_data_file_parts(data_file, first_part, middle_parts_count):
     # Result: ["0", "0", "0"]
     middle_parts = middle_and_last_part.split("_")[:middle_parts_count]
 
+    # Result: "0_0_0"
+    middle_part = "_".join(middle_parts)
+
     # Result: "document_attach"
-    last_part = data_file_name.split(f"{first_part}_{"_".join(middle_parts)}_")[-1]
+    last_part = data_file_name.split(f"{first_part}_{middle_part}_")[-1]
 
     # Result: ("award_patch" ,["0", "0", "0"], "document_attach", ["json"])
     return first_part, middle_parts, last_part, extension_parts
 
 
 def generate_data_file_name(first_part, middle_parts, last_part, extension_parts):
-    return (
-        f"{first_part}_{"_".join(middle_parts)}_{last_part}.{".".join(extension_parts)}"
-    )
+    middle_part = "_".join(middle_parts)
+    extension_part = ".".join(extension_parts)
+    return f"{first_part}_{middle_part}_{last_part}.{extension_part}"
