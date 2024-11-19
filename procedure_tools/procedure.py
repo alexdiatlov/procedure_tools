@@ -49,7 +49,6 @@ from procedure_tools.utils.process import (
     patch_qualifications,
     patch_stage2_credentials,
     patch_tender,
-    patch_tender_contracts,
     patch_tender_pending,
     patch_tender_pre,
     patch_tender_qual,
@@ -810,17 +809,6 @@ def process_procedure(
         response = get_tender_contracts(client, args, context, tender_id)
         contracts_ids = get_ids(response, status_exclude="cancelled")
 
-    if method_type in ("esco",):
-        patch_tender_contracts(
-            client,
-            args,
-            context,
-            tender_id,
-            contracts_ids,
-            tender_token,
-            prefix=prefix,
-        )
-
     contracts_tokens = []
     contracts_award_ids = []
 
@@ -838,6 +826,7 @@ def process_procedure(
         "negotiation",
         "negotiation.quick",
         "reporting",
+        "esco",
         "simple.defense",
     ):
         for contracts_id in contracts_ids:
@@ -862,6 +851,7 @@ def process_procedure(
         "aboveThresholdUA.defense",
         "competitiveDialogueEU.stage2",
         "competitiveDialogueUA.stage2",
+        "esco",
         "simple.defense",
     ):
         patch_contracts_buyer_signer_info(
@@ -902,6 +892,7 @@ def process_procedure(
         "negotiation",
         "negotiation.quick",
         "reporting",
+        "esco",
         "simple.defense",
     ):
         patch_contracts(
