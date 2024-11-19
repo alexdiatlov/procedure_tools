@@ -119,14 +119,6 @@ def post_bid_res(
                                 related_document = evidence["relatedDocument"]
                                 related_document["id"] = bid_document["id"]
                                 related_document["title"] = bid_document["title"]
-                for tender_criteria_item in tender_criteria:
-                    for group in tender_criteria_item["requirementGroups"]:
-                        for req in group["requirements"]:
-                            bid_res.pop("title", None)
-                            bid_res.pop("description", None)
-                            if bid_res["requirement"].get("title") == req["title"]:
-                                bid_res["requirement"]["id"] = req["id"]
-                                bid_res["requirement"].pop("title", None)
 
             client.post_tender_bid_res(
                 tender_id,
