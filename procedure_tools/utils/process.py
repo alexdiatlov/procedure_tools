@@ -478,28 +478,6 @@ def get_awards(client, args, context, tender_id):
     return response
 
 
-def patch_tender_contracts(
-    client, args, context, tender_id, contracts_ids, tender_token, prefix=""
-):
-    logging.info("Patching contracts...\n")
-    for contract_index, contract_id in enumerate(contracts_ids):
-        data_file = "{}contract_patch_{}.json".format(
-            prefix,
-            contract_index,
-        )
-        path = get_data_file_path(get_data_path(args.data), data_file)
-        with read_file(path, context=context, exit_filename=args.stop) as content:
-            contract_patch_data = json.loads(content)
-            client.patch_tender_contract(
-                tender_id,
-                contract_id,
-                tender_token,
-                contract_patch_data,
-                auth_token=args.token,
-                success_handler=item_patch_success_handler,
-            )
-
-
 def get_tender_contracts(client, args, context, tender_id):
     logging.info("Checking contracts...\n")
     while True:
