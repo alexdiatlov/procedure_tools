@@ -9,11 +9,7 @@ from time import sleep
 
 from procedure_tools.client import CDBClient, DSClient
 from procedure_tools.utils.contextmanagers import open_file, read_file
-from procedure_tools.utils.data import (
-    TENDER_SECONDS_BUFFER,
-    get_contracts_bids_ids,
-    get_ids,
-)
+from procedure_tools.utils.data import SECONDS_BUFFER, get_contracts_bids_ids, get_ids
 from procedure_tools.utils.date import fix_datetime, get_utcnow, parse_date
 from procedure_tools.utils.file import (
     generate_data_file_name,
@@ -23,7 +19,6 @@ from procedure_tools.utils.file import (
     parse_data_file_parts,
 )
 from procedure_tools.utils.handlers import (
-    allow_error_handler,
     allow_null_success_handler,
     auction_multilot_participation_url_success_handler,
     auction_participation_url_success_handler,
@@ -59,7 +54,7 @@ def get_bids(
     while True:
         response = client.get(f"tenders/{tender_id}/bids", auth_token=args.token)
         if not response.json()["data"]:
-            sleep(TENDER_SECONDS_BUFFER)
+            sleep(SECONDS_BUFFER)
         else:
             break
     return response
@@ -252,7 +247,7 @@ def get_agreement_contract(
     while True:
         response = client.get(f"tenders/{tender_id}/agreements/{agreement_id}/contracts")
         if not response.json()["data"]:
-            sleep(TENDER_SECONDS_BUFFER)
+            sleep(SECONDS_BUFFER)
         else:
             break
     return response
@@ -267,7 +262,7 @@ def get_agreements(client: CDBClient, args, context, tender_id):
     while True:
         response = client.get(f"tenders/{tender_id}/agreements")
         if not response.json()["data"]:
-            sleep(TENDER_SECONDS_BUFFER)
+            sleep(SECONDS_BUFFER)
         else:
             break
     return response
@@ -287,7 +282,7 @@ def get_agreement(
             error_handler=default_success_handler,
         )
         if "data" not in response.json().keys():
-            sleep(TENDER_SECONDS_BUFFER)
+            sleep(SECONDS_BUFFER)
         else:
             break
     return response
@@ -307,7 +302,7 @@ def get_contract(
             error_handler=default_success_handler,
         )
         if "data" not in response.json().keys():
-            sleep(TENDER_SECONDS_BUFFER)
+            sleep(SECONDS_BUFFER)
         else:
             break
     return response
@@ -536,7 +531,7 @@ def get_awards(
     while True:
         response = client.get(f"tenders/{tender_id}/awards")
         if not response.json()["data"]:
-            sleep(TENDER_SECONDS_BUFFER)
+            sleep(SECONDS_BUFFER)
         else:
             break
     return response
@@ -552,7 +547,7 @@ def get_tender_contracts(
     while True:
         response = client.get(f"tenders/{tender_id}/contracts")
         if not response.json()["data"]:
-            sleep(TENDER_SECONDS_BUFFER)
+            sleep(SECONDS_BUFFER)
         else:
             break
     return response
@@ -612,7 +607,7 @@ def get_qualifications(client: CDBClient, args, context, tender_id):
     while True:
         response = client.get(f"tenders/{tender_id}/qualifications")
         if not response.json()["data"]:
-            sleep(TENDER_SECONDS_BUFFER)
+            sleep(SECONDS_BUFFER)
         else:
             break
     return response
@@ -1140,7 +1135,7 @@ def wait_edr_pre_qual(
     response = get_qualifications(client, args, context, tender_id)
     for qualification in response.json()["data"]:
         while EDR_FILENAME not in [doc["title"] for doc in qualification.get("documents", [])]:
-            sleep(TENDER_SECONDS_BUFFER)
+            sleep(SECONDS_BUFFER)
             qualification = client.get(f"tenders/{tender_id}/qualifications/{qualification['id']}").json()["data"]
 
 
@@ -1154,7 +1149,7 @@ def wait_edr_qual(
     response = get_awards(client, args, context, tender_id)
     for award in response.json()["data"]:
         while EDR_FILENAME not in [doc["title"] for doc in award.get("documents", [])]:
-            sleep(TENDER_SECONDS_BUFFER)
+            sleep(SECONDS_BUFFER)
             award = client.get(f"tenders/{tender_id}/awards/{award['id']}").json()["data"]
 
 
@@ -1223,7 +1218,7 @@ def wait_auction_participation_urls(
                         success_handler=auction_participation_url_success_handler,
                     )
                     success_bids_ids.append(bid_id)
-        sleep(TENDER_SECONDS_BUFFER)
+        sleep(SECONDS_BUFFER)
 
 
 def post_tender_plan(
