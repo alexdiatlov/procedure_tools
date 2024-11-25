@@ -5,23 +5,6 @@ import random
 
 from faker import Faker
 
-from procedure_tools.client import CDBClient, DSClient
-from procedure_tools.utils.data import (
-    get_access,
-    get_award_id,
-    get_complaint_period_end_dates,
-    get_config,
-    get_contract_period_clarif_date,
-    get_contracts_bid_tokens,
-    get_data,
-    get_id,
-    get_ids,
-    get_next_check,
-    get_procurement_method_type,
-    get_submission_method_details,
-    get_token,
-)
-from procedure_tools.utils.file import get_data_path, get_numberless_filename
 from procedure_tools.actions import (
     create_awards,
     create_bids,
@@ -68,6 +51,23 @@ from procedure_tools.actions import (
     wait_edr_qual,
     wait_status,
 )
+from procedure_tools.client import CDBClient, DSClient
+from procedure_tools.utils.data import (
+    get_access,
+    get_award_id,
+    get_complaint_period_end_dates,
+    get_config,
+    get_contract_period_clarif_date,
+    get_contracts_bid_tokens,
+    get_data,
+    get_id,
+    get_ids,
+    get_next_check,
+    get_procurement_method_type,
+    get_submission_method_details,
+    get_token,
+)
+from procedure_tools.utils.file import get_data_path, get_numberless_filename
 
 try:
     from colorama import init

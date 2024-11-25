@@ -57,7 +57,7 @@ def get_bids(
 ):
     logging.info("Check bids...\n")
     while True:
-        response = client.get_tender_bids(tender_id, auth_token=args.token)
+        response = client.get(f"tenders/{tender_id}/bids", auth_token=args.token)
         if not response.json()["data"]:
             sleep(TENDER_SECONDS_BUFFER)
         else:
@@ -104,11 +104,10 @@ def patch_bids(
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             bid_patch_data = json.loads(content)
-            client.patch_tender_bid(
-                tender_id,
-                bid_id,
-                bids_tokens[bid_index],
-                bid_patch_data,
+            client.patch(
+                f"tenders/{tender_id}/bids/{bid_id}",
+                json=bid_patch_data,
+                acc_token=bids_tokens[bid_index],
                 auth_token=args.token,
                 success_handler=item_patch_success_handler,
             )
@@ -140,11 +139,10 @@ def post_bid_res(
                                 related_document["id"] = bid_document["id"]
                                 related_document["title"] = bid_document["title"]
 
-            client.post_tender_bid_res(
-                tender_id,
-                bid_id,
-                bids_tokens[bid_index],
-                bid_res_data,
+            client.post(
+                f"tenders/{tender_id}/bids/{bid_id}/requirement_responses",
+                json=bid_res_data,
+                acc_token=bids_tokens[bid_index],
                 auth_token=args.token,
             )
 
@@ -199,12 +197,10 @@ def patch_agreement_contract(
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             agreement_contract_patch_data = json.loads(content)
-            client.patch_tender_agreement_contract(
-                tender_id,
-                agreement_id,
-                agreement_contract_id,
-                tender_token,
-                agreement_contract_patch_data,
+            client.patch(
+                f"tenders/{tender_id}/agreements/{agreement_id}/contracts/{agreement_contract_id}",
+                json=agreement_contract_patch_data,
+                acc_token=tender_token,
                 auth_token=args.token,
                 success_handler=item_patch_success_handler,
             )
@@ -226,22 +222,20 @@ def patch_agreements(
             if data_file.startswith(prefix + "agreement_document"):
                 ds_response = upload_document_ds(ds_client, args, context, data_file)
                 if ds_response:
-                    client.post_tender_agreement_document(
-                        tender_id,
-                        agreement_id,
-                        tender_token,
-                        {"data": ds_response.json()["data"]},
+                    client.post(
+                        f"tenders/{tender_id}/agreements/{agreement_id}/documents",
+                        json={"data": ds_response.json()["data"]},
+                        acc_token=tender_token,
                         auth_token=args.token,
                     )
         data_file = "agreement_patch_{}.json".format(agreement_index)
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             agreement_patch_data = json.loads(content)
-            client.patch_tender_agreement(
-                tender_id,
-                agreement_id,
-                tender_token,
-                agreement_patch_data,
+            client.patch(
+                f"tenders/{tender_id}/agreements/{agreement_id}",
+                json=agreement_patch_data,
+                acc_token=tender_token,
                 auth_token=args.token,
                 success_handler=item_patch_success_handler,
             )
@@ -256,7 +250,7 @@ def get_agreement_contract(
 ):
     logging.info("Checking agreement contracts...")
     while True:
-        response = client.get_tender_agreement_contracts(tender_id, agreement_id)
+        response = client.get(f"tenders/{tender_id}/agreements/{agreement_id}/contracts")
         if not response.json()["data"]:
             sleep(TENDER_SECONDS_BUFFER)
         else:
@@ -265,13 +259,13 @@ def get_agreement_contract(
 
 
 def get_tender(client: CDBClient, args, context, tender_id):
-    return client.get_tender(tender_id)
+    return client.get(f"tenders/{tender_id}")
 
 
 def get_agreements(client: CDBClient, args, context, tender_id):
     logging.info("Check agreements...\n")
     while True:
-        response = client.get_tender_agreements(tender_id)
+        response = client.get(f"tenders/{tender_id}/agreements")
         if not response.json()["data"]:
             sleep(TENDER_SECONDS_BUFFER)
         else:
@@ -287,8 +281,8 @@ def get_agreement(
 ):
     logging.info("Check agreement...\n")
     while True:
-        response = client.get_agreement(
-            agreement_id,
+        response = client.get(
+            f"agreements/{agreement_id}",
             auth_token=args.token,
             error_handler=default_success_handler,
         )
@@ -307,8 +301,8 @@ def get_contract(
 ):
     logging.info("Check contract...\n")
     while True:
-        response = client.get_contract(
-            contract_id,
+        response = client.get(
+            f"contracts/{contract_id}",
             auth_token=args.token,
             error_handler=default_success_handler,
         )
@@ -337,10 +331,10 @@ def patch_contracts_buyer_signer_info(
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             contract_patch_data = json.loads(content)
-            client.patch_contract_buyer_signer_info(
-                contract_id,
-                contract_token,
-                contract_patch_data,
+            client.put(
+                f"contracts/{contract_id}/buyer/signer_info",
+                json=contract_patch_data,
+                acc_token=contract_token,
                 auth_token=args.token,
                 success_handler=default_success_handler,
             )
@@ -364,10 +358,10 @@ def patch_contracts_suppliers_signer_info(
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             contract_patch_data = json.loads(content)
-            client.patch_contract_suppliers_signer_info(
-                contract_id,
-                contract_token,
-                contract_patch_data,
+            client.put(
+                f"contracts/{contract_id}/suppliers/signer_info",
+                json=contract_patch_data,
+                acc_token=contract_token,
                 auth_token=args.token,
                 success_handler=default_success_handler,
             )
@@ -391,10 +385,10 @@ def patch_contracts(
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             contract_patch_data = json.loads(content)
-            client.patch_contract(
-                contract_id,
-                contract_token,
-                contract_patch_data,
+            client.patch(
+                f"contracts/{contract_id}",
+                json=contract_patch_data,
+                acc_token=contract_token,
                 auth_token=args.token,
                 success_handler=item_patch_success_handler,
             )
@@ -412,10 +406,10 @@ def patch_tender_qual(
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_patch_data = json.loads(content)
-        return client.patch_tender(
-            tender_id,
-            tender_token,
-            tender_patch_data,
+        return client.patch(
+            f"tenders/{tender_id}",
+            json=tender_patch_data,
+            acc_token=tender_token,
             auth_token=args.token,
             success_handler=tender_patch_success_handler,
         )
@@ -433,10 +427,10 @@ def patch_tender_waiting(
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_patch_data = json.loads(content)
-        return client.patch_tender(
-            tender_id,
-            tender_token,
-            tender_patch_data,
+        return client.patch(
+            f"tenders/{tender_id}",
+            json=tender_patch_data,
+            acc_token=tender_token,
             auth_token=args.token,
             success_handler=tender_patch_success_handler,
         )
@@ -459,10 +453,9 @@ def upload_award_documents(
         context,
         data_file_prefix=data_file_prefix,
         attach_callback=partial(
-            client.post_tender_award_document,
-            tender_id,
-            award_id,
-            tender_token,
+            client.post,
+            f"tenders/{tender_id}/awards/{award_id}/documents",
+            acc_token=tender_token,
         ),
         prefix=prefix,
     )
@@ -497,8 +490,6 @@ def patch_award(
     for data_file in award_patch_data_files:
         action_name, action_parts, action_extra, extension_parts = parse_data_file_parts(data_file, action_name, 3)
 
-        print(data_file, action_name, action_parts, action_extra, extension_parts)
-
         # Award index is the second last part of the filename
         award_index = int(action_parts[1])
 
@@ -522,11 +513,10 @@ def patch_award(
             path = get_data_file_path(get_data_path(args.data), data_file)
             with read_file(path, context=context, exit_filename=args.stop) as content:
                 award_patch_data = json.loads(content)
-                response = client.patch_tender_award(
-                    tender_id,
-                    award_id,
-                    tender_token,
-                    award_patch_data,
+                response = client.patch(
+                    f"tenders/{tender_id}/awards/{award_id}",
+                    json=award_patch_data,
+                    acc_token=tender_token,
                     auth_token=args.token,
                     success_handler=allow_null_success_handler(
                         item_patch_success_handler,
@@ -544,7 +534,7 @@ def get_awards(
 ):
     logging.info("Checking awards...\n")
     while True:
-        response = client.get_tender_awards(tender_id)
+        response = client.get(f"tenders/{tender_id}/awards")
         if not response.json()["data"]:
             sleep(TENDER_SECONDS_BUFFER)
         else:
@@ -560,7 +550,7 @@ def get_tender_contracts(
 ):
     logging.info("Checking contracts...\n")
     while True:
-        response = client.get_tender_contracts(tender_id)
+        response = client.get(f"tenders/{tender_id}/contracts")
         if not response.json()["data"]:
             sleep(TENDER_SECONDS_BUFFER)
         else:
@@ -581,10 +571,10 @@ def patch_tender_pre(
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_patch_data = json.loads(content)
-        return client.patch_tender(
-            tender_id,
-            tender_token,
-            tender_patch_data,
+        return client.patch(
+            f"tenders/{tender_id}",
+            json=tender_patch_data,
+            acc_token=tender_token,
             auth_token=args.token,
             success_handler=tender_patch_success_handler,
         )
@@ -608,11 +598,10 @@ def patch_qualifications(
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             qualification_patch_data = json.loads(content)
-            client.patch_tender_qualification(
-                tender_id,
-                qualification_id,
-                tender_token,
-                qualification_patch_data,
+            client.patch(
+                f"tenders/{tender_id}/qualifications/{qualification_id}",
+                json=qualification_patch_data,
+                acc_token=tender_token,
                 auth_token=args.token,
                 success_handler=item_patch_success_handler,
             )
@@ -621,7 +610,7 @@ def patch_qualifications(
 def get_qualifications(client: CDBClient, args, context, tender_id):
     logging.info("Checking qualifications...\n")
     while True:
-        response = client.get_tender_qualifications(tender_id)
+        response = client.get(f"tenders/{tender_id}/qualifications")
         if not response.json()["data"]:
             sleep(TENDER_SECONDS_BUFFER)
         else:
@@ -646,10 +635,10 @@ def create_awards(
         path = get_data_file_path(get_data_path(args.data), award_data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             award_create_data = json.loads(content)
-            client.post_tender_award(
-                tender_id,
-                tender_token,
-                award_create_data,
+            client.post(
+                f"tenders/{tender_id}/awards",
+                json=award_create_data,
+                acc_token=tender_token,
                 auth_token=args.token,
                 success_handler=item_create_success_handler,
             )
@@ -688,9 +677,9 @@ def create_bids(
                         document_data.update(bid_document_data)
                         bid_documents.append(document_data)
                 bid_create_data["data"][bid_document_container] = bid_documents
-            response = client.post_tender_bid(
-                tender_id,
-                bid_create_data,
+            response = client.post(
+                f"tenders/{tender_id}/bids",
+                json=bid_create_data,
                 auth_token=args.token,
                 success_handler=bid_create_success_handler,
             )
@@ -728,8 +717,9 @@ def create_plans(
         path = get_data_file_path(get_data_path(args.data), plan_data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             plan_create_data = json.loads(content)
-            response = client.post_plan(
-                plan_create_data,
+            response = client.post(
+                "plans",
+                json=plan_create_data,
                 auth_token=args.token,
                 success_handler=plan_create_success_handler,
             )
@@ -748,8 +738,9 @@ def create_plan(
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop, silent_error=True) as content:
         plan_create_data = json.loads(content)
-        response = client.post_plan(
-            plan_create_data,
+        response = client.post(
+            "plans",
+            json=plan_create_data,
             auth_token=args.token,
             success_handler=plan_create_success_handler,
         )
@@ -769,10 +760,10 @@ def patch_plan(
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop, silent_error=True) as content:
         plan_patch_data = json.loads(content)
-        response = client.patch_plan(
-            plan_id,
-            plan_token,
-            plan_patch_data,
+        response = client.patch(
+            f"plans/{plan_id}",
+            json=plan_patch_data,
+            acc_token=plan_token,
             auth_token=args.token,
             success_handler=plan_patch_success_handler,
         )
@@ -792,19 +783,19 @@ def create_tender(
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_create_data = json.loads(content)
         if plan_id:
-            response = client.post_plan_tender(
-                plan_id,
-                tender_create_data,
+            response = client.post(
+                f"plans/{plan_id}/tenders",
+                json=tender_create_data,
                 auth_token=args.token,
                 success_handler=tender_create_success_handler,
             )
         else:
-            response = client.post_tender(
-                tender_create_data,
+            response = client.post(
+                "tenders",
+                json=tender_create_data,
                 auth_token=args.token,
                 success_handler=tender_create_success_handler,
             )
-
         return response
 
 
@@ -855,9 +846,9 @@ def upload_tender_documents(
         context,
         data_file_prefix="tender_document_attach",
         attach_callback=partial(
-            client.post_tender_document,
-            tender_id,
-            tender_token,
+            client.post,
+            f"tenders/{tender_id}/documents",
+            acc_token=tender_token,
         ),
         prefix=prefix,
     )
@@ -878,9 +869,9 @@ def upload_tender_notice(
         context,
         data_file_prefix="tender_notice_attach",
         attach_callback=partial(
-            client.post_tender_document,
-            tender_id,
-            tender_token,
+            client.post,
+            f"tenders/{tender_id}/documents",
+            acc_token=tender_token,
         ),
         prefix=prefix,
     )
@@ -903,10 +894,9 @@ def upload_bid_proposal(
         context,
         data_file_prefix,
         attach_callback=partial(
-            client.post_tender_bid_document,
-            tender_id,
-            bid_id,
-            bid_token,
+            client.post,
+            f"tenders/{tender_id}/bids/{bid_id}/documents",
+            acc_token=bid_token,
         ),
         prefix=prefix,
     )
@@ -927,12 +917,10 @@ def upload_evaluation_report(
         context,
         "evaluation_report_attach",
         attach_callback=partial(
-            client.post_tender_document,
-            tender_id,
-            tender_token,
-            error_handler=allow_error_handler,  # TODO: Remove after feature release
+            client.post,
+            f"tenders/{tender_id}/documents",
+            acc_token=tender_token,
         ),
-        ignore_error=True,  # TODO: Remove after feature release
         prefix=prefix,
     )
 
@@ -953,13 +941,10 @@ def re_upload_evaluation_report(
         context,
         "evaluation_report_attach",
         attach_callback=partial(
-            client.put_tender_document,
-            tender_id,
-            document_id,
-            tender_token,
-            error_handler=allow_error_handler,  # TODO: Remove after feature release
+            client.put,
+            f"tenders/{tender_id}/documents/{document_id}",
+            acc_token=tender_token,
         ),
-        ignore_error=True,  # TODO: Remove after feature release
         prefix=prefix,
     )
 
@@ -998,7 +983,7 @@ def wait_status(
     status = [status] if not isinstance(status, list) else status
     fail_status = [fail_status] if fail_status and not isinstance(fail_status, list) else fail_status
     while True:
-        response = client.get_tender(tender_id)
+        response = client.get(f"tenders/{tender_id}")
         current_status = response.json()["data"]["status"]
         if current_status not in status:
             if fail_status and current_status in fail_status:
@@ -1031,10 +1016,10 @@ def patch_stage2_credentials(
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_patch_data = json.loads(content)
-        return client.patch_tender_credentials(
-            stage2_tender_id,
-            tender_token,
-            tender_patch_data,
+        return client.patch(
+            f"tenders/{stage2_tender_id}/credentials",
+            json=tender_patch_data,
+            acc_token=tender_token,
             auth_token=args.token,
             success_handler=tender_create_success_handler,
         )
@@ -1048,10 +1033,10 @@ def patch_contract_credentials(
     tender_token,
 ):
     logging.info("Getting credentials for contract...\n")
-    return client.patch_contract_credentials(
-        contract_id,
-        tender_token,
-        {},
+    return client.patch(
+        f"contracts/{contract_id}/credentials",
+        json={},
+        acc_token=tender_token,
         auth_token=args.token,
         success_handler=contract_credentials_success_handler,
     )
@@ -1070,10 +1055,10 @@ def patch_tender_tendering(
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_patch_data = json.loads(content)
-        return client.patch_tender(
-            tender_id,
-            tender_token,
-            tender_patch_data,
+        return client.patch(
+            f"tenders/{tender_id}",
+            json=tender_patch_data,
+            acc_token=tender_token,
             auth_token=args.token,
             success_handler=tender_patch_success_handler,
         )
@@ -1092,10 +1077,10 @@ def patch_tender_pending(
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_patch_data = json.loads(content)
-        return client.patch_tender(
-            tender_id,
-            tender_token,
-            tender_patch_data,
+        return client.patch(
+            f"tenders/{tender_id}",
+            json=tender_patch_data,
+            acc_token=tender_token,
             auth_token=args.token,
             success_handler=tender_patch_success_handler,
         )
@@ -1114,10 +1099,10 @@ def post_criteria(
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         criteria_data = json.loads(content)
-        return client.post_tender_criteria(
-            tender_id,
-            tender_token,
-            criteria_data,
+        return client.post(
+            f"tenders/{tender_id}/criteria",
+            json=criteria_data,
+            acc_token=tender_token,
             auth_token=args.token,
             success_handler=tender_post_criteria_success_handler,
         )
@@ -1136,10 +1121,10 @@ def patch_tender(
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_patch_data = json.loads(content)
-        return client.patch_tender(
-            tender_id,
-            tender_token,
-            tender_patch_data,
+        return client.patch(
+            f"tenders/{tender_id}",
+            json=tender_patch_data,
+            acc_token=tender_token,
             auth_token=args.token,
             success_handler=tender_patch_success_handler,
         )
@@ -1156,10 +1141,7 @@ def wait_edr_pre_qual(
     for qualification in response.json()["data"]:
         while EDR_FILENAME not in [doc["title"] for doc in qualification.get("documents", [])]:
             sleep(TENDER_SECONDS_BUFFER)
-            qualification = client.get_tender_qualification(
-                tender_id,
-                qualification["id"],
-            ).json()["data"]
+            qualification = client.get(f"tenders/{tender_id}/qualifications/{qualification['id']}").json()["data"]
 
 
 def wait_edr_qual(
@@ -1173,7 +1155,7 @@ def wait_edr_qual(
     for award in response.json()["data"]:
         while EDR_FILENAME not in [doc["title"] for doc in award.get("documents", [])]:
             sleep(TENDER_SECONDS_BUFFER)
-            award = client.get_tender_award(tender_id, award["id"]).json()["data"]
+            award = client.get(f"tenders/{tender_id}/awards/{award['id']}").json()["data"]
 
 
 def wait_auction_participation_urls(
@@ -1188,7 +1170,7 @@ def wait_auction_participation_urls(
     success_bids_ids = []
     success_lots_ids = {}
     while True:
-        response = client.get_tender(tender_id)
+        response = client.get(f"tenders/{tender_id}")
         tender_data = response.json()["data"]
         if set(success_bids_ids) == set(active_bids_ids):
             break
@@ -1199,10 +1181,9 @@ def wait_auction_participation_urls(
                 continue
             if bid_id not in success_lots_ids:
                 success_lots_ids[bid_id] = []
-            response = client.get_tender_bid(
-                tender_id,
-                bid_id,
-                bid_token,
+            response = client.get(
+                f"tenders/{tender_id}/bids/{bid_id}",
+                acc_token=bid_token,
                 auth_token=args.token,
             )
             data = response.json()["data"]
@@ -1256,10 +1237,10 @@ def post_tender_plan(
 ):
     logging.info("Connecting plan to tender...\n")
     tender_patch_data = {"data": {"id": plan_id}}
-    return client.post_tender_plan(
-        tender_id,
-        tender_token,
-        tender_patch_data,
+    return client.post(
+        f"tenders/{tender_id}/plans",
+        json=tender_patch_data,
+        acc_token=tender_token,
         auth_token=args.token,
         success_handler=tender_post_plan_success_handler,
     )
@@ -1302,28 +1283,26 @@ def create_complaints(
         with read_file(path, context=context, exit_filename=args.stop) as content:
             complaints_create_data = json.loads(content)
             if obj_type == "award":
-                response = client.post_tender_award_complaint(
-                    tender_id,
-                    obj_id,
-                    acc_token,
-                    complaints_create_data,
+                response = client.post(
+                    f"tenders/{tender_id}/awards/{obj_id}/complaints",
+                    json=complaints_create_data,
+                    acc_token=acc_token,
                     auth_token=args.token,
                     success_handler=tender_post_complaint_success_handler,
                 )
             elif obj_type == "qualification":
-                response = client.post_tender_qualification_complaint(
-                    tender_id,
-                    obj_id,
-                    acc_token,
-                    complaints_create_data,
+                response = client.post(
+                    f"tenders/{tender_id}/qualifications/{obj_id}/complaints",
+                    json=complaints_create_data,
+                    acc_token=acc_token,
                     auth_token=args.token,
                     success_handler=tender_post_complaint_success_handler,
                 )
             else:
-                response = client.post_tender_complaint(
-                    tender_id,
-                    acc_token,
-                    complaints_create_data,
+                response = client.post(
+                    f"tenders/{tender_id}/complaints",
+                    json=complaints_create_data,
+                    acc_token=acc_token,
                     auth_token=args.token,
                     success_handler=tender_post_complaint_success_handler,
                 )
@@ -1418,31 +1397,26 @@ def patch_complaints(
                         continue
                     role_access_token = get_access_token_for_role(role, tender_token, complaint_token)
                     if obj_type == "award":
-                        client.patch_tender_award_complaint(
-                            tender_id,
-                            obj_id,
-                            complaint_id,
-                            role_access_token,
-                            complaint_patch_data,
+                        client.patch(
+                            f"tenders/{tender_id}/awards/{obj_id}/complaints/{complaint_id}",
+                            json=complaint_patch_data,
+                            acc_token=role_access_token,
                             auth_token=role_auth_token,
                             success_handler=item_patch_success_handler,
                         )
                     elif obj_type == "qualification":
-                        client.patch_tender_qualification_complaint(
-                            tender_id,
-                            obj_id,
-                            complaint_id,
-                            role_access_token,
-                            complaint_patch_data,
+                        client.patch(
+                            f"tenders/{tender_id}/qualifications/{obj_id}/complaints/{complaint_id}",
+                            json=complaint_patch_data,
+                            acc_token=role_access_token,
                             auth_token=role_auth_token,
                             success_handler=item_patch_success_handler,
                         )
                     else:
-                        client.patch_tender_complaint(
-                            tender_id,
-                            complaint_id,
-                            role_access_token,
-                            complaint_patch_data,
+                        client.patch(
+                            f"tenders/{tender_id}/complaints/{complaint_id}",
+                            json=complaint_patch_data,
+                            acc_token=role_access_token,
                             auth_token=role_auth_token,
                             success_handler=item_patch_success_handler,
                         )
