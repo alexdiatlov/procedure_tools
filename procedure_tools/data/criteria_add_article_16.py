@@ -1,9 +1,9 @@
-from copy import deepcopy
 import json
 import os
-from pathlib import Path
-import standards
 import uuid
+from pathlib import Path
+
+import standards
 
 
 def add_criteria(data):
@@ -28,15 +28,11 @@ def add_criteria(data):
             # Add lorem ipsum to requirement titles and generate IDs if missing
             for group in criteria_copy.get("requirementGroups", []):
                 for req in group.get("requirements", []):
-                    req["title"] = (
-                        "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
-                    )
+                    req["title"] = "Lorem ipsum dolor sit amet, consectetur adipiscing elit"
                     if "id" not in req:
                         req["id"] = str(uuid.uuid4().hex)
                     added_requirement_ids.append(req["id"])
-                    print(
-                        f"Added requirement ID from new article 16 criteria: {req['id']}"
-                    )
+                    print(f"Added requirement ID from new article 16 criteria: {req['id']}")
 
             data["data"].append(criteria_copy)
             existing_ids.add(classification_id)
@@ -75,9 +71,7 @@ def process_directory(directory):
             # Process each criteria_create file separately
             for file in files:
                 file_clean = "_".join(file.split("_")[1:])
-                if file_clean.startswith(
-                    f"{prefix}criteria_create"
-                ) and file_clean.endswith(".json"):
+                if file_clean.startswith(f"{prefix}criteria_create") and file_clean.endswith(".json"):
                     criteria_path = Path(root) / file
                     print(f"\nProcessing criteria: {criteria_path}")
 
@@ -95,29 +89,21 @@ def process_directory(directory):
                     if added_requirement_ids:
                         for res_file in os.listdir(root):
                             res_file_clean = "_".join(res_file.split("_")[1:])
-                            if res_file_clean.startswith(
-                                f"{prefix}bid_res_post"
-                            ) and res_file_clean.endswith(".json"):
+                            if res_file_clean.startswith(f"{prefix}bid_res_post") and res_file_clean.endswith(".json"):
                                 response_path = Path(root) / res_file
                                 print(f"\nProcessing response: {response_path}")
                                 with open(response_path, "r", encoding="utf-8") as f:
                                     data = json.load(f)
                                     if "data" in data:
                                         data = add_response(data, added_requirement_ids)
-                                        with open(
-                                            response_path, "w", encoding="utf-8"
-                                        ) as f:
-                                            json.dump(
-                                                data, f, indent=2, ensure_ascii=False
-                                            )
+                                        with open(response_path, "w", encoding="utf-8") as f:
+                                            json.dump(data, f, indent=2, ensure_ascii=False)
 
 
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Add criteria and responses to JSON files"
-    )
+    parser = argparse.ArgumentParser(description="Add criteria and responses to JSON files")
     parser.add_argument("root_dir", help="Root directory containing the files")
     args = parser.parse_args()
     process_directory(args.root_dir)

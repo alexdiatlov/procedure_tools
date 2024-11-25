@@ -1,10 +1,7 @@
-import pytest
-
-try:
-    from unittest import mock
-except ImportError:
-    import mock
 import os
+from unittest import mock
+
+import pytest
 
 from procedure_tools.main import main
 
@@ -20,9 +17,7 @@ REQUIRED_ENV_VARIABLES = [API_HOST, API_TOKEN, DS_HOST, DS_USERNAME, DS_PASSWORD
 
 skipifenv = pytest.mark.skipif(
     any([not os.environ.get(v) for v in REQUIRED_ENV_VARIABLES]),
-    reason="One of {} env variables not specified".format(
-        ", ".join(REQUIRED_ENV_VARIABLES)
-    ),
+    reason=f"One of {', '.join(REQUIRED_ENV_VARIABLES)} env variables not specified",
 )
 
 

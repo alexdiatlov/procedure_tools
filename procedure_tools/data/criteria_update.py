@@ -1,7 +1,8 @@
-from copy import deepcopy
 import json
 import os
+from copy import deepcopy
 from pathlib import Path
+
 import standards
 
 
@@ -12,9 +13,7 @@ def notice_field_changes(old_criteria, new_criteria, source_name, related_item=N
     # Check top-level fields
     for field in ["title", "description", "source"]:
         if old_criteria.get(field) != new_criteria.get(field):
-            changes.append(
-                f"  {field}: '{old_criteria.get(field)}' -> '{new_criteria.get(field)}'"
-            )
+            changes.append(f"  {field}: '{old_criteria.get(field)}' -> '{new_criteria.get(field)}'")
 
     # Check legislation changes
     old_leg = old_criteria.get("legislation", [])
@@ -63,12 +62,8 @@ def update_criteria_from_json(data, source_data, source_name):
         # Find matching article
         matching_article = None
         for standards_criterion in source_data:
-            if standards_criterion.get("classification", {}).get("id") == criteria.get(
-                "classification", {}
-            ).get("id"):
-                matching_article = deepcopy(
-                    standards_criterion
-                )  # Make a copy to not modify the original
+            if standards_criterion.get("classification", {}).get("id") == criteria.get("classification", {}).get("id"):
+                matching_article = deepcopy(standards_criterion)  # Make a copy to not modify the original
                 break
 
         if matching_article:
@@ -161,9 +156,7 @@ def notice_changes(title_changes, source_name):
 if __name__ == "__main__":
     import argparse
 
-    parser = argparse.ArgumentParser(
-        description="Update criteria and responses from article_17.json"
-    )
+    parser = argparse.ArgumentParser(description="Update criteria and responses from article_17.json")
     parser.add_argument("root_dir", help="Root directory containing the files")
     args = parser.parse_args()
     process_directory(args.root_dir)

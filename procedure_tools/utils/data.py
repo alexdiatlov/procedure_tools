@@ -1,7 +1,5 @@
-from __future__ import absolute_import
-
 ACCELERATION_DEFAULT = 460800
-TENDER_SECONDS_BUFFER = 5
+SECONDS_BUFFER = 5
 
 SUBMISSION_QUICK = "quick"
 SUBMISSION_QUICK_NO_AUCTION = "quick(mode:no-auction)"
@@ -69,11 +67,7 @@ def get_ids(response, status_exclude=None):
         status_exclude = []
     elif not isinstance(status_exclude, list):
         status_exclude = [status_exclude]
-    return [
-        item["id"]
-        for item in response.json()["data"]
-        if item["status"] not in status_exclude
-    ]
+    return [item["id"] for item in response.json()["data"] if item["status"] not in status_exclude]
 
 
 def get_ids_with_status(response, status):

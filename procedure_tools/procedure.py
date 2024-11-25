@@ -1,28 +1,9 @@
-from __future__ import absolute_import
-
 import logging
 import random
 
 from faker import Faker
 
-from procedure_tools.client import CDBClient, DsApiClient
-from procedure_tools.utils.data import (
-    get_access,
-    get_award_id,
-    get_complaint_period_end_dates,
-    get_config,
-    get_contract_period_clarif_date,
-    get_contracts_bid_tokens,
-    get_data,
-    get_id,
-    get_ids,
-    get_next_check,
-    get_procurement_method_type,
-    get_submission_method_details,
-    get_token,
-)
-from procedure_tools.utils.file import get_data_path, get_numberless_filename
-from procedure_tools.utils.process import (
+from procedure_tools.actions import (
     create_awards,
     create_bids,
     create_complaints,
@@ -58,6 +39,7 @@ from procedure_tools.utils.process import (
     post_criteria,
     post_tender_plan,
     re_upload_evaluation_report,
+    upload_bids_proposal,
     upload_evaluation_report,
     upload_tender_documents,
     upload_tender_notice,
@@ -66,8 +48,24 @@ from procedure_tools.utils.process import (
     wait_edr_pre_qual,
     wait_edr_qual,
     wait_status,
-    upload_bids_proposal,
 )
+from procedure_tools.client import CDBClient, DSClient
+from procedure_tools.utils.data import (
+    get_access,
+    get_award_id,
+    get_complaint_period_end_dates,
+    get_config,
+    get_contract_period_clarif_date,
+    get_contracts_bid_tokens,
+    get_data,
+    get_id,
+    get_ids,
+    get_next_check,
+    get_procurement_method_type,
+    get_submission_method_details,
+    get_token,
+)
+from procedure_tools.utils.file import get_data_path, get_numberless_filename
 
 try:
     from colorama import init
@@ -117,7 +115,7 @@ def process_procedure(
         session=session,
         debug=args.debug,
     )
-    ds_client = DsApiClient(
+    ds_client = DSClient(
         args.ds_host,
         args.ds_username,
         args.ds_password,
@@ -154,7 +152,6 @@ def process_procedure(
             )
             response = create_tender(
                 client,
-                ds_client,
                 args,
                 context,
                 plan_id=plan_id,
@@ -165,7 +162,6 @@ def process_procedure(
             plan_id = None
             response = create_tender(
                 client,
-                ds_client,
                 args,
                 context,
                 prefix=prefix,
@@ -404,9 +400,7 @@ def process_procedure(
         bids_ids = [bid_json["data"]["id"] for bid_json in bids_jsons]
         bids_tokens = [bid_json["access"]["token"] for bid_json in bids_jsons]
         if tender_criteria:
-            bids_documents = [
-                bid_json["data"].get("documents", []) for bid_json in bids_jsons
-            ]
+            bids_documents = [bid_json["data"].get("documents", []) for bid_json in bids_jsons]
             post_bid_res(
                 client,
                 args,
@@ -415,7 +409,6 @@ def process_procedure(
                 bids_ids,
                 bids_tokens,
                 bids_documents,
-                tender_criteria,
                 prefix=prefix,
             )
         upload_bids_proposal(
@@ -992,7 +985,6 @@ def process_procedure(
 
         response = create_tender(
             client,
-            ds_client,
             args,
             context,
             prefix="selection_",

@@ -15,12 +15,10 @@ from procedure_tools.utils.style import fore_error
 
 
 @contextmanager
-def open_file(
-    path, mode="r", encoding="UTF-8", exit_filename=None, silent_error=False, **kwargs
-):
+def open_file(path, mode="r", encoding="UTF-8", exit_filename=None, silent_error=False, **kwargs):
     _, file_name = os.path.split(path)
     actual_path = get_actual_file_path(path)
-    logging.info("Processing data file: {}\n".format(file_name))
+    logging.info(f"Processing data file: {file_name}\n")
     try:
         try:
             encoding = encoding if "b" not in mode else None

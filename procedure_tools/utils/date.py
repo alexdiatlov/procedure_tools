@@ -1,5 +1,4 @@
-import logging
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from dateutil import parser, tz
 
@@ -34,5 +33,5 @@ def parse_date(datetime_str):
 def client_timedelta_string(client_timedelta):
     total_seconds = client_timedelta.total_seconds()
     if total_seconds > 1:
-        return "{} seconds".format(int(total_seconds))
-    return "{} milliseconds".format(int(total_seconds * 1000))
+        return f"{int(total_seconds)} seconds"
+    return f"{int(total_seconds * 1000)} milliseconds"

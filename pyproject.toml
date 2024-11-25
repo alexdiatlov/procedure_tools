@@ -1,0 +1,22 @@
+[tool.black]
+line-length = 120
+skip-string-normalization = true
+
+[tool.isort]
+profile = "black"
+
+[tool.autoflake]
+quiet = true
+imports = [
+    "requests",
+]
+
+[tool.pylint]
+[tool.pylint.main]
+jobs = 1
+load-plugins = [
+    "pylint_pytest",
+]
+
+[tool.pylint.format]
+max-line-length = 120

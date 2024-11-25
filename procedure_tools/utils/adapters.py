@@ -20,7 +20,7 @@ class HTTPAdapter(adapters.HTTPAdapter):
                 logging.info("Retrying after connection error")
             try:
                 kwargs["timeout"] = self.timeout
-                logging.info("[{}] {}".format(request.method, request.url))
+                logging.info(f"[{request.method}] {request.url}")
                 return super(HTTPAdapter, self).send(request, *args, **kwargs)
             except ConnectionError as exc:
                 logging.info("Connection error: %s", exc)

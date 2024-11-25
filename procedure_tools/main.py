@@ -67,18 +67,14 @@ def main():
     parser.add_argument(
         "-d",
         "--data",
-        help="data files, custom path or one of:\n{}".format(
-            _format_choices(sorted(get_default_data_dirs())),
-        ),
+        help=f"data files, custom path or one of:\n{_format_choices(sorted(get_default_data_dirs()))}",
         metavar=str(DATA_DIR_DEFAULT),
         default=DATA_DIR_DEFAULT,
     )
     parser.add_argument(
         "-m",
         "--submission",
-        help="value for submissionMethodDetails, one of:\n{}".format(
-            _format_choices(SUBMISSIONS),
-        ),
+        help=f"value for submissionMethodDetails, one of:\n{_format_choices(SUBMISSIONS)}",
         metavar=str(SUBMISSION_QUICK_NO_AUCTION),
     )
     parser.add_argument(
@@ -90,9 +86,7 @@ def main():
     parser.add_argument(
         "-w",
         "--wait",
-        help="wait for event, one or many of (divided by comma):\n{}".format(
-            _format_choices(WAIT_EVENTS),
-        ),
+        help=f"wait for event, one or many of (divided by comma):\n{_format_choices(WAIT_EVENTS)}",
         metavar=WAIT_EDR_QUAL,
         default="",
     )
