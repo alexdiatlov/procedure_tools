@@ -34,9 +34,7 @@ def get_numberless_filename(filename):
 
 def get_data_all_files(path):
     actual_filenames = sorted(os.listdir(path))
-    numberless_filenames = [
-        get_numberless_filename(filename) for filename in actual_filenames
-    ]
+    numberless_filenames = [get_numberless_filename(filename) for filename in actual_filenames]
     return numberless_filenames
 
 
@@ -87,9 +85,7 @@ def get_actual_file_path(path):
     :return:
     """
     directory, filename = os.path.split(path)
-    pattern_filename = (
-        "[0-9]" * NUMBERED_PREFIX_LENGTH + "_" + filename
-    )  # [0-9][0-9][0-9][0-9]_filename
+    pattern_filename = "[0-9]" * NUMBERED_PREFIX_LENGTH + "_" + filename  # [0-9][0-9][0-9][0-9]_filename
     pattern_path = os.path.join(directory, pattern_filename)
     glob_paths = glob.glob(pattern_path)
     actual_path = glob_paths[0] if glob_paths else path

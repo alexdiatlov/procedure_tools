@@ -7,6 +7,7 @@ from functools import partial
 from mimetypes import MimeTypes
 from time import sleep
 
+from procedure_tools.client import CDBClient, DSClient
 from procedure_tools.utils.contextmanagers import open_file, read_file
 from procedure_tools.utils.data import (
     TENDER_SECONDS_BUFFER,
@@ -29,6 +30,7 @@ from procedure_tools.utils.handlers import (
     bid_create_success_handler,
     contract_credentials_success_handler,
     default_success_handler,
+    document_attach_success_handler,
     error,
     item_create_success_handler,
     item_patch_success_handler,
@@ -42,13 +44,17 @@ from procedure_tools.utils.handlers import (
     tender_post_complaint_success_handler,
     tender_post_criteria_success_handler,
     tender_post_plan_success_handler,
-    document_attach_success_handler,
 )
 
 EDR_FILENAME = "edr_identification.yaml"
 
 
-def get_bids(client, args, context, tender_id):
+def get_bids(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+):
     logging.info("Check bids...\n")
     while True:
         response = client.get_tender_bids(tender_id, auth_token=args.token)
@@ -60,7 +66,14 @@ def get_bids(client, args, context, tender_id):
 
 
 def upload_bids_proposal(
-    client, ds_client, args, context, tender_id, bids_ids, bids_tokens, prefix=""
+    client: CDBClient,
+    ds_client: DSClient,
+    args,
+    context,
+    tender_id,
+    bids_ids,
+    bids_tokens,
+    prefix="",
 ):
     for bid_index, bid_id in enumerate(bids_ids):
         upload_bid_proposal(
@@ -76,7 +89,15 @@ def upload_bids_proposal(
         )
 
 
-def patch_bids(client, args, context, tender_id, bids_ids, bids_tokens, prefix=""):
+def patch_bids(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+    bids_ids,
+    bids_tokens,
+    prefix="",
+):
     logging.info("Patching bids...\n")
     for bid_index, bid_id in enumerate(bids_ids):
         data_file = "{}bid_patch_{}.json".format(prefix, bid_index)
@@ -94,14 +115,13 @@ def patch_bids(client, args, context, tender_id, bids_ids, bids_tokens, prefix="
 
 
 def post_bid_res(
-    client,
+    client: CDBClient,
     args,
     context,
     tender_id,
     bids_ids,
     bids_tokens,
     bids_documents,
-    tender_criteria,
     prefix="",
 ):
     logging.info("Post bids requirement responses...\n")
@@ -130,14 +150,17 @@ def post_bid_res(
 
 
 def patch_agreements_contracts(
-    client, args, context, tender_id, agreements_ids, tender_token
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+    agreements_ids,
+    tender_token,
 ):
     response = get_bids(client, args, context, tender_id)
     bids_ids = get_ids(response)
     for agreement_index, agreement_id in enumerate(agreements_ids):
-        response = get_agreement_contract(
-            client, args, context, tender_id, agreement_id
-        )
+        response = get_agreement_contract(client, args, context, tender_id, agreement_id)
         agreement_contracts_ids = get_ids(response)
         agreement_contracts_bids_ids = get_contracts_bids_ids(response)
 
@@ -156,7 +179,7 @@ def patch_agreements_contracts(
 
 
 def patch_agreement_contract(
-    client,
+    client: CDBClient,
     args,
     context,
     tender_id,
@@ -168,9 +191,7 @@ def patch_agreement_contract(
     tender_token,
 ):
     logging.info("Patching agreement contracts...\n")
-    for agreement_contract_index, agreement_contract_id in enumerate(
-        agreement_contracts_ids
-    ):
+    for agreement_contract_index, agreement_contract_id in enumerate(agreement_contracts_ids):
         bid_id = agreement_contracts_bids_ids[agreement_contract_index]
         index = bids_ids.index(bid_id)
         data_file_pattern = "agreement_contracts_patch_{}_{}.json"
@@ -190,7 +211,14 @@ def patch_agreement_contract(
 
 
 def patch_agreements(
-    client, ds_client, args, context, tender_id, agreements_ids, tender_token, prefix=""
+    client: CDBClient,
+    ds_client: DSClient,
+    args,
+    context,
+    tender_id,
+    agreements_ids,
+    tender_token,
+    prefix="",
 ):
     logging.info("Patching agreements...\n")
     for agreement_index, agreement_id in enumerate(agreements_ids):
@@ -219,7 +247,13 @@ def patch_agreements(
             )
 
 
-def get_agreement_contract(client, args, context, tender_id, agreement_id):
+def get_agreement_contract(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+    agreement_id,
+):
     logging.info("Checking agreement contracts...")
     while True:
         response = client.get_tender_agreement_contracts(tender_id, agreement_id)
@@ -230,11 +264,11 @@ def get_agreement_contract(client, args, context, tender_id, agreement_id):
     return response
 
 
-def get_tender(client, args, context, tender_id):
+def get_tender(client: CDBClient, args, context, tender_id):
     return client.get_tender(tender_id)
 
 
-def get_agreements(client, args, context, tender_id):
+def get_agreements(client: CDBClient, args, context, tender_id):
     logging.info("Check agreements...\n")
     while True:
         response = client.get_tender_agreements(tender_id)
@@ -245,7 +279,12 @@ def get_agreements(client, args, context, tender_id):
     return response
 
 
-def get_agreement(client, args, context, agreement_id):
+def get_agreement(
+    client: CDBClient,
+    args,
+    context,
+    agreement_id,
+):
     logging.info("Check agreement...\n")
     while True:
         response = client.get_agreement(
@@ -260,7 +299,12 @@ def get_agreement(client, args, context, agreement_id):
     return response
 
 
-def get_contract(client, args, context, contract_id):
+def get_contract(
+    client: CDBClient,
+    args,
+    context,
+    contract_id,
+):
     logging.info("Check contract...\n")
     while True:
         response = client.get_contract(
@@ -276,7 +320,12 @@ def get_contract(client, args, context, contract_id):
 
 
 def patch_contracts_buyer_signer_info(
-    client, args, context, contracts_ids, contracts_tokens, prefix=""
+    client: CDBClient,
+    args,
+    context,
+    contracts_ids,
+    contracts_tokens,
+    prefix="",
 ):
     logging.info("Patching contracts buyers signer info...\n")
     for contract_index, contract_id in enumerate(contracts_ids):
@@ -298,7 +347,12 @@ def patch_contracts_buyer_signer_info(
 
 
 def patch_contracts_suppliers_signer_info(
-    client, args, context, contracts_ids, contracts_tokens, prefix=""
+    client: CDBClient,
+    args,
+    context,
+    contracts_ids,
+    contracts_tokens,
+    prefix="",
 ):
     logging.info("Patching contracts suppliers signer info...\n")
     for contract_index, contract_id in enumerate(contracts_ids):
@@ -319,7 +373,14 @@ def patch_contracts_suppliers_signer_info(
             )
 
 
-def patch_contracts(client, args, context, contracts_ids, contracts_tokens, prefix=""):
+def patch_contracts(
+    client: CDBClient,
+    args,
+    context,
+    contracts_ids,
+    contracts_tokens,
+    prefix="",
+):
     logging.info("Patching contracts...\n")
     for contract_index, contract_id in enumerate(contracts_ids):
         contract_token = contracts_tokens[contract_index]
@@ -339,7 +400,13 @@ def patch_contracts(client, args, context, contracts_ids, contracts_tokens, pref
             )
 
 
-def patch_tender_qual(client, args, context, tender_id, tender_token):
+def patch_tender_qual(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+    tender_token,
+):
     logging.info("Approving awards by switching to next status...\n")
     data_file = "tender_patch_qual.json"
     path = get_data_file_path(get_data_path(args.data), data_file)
@@ -354,7 +421,13 @@ def patch_tender_qual(client, args, context, tender_id, tender_token):
         )
 
 
-def patch_tender_waiting(client, args, context, tender_id, tender_token):
+def patch_tender_waiting(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+    tender_token,
+):
     logging.info("Finishing first stage by switching to next status...\n")
     data_file = "tender_patch_waiting.json"
     path = get_data_file_path(get_data_path(args.data), data_file)
@@ -370,8 +443,8 @@ def patch_tender_waiting(client, args, context, tender_id, tender_token):
 
 
 def upload_award_documents(
-    client,
-    ds_client,
+    client: CDBClient,
+    ds_client: DSClient,
     args,
     context,
     tender_id,
@@ -396,8 +469,8 @@ def upload_award_documents(
 
 
 def patch_award(
-    client,
-    ds_client,
+    client: CDBClient,
+    ds_client: DSClient,
     args,
     context,
     tender_id,
@@ -422,9 +495,7 @@ def patch_award(
             award_patch_data_files.append(data_file)
     responses = []
     for data_file in award_patch_data_files:
-        action_name, action_parts, action_extra, extension_parts = (
-            parse_data_file_parts(data_file, action_name, 3)
-        )
+        action_name, action_parts, action_extra, extension_parts = parse_data_file_parts(data_file, action_name, 3)
 
         print(data_file, action_name, action_parts, action_extra, extension_parts)
 
@@ -435,9 +506,7 @@ def patch_award(
         award_id = awards_ids[award_index]
 
         if action_extra == "document_attach":
-            data_file_prefix = generate_data_file_name(
-                action_name, action_parts, action_extra, extension_parts
-            )
+            data_file_prefix = generate_data_file_name(action_name, action_parts, action_extra, extension_parts)
             upload_award_documents(
                 client,
                 ds_client,
@@ -467,7 +536,12 @@ def patch_award(
     return responses
 
 
-def get_awards(client, args, context, tender_id):
+def get_awards(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+):
     logging.info("Checking awards...\n")
     while True:
         response = client.get_tender_awards(tender_id)
@@ -478,7 +552,12 @@ def get_awards(client, args, context, tender_id):
     return response
 
 
-def get_tender_contracts(client, args, context, tender_id):
+def get_tender_contracts(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+):
     logging.info("Checking contracts...\n")
     while True:
         response = client.get_tender_contracts(tender_id)
@@ -489,7 +568,14 @@ def get_tender_contracts(client, args, context, tender_id):
     return response
 
 
-def patch_tender_pre(client, args, context, tender_id, tender_token, prefix=""):
+def patch_tender_pre(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+    tender_token,
+    prefix="",
+):
     logging.info("Approving qualifications by switching to next status...\n")
     data_file = "{}tender_patch_pre.json".format(prefix)
     path = get_data_file_path(get_data_path(args.data), data_file)
@@ -505,7 +591,7 @@ def patch_tender_pre(client, args, context, tender_id, tender_token, prefix=""):
 
 
 def patch_qualifications(
-    client,
+    client: CDBClient,
     args,
     context,
     tender_id,
@@ -532,7 +618,7 @@ def patch_qualifications(
             )
 
 
-def get_qualifications(client, args, context, tender_id):
+def get_qualifications(client: CDBClient, args, context, tender_id):
     logging.info("Checking qualifications...\n")
     while True:
         response = client.get_tender_qualifications(tender_id)
@@ -543,7 +629,14 @@ def get_qualifications(client, args, context, tender_id):
     return response
 
 
-def create_awards(client, args, context, tender_id, tender_token, prefix=""):
+def create_awards(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+    tender_token,
+    prefix="",
+):
     logging.info("Creating awards...\n")
     award_data_files = []
     for data_file in get_data_all_files(get_data_path(args.data)):
@@ -562,7 +655,14 @@ def create_awards(client, args, context, tender_id, tender_token, prefix=""):
             )
 
 
-def create_bids(client, ds_client, args, context, tender_id, prefix=""):
+def create_bids(
+    client: CDBClient,
+    ds_client: DSClient,
+    args,
+    context,
+    tender_id,
+    prefix="",
+):
     logging.info("Creating bids...\n")
     bid_data_files = []
     for data_file in get_data_all_files(get_data_path(args.data)):
@@ -580,13 +680,9 @@ def create_bids(client, ds_client, args, context, tender_id, prefix=""):
                 "qualificationDocuments",
             ):
                 bid_documents = []
-                for bid_document_data in bid_create_data["data"].get(
-                    bid_document_container, []
-                ):
+                for bid_document_data in bid_create_data["data"].get(bid_document_container, []):
                     upload_file = bid_document_data["title"]
-                    ds_response = upload_document_ds(
-                        ds_client, args, context, upload_file
-                    )
+                    ds_response = upload_document_ds(ds_client, args, context, upload_file)
                     if ds_response:
                         document_data = ds_response.json()["data"]
                         document_data.update(bid_document_data)
@@ -602,18 +698,26 @@ def create_bids(client, ds_client, args, context, tender_id, prefix=""):
     return responses
 
 
-def upload_document_ds(ds_client, args, context, filename):
+def upload_document_ds(
+    ds_client: DSClient,
+    args,
+    context,
+    filename,
+):
     path = get_data_file_path(get_data_path(args.data), filename)
     with open_file(path, mode="rb") as f:
         mime = MimeTypes()
         mime_type = mime.guess_type(path)
-        ds_response = ds_client.post_document_upload(
-            {"file": (filename, f, mime_type[0])}
-        )
+        ds_response = ds_client.post_document_upload({"file": (filename, f, mime_type[0])})
         return ds_response
 
 
-def create_plans(client, args, context, prefix=""):
+def create_plans(
+    client: CDBClient,
+    args,
+    context,
+    prefix="",
+):
     logging.info("Creating plans...\n")
     plan_data_files = []
     for data_file in get_data_all_files(get_data_path(args.data)):
@@ -633,13 +737,16 @@ def create_plans(client, args, context, prefix=""):
     return responses
 
 
-def create_plan(client, args, context, prefix=""):
+def create_plan(
+    client: CDBClient,
+    args,
+    context,
+    prefix="",
+):
     logging.info("Creating plan...\n")
     data_file = "{}plan_create.json".format(prefix)
     path = get_data_file_path(get_data_path(args.data), data_file)
-    with read_file(
-        path, context=context, exit_filename=args.stop, silent_error=True
-    ) as content:
+    with read_file(path, context=context, exit_filename=args.stop, silent_error=True) as content:
         plan_create_data = json.loads(content)
         response = client.post_plan(
             plan_create_data,
@@ -649,13 +756,18 @@ def create_plan(client, args, context, prefix=""):
         return response
 
 
-def patch_plan(client, args, context, plan_id, plan_token, prefix=""):
+def patch_plan(
+    client: CDBClient,
+    args,
+    context,
+    plan_id,
+    plan_token,
+    prefix="",
+):
     logging.info("Patching plan...\n")
     data_file = "{}plan_patch.json".format(prefix)
     path = get_data_file_path(get_data_path(args.data), data_file)
-    with read_file(
-        path, context=context, exit_filename=args.stop, silent_error=True
-    ) as content:
+    with read_file(path, context=context, exit_filename=args.stop, silent_error=True) as content:
         plan_patch_data = json.loads(content)
         response = client.patch_plan(
             plan_id,
@@ -668,8 +780,7 @@ def patch_plan(client, args, context, plan_id, plan_token, prefix=""):
 
 
 def create_tender(
-    client,
-    ds_client,
+    client: CDBClient,
     args,
     context,
     plan_id=None,
@@ -698,7 +809,7 @@ def create_tender(
 
 
 def upload_documents(
-    ds_client,
+    ds_client: DSClient,
     args,
     context,
     data_file_prefix,
@@ -724,18 +835,14 @@ def upload_documents(
                         auth_token=args.token,
                         success_handler=document_attach_success_handler,
                     )
-                    if (
-                        not ignore_error
-                        or ignore_error
-                        and 200 <= response.status_code < 300
-                    ):
+                    if not ignore_error or ignore_error and 200 <= response.status_code < 300:
                         responses.append(response)
     return responses
 
 
 def upload_tender_documents(
-    client,
-    ds_client,
+    client: CDBClient,
+    ds_client: DSClient,
     args,
     context,
     tender_id,
@@ -757,8 +864,8 @@ def upload_tender_documents(
 
 
 def upload_tender_notice(
-    client,
-    ds_client,
+    client: CDBClient,
+    ds_client: DSClient,
     args,
     context,
     tender_id,
@@ -780,8 +887,8 @@ def upload_tender_notice(
 
 
 def upload_bid_proposal(
-    client,
-    ds_client,
+    client: CDBClient,
+    ds_client: DSClient,
     args,
     context,
     tender_id,
@@ -806,8 +913,8 @@ def upload_bid_proposal(
 
 
 def upload_evaluation_report(
-    client,
-    ds_client,
+    client: CDBClient,
+    ds_client: DSClient,
     args,
     context,
     tender_id,
@@ -831,8 +938,8 @@ def upload_evaluation_report(
 
 
 def re_upload_evaluation_report(
-    client,
-    ds_client,
+    client: CDBClient,
+    ds_client: DSClient,
     args,
     context,
     tender_id,
@@ -857,7 +964,11 @@ def re_upload_evaluation_report(
     )
 
 
-def wait(date_str, client_timedelta=timedelta(), date_info_str=None):
+def wait(
+    date_str,
+    client_timedelta=timedelta(),
+    date_info_str=None,
+):
     now = fix_datetime(get_utcnow(), client_timedelta)
     date_timedelta = parse_date(date_str) - now
     delta_seconds = date_timedelta.total_seconds()
@@ -874,15 +985,18 @@ def wait(date_str, client_timedelta=timedelta(), date_info_str=None):
 
 
 def wait_status(
-    client, args, context, tender_id, delay, status, fail_status=None, fallback=None
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+    delay,
+    status,
+    fail_status=None,
+    fallback=None,
 ):
     logging.info("Waiting for {}...\n".format(status))
     status = [status] if not isinstance(status, list) else status
-    fail_status = (
-        [fail_status]
-        if fail_status and not isinstance(fail_status, list)
-        else fail_status
-    )
+    fail_status = [fail_status] if fail_status and not isinstance(fail_status, list) else fail_status
     while True:
         response = client.get_tender(tender_id)
         current_status = response.json()["data"]["status"]
@@ -905,7 +1019,13 @@ def wait_status(
     return response
 
 
-def patch_stage2_credentials(client, args, context, stage2_tender_id, tender_token):
+def patch_stage2_credentials(
+    client: CDBClient,
+    args,
+    context,
+    stage2_tender_id,
+    tender_token,
+):
     logging.info("Getting credentials for second stage...\n")
     data_file = "stage2_tender_credentials.json"
     path = get_data_file_path(get_data_path(args.data), data_file)
@@ -920,7 +1040,13 @@ def patch_stage2_credentials(client, args, context, stage2_tender_id, tender_tok
         )
 
 
-def patch_contract_credentials(client, args, context, contract_id, tender_token):
+def patch_contract_credentials(
+    client: CDBClient,
+    args,
+    context,
+    contract_id,
+    tender_token,
+):
     logging.info("Getting credentials for contract...\n")
     return client.patch_contract_credentials(
         contract_id,
@@ -931,7 +1057,14 @@ def patch_contract_credentials(client, args, context, contract_id, tender_token)
     )
 
 
-def patch_tender_tendering(client, args, context, tender_id, tender_token, prefix=""):
+def patch_tender_tendering(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+    tender_token,
+    prefix="",
+):
     logging.info("Activating tender by switching to next status...\n")
     data_file = "{}tender_patch_tendering.json".format(prefix)
     path = get_data_file_path(get_data_path(args.data), data_file)
@@ -946,7 +1079,14 @@ def patch_tender_tendering(client, args, context, tender_id, tender_token, prefi
         )
 
 
-def patch_tender_pending(client, args, context, tender_id, tender_token, prefix=""):
+def patch_tender_pending(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+    tender_token,
+    prefix="",
+):
     logging.info("Activating tender by switching to next status...\n")
     data_file = "{}tender_patch_pending.json".format(prefix)
     path = get_data_file_path(get_data_path(args.data), data_file)
@@ -961,7 +1101,14 @@ def patch_tender_pending(client, args, context, tender_id, tender_token, prefix=
         )
 
 
-def post_criteria(client, args, context, tender_id, tender_token, prefix=""):
+def post_criteria(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+    tender_token,
+    prefix="",
+):
     logging.info("Create tender criteria...\n")
     data_file = "{}criteria_create.json".format(prefix)
     path = get_data_file_path(get_data_path(args.data), data_file)
@@ -976,7 +1123,14 @@ def post_criteria(client, args, context, tender_id, tender_token, prefix=""):
         )
 
 
-def patch_tender(client, args, context, tender_id, tender_token, prefix=""):
+def patch_tender(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+    tender_token,
+    prefix="",
+):
     logging.info("Patching tender...\n")
     data_file = "{}tender_patch.json".format(prefix)
     path = get_data_file_path(get_data_path(args.data), data_file)
@@ -991,13 +1145,16 @@ def patch_tender(client, args, context, tender_id, tender_token, prefix=""):
         )
 
 
-def wait_edr_pre_qual(client, args, context, tender_id):
+def wait_edr_pre_qual(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+):
     logging.info("Waiting for {} in qualifications documents...\n".format(EDR_FILENAME))
     response = get_qualifications(client, args, context, tender_id)
     for qualification in response.json()["data"]:
-        while EDR_FILENAME not in [
-            doc["title"] for doc in qualification.get("documents", [])
-        ]:
+        while EDR_FILENAME not in [doc["title"] for doc in qualification.get("documents", [])]:
             sleep(TENDER_SECONDS_BUFFER)
             qualification = client.get_tender_qualification(
                 tender_id,
@@ -1005,7 +1162,12 @@ def wait_edr_pre_qual(client, args, context, tender_id):
             ).json()["data"]
 
 
-def wait_edr_qual(client, args, context, tender_id):
+def wait_edr_qual(
+    client: CDBClient,
+    args,
+    context,
+    tender_id,
+):
     logging.info("Waiting for {} in awards documents...\n".format(EDR_FILENAME))
     response = get_awards(client, args, context, tender_id)
     for award in response.json()["data"]:
@@ -1014,7 +1176,12 @@ def wait_edr_qual(client, args, context, tender_id):
             award = client.get_tender_award(tender_id, award["id"]).json()["data"]
 
 
-def wait_auction_participation_urls(client, args, tender_id, bids):
+def wait_auction_participation_urls(
+    client: CDBClient,
+    args,
+    tender_id,
+    bids,
+):
     logging.info("Waiting for the auction participation urls...\n")
     active_bids = [bid for bid in bids if bid["data"].get("status") != "unsuccessful"]
     active_bids_ids = [bid["data"]["id"] for bid in active_bids]
@@ -1049,11 +1216,7 @@ def wait_auction_participation_urls(client, args, tender_id, bids):
                         [
                             value.get("status", "active") in ("pending", "active"),
                             "auctionPeriod"
-                            in [
-                                lot
-                                for lot in tender_data["lots"]
-                                if lot["id"] == value["relatedLot"]
-                            ][0].keys(),
+                            in [lot for lot in tender_data["lots"] if lot["id"] == value["relatedLot"]][0].keys(),
                         ]
                     )
                 ]
@@ -1083,7 +1246,7 @@ def wait_auction_participation_urls(client, args, tender_id, bids):
 
 
 def post_tender_plan(
-    client,
+    client: CDBClient,
     args,
     context,
     tender_id,
@@ -1103,7 +1266,7 @@ def post_tender_plan(
 
 
 def create_complaints(
-    client,
+    client: CDBClient,
     args,
     context,
     tender_id,
@@ -1115,9 +1278,7 @@ def create_complaints(
     prefix="",
 ):
     if not args.bot_token or not args.reviewer_token:
-        logging.info(
-            "Skipping complaints creating: bot and reviewer tokens are required\n"
-        )
+        logging.info("Skipping complaints creating: bot and reviewer tokens are required\n")
         return
 
     if obj_type == "award":
@@ -1131,9 +1292,7 @@ def create_complaints(
         filename_base = "complaint_create"
 
     complaints_data_files = []
-    data_path = get_data_path(
-        os.path.join(args.data, "{}{}".format(prefix, file_subpath))
-    )
+    data_path = get_data_path(os.path.join(args.data, "{}{}".format(prefix, file_subpath)))
     for data_file in get_data_all_files(data_path):
         if data_file.startswith(filename_base):
             complaints_data_files.append(data_file)
@@ -1173,7 +1332,7 @@ def create_complaints(
 
 
 def patch_complaints(
-    client,
+    client: CDBClient,
     args,
     context,
     tender_id,
@@ -1211,9 +1370,7 @@ def patch_complaints(
             error("Unknown role: {}".format(role))
 
     if not args.bot_token or not args.reviewer_token:
-        logging.info(
-            "Skipping complaints patching: bot and reviewer tokens are required\n"
-        )
+        logging.info("Skipping complaints patching: bot and reviewer tokens are required\n")
         return
 
     if obj_type == "award":
@@ -1229,9 +1386,7 @@ def patch_complaints(
     for complaint_index, complaint_id in enumerate(complaints_ids):
         complaint_token = complaints_tokens[complaint_index]
         complaints_data_files = []
-        data_path = get_data_path(
-            os.path.join(args.data, "{}{}".format(prefix, file_subpath))
-        )
+        data_path = get_data_path(os.path.join(args.data, "{}{}".format(prefix, file_subpath)))
         for data_file in get_data_all_files(data_path):
             if data_file.startswith(
                 "{}_{}_".format(
@@ -1254,18 +1409,14 @@ def patch_complaints(
                     complaints_action_data_files.append(data_file)
             for data_file in complaints_action_data_files:
                 path = get_data_file_path(data_path, data_file)
-                with read_file(
-                    path, context=context, exit_filename=args.stop, silent_error=True
-                ) as content:
+                with read_file(path, context=context, exit_filename=args.stop, silent_error=True) as content:
                     complaint_patch_data = json.loads(content)
                     role = data_file.split(".")[-2].split("_")[-1]
                     role_auth_token = get_auth_token_for_role(role)
                     if not role_auth_token:
                         error("No auth token for role: {}".format(role))
                         continue
-                    role_access_token = get_access_token_for_role(
-                        role, tender_token, complaint_token
-                    )
+                    role_access_token = get_access_token_for_role(role, tender_token, complaint_token)
                     if obj_type == "award":
                         client.patch_tender_award_complaint(
                             tender_id,

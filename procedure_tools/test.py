@@ -20,9 +20,7 @@ REQUIRED_ENV_VARIABLES = [API_HOST, API_TOKEN, DS_HOST, DS_USERNAME, DS_PASSWORD
 
 skipifenv = pytest.mark.skipif(
     any([not os.environ.get(v) for v in REQUIRED_ENV_VARIABLES]),
-    reason="One of {} env variables not specified".format(
-        ", ".join(REQUIRED_ENV_VARIABLES)
-    ),
+    reason="One of {} env variables not specified".format(", ".join(REQUIRED_ENV_VARIABLES)),
 )
 
 

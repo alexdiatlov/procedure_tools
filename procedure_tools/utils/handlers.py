@@ -75,9 +75,7 @@ def tender_create_success_handler(response):
         msg += " - transfer \t\t\t{}\n".format(fore_info(access["transfer"]))
     msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
     msg += " - tenderID \t\t\t{}\n".format(fore_info(data["tenderID"]))
-    msg += " - procurementMethodType \t{}\n".format(
-        fore_info(data["procurementMethodType"])
-    )
+    msg += " - procurementMethodType \t{}\n".format(fore_info(data["procurementMethodType"]))
 
     logging.info(msg)
 
@@ -133,9 +131,7 @@ def bid_create_success_handler(response):
         "qualificationDocuments",
     ):
         for document in data.get(bid_document_container, []):
-            response = type(
-                "Response", (object,), {"json": lambda self: {"data": document}}
-            )()
+            response = type("Response", (object,), {"json": lambda self: {"data": document}})()
             document_attach_success_handler(response)
 
     logging.info(msg)
@@ -186,9 +182,7 @@ def tender_post_criteria_success_handler(response):
 
     msg = "Tender criteria created:\n"
     for item in data:
-        msg += " - classification.id \t\t{}\n".format(
-            fore_info(item["classification"]["id"])
-        )
+        msg += " - classification.id \t\t{}\n".format(fore_info(item["classification"]["id"]))
 
     logging.info(msg)
 
@@ -210,9 +204,7 @@ def tender_check_status_invalid_handler(response):
     msg += " - id \t\t\t\t{}\n".format(fore_info(data["id"]))
     msg += " - status \t\t\t{}\n".format(fore_info(data["status"]))
     if "unsuccessfulReason" in data:
-        msg += " - unsuccessfulReason \t\t{}\n".format(
-            fore_info(" ".join(data["unsuccessfulReason"]))
-        )
+        msg += " - unsuccessfulReason \t\t{}\n".format(fore_info(" ".join(data["unsuccessfulReason"])))
 
     logging.info(msg)
 
@@ -242,9 +234,7 @@ def auction_multilot_participation_url_success_handler(response, related_lot=Non
             msg += " - status \t\t\t{}\n".format(fore_info(lot_value["status"]))
         if "participationUrl" in lot_value:
             if lot_value.get("status", "active") == "active":
-                msg += " - url \t\t\t\t{}\n".format(
-                    fore_info(lot_value["participationUrl"])
-                )
+                msg += " - url \t\t\t\t{}\n".format(fore_info(lot_value["participationUrl"]))
 
     logging.info(msg)
 

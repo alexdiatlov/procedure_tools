@@ -54,9 +54,7 @@ def reorder_files(root_dir):
 
                 if prefixless_filename.startswith(key):
                     number = number_map[key]
-                    number = str(int(number) + int(addition)).zfill(
-                        max(len(number), len(addition))
-                    )
+                    number = str(int(number) + int(addition)).zfill(max(len(number), len(addition)))
                     new_filename = number + "_" + numberless_filename
                     if filename != new_filename:
                         old_path = os.path.join(subdir, filename)

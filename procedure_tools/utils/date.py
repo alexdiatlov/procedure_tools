@@ -1,5 +1,4 @@
-import logging
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from dateutil import parser, tz
 

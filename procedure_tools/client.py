@@ -34,7 +34,13 @@ class BaseApiClient(object):
         "User-Agent": "procedure_tools/{}".format(__version__),
     }
 
-    def __init__(self, host, session=None, debug=False, **kwargs):
+    def __init__(
+        self,
+        host,
+        session=None,
+        debug=False,
+        **kwargs,
+    ):
         logging.info(f"Initializing {self.name} client\n")
         self.host = host
         self.kwargs = kwargs
@@ -77,9 +83,7 @@ class BaseApiClient(object):
         success_handler = request_kwargs.pop("success_handler", None)
         error_handler = request_kwargs.pop("error_handler", None)
         request_kwargs["headers"] = copy(self.headers)
-        request_kwargs["headers"].update(
-            {"Authorization": "Bearer " + auth_token} if auth_token else {}
-        )
+        request_kwargs["headers"].update({"Authorization": "Bearer " + auth_token} if auth_token else {})
         request_kwargs["headers"].update(kwargs.get("headers", {}))
         url = self.get_url(path)
         response = self.session.request(method=method, url=url, **request_kwargs)
@@ -144,379 +148,236 @@ class BaseCDBClient(BaseApiClient):
             urljoin(path, "?acc_token={}".format(acc_token) if acc_token else None),
         )
 
+    def request(self, method, path, **kwargs):
+        path = self.get_api_path(path, acc_token=kwargs.pop("acc_token", None))
+        return super(BaseCDBClient, self).request(method, path, **kwargs)
+
 
 class CDBClient(BaseCDBClient):
     name = "tenders"
 
-    PLANS_COLLECTION_PATH = "plans"
-    PLANS_PATH = "plans/{}"
-    PLANS_TENDERS_COLLECTION_PATH = "plans/{}/tenders"
-
-    TENDERS_COLLECTION_PATH = "tenders"
-    TENDERS_PATH = "tenders/{}"
-    TENDERS_PLANS_PATH = "tenders/{}/plans"
-    TENDERS_DOCS_COLLECTION_PATH = "tenders/{}/documents"
-    TENDERS_DOCS_PATH = "tenders/{}/documents/{}"
-    TENDERS_CRITERIA_COLLECTION_PATH = "tenders/{}/criteria"
-    TENDERS_BIDS_COLLECTION_PATH = "tenders/{}/bids"
-    TENDERS_BIDS_PATH = "tenders/{}/bids/{}"
-    TENDERS_BIDS_DOCS_COLLECTION_PATH = "tenders/{}/bids/{}/documents"
-    TENDERS_BIDS_RES_COLLECTION_PATH = "tenders/{}/bids/{}/requirement_responses"
-    TENDERS_AWARDS_COLLECTION_PATH = "tenders/{}/awards"
-    TENDERS_AWARDS_PATH = "tenders/{}/awards/{}"
-    TENDERS_AWARDS_DOCS_COLLECTION_PATH = "tenders/{}/awards/{}/documents"
-    TENDERS_CONTRACTS_COLLECTION_PATH = "tenders/{}/contracts"
-    TENDERS_CONTRACTS_PATH = "tenders/{}/contracts/{}"
-    TENDERS_QUALIFICATIONS_COLLECTION_PATH = "tenders/{}/qualifications"
-    TENDERS_QUALIFICATIONS_PATH = "tenders/{}/qualifications/{}"
-    TENDERS_AGREEMENTS_COLLECTION_PATH = "tenders/{}/agreements"
-    TENDERS_AGREEMENTS_PATH = "tenders/{}/agreements/{}"
-    TENDERS_AGREEMENTS_DOCS_COLLECTION_PATH = "tenders/{}/agreements/{}/documents"
-    TENDERS_AGREEMENTS_CONTRACTS_COLLECTION_PATH = "tenders/{}/agreements/{}/contracts"
-    TENDERS_AGREEMENTS_CONTRACTS_PATH = "tenders/{}/agreements/{}/contracts/{}"
-    TENDERS_CREDENTIALS_PATH = "tenders/{}/credentials"
-    TENDERS_COMPLAINTS_COLLECTION_PATH = "tenders/{}/complaints"
-    TENDERS_COMPLAINTS_PATH = "tenders/{}/complaints/{}"
-    TENDERS_AWARDS_COMPLAINTS_COLLECTION_PATH = "tenders/{}/awards/{}/complaints"
-    TENDERS_AWARDS_COMPLAINTS_PATH = "tenders/{}/awards/{}/complaints/{}"
-    TENDERS_QUALIFICATIONS_COMPLAINTS_COLLECTION_PATH = (
-        "tenders/{}/qualifications/{}/complaints"
-    )
-    TENDERS_QUALIFICATIONS_COMPLAINTS_PATH = (
-        "tenders/{}/qualifications/{}/complaints/{}"
-    )
-
-    CONTRACTS_PATH = "contracts/{}"
-    CONTRACTS_BUYERS_SIGNER_INFO_PATH = "contracts/{}/buyer/signer_info"
-    CONTRACTS_SUPPLIERS_SIGNER_INFO_PATH = "contracts/{}/suppliers/signer_info"
-    CONTRACTS_CREDENTIALS_PATH = "contracts/{}/credentials"
-
-    AGREEMENTS_PATH = "agreements/{}"
-
     def get_plan(self, plan_id, **kwargs):
-        sub_path = self.PLANS_PATH.format(plan_id)
-        path = self.get_api_path(sub_path)
+        path = "plans/{}".format(plan_id)
         return self.get(path, **kwargs)
 
     def post_plan(self, json, **kwargs):
-        sub_path = self.PLANS_COLLECTION_PATH
-        path = self.get_api_path(sub_path)
+        path = "plans"
         return self.post(path, json, **kwargs)
 
     def patch_plan(self, plan_id, acc_token, json, **kwargs):
-        sub_path = self.PLANS_PATH.format(plan_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+        path = "plans/{}".format(plan_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
     def post_plan_tender(self, plan_id, json, **kwargs):
-        sub_path = self.PLANS_TENDERS_COLLECTION_PATH.format(plan_id)
-        path = self.get_api_path(sub_path)
+        path = "plans/{}/tenders".format(plan_id)
         return self.post(path, json, **kwargs)
 
     def get_tender(self, tender_id, **kwargs):
-        sub_path = self.TENDERS_PATH.format(tender_id)
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}".format(tender_id)
         return self.get(path, **kwargs)
 
     def post_tender(self, json, **kwargs):
-        sub_path = self.TENDERS_COLLECTION_PATH
-        path = self.get_api_path(sub_path)
+        path = "tenders"
         return self.post(path, json, **kwargs)
 
     def patch_tender(self, tender_id, acc_token, json, **kwargs):
-        sub_path = self.TENDERS_PATH.format(tender_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+        path = "tenders/{}".format(tender_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
     def post_tender_plan(self, tender_id, acc_token, json, **kwargs):
-        sub_path = self.TENDERS_PLANS_PATH.format(tender_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.post(path, json, **kwargs)
+        path = "tenders/{}/plans".format(tender_id)
+        return self.post(path, json, acc_token=acc_token, **kwargs)
 
     def post_tender_document(self, tender_id, acc_token, json, **kwargs):
-        sub_path = self.TENDERS_DOCS_COLLECTION_PATH.format(tender_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.post(path, json, **kwargs)
+        path = "tenders/{}/documents".format(tender_id)
+        return self.post(path, json, acc_token=acc_token, **kwargs)
 
     def put_tender_document(self, tender_id, document_id, acc_token, json, **kwargs):
-        sub_path = self.TENDERS_DOCS_PATH.format(tender_id, document_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.put(path, json, **kwargs)
+        path = "tenders/{}/documents/{}".format(tender_id, document_id)
+        return self.put(path, json, acc_token=acc_token, **kwargs)
 
     def post_tender_criteria(self, tender_id, acc_token, json, **kwargs):
-        sub_path = self.TENDERS_CRITERIA_COLLECTION_PATH.format(tender_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.post(path, json, **kwargs)
+        path = "tenders/{}/criteria".format(tender_id)
+        return self.post(path, json, acc_token=acc_token, **kwargs)
 
     def get_tender_bids(self, tender_id, **kwargs):
-        sub_path = self.TENDERS_BIDS_COLLECTION_PATH.format(tender_id)
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}/bids".format(tender_id)
         return self.get(path, **kwargs)
 
     def get_tender_bid(self, tender_id, bid_id, acc_token, **kwargs):
-        sub_path = self.TENDERS_BIDS_PATH.format(tender_id, bid_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.get(path, **kwargs)
+        path = "tenders/{}/bids/{}".format(tender_id, bid_id)
+        return self.get(path, acc_token=acc_token, **kwargs)
 
     def post_tender_bid(self, tender_id, json, **kwargs):
-        sub_path = self.TENDERS_BIDS_COLLECTION_PATH.format(tender_id)
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}/bids".format(tender_id)
         return self.post(path, json, **kwargs)
 
     def patch_tender_bid(self, tender_id, bid_id, acc_token, json, **kwargs):
-        sub_path = self.TENDERS_BIDS_PATH.format(tender_id, bid_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+        path = "tenders/{}/bids/{}".format(tender_id, bid_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
     def post_tender_bid_document(self, tender_id, bid_id, acc_token, json, **kwargs):
-        sub_path = self.TENDERS_BIDS_DOCS_COLLECTION_PATH.format(tender_id, bid_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.post(path, json, **kwargs)
+        path = "tenders/{}/bids/{}/documents".format(tender_id, bid_id)
+        return self.post(path, json, acc_token=acc_token, **kwargs)
 
     def post_tender_bid_res(self, tender_id, bid_id, acc_token, json, **kwargs):
-        sub_path = self.TENDERS_BIDS_RES_COLLECTION_PATH.format(tender_id, bid_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.post(path, json, **kwargs)
+        path = "tenders/{}/bids/{}/requirement_responses".format(tender_id, bid_id)
+        return self.post(path, json, acc_token=acc_token, **kwargs)
 
     def get_tender_complaints(self, tender_id, **kwargs):
-        sub_path = self.TENDERS_COMPLAINTS_COLLECTION_PATH.format(tender_id)
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}/complaints".format(tender_id)
         return self.get(path, **kwargs)
 
     def get_tender_complaint(self, tender_id, complaint_id, **kwargs):
-        sub_path = self.TENDERS_COMPLAINTS_PATH.format(tender_id, complaint_id)
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}/complaints/{}".format(tender_id, complaint_id)
         return self.get(path, **kwargs)
 
     def post_tender_complaint(self, tender_id, acc_token, json, **kwargs):
-        sub_path = self.TENDERS_COMPLAINTS_COLLECTION_PATH.format(tender_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.post(path, json, **kwargs)
+        path = "tenders/{}/complaints".format(tender_id)
+        return self.post(path, json, acc_token=acc_token, **kwargs)
 
-    def patch_tender_complaint(
-        self, tender_id, complaint_id, acc_token, json, **kwargs
-    ):
-        sub_path = self.TENDERS_COMPLAINTS_PATH.format(tender_id, complaint_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+    def patch_tender_complaint(self, tender_id, complaint_id, acc_token, json, **kwargs):
+        path = "tenders/{}/complaints/{}".format(tender_id, complaint_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
     def get_tender_qualifications(self, tender_id, **kwargs):
-        sub_path = self.TENDERS_QUALIFICATIONS_COLLECTION_PATH.format(tender_id)
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}/qualifications".format(tender_id)
         return self.get(path, **kwargs)
 
     def get_tender_qualification(self, tender_id, qualification_id, **kwargs):
-        sub_path = self.TENDERS_QUALIFICATIONS_PATH.format(tender_id, qualification_id)
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}/qualifications/{}".format(tender_id, qualification_id)
         return self.get(path, **kwargs)
 
-    def patch_tender_qualification(
-        self, tender_id, qualification_id, acc_token, json, **kwargs
-    ):
-        sub_path = self.TENDERS_QUALIFICATIONS_PATH.format(
-            tender_id, qualification_id, acc_token
-        )
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+    def patch_tender_qualification(self, tender_id, qualification_id, acc_token, json, **kwargs):
+        path = "tenders/{}/qualifications/{}".format(tender_id, qualification_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
-    def get_tender_qualification_complaints(
-        self, tender_id, qualification_id, **kwargs
-    ):
-        sub_path = self.TENDERS_QUALIFICATIONS_COMPLAINTS_COLLECTION_PATH.format(
-            tender_id, qualification_id
-        )
-        path = self.get_api_path(sub_path)
+    def get_tender_qualification_complaints(self, tender_id, qualification_id, **kwargs):
+        path = "tenders/{}/qualifications/{}/complaints".format(tender_id, qualification_id)
         return self.get(path, **kwargs)
 
-    def get_tender_qualification_complaint(
-        self, tender_id, qualification_id, complaint_id, **kwargs
-    ):
-        sub_path = self.TENDERS_QUALIFICATIONS_COMPLAINTS_PATH.format(
-            tender_id, qualification_id, complaint_id
-        )
-        path = self.get_api_path(sub_path)
+    def get_tender_qualification_complaint(self, tender_id, qualification_id, complaint_id, **kwargs):
+        path = "tenders/{}/qualifications/{}/complaints/{}".format(tender_id, qualification_id, complaint_id)
         return self.get(path, **kwargs)
 
-    def post_tender_qualification_complaint(
-        self, tender_id, qualification_id, acc_token, json, **kwargs
-    ):
-        sub_path = self.TENDERS_QUALIFICATIONS_COMPLAINTS_COLLECTION_PATH.format(
-            tender_id, qualification_id
-        )
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.post(path, json, **kwargs)
+    def post_tender_qualification_complaint(self, tender_id, qualification_id, acc_token, json, **kwargs):
+        path = "tenders/{}/qualifications/{}/complaints".format(tender_id, qualification_id)
+        return self.post(path, json, acc_token=acc_token, **kwargs)
 
     def patch_tender_qualification_complaint(
         self, tender_id, qualification_id, complaint_id, acc_token, json, **kwargs
     ):
-        sub_path = self.TENDERS_QUALIFICATIONS_COMPLAINTS_PATH.format(
-            tender_id, qualification_id, complaint_id
-        )
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+        path = "tenders/{}/qualifications/{}/complaints/{}".format(tender_id, qualification_id, complaint_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
     def get_tender_awards(self, tender_id, **kwargs):
-        sub_path = self.TENDERS_AWARDS_COLLECTION_PATH.format(tender_id)
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}/awards".format(tender_id)
         return self.get(path, **kwargs)
 
     def get_tender_award(self, tender_id, award_id, **kwargs):
-        sub_path = self.TENDERS_AWARDS_PATH.format(tender_id, award_id)
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}/awards/{}".format(tender_id, award_id)
         return self.get(path, **kwargs)
 
     def post_tender_award(self, tender_id, acc_token, json, **kwargs):
-        sub_path = self.TENDERS_AWARDS_COLLECTION_PATH.format(tender_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.post(path, json, **kwargs)
+        path = "tenders/{}/awards".format(tender_id)
+        return self.post(path, json, acc_token=acc_token, **kwargs)
 
     def patch_tender_award(self, tender_id, award_id, acc_token, json, **kwargs):
-        sub_path = self.TENDERS_AWARDS_PATH.format(tender_id, award_id, acc_token)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+        path = "tenders/{}/awards/{}".format(tender_id, award_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
-    def post_tender_award_document(
-        self, tender_id, award_id, acc_token, json, **kwargs
-    ):
-        sub_path = self.TENDERS_AWARDS_DOCS_COLLECTION_PATH.format(tender_id, award_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.post(path, json, **kwargs)
+    def post_tender_award_document(self, tender_id, award_id, acc_token, json, **kwargs):
+        path = "tenders/{}/awards/{}/documents".format(tender_id, award_id)
+        return self.post(path, json, acc_token=acc_token, **kwargs)
 
     def get_tender_award_complaints(self, tender_id, award_id, **kwargs):
-        sub_path = self.TENDERS_AWARDS_COMPLAINTS_COLLECTION_PATH.format(
-            tender_id, award_id
-        )
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}/awards/{}/complaints".format(tender_id, award_id)
         return self.get(path, **kwargs)
 
     def get_tender_award_complaint(self, tender_id, award_id, complaint_id, **kwargs):
-        sub_path = self.TENDERS_AWARDS_COMPLAINTS_PATH.format(
-            tender_id, award_id, complaint_id
-        )
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}/awards/{}/complaints/{}".format(tender_id, award_id, complaint_id)
         return self.get(path, **kwargs)
 
-    def post_tender_award_complaint(
-        self, tender_id, award_id, acc_token, json, **kwargs
-    ):
-        sub_path = self.TENDERS_AWARDS_COMPLAINTS_COLLECTION_PATH.format(
-            tender_id, award_id
-        )
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.post(path, json, **kwargs)
+    def post_tender_award_complaint(self, tender_id, award_id, acc_token, json, **kwargs):
+        path = "tenders/{}/awards/{}/complaints".format(tender_id, award_id)
+        return self.post(path, json, acc_token=acc_token, **kwargs)
 
-    def patch_tender_award_complaint(
-        self, tender_id, award_id, complaint_id, acc_token, json, **kwargs
-    ):
-        sub_path = self.TENDERS_AWARDS_COMPLAINTS_PATH.format(
-            tender_id, award_id, complaint_id
-        )
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+    def patch_tender_award_complaint(self, tender_id, award_id, complaint_id, acc_token, json, **kwargs):
+        path = "tenders/{}/awards/{}/complaints/{}".format(tender_id, award_id, complaint_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
     def get_tender_contracts(self, tender_id, **kwargs):
-        sub_path = self.TENDERS_CONTRACTS_COLLECTION_PATH.format(tender_id)
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}/contracts".format(tender_id)
         return self.get(path, **kwargs)
 
     def patch_tender_contract(self, tender_id, contract_id, acc_token, json, **kwargs):
-        sub_path = self.TENDERS_CONTRACTS_PATH.format(tender_id, contract_id, acc_token)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+        path = "tenders/{}/contracts/{}".format(tender_id, contract_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
     def get_tender_agreements(self, tender_id, **kwargs):
-        sub_path = self.TENDERS_AGREEMENTS_COLLECTION_PATH.format(tender_id)
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}/agreements".format(tender_id)
         return self.get(path, **kwargs)
 
-    def patch_tender_agreement(
-        self, tender_id, agreement_id, acc_token, json, **kwargs
-    ):
-        sub_path = self.TENDERS_AGREEMENTS_PATH.format(
-            tender_id, agreement_id, acc_token
-        )
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+    def patch_tender_agreement(self, tender_id, agreement_id, acc_token, json, **kwargs):
+        path = "tenders/{}/agreements/{}".format(tender_id, agreement_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
-    def post_tender_agreement_document(
-        self, tender_id, agreement_id, acc_token, json, **kwargs
-    ):
-        sub_path = self.TENDERS_AGREEMENTS_DOCS_COLLECTION_PATH.format(
-            tender_id, agreement_id
-        )
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.post(path, json, **kwargs)
+    def post_tender_agreement_document(self, tender_id, agreement_id, acc_token, json, **kwargs):
+        path = "tenders/{}/agreements/{}/documents".format(tender_id, agreement_id)
+        return self.post(path, json, acc_token=acc_token, **kwargs)
 
     def get_tender_agreement_contracts(self, tender_id, agreement_id, **kwargs):
-        sub_path = self.TENDERS_AGREEMENTS_CONTRACTS_COLLECTION_PATH.format(
-            tender_id, agreement_id
-        )
-        path = self.get_api_path(sub_path)
+        path = "tenders/{}/agreements/{}/contracts".format(tender_id, agreement_id)
         return self.get(path, **kwargs)
 
-    def patch_tender_agreement_contract(
-        self, tender_id, agreement_id, contract_id, acc_token, json, **kwargs
-    ):
-        sub_path = self.TENDERS_AGREEMENTS_CONTRACTS_PATH.format(
-            tender_id, agreement_id, contract_id, acc_token
-        )
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+    def patch_tender_agreement_contract(self, tender_id, agreement_id, contract_id, acc_token, json, **kwargs):
+        path = "tenders/{}/agreements/{}/contracts/{}".format(tender_id, agreement_id, contract_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
     def patch_tender_credentials(self, tender_id, acc_token, json, **kwargs):
-        sub_path = self.TENDERS_CREDENTIALS_PATH.format(tender_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+        path = "tenders/{}/credentials".format(tender_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
     def get_contract(self, contract_id, **kwargs):
-        sub_path = self.CONTRACTS_PATH.format(contract_id)
-        path = self.get_api_path(sub_path)
+        path = "contracts/{}".format(contract_id)
         return self.get(path, **kwargs)
 
     def patch_contract(self, contract_id, acc_token, json, **kwargs):
-        sub_path = self.CONTRACTS_PATH.format(contract_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+        path = "contracts/{}".format(contract_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
     def patch_contract_buyer_signer_info(self, contract_id, acc_token, json, **kwargs):
-        sub_path = self.CONTRACTS_BUYERS_SIGNER_INFO_PATH.format(contract_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.put(path, json, **kwargs)
+        path = "contracts/{}/buyer/signer_info".format(contract_id)
+        return self.put(path, json, acc_token=acc_token, **kwargs)
 
-    def patch_contract_suppliers_signer_info(
-        self, contract_id, acc_token, json, **kwargs
-    ):
-        sub_path = self.CONTRACTS_SUPPLIERS_SIGNER_INFO_PATH.format(contract_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.put(path, json, **kwargs)
+    def patch_contract_suppliers_signer_info(self, contract_id, acc_token, json, **kwargs):
+        path = "contracts/{}/suppliers/signer_info".format(contract_id)
+        return self.put(path, json, acc_token=acc_token, **kwargs)
 
     def patch_contract_credentials(self, contract_id, acc_token, json, **kwargs):
-        sub_path = self.CONTRACTS_CREDENTIALS_PATH.format(contract_id)
-        path = self.get_api_path(sub_path, acc_token=acc_token)
-        return self.patch(path, json, **kwargs)
+        path = "contracts/{}/credentials".format(contract_id)
+        return self.patch(path, json, acc_token=acc_token, **kwargs)
 
     def get_agreement(self, agreement_id, **kwargs):
-        sub_path = self.AGREEMENTS_PATH.format(agreement_id)
-        path = self.get_api_path(sub_path)
+        path = "agreements/{}".format(agreement_id)
         return self.get(path, **kwargs)
 
 
-class DsApiClient(BaseApiClient):
+class DSClient(BaseApiClient):
     name = "ds"
 
-    UPLOAD_PATH = "upload"
-
     def __init__(
-        self, host, username=None, password=None, session=None, **request_kwargs
+        self,
+        host,
+        username=None,
+        password=None,
+        session=None,
+        **request_kwargs,
     ):
-        super(DsApiClient, self).__init__(host, session=session, **request_kwargs)
+        super(DSClient, self).__init__(host, session=session, **request_kwargs)
         self.headers.update(
-            {
-                "Authorization": "Basic "
-                + b64encode("{}:{}".format(username, password).encode()).decode()
-            }
+            {"Authorization": "Basic " + b64encode("{}:{}".format(username, password).encode()).decode()}
         )
 
     def post_document_upload(self, files, **kwargs):
-        path = self.UPLOAD_PATH
-        return self.post(path, files=files, **kwargs)
+        return self.post("upload", files=files, **kwargs)
