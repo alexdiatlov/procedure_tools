@@ -20,19 +20,22 @@ def open_file(path, mode="r", encoding="UTF-8", exit_filename=None, silent_error
     actual_path = get_actual_file_path(path)
     logging.info(f"Processing data file: {file_name}\n")
     try:
-        encoding = encoding if "b" not in mode else None
-        file = io.open(actual_path, mode, encoding=encoding, **kwargs)
-        yield file
-        file.close()
-    except IOError as e:
-        if not silent_error:
-            msg = fore_error(str(e))
-            msg += "\n"
-            logging.info(msg)
-        logging.info("Skipping...\n")
-        yield
+        try:
+            encoding = encoding if "b" not in mode else None
+            file = io.open(actual_path, mode, encoding=encoding, **kwargs)
+            yield file
+            file.close()
+        except IOError as e:
+            if not silent_error:
+                msg = fore_error(str(e))
+                msg += "\n"
+                logging.info(msg)
+            logging.info("Skipping...\n")
+            yield
+        except Exception:
+            yield
     except Exception:
-        yield
+        pass
     if file_name == exit_filename:
         raise SystemExit(EX_OK)
 
