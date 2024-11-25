@@ -1300,29 +1300,31 @@ def patch_complaints(
     file_subpath="",
     prefix="",
 ):
-    def get_auth_token_for_role(role):
-        if role == "bot":
-            return args.bot_token
-        elif role == "reviewer":
-            return args.reviewer_token
-        elif role == "tenderer":
-            return args.token
-        elif role == "complainer":
-            return args.token
-        else:
+    def get_auth_token(role: str) -> str:
+        tokens = {
+            "bot": args.bot_token,
+            "reviewer": args.reviewer_token,
+            "tenderer": args.token,
+            "complainer": args.token,
+        }
+        if role not in tokens:
             error(f"Unknown role: {role}")
+        return tokens[role]
 
-    def get_access_token_for_role(role, tender_token, complaint_token):
-        if role == "bot":
+    def get_access_token(role: str, complaint_id: str) -> str:
+        if role == "bot" or role == "reviewer":
             return None
-        elif role == "reviewer":
-            return None
-        elif role == "tenderer":
+        if role == "tenderer":
             return tender_token
-        elif role == "complainer":
-            return complaint_token
-        else:
-            error(f"Unknown role: {role}")
+        if role == "complainer":
+            try:
+                complaint_index = complaints_ids.index(complaint_id)
+                return complaints_tokens[complaint_index]
+            except ValueError:
+                error(f"No token found for complaint ID: {complaint_id}")
+                return None
+        error(f"Unknown role: {role}")
+        return None
 
     if not args.bot_token or not args.reviewer_token:
         logging.info("Skipping complaints patching: bot and reviewer tokens are required\n")
@@ -1339,7 +1341,6 @@ def patch_complaints(
         filename_base = "complaint_patch"
 
     for complaint_index, complaint_id in enumerate(complaints_ids):
-        complaint_token = complaints_tokens[complaint_index]
         complaints_data_files = []
         data_path = get_data_path(os.path.join(args.data, f"{prefix}{file_subpath}"))
         for data_file in get_data_all_files(data_path):
@@ -1356,11 +1357,11 @@ def patch_complaints(
                 with read_file(path, context=context, exit_filename=args.stop, silent_error=True) as content:
                     complaint_patch_data = json.loads(content)
                     role = data_file.split(".")[-2].split("_")[-1]
-                    role_auth_token = get_auth_token_for_role(role)
+                    role_auth_token = get_auth_token(role)
                     if not role_auth_token:
                         error(f"No auth token for role: {role}")
                         continue
-                    role_access_token = get_access_token_for_role(role, tender_token, complaint_token)
+                    role_access_token = get_access_token(role, complaint_id)
                     if obj_type == "award":
                         client.patch(
                             f"tenders/{tender_id}/awards/{obj_id}/complaints/{complaint_id}",
