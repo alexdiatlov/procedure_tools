@@ -1,5 +1,3 @@
-from __future__ import absolute_import
-
 ACCELERATION_DEFAULT = 460800
 SECONDS_BUFFER = 5
 

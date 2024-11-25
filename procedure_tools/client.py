@@ -1,21 +1,13 @@
-from __future__ import absolute_import
-
 import json
 import logging
 from base64 import b64encode
 from copy import copy
 from datetime import timedelta
 
-from procedure_tools.utils.date import get_utcnow, parse_date_header
-
-try:
-    from urllib.parse import urljoin
-except ImportError:
-    from urlparse import urljoin
-
 import requests
 
 from procedure_tools.utils import adapters
+from procedure_tools.utils.date import get_utcnow, parse_date_header
 from procedure_tools.utils.handlers import (
     client_init_response_handler,
     response_handler,
