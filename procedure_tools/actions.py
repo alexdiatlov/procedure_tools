@@ -79,7 +79,7 @@ def upload_bids_proposal(
             tender_id,
             bid_id,
             bids_tokens[bid_index],
-            "bid_proposal_{}_attach".format(bid_index),
+            f"bid_proposal_{bid_index}_attach",
             prefix=prefix,
         )
 
@@ -95,7 +95,7 @@ def patch_bids(
 ):
     logging.info("Patching bids...\n")
     for bid_index, bid_id in enumerate(bids_ids):
-        data_file = "{}bid_patch_{}.json".format(prefix, bid_index)
+        data_file = f"{prefix}bid_patch_{bid_index}.json"
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             bid_patch_data = json.loads(content)
@@ -120,7 +120,7 @@ def post_bid_res(
 ):
     logging.info("Post bids requirement responses...\n")
     for bid_index, bid_id in enumerate(bids_ids):
-        data_file = "{}bid_res_post_{}.json".format(prefix, bid_index)
+        data_file = f"{prefix}bid_res_post_{bid_index}.json"
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             bid_res_data = json.loads(content)
@@ -187,8 +187,7 @@ def patch_agreement_contract(
     for agreement_contract_index, agreement_contract_id in enumerate(agreement_contracts_ids):
         bid_id = agreement_contracts_bids_ids[agreement_contract_index]
         index = bids_ids.index(bid_id)
-        data_file_pattern = "agreement_contracts_patch_{}_{}.json"
-        data_file = data_file_pattern.format(agreement_index, index)
+        data_file = f"agreement_contracts_patch_{agreement_index}_{index}.json"
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             agreement_contract_patch_data = json.loads(content)
@@ -223,7 +222,7 @@ def patch_agreements(
                         acc_token=tender_token,
                         auth_token=args.token,
                     )
-        data_file = "agreement_patch_{}.json".format(agreement_index)
+        data_file = f"agreement_patch_{agreement_index}.json"
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             agreement_patch_data = json.loads(content)
@@ -319,10 +318,7 @@ def patch_contracts_buyer_signer_info(
     logging.info("Patching contracts buyers signer info...\n")
     for contract_index, contract_id in enumerate(contracts_ids):
         contract_token = contracts_tokens[contract_index]
-        data_file = "{}contract_buyer_signer_info_patch_{}.json".format(
-            prefix,
-            contract_index,
-        )
+        data_file = f"{prefix}contract_buyer_signer_info_patch_{contract_index}.json"
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             contract_patch_data = json.loads(content)
@@ -346,10 +342,7 @@ def patch_contracts_suppliers_signer_info(
     logging.info("Patching contracts suppliers signer info...\n")
     for contract_index, contract_id in enumerate(contracts_ids):
         contract_token = contracts_tokens[contract_index]
-        data_file = "{}contract_suppliers_signer_info_patch_{}.json".format(
-            prefix,
-            contract_index,
-        )
+        data_file = f"{prefix}contract_suppliers_signer_info_patch_{contract_index}.json"
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             contract_patch_data = json.loads(content)
@@ -373,10 +366,7 @@ def patch_contracts(
     logging.info("Patching contracts...\n")
     for contract_index, contract_id in enumerate(contracts_ids):
         contract_token = contracts_tokens[contract_index]
-        data_file = "{}contract_patch_{}.json".format(
-            prefix,
-            contract_index,
-        )
+        data_file = f"{prefix}contract_patch_{contract_index}.json"
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             contract_patch_data = json.loads(content)
@@ -477,7 +467,7 @@ def patch_award(
     logging.info("Patching awards...\n")
     award_patch_data_files = []
     action_name = "award_patch"
-    filename_base = "{}{}_{}".format(prefix, action_name, action_index)
+    filename_base = f"{prefix}{action_name}_{action_index}"
     for data_file in get_data_all_files(get_data_path(args.data)):
         if data_file.startswith(filename_base):
             award_patch_data_files.append(data_file)
@@ -562,7 +552,7 @@ def patch_tender_pre(
     prefix="",
 ):
     logging.info("Approving qualifications by switching to next status...\n")
-    data_file = "{}tender_patch_pre.json".format(prefix)
+    data_file = f"{prefix}tender_patch_pre.json"
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_patch_data = json.loads(content)
@@ -586,10 +576,7 @@ def patch_qualifications(
 ):
     logging.info("Patching qualifications...\n")
     for qualification_index, qualification_id in enumerate(qualifications_ids):
-        data_file = "{}qualification_patch_{}.json".format(
-            prefix,
-            qualification_index,
-        )
+        data_file = f"{prefix}qualification_patch_{qualification_index}.json"
         path = get_data_file_path(get_data_path(args.data), data_file)
         with read_file(path, context=context, exit_filename=args.stop) as content:
             qualification_patch_data = json.loads(content)
@@ -624,7 +611,7 @@ def create_awards(
     logging.info("Creating awards...\n")
     award_data_files = []
     for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("{}award_create".format(prefix)):
+        if data_file.startswith(f"{prefix}award_create"):
             award_data_files.append(data_file)
     for award_data_file in award_data_files:
         path = get_data_file_path(get_data_path(args.data), award_data_file)
@@ -650,7 +637,7 @@ def create_bids(
     logging.info("Creating bids...\n")
     bid_data_files = []
     for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("{}bid_create".format(prefix)):
+        if data_file.startswith(f"{prefix}bid_create"):
             bid_data_files.append(data_file)
     responses = []
     for bid_data_file in bid_data_files:
@@ -705,7 +692,7 @@ def create_plans(
     logging.info("Creating plans...\n")
     plan_data_files = []
     for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("{}plan_create".format(prefix)):
+        if data_file.startswith(f"{prefix}plan_create"):
             plan_data_files.append(data_file)
     responses = []
     for plan_data_file in plan_data_files:
@@ -729,7 +716,7 @@ def create_plan(
     prefix="",
 ):
     logging.info("Creating plan...\n")
-    data_file = "{}plan_create.json".format(prefix)
+    data_file = f"{prefix}plan_create.json"
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop, silent_error=True) as content:
         plan_create_data = json.loads(content)
@@ -751,7 +738,7 @@ def patch_plan(
     prefix="",
 ):
     logging.info("Patching plan...\n")
-    data_file = "{}plan_patch.json".format(prefix)
+    data_file = f"{prefix}plan_patch.json"
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop, silent_error=True) as content:
         plan_patch_data = json.loads(content)
@@ -773,7 +760,7 @@ def create_tender(
     prefix="",
 ):
     logging.info("Creating tender...\n")
-    data_file = "{}tender_create.json".format(prefix)
+    data_file = f"{prefix}tender_create.json"
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_create_data = json.loads(content)
@@ -805,7 +792,7 @@ def upload_documents(
 ):
     responses = []
     for data_file in get_data_all_files(get_data_path(args.data)):
-        if data_file.startswith("{}{}".format(prefix, data_file_prefix)):
+        if data_file.startswith(f"{prefix}{data_file_prefix}"):
             path = get_data_file_path(get_data_path(args.data), data_file)
             with read_file(path, context=context, exit_filename=args.stop) as content:
                 tender_document_data = json.loads(content)
@@ -887,7 +874,7 @@ def upload_bid_proposal(
         ds_client,
         args,
         context,
-        data_file_prefix,
+        data_file_prefix=data_file_prefix,
         attach_callback=partial(
             client.post,
             f"tenders/{tender_id}/bids/{bid_id}/documents",
@@ -953,14 +940,8 @@ def wait(
     date_timedelta = parse_date(date_str) - now
     delta_seconds = date_timedelta.total_seconds()
     date_seconds = math.ceil(delta_seconds) if delta_seconds > 0 else 0
-    info_str = " for {}".format(date_info_str) if date_info_str else ""
-    logging.info(
-        "Waiting {} seconds{} - {}...\n".format(
-            date_seconds,
-            info_str,
-            date_str,
-        )
-    )
+    info_str = f" for {date_info_str}" if date_info_str else ""
+    logging.info(f"Waiting {date_seconds} seconds{info_str} - {date_str}...\n")
     sleep(date_seconds)
 
 
@@ -974,7 +955,7 @@ def wait_status(
     fail_status=None,
     fallback=None,
 ):
-    logging.info("Waiting for {}...\n".format(status))
+    logging.info(f"Waiting for {status}...\n")
     status = [status] if not isinstance(status, list) else status
     fail_status = [fail_status] if fail_status and not isinstance(fail_status, list) else fail_status
     while True:
@@ -1046,7 +1027,7 @@ def patch_tender_tendering(
     prefix="",
 ):
     logging.info("Activating tender by switching to next status...\n")
-    data_file = "{}tender_patch_tendering.json".format(prefix)
+    data_file = f"{prefix}tender_patch_tendering.json"
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_patch_data = json.loads(content)
@@ -1068,7 +1049,7 @@ def patch_tender_pending(
     prefix="",
 ):
     logging.info("Activating tender by switching to next status...\n")
-    data_file = "{}tender_patch_pending.json".format(prefix)
+    data_file = f"{prefix}tender_patch_pending.json"
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_patch_data = json.loads(content)
@@ -1090,7 +1071,7 @@ def post_criteria(
     prefix="",
 ):
     logging.info("Create tender criteria...\n")
-    data_file = "{}criteria_create.json".format(prefix)
+    data_file = f"{prefix}criteria_create.json"
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         criteria_data = json.loads(content)
@@ -1112,7 +1093,7 @@ def patch_tender(
     prefix="",
 ):
     logging.info("Patching tender...\n")
-    data_file = "{}tender_patch.json".format(prefix)
+    data_file = f"{prefix}tender_patch.json"
     path = get_data_file_path(get_data_path(args.data), data_file)
     with read_file(path, context=context, exit_filename=args.stop) as content:
         tender_patch_data = json.loads(content)
@@ -1131,7 +1112,7 @@ def wait_edr_pre_qual(
     context,
     tender_id,
 ):
-    logging.info("Waiting for {} in qualifications documents...\n".format(EDR_FILENAME))
+    logging.info(f"Waiting for {EDR_FILENAME} in qualifications documents...\n")
     response = get_qualifications(client, args, context, tender_id)
     for qualification in response.json()["data"]:
         while EDR_FILENAME not in [doc["title"] for doc in qualification.get("documents", [])]:
@@ -1145,7 +1126,7 @@ def wait_edr_qual(
     context,
     tender_id,
 ):
-    logging.info("Waiting for {} in awards documents...\n".format(EDR_FILENAME))
+    logging.info(f"Waiting for {EDR_FILENAME} in awards documents...\n")
     response = get_awards(client, args, context, tender_id)
     for award in response.json()["data"]:
         while EDR_FILENAME not in [doc["title"] for doc in award.get("documents", [])]:
@@ -1258,17 +1239,17 @@ def create_complaints(
         return
 
     if obj_type == "award":
-        logging.info("Creating award {} complaints...\n".format(obj_id))
-        filename_base = "award_complaint_create_{}".format(obj_index)
+        logging.info(f"Creating award {obj_id} complaints...\n")
+        filename_base = f"award_complaint_create_{obj_index}"
     elif obj_type == "qualification":
-        logging.info("Creating qualification {} complaints...\n".format(obj_id))
-        filename_base = "qualification_complaint_create_{}".format(obj_index)
+        logging.info(f"Creating qualification {obj_id} complaints...\n")
+        filename_base = f"qualification_complaint_create_{obj_index}"
     else:
         logging.info("Creating complaints...\n")
         filename_base = "complaint_create"
 
     complaints_data_files = []
-    data_path = get_data_path(os.path.join(args.data, "{}{}".format(prefix, file_subpath)))
+    data_path = get_data_path(os.path.join(args.data, f"{prefix}{file_subpath}"))
     for data_file in get_data_all_files(data_path):
         if data_file.startswith(filename_base):
             complaints_data_files.append(data_file)
@@ -1329,7 +1310,7 @@ def patch_complaints(
         elif role == "complainer":
             return args.token
         else:
-            error("Unknown role: {}".format(role))
+            error(f"Unknown role: {role}")
 
     def get_access_token_for_role(role, tender_token, complaint_token):
         if role == "bot":
@@ -1341,18 +1322,18 @@ def patch_complaints(
         elif role == "complainer":
             return complaint_token
         else:
-            error("Unknown role: {}".format(role))
+            error(f"Unknown role: {role}")
 
     if not args.bot_token or not args.reviewer_token:
         logging.info("Skipping complaints patching: bot and reviewer tokens are required\n")
         return
 
     if obj_type == "award":
-        logging.info("Patching award {} complaints...\n".format(obj_id))
-        filename_base = "award_complaint_patch_{}".format(obj_index)
+        logging.info(f"Patching award {obj_id} complaints...\n")
+        filename_base = f"award_complaint_patch_{obj_index}"
     elif obj_type == "qualification":
-        logging.info("Patching qualification {} complaints...\n".format(obj_id))
-        filename_base = "qualification_complaint_patch_{}".format(obj_index)
+        logging.info(f"Patching qualification {obj_id} complaints...\n")
+        filename_base = f"qualification_complaint_patch_{obj_index}"
     else:
         logging.info("Patching complaints...\n")
         filename_base = "complaint_patch"
@@ -1360,26 +1341,15 @@ def patch_complaints(
     for complaint_index, complaint_id in enumerate(complaints_ids):
         complaint_token = complaints_tokens[complaint_index]
         complaints_data_files = []
-        data_path = get_data_path(os.path.join(args.data, "{}{}".format(prefix, file_subpath)))
+        data_path = get_data_path(os.path.join(args.data, f"{prefix}{file_subpath}"))
         for data_file in get_data_all_files(data_path):
-            if data_file.startswith(
-                "{}_{}_".format(
-                    filename_base,
-                    complaint_index,
-                )
-            ):
+            if data_file.startswith(f"{filename_base}_{complaint_index}_"):
                 complaints_data_files.append(data_file)
         actions_count = len(complaints_data_files)
         for action_index in range(actions_count):
             complaints_action_data_files = []
             for data_file in get_data_all_files(data_path):
-                if data_file.startswith(
-                    "{}_{}_{}_".format(
-                        filename_base,
-                        complaint_index,
-                        action_index,
-                    )
-                ):
+                if data_file.startswith(f"{filename_base}_{complaint_index}_{action_index}_"):
                     complaints_action_data_files.append(data_file)
             for data_file in complaints_action_data_files:
                 path = get_data_file_path(data_path, data_file)
@@ -1388,7 +1358,7 @@ def patch_complaints(
                     role = data_file.split(".")[-2].split("_")[-1]
                     role_auth_token = get_auth_token_for_role(role)
                     if not role_auth_token:
-                        error("No auth token for role: {}".format(role))
+                        error(f"No auth token for role: {role}")
                         continue
                     role_access_token = get_access_token_for_role(role, tender_token, complaint_token)
                     if obj_type == "award":

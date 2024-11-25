@@ -3,6 +3,7 @@ import logging
 from base64 import b64encode
 from copy import copy
 from datetime import timedelta
+from urllib.parse import urljoin
 
 import requests
 
@@ -23,7 +24,7 @@ class BaseApiClient(object):
     SPORE_PATH = "spore"
 
     HEADERS_DEFAULT = {
-        "User-Agent": "procedure_tools/{}".format(__version__),
+        "User-Agent": f"procedure_tools/{__version__}",
     }
 
     def __init__(
@@ -137,7 +138,7 @@ class CDBClient(BaseApiClient):
     def get_api_path(self, path, acc_token=None):
         return urljoin(
             self.path_prefix,
-            urljoin(path, "?acc_token={}".format(acc_token) if acc_token else None),
+            urljoin(path, f"?acc_token={acc_token}" if acc_token else None),
         )
 
     def request(self, method, path, **kwargs):
@@ -157,9 +158,7 @@ class DSClient(BaseApiClient):
         **request_kwargs,
     ):
         super(DSClient, self).__init__(host, session=session, **request_kwargs)
-        self.headers.update(
-            {"Authorization": "Basic " + b64encode("{}:{}".format(username, password).encode()).decode()}
-        )
+        self.headers.update({"Authorization": "Basic " + b64encode(f"{username}:{password}".encode()).decode()})
 
     def post_document_upload(self, files, **kwargs):
         return self.post("upload", files=files, **kwargs)
