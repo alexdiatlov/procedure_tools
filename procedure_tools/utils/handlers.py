@@ -87,6 +87,65 @@ def tender_create_success_handler(response):
     logging.info(msg)
 
 
+def framework_create_success_handler(response):
+    """Handle successful framework creation response."""
+    data = response.json()["data"]
+    access = response.json()["access"]
+
+    msg = "Framework created:\n"
+    msg += format_log_entry("id", data["id"])
+    msg += format_log_entry("token", access["token"])
+    msg += format_log_entry("transfer", access["transfer"]) if "transfer" in access else ""
+    msg += format_log_entry("status", data["status"])
+
+    logging.info(msg)
+
+
+def framework_patch_success_handler(response):
+    data = response.json()["data"]
+
+    msg = "Framework patched:\n"
+    msg += format_log_entry("id", data["id"])
+    msg += format_log_entry("status", data["status"])
+
+    logging.info(msg)
+
+
+def submission_create_success_handler(response):
+    data = response.json()["data"]
+    access = response.json()["access"]
+
+    msg = "Submission created:\n"
+    msg += format_log_entry("id", data["id"])
+    msg += format_log_entry("token", access["token"])
+    msg += format_log_entry("status", data["status"])
+
+    logging.info(msg)
+
+
+def framework_get_success_handler(response):
+    data = response.json()["data"]
+
+    has_agreement_id = "agreementID" in data
+
+    msg = "Framework found:\n"
+    msg += format_log_entry("id", data["id"])
+    msg += format_log_entry("status", data["status"])
+    msg += format_log_entry("agreementID", data["agreementID"]) if has_agreement_id else ""
+
+    logging.info(msg)
+
+
+def agreement_get_success_handler(response):
+    data = response.json()["data"]
+
+    msg = "Agreement found:\n"
+    msg += format_log_entry("id", data["id"])
+    msg += format_log_entry("status", data["status"])
+
+    logging.info(msg)
+
+
 def plan_create_success_handler(response):
     """Handle successful plan creation response."""
     data = response.json()["data"]
@@ -207,14 +266,12 @@ def tender_check_status_success_handler(response):
 def tender_check_status_invalid_handler(response):
     data = response.json()["data"]
 
+    has_reason = "unsuccessfulReason" in data
+
     msg = "Tender info:\n"
     msg += format_log_entry("id", data["id"])
     msg += format_log_entry("status", data["status"])
-    msg += (
-        format_log_entry("unsuccessfulReason", " ".join(data["unsuccessfulReason"]))
-        if "unsuccessfulReason" in data
-        else ""
-    )
+    msg += format_log_entry("unsuccessfulReason", " ".join(data["unsuccessfulReason"])) if has_reason else ""
 
     logging.info(msg)
 
@@ -222,9 +279,11 @@ def tender_check_status_invalid_handler(response):
 def auction_participation_url_success_handler(response):
     data = response.json()["data"]
 
+    has_url = "participationUrl" in data
+
     msg = "Auction participation url for bid:\n"
     msg += format_log_entry("id", data["id"])
-    msg += format_log_entry("url", data["participationUrl"]) if "participationUrl" in data else ""
+    msg += format_log_entry("url", data["participationUrl"]) if has_url else ""
 
     logging.info(msg)
 
@@ -234,17 +293,19 @@ def auction_multilot_participation_url_success_handler(response, related_lot=Non
 
     msg = "Auction participation url for bid:\n"
     msg += format_log_entry("id", data["id"])
+
     for lot_value in response.json()["data"]["lotValues"]:
         if related_lot and lot_value["relatedLot"] != related_lot:
             continue
+
+        is_active = lot_value.get("status", "active") == "active"
+        has_url = "participationUrl" in lot_value
+        has_status = "status" in lot_value
+
         msg += "Lot value:\n"
         msg += format_log_entry("relatedLot", lot_value["relatedLot"])
-        msg += format_log_entry("status", lot_value["status"]) if "status" in lot_value else ""
-        msg += (
-            format_log_entry("url", lot_value["participationUrl"])
-            if "participationUrl" in lot_value and lot_value.get("status", "active") == "active"
-            else ""
-        )
+        msg += format_log_entry("status", lot_value["status"]) if has_status else ""
+        msg += format_log_entry("url", lot_value["participationUrl"]) if is_active and has_url else ""
 
     logging.info(msg)
 

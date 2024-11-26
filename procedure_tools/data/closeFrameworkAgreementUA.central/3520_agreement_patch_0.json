@@ -1,8 +1,8 @@
 {
   "data": {
     "period": {
-      "startDate": "{{ from_now_iso() }}",
-      "endDate": "{{ from_now_iso(days=365*2) }}"
+      "endDate": "{{ from_now_iso(days=365*2) }}",
+      "startDate": "{{ from_now_iso() }}"
     },
     "status": "active"
   }

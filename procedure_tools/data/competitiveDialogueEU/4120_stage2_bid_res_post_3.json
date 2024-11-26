@@ -1,10 +1,6 @@
 {
   "data": [
     {
-      "requirement": {
-        "id": "61cd00357a4b42cf967beefb7851764e"
-      },
-      "value": "true",
       "evidences": [
         {
           "id": "a673736e101c49c6b3f3767a27dc1ae2",
@@ -15,13 +11,13 @@
           "title": "Requirement response",
           "type": "document"
         }
-      ]
+      ],
+      "requirement": {
+        "id": "61cd00357a4b42cf967beefb7851764e"
+      },
+      "value": "true"
     },
     {
-      "requirement": {
-        "id": "41edae93f8cb471692b9025cd1de3bc2"
-      },
-      "value": "true",
       "evidences": [
         {
           "id": "78f16de6f38a4203a875ccfb285a9683",
@@ -32,13 +28,13 @@
           "title": "Requirement response",
           "type": "document"
         }
-      ]
+      ],
+      "requirement": {
+        "id": "41edae93f8cb471692b9025cd1de3bc2"
+      },
+      "value": "true"
     },
     {
-      "requirement": {
-        "id": "a675a2568ab64493b9b9c3c1bd60427b"
-      },
-      "value": "true",
       "evidences": [
         {
           "id": "f4c380bbe8304738bfcf005c1f0142b1",
@@ -49,13 +45,13 @@
           "title": "Requirement response",
           "type": "document"
         }
-      ]
+      ],
+      "requirement": {
+        "id": "a675a2568ab64493b9b9c3c1bd60427b"
+      },
+      "value": "true"
     },
     {
-      "requirement": {
-        "id": "2e38516dbafd4a46b8049c5890513584"
-      },
-      "value": "true",
       "evidences": [
         {
           "id": "e429e08db40f48b9af22ef2fc4af76e6",
@@ -66,13 +62,13 @@
           "title": "Requirement response",
           "type": "document"
         }
-      ]
+      ],
+      "requirement": {
+        "id": "2e38516dbafd4a46b8049c5890513584"
+      },
+      "value": "true"
     },
     {
-      "requirement": {
-        "id": "16282ca083ee488aa9bd24b665097341"
-      },
-      "value": "true",
       "evidences": [
         {
           "id": "1ff38626537d4b548eb9ba0a0e515189",
@@ -83,13 +79,13 @@
           "title": "Requirement response",
           "type": "document"
         }
-      ]
+      ],
+      "requirement": {
+        "id": "16282ca083ee488aa9bd24b665097341"
+      },
+      "value": "true"
     },
     {
-      "requirement": {
-        "id": "ccb45ccee4084f18a1203729ba52178f"
-      },
-      "value": "true",
       "evidences": [
         {
           "id": "a7722527ef41476d804d056fd0e9e0a0",
@@ -100,13 +96,13 @@
           "title": "Requirement response",
           "type": "document"
         }
-      ]
+      ],
+      "requirement": {
+        "id": "ccb45ccee4084f18a1203729ba52178f"
+      },
+      "value": "true"
     },
     {
-      "requirement": {
-        "id": "5bf5605a7dc34354aaf1d093990122f1"
-      },
-      "value": "true",
       "evidences": [
         {
           "id": "d1a68de2c1584f5fb1b2846f0d74af6b",
@@ -117,13 +113,13 @@
           "title": "Requirement response",
           "type": "document"
         }
-      ]
+      ],
+      "requirement": {
+        "id": "5bf5605a7dc34354aaf1d093990122f1"
+      },
+      "value": "true"
     },
     {
-      "requirement": {
-        "id": "c328979b7edd4a2da8c54556e32d9700"
-      },
-      "value": "true",
       "evidences": [
         {
           "id": "142e0c31e4224ead9c47a0493bb54e56",
@@ -134,13 +130,13 @@
           "title": "Requirement response",
           "type": "document"
         }
-      ]
+      ],
+      "requirement": {
+        "id": "c328979b7edd4a2da8c54556e32d9700"
+      },
+      "value": "true"
     },
     {
-      "requirement": {
-        "id": "e9059709bc864fc18d1330a04c7acc6e"
-      },
-      "value": "true",
       "evidences": [
         {
           "id": "8100f33bdf5d4a7b86da44dac82478ab",
@@ -151,13 +147,13 @@
           "title": "Requirement response",
           "type": "document"
         }
-      ]
+      ],
+      "requirement": {
+        "id": "e9059709bc864fc18d1330a04c7acc6e"
+      },
+      "value": "true"
     },
     {
-      "requirement": {
-        "id": "d15c25e71e954c019998c5b111145675"
-      },
-      "value": "true",
       "evidences": [
         {
           "id": "d09718cddec14a0587ffc5f7a6f30eb7",
@@ -168,7 +164,11 @@
           "title": "Requirement response",
           "type": "document"
         }
-      ]
+      ],
+      "requirement": {
+        "id": "d15c25e71e954c019998c5b111145675"
+      },
+      "value": "true"
     },
     {
       "requirement": {

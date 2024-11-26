@@ -10,6 +10,12 @@ prefix_map = {
 number_map = {
     "plan_create": "0100",
     "plan_patch": "0110",
+    "framework_create": "1000",
+    "framework_patch_active": "1100",
+    "submission_create": "1200",
+    "submission_patch": "1210",
+    "qualification_evaluation_report": "1300",
+    "qualification_patch": "1310",
     "tender_create": "2000",
     "tender_credentials": "2000",
     "tender_document": "2010",

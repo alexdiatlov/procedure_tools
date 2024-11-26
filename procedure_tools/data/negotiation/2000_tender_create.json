@@ -1,24 +1,24 @@
 {
   "config": {
-    "hasAuction": false,
-    "hasAwardingOrder": true,
-    "hasValueRestriction": true,
-    "valueCurrencyEquality": true,
-    "hasPrequalification": false,
-    "minBidsNumber": 1,
-    "hasPreSelectionAgreement": false,
-    "hasTenderComplaints": false,
-    "hasAwardComplaints": true,
-    "hasCancellationComplaints": true,
-    "restricted": false,
-    "hasValueEstimation": true,
-    "hasQualificationComplaints": false,
-    "tenderComplainRegulation": 0,
-    "qualificationComplainDuration": 0,
     "awardComplainDuration": 10,
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 0,
-    "qualificationDuration": 0
+    "hasAuction": false,
+    "hasAwardComplaints": true,
+    "hasAwardingOrder": true,
+    "hasCancellationComplaints": true,
+    "hasPreSelectionAgreement": false,
+    "hasPrequalification": false,
+    "hasQualificationComplaints": false,
+    "hasTenderComplaints": false,
+    "hasValueEstimation": true,
+    "hasValueRestriction": true,
+    "minBidsNumber": 1,
+    "qualificationComplainDuration": 0,
+    "qualificationDuration": 0,
+    "restricted": false,
+    "tenderComplainRegulation": 0,
+    "valueCurrencyEquality": true
   },
   "data": {
     "cause": "twiceUnsuccessful",
@@ -94,11 +94,6 @@
         }
       }
     ],
-    "value": {
-      "amount": 0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "lots": [
       {
         "description": "Опис Лот №1",
@@ -135,9 +130,10 @@
         "type": "financing"
       }
     ],
-    "procurementMethod": "limited",
-    "procurementMethodType": "negotiation",
     "mode": "test",
+    "procurementMethod": "limited",
+    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
+    "procurementMethodType": "negotiation",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",
@@ -160,8 +156,12 @@
       "name": "Тестовий заклад #1 м.Київ"
     },
     "status": "draft",
-    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)"
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "value": {
+      "amount": 0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    }
   }
 }

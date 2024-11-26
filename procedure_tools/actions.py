@@ -19,6 +19,7 @@ from procedure_tools.utils.file import (
     parse_data_file_parts,
 )
 from procedure_tools.utils.handlers import (
+    agreement_get_success_handler,
     allow_null_success_handler,
     auction_multilot_participation_url_success_handler,
     auction_participation_url_success_handler,
@@ -27,11 +28,15 @@ from procedure_tools.utils.handlers import (
     default_success_handler,
     document_attach_success_handler,
     error,
+    framework_create_success_handler,
+    framework_get_success_handler,
+    framework_patch_success_handler,
     item_create_success_handler,
     item_patch_success_handler,
     plan_create_success_handler,
     plan_patch_success_handler,
     response_handler,
+    submission_create_success_handler,
     tender_check_status_invalid_handler,
     tender_check_status_success_handler,
     tender_create_success_handler,
@@ -752,6 +757,198 @@ def patch_plan(
         return response
 
 
+def create_framework(
+    client: CDBClient,
+    args,
+    context,
+    prefix="",
+):
+    logging.info("Creating framework...\n")
+    data_file = f"{prefix}framework_create.json"
+    path = get_data_file_path(get_data_path(args.data), data_file)
+    with read_file(path, context=context, exit_filename=args.stop, silent_error=True) as content:
+        framework_create_data = json.loads(content)
+        response = client.post(
+            "frameworks",
+            json=framework_create_data,
+            auth_token=args.token,
+            success_handler=framework_create_success_handler,
+        )
+        return response
+
+
+def patch_framework_active(
+    client: CDBClient,
+    args,
+    context,
+    framework_id,
+    framework_token,
+    prefix="",
+):
+    logging.info("Activating framework by switching to next status...\n")
+    data_file = f"{prefix}framework_patch_active.json"
+    path = get_data_file_path(get_data_path(args.data), data_file)
+    with read_file(path, context=context, exit_filename=args.stop) as content:
+        framework_patch_data = json.loads(content)
+        return client.patch(
+            f"frameworks/{framework_id}",
+            json=framework_patch_data,
+            acc_token=framework_token,
+            auth_token=args.token,
+            success_handler=framework_patch_success_handler,
+        )
+
+
+def create_sublissions(
+    client: CDBClient,
+    ds_client: DSClient,
+    args,
+    context,
+    framework_id,
+    prefix="",
+):
+    logging.info("Creating submissions...\n")
+    submission_data_files = []
+    for data_file in get_data_all_files(get_data_path(args.data)):
+        if data_file.startswith(f"{prefix}submission_create"):
+            submission_data_files.append(data_file)
+    responses = []
+    for submission_data_file in submission_data_files:
+        path = get_data_file_path(get_data_path(args.data), submission_data_file)
+        with read_file(path, context=context, exit_filename=args.stop) as content:
+            submission_create_data = json.loads(content)
+            response = client.post(
+                f"submissions",
+                json=submission_create_data,
+                auth_token=args.token,
+                success_handler=submission_create_success_handler,
+            )
+            responses.append(response)
+    return responses
+
+
+def patch_submissions(
+    client: CDBClient,
+    args,
+    context,
+    submissions_ids,
+    submissions_tokens,
+    prefix="",
+):
+    logging.info("Patching submissions...\n")
+    responses = []
+    for submission_index, submission_id in enumerate(submissions_ids):
+        data_file = f"{prefix}submission_patch_{submission_index}.json"
+        path = get_data_file_path(get_data_path(args.data), data_file)
+        with read_file(path, context=context, exit_filename=args.stop) as content:
+            submission_patch_data = json.loads(content)
+            response = client.patch(
+                f"submissions/{submission_id}",
+                json=submission_patch_data,
+                acc_token=submissions_tokens[submission_index],
+                auth_token=args.token,
+                success_handler=item_patch_success_handler,
+            )
+            responses.append(response)
+    return responses
+
+
+def patch_qualifications(
+    client: CDBClient,
+    args,
+    context,
+    qualifications_ids,
+    framework_token,
+    prefix="",
+):
+    logging.info("Patching qualifications...\n")
+    responses = []
+    for qualification_index, qualification_id in enumerate(qualifications_ids):
+        data_file = f"{prefix}qualification_patch_{qualification_index}.json"
+        path = get_data_file_path(get_data_path(args.data), data_file)
+        with read_file(path, context=context, exit_filename=args.stop) as content:
+            qualification_patch_data = json.loads(content)
+            response = client.patch(
+                f"qualifications/{qualification_id}",
+                json=qualification_patch_data,
+                acc_token=framework_token,
+                auth_token=args.token,
+                success_handler=item_patch_success_handler,
+            )
+            responses.append(response)
+    return responses
+
+
+def upload_qualification_evaluation_report(
+    client: CDBClient,
+    ds_client: DSClient,
+    args,
+    context,
+    qualification_id,
+    framework_token,
+    data_file_prefix,
+    prefix="",
+):
+    return upload_documents(
+        ds_client,
+        args,
+        context,
+        data_file_prefix=data_file_prefix,
+        attach_callback=partial(
+            client.post,
+            f"qualifications/{qualification_id}/documents",
+            acc_token=framework_token,
+        ),
+        prefix=prefix,
+    )
+
+
+def upload_qualifications_evaluation_reports(
+    client: CDBClient,
+    ds_client: DSClient,
+    args,
+    context,
+    qualifications_ids,
+    framework_token,
+    prefix="",
+):
+    for qualification_index, qualification_id in enumerate(qualifications_ids):
+        upload_qualification_evaluation_report(
+            client,
+            ds_client,
+            args,
+            context,
+            qualification_id,
+            framework_token,
+            f"qualification_evaluation_report_{qualification_index}_attach",
+            prefix=prefix,
+        )
+
+
+def get_framework(
+    client: CDBClient,
+    args,
+    context,
+    framework_id,
+):
+    return client.get(
+        f"frameworks/{framework_id}",
+        success_handler=framework_get_success_handler,
+    )
+
+
+def get_agreement(
+    client: CDBClient,
+    args,
+    context,
+    agreement_id,
+):
+    return client.get(
+        f"agreements/{agreement_id}",
+        success_handler=agreement_get_success_handler,
+    )
+
+
 def create_tender(
     client: CDBClient,
     args,
@@ -1300,29 +1497,31 @@ def patch_complaints(
     file_subpath="",
     prefix="",
 ):
-    def get_auth_token_for_role(role):
-        if role == "bot":
-            return args.bot_token
-        elif role == "reviewer":
-            return args.reviewer_token
-        elif role == "tenderer":
-            return args.token
-        elif role == "complainer":
-            return args.token
-        else:
+    def get_auth_token(role: str) -> str:
+        tokens = {
+            "bot": args.bot_token,
+            "reviewer": args.reviewer_token,
+            "tenderer": args.token,
+            "complainer": args.token,
+        }
+        if role not in tokens:
             error(f"Unknown role: {role}")
+        return tokens[role]
 
-    def get_access_token_for_role(role, tender_token, complaint_token):
-        if role == "bot":
+    def get_access_token(role: str, complaint_id: str) -> str:
+        if role == "bot" or role == "reviewer":
             return None
-        elif role == "reviewer":
-            return None
-        elif role == "tenderer":
+        if role == "tenderer":
             return tender_token
-        elif role == "complainer":
-            return complaint_token
-        else:
-            error(f"Unknown role: {role}")
+        if role == "complainer":
+            try:
+                complaint_index = complaints_ids.index(complaint_id)
+                return complaints_tokens[complaint_index]
+            except ValueError:
+                error(f"No token found for complaint ID: {complaint_id}")
+                return None
+        error(f"Unknown role: {role}")
+        return None
 
     if not args.bot_token or not args.reviewer_token:
         logging.info("Skipping complaints patching: bot and reviewer tokens are required\n")
@@ -1339,7 +1538,6 @@ def patch_complaints(
         filename_base = "complaint_patch"
 
     for complaint_index, complaint_id in enumerate(complaints_ids):
-        complaint_token = complaints_tokens[complaint_index]
         complaints_data_files = []
         data_path = get_data_path(os.path.join(args.data, f"{prefix}{file_subpath}"))
         for data_file in get_data_all_files(data_path):
@@ -1356,11 +1554,11 @@ def patch_complaints(
                 with read_file(path, context=context, exit_filename=args.stop, silent_error=True) as content:
                     complaint_patch_data = json.loads(content)
                     role = data_file.split(".")[-2].split("_")[-1]
-                    role_auth_token = get_auth_token_for_role(role)
+                    role_auth_token = get_auth_token(role)
                     if not role_auth_token:
                         error(f"No auth token for role: {role}")
                         continue
-                    role_access_token = get_access_token_for_role(role, tender_token, complaint_token)
+                    role_access_token = get_access_token(role, complaint_id)
                     if obj_type == "award":
                         client.patch(
                             f"tenders/{tender_id}/awards/{obj_id}/complaints/{complaint_id}",

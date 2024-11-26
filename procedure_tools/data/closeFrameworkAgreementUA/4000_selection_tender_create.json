@@ -1,16 +1,16 @@
 {
   "config": {
     "hasAuction": true,
-    "hasAwardingOrder": true,
-    "hasValueRestriction": true,
-    "valueCurrencyEquality": true,
-    "hasPrequalification": false,
-    "minBidsNumber": 1,
-    "hasPreSelectionAgreement": true,
-    "hasTenderComplaints": false,
     "hasAwardComplaints": false,
+    "hasAwardingOrder": true,
     "hasCancellationComplaints": false,
-    "restricted": false
+    "hasPreSelectionAgreement": true,
+    "hasPrequalification": false,
+    "hasTenderComplaints": false,
+    "hasValueRestriction": true,
+    "minBidsNumber": 1,
+    "restricted": false,
+    "valueCurrencyEquality": true
   },
   "data": {
     "agreements": [
@@ -61,10 +61,9 @@
         "title": "Тестова назва лоту"
       }
     ],
-    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "mode": "test",
-    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
     "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
+    "procurementMethodType": "closeFrameworkAgreementSelectionUA",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",
@@ -85,6 +84,7 @@
       "kind": "general",
       "name": "Державне управління справами"
     },
+    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)"
   }
 }

@@ -2,6 +2,7 @@
   "data": {
     "date": "2016-01-14T18:07:00.628073+02:00",
     "id": "d373338bc3324f14b8b3d4af68922773",
+    "lotID": "dd22c9c085f64e019f943999b5b41fe5",
     "status": "pending",
     "suppliers": [
       {
@@ -31,7 +32,6 @@
       "amount": 500,
       "currency": "UAH",
       "valueAddedTaxIncluded": "true"
-    },
-    "lotID": "dd22c9c085f64e019f943999b5b41fe5"
+    }
   }
 }

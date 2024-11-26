@@ -1,24 +1,24 @@
 {
   "config": {
-    "hasAuction": true,
-    "hasAwardingOrder": true,
-    "hasValueRestriction": true,
-    "valueCurrencyEquality": true,
-    "hasPrequalification": false,
-    "minBidsNumber": 1,
-    "hasPreSelectionAgreement": false,
-    "hasTenderComplaints": false,
-    "hasAwardComplaints": false,
-    "hasCancellationComplaints": false,
-    "restricted": false,
-    "hasValueEstimation": true,
-    "hasQualificationComplaints": false,
-    "tenderComplainRegulation": 0,
-    "qualificationComplainDuration": 10,
     "awardComplainDuration": 2,
     "cancellationComplainDuration": 0,
     "clarificationUntilDuration": 1,
-    "qualificationDuration": 20
+    "hasAuction": true,
+    "hasAwardComplaints": false,
+    "hasAwardingOrder": true,
+    "hasCancellationComplaints": false,
+    "hasPreSelectionAgreement": false,
+    "hasPrequalification": false,
+    "hasQualificationComplaints": false,
+    "hasTenderComplaints": false,
+    "hasValueEstimation": true,
+    "hasValueRestriction": true,
+    "minBidsNumber": 1,
+    "qualificationComplainDuration": 10,
+    "qualificationDuration": 20,
+    "restricted": false,
+    "tenderComplainRegulation": 0,
+    "valueCurrencyEquality": true
   },
   "data": {
     "buyers": [
@@ -50,9 +50,11 @@
         "name": "ЗІТП"
       }
     ],
+    "enquiryPeriod": {
+      "endDate": "{{ from_now_iso(days=30) }}"
+    },
     "items": [
       {
-        "relatedBuyer": "dd426ce4c76f48849b3d8e8699b0b3ce",
         "additionalClassifications": [
           {
             "description": "Техніка конторська/офісна, інша",
@@ -78,6 +80,7 @@
         },
         "description": "Тестова назва предмета закупівлі",
         "quantity": 5,
+        "relatedBuyer": "dd426ce4c76f48849b3d8e8699b0b3ce",
         "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
         "unit": {
           "code": "KGM",
@@ -85,7 +88,6 @@
         }
       },
       {
-        "relatedBuyer": "881d1efa739e4cceb24e45075996bbfb",
         "additionalClassifications": [
           {
             "description": "Техніка конторська/офісна, інша",
@@ -111,6 +113,7 @@
         },
         "description": "Інша тестова назва предмета закупівлі",
         "quantity": 5,
+        "relatedBuyer": "881d1efa739e4cceb24e45075996bbfb",
         "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
         "unit": {
           "code": "KGM",
@@ -118,7 +121,6 @@
         }
       },
       {
-        "relatedBuyer": "bf08d7d965c24296a195445200785bae",
         "additionalClassifications": [
           {
             "description": "Техніка конторська/офісна, інша",
@@ -144,6 +146,7 @@
         },
         "description": "Зовсім інша тестова назва предмета закупівлі",
         "quantity": 5,
+        "relatedBuyer": "bf08d7d965c24296a195445200785bae",
         "relatedLot": "dd22c9c085f64e019f943999b5b41fe5",
         "unit": {
           "code": "KGM",
@@ -151,7 +154,6 @@
         }
       },
       {
-        "relatedBuyer": "dd426ce4c76f48849b3d8e8699b0b3ce",
         "additionalClassifications": [
           {
             "description": "Техніка конторська/офісна, інша",
@@ -177,6 +179,7 @@
         },
         "description": "Тестова назва предмета закупівлі",
         "quantity": 5,
+        "relatedBuyer": "dd426ce4c76f48849b3d8e8699b0b3ce",
         "relatedLot": "9d4fc4783ebb4a99b10cc9a2f7d7552f",
         "unit": {
           "code": "KGM",
@@ -184,7 +187,6 @@
         }
       },
       {
-        "relatedBuyer": "881d1efa739e4cceb24e45075996bbfb",
         "additionalClassifications": [
           {
             "description": "Техніка конторська/офісна, інша",
@@ -210,6 +212,7 @@
         },
         "description": "Інша тестова назва предмета закупівлі",
         "quantity": 5,
+        "relatedBuyer": "881d1efa739e4cceb24e45075996bbfb",
         "relatedLot": "9d4fc4783ebb4a99b10cc9a2f7d7552f",
         "unit": {
           "code": "KGM",
@@ -217,7 +220,6 @@
         }
       },
       {
-        "relatedBuyer": "bf08d7d965c24296a195445200785bae",
         "additionalClassifications": [
           {
             "description": "Техніка конторська/офісна, інша",
@@ -243,6 +245,7 @@
         },
         "description": "Зовсім інша тестова назва предмета закупівлі",
         "quantity": 5,
+        "relatedBuyer": "bf08d7d965c24296a195445200785bae",
         "relatedLot": "9d4fc4783ebb4a99b10cc9a2f7d7552f",
         "unit": {
           "code": "KGM",
@@ -250,7 +253,6 @@
         }
       },
       {
-        "relatedBuyer": "bf08d7d965c24296a195445200785bae",
         "additionalClassifications": [
           {
             "description": "Техніка конторська/офісна, інша",
@@ -277,6 +279,7 @@
         "description": "Тестова назва предмета закупівлі",
         "description_en": "Procurement item test name",
         "quantity": 1,
+        "relatedBuyer": "bf08d7d965c24296a195445200785bae",
         "relatedLot": "5f58e4e21baf4696bb1cfd67c4f86f73",
         "unit": {
           "code": "KGM",
@@ -284,19 +287,13 @@
         }
       }
     ],
-    "value": {
-      "amount": 0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "minimalStep": {
-      "amount": 0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "lots": [
       {
         "description": "Опис Лот №1",
+        "guarantee": {
+          "amount": 100,
+          "currency": "UAH"
+        },
         "id": "dd22c9c085f64e019f943999b5b41fe5",
         "minimalStep": {
           "amount": 10,
@@ -308,14 +305,14 @@
           "amount": 500,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
-        },
-        "guarantee": {
-          "amount": 100,
-          "currency": "UAH"
         }
       },
       {
         "description": "Опис Лот №2",
+        "guarantee": {
+          "amount": 100,
+          "currency": "UAH"
+        },
         "id": "9d4fc4783ebb4a99b10cc9a2f7d7552f",
         "minimalStep": {
           "amount": 10,
@@ -327,14 +324,14 @@
           "amount": 500,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
-        },
-        "guarantee": {
-          "amount": 100,
-          "currency": "UAH"
         }
       },
       {
         "description": "Опис Лот №3",
+        "guarantee": {
+          "amount": 100,
+          "currency": "UAH"
+        },
         "id": "5f58e4e21baf4696bb1cfd67c4f86f73",
         "minimalStep": {
           "amount": 10,
@@ -346,10 +343,6 @@
           "amount": 500,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
-        },
-        "guarantee": {
-          "amount": 100,
-          "currency": "UAH"
         }
       }
     ],
@@ -367,8 +360,14 @@
         "type": "financing"
       }
     ],
-    "procurementMethodType": "belowThreshold",
+    "minimalStep": {
+      "amount": 0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "mode": "test",
+    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
+    "procurementMethodType": "belowThreshold",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",
@@ -389,17 +388,18 @@
       "kind": "general",
       "name": "Державне управління справами"
     },
-    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
-    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "status": "draft",
-    "enquiryPeriod": {
-      "endDate": "{{ from_now_iso(days=30) }}"
-    },
+    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
     "tenderPeriod": {
-      "startDate": "{{ from_now_iso(days=30) }}",
-      "endDate": "{{ from_now_iso(days=60) }}"
+      "endDate": "{{ from_now_iso(days=60) }}",
+      "startDate": "{{ from_now_iso(days=30) }}"
     },
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)"
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "value": {
+      "amount": 0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    }
   }
 }

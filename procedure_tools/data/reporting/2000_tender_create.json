@@ -1,24 +1,24 @@
 {
   "config": {
-    "hasAuction": false,
-    "hasAwardingOrder": true,
-    "hasValueRestriction": true,
-    "valueCurrencyEquality": true,
-    "hasPrequalification": false,
-    "minBidsNumber": 1,
-    "hasPreSelectionAgreement": false,
-    "hasTenderComplaints": false,
-    "hasAwardComplaints": false,
-    "hasCancellationComplaints": false,
-    "restricted": false,
-    "hasValueEstimation": true,
-    "hasQualificationComplaints": false,
-    "tenderComplainRegulation": 0,
-    "qualificationComplainDuration": 0,
     "awardComplainDuration": 0,
     "cancellationComplainDuration": 0,
     "clarificationUntilDuration": 0,
-    "qualificationDuration": 0
+    "hasAuction": false,
+    "hasAwardComplaints": false,
+    "hasAwardingOrder": true,
+    "hasCancellationComplaints": false,
+    "hasPreSelectionAgreement": false,
+    "hasPrequalification": false,
+    "hasQualificationComplaints": false,
+    "hasTenderComplaints": false,
+    "hasValueEstimation": true,
+    "hasValueRestriction": true,
+    "minBidsNumber": 1,
+    "qualificationComplainDuration": 0,
+    "qualificationDuration": 0,
+    "restricted": false,
+    "tenderComplainRegulation": 0,
+    "valueCurrencyEquality": true
   },
   "data": {
     "cause": "openUnsuccessful",
@@ -59,11 +59,6 @@
         }
       }
     ],
-    "value": {
-      "amount": 500000,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "mainProcurementCategory": "services",
     "milestones": [
       {
@@ -78,9 +73,10 @@
         "type": "financing"
       }
     ],
-    "procurementMethod": "limited",
-    "procurementMethodType": "reporting",
     "mode": "test",
+    "procurementMethod": "limited",
+    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
+    "procurementMethodType": "reporting",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",
@@ -103,8 +99,12 @@
       "name": "Тестовий заклад #1 м.Київ"
     },
     "status": "draft",
-    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)"
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "value": {
+      "amount": 500000,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    }
   }
 }

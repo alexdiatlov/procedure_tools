@@ -1,6 +1,6 @@
 {
   "data": {
-    "status": "stopped",
-    "rejectReason": "buyerViolationsCorrected"
+    "rejectReason": "buyerViolationsCorrected",
+    "status": "stopped"
   }
 }

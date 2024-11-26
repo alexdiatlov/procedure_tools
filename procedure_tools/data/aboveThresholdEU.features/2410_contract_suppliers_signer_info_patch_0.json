@@ -1,10 +1,10 @@
 {
   "data": {
-    "name": "Test Testovich",
-    "telephone": "+380950000000",
+    "authorizedBy": "Статут компанії",
     "email": "example@email.com",
     "iban": "111111111111111",
-    "authorizedBy": "Статут компанії",
-    "position": "Генеральний директор"
+    "name": "Test Testovich",
+    "position": "Генеральний директор",
+    "telephone": "+380950000000"
   }
 }
