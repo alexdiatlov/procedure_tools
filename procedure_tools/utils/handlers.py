@@ -87,6 +87,63 @@ def tender_create_success_handler(response):
     logging.info(msg)
 
 
+def framework_create_success_handler(response):
+    """Handle successful framework creation response."""
+    data = response.json()["data"]
+    access = response.json()["access"]
+
+    msg = "Framework created:\n"
+    msg += format_log_entry("id", data["id"])
+    msg += format_log_entry("token", access["token"])
+    msg += format_log_entry("transfer", access["transfer"]) if "transfer" in access else ""
+    msg += format_log_entry("status", data["status"])
+
+    logging.info(msg)
+
+
+def framework_patch_success_handler(response):
+    data = response.json()["data"]
+
+    msg = "Framework patched:\n"
+    msg += format_log_entry("id", data["id"])
+    msg += format_log_entry("status", data["status"])
+
+    logging.info(msg)
+
+
+def submission_create_success_handler(response):
+    data = response.json()["data"]
+    access = response.json()["access"]
+
+    msg = "Submission created:\n"
+    msg += format_log_entry("id", data["id"])
+    msg += format_log_entry("token", access["token"])
+    msg += format_log_entry("status", data["status"])
+
+    logging.info(msg)
+
+def framework_get_success_handler(response):
+    data = response.json()["data"]
+
+    has_agreement_id = "agreementID" in data
+
+    msg = "Framework found:\n"
+    msg += format_log_entry("id", data["id"])
+    msg += format_log_entry("status", data["status"])
+    msg += format_log_entry("agreementID", data["agreementID"]) if has_agreement_id else ""
+
+    logging.info(msg)
+
+def agreement_get_success_handler(response):
+    data = response.json()["data"]
+
+    msg = "Agreement found:\n"
+    msg += format_log_entry("id", data["id"])
+    msg += format_log_entry("status", data["status"])
+
+    logging.info(msg)
+
+
 def plan_create_success_handler(response):
     """Handle successful plan creation response."""
     data = response.json()["data"]

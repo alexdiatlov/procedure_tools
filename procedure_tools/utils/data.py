@@ -23,7 +23,7 @@ def get_token(response):
 
 
 def get_next_check(response):
-    return response.json()["data"]["next_check"]
+    return response.json()["data"].get("next_check")
 
 
 def get_procurement_method_type(response):

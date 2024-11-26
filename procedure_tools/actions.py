@@ -19,6 +19,7 @@ from procedure_tools.utils.file import (
     parse_data_file_parts,
 )
 from procedure_tools.utils.handlers import (
+    agreement_get_success_handler,
     allow_null_success_handler,
     auction_multilot_participation_url_success_handler,
     auction_participation_url_success_handler,
@@ -27,11 +28,15 @@ from procedure_tools.utils.handlers import (
     default_success_handler,
     document_attach_success_handler,
     error,
+    framework_create_success_handler,
+    framework_get_success_handler,
+    framework_patch_success_handler,
     item_create_success_handler,
     item_patch_success_handler,
     plan_create_success_handler,
     plan_patch_success_handler,
     response_handler,
+    submission_create_success_handler,
     tender_check_status_invalid_handler,
     tender_check_status_success_handler,
     tender_create_success_handler,
@@ -750,6 +755,196 @@ def patch_plan(
             success_handler=plan_patch_success_handler,
         )
         return response
+
+
+def create_framework(
+    client: CDBClient,
+    args,
+    context,
+    prefix="",
+):
+    logging.info("Creating framework...\n")
+    data_file = f"{prefix}framework_create.json"
+    path = get_data_file_path(get_data_path(args.data), data_file)
+    with read_file(path, context=context, exit_filename=args.stop, silent_error=True) as content:
+        framework_create_data = json.loads(content)
+        response = client.post(
+            "frameworks",
+            json=framework_create_data,
+            auth_token=args.token,
+            success_handler=framework_create_success_handler,
+        )
+        return response
+
+
+def patch_framework_active(
+    client: CDBClient,
+    args,
+    context,
+    framework_id,
+    framework_token,
+    prefix="",
+):
+    logging.info("Activating framework by switching to next status...\n")
+    data_file = f"{prefix}framework_patch_active.json"
+    path = get_data_file_path(get_data_path(args.data), data_file)
+    with read_file(path, context=context, exit_filename=args.stop) as content:
+        framework_patch_data = json.loads(content)
+        return client.patch(
+            f"frameworks/{framework_id}",
+            json=framework_patch_data,
+            acc_token=framework_token,
+            auth_token=args.token,
+            success_handler=framework_patch_success_handler,
+        )
+
+
+def create_sublissions(
+    client: CDBClient,
+    ds_client: DSClient,
+    args,
+    context,
+    framework_id,
+    prefix="",
+):
+    logging.info("Creating submissions...\n")
+    submission_data_files = []
+    for data_file in get_data_all_files(get_data_path(args.data)):
+        if data_file.startswith(f"{prefix}submission_create"):
+            submission_data_files.append(data_file)
+    responses = []
+    for submission_data_file in submission_data_files:
+        path = get_data_file_path(get_data_path(args.data), submission_data_file)
+        with read_file(path, context=context, exit_filename=args.stop) as content:
+            submission_create_data = json.loads(content)
+            response = client.post(
+                f"submissions",
+                json=submission_create_data,
+                auth_token=args.token,
+                success_handler=submission_create_success_handler,
+            )
+            responses.append(response)
+    return responses
+
+
+def patch_submissions(
+    client: CDBClient,
+    args,
+    context,
+    submissions_ids,
+    submissions_tokens,
+    prefix="",
+):
+    logging.info("Patching submissions...\n")
+    responses = []
+    for submission_index, submission_id in enumerate(submissions_ids):
+        data_file = f"{prefix}submission_patch_{submission_index}.json"
+        path = get_data_file_path(get_data_path(args.data), data_file)
+        with read_file(path, context=context, exit_filename=args.stop) as content:
+            submission_patch_data = json.loads(content)
+            response = client.patch(
+                f"submissions/{submission_id}",
+                json=submission_patch_data,
+                acc_token=submissions_tokens[submission_index],
+                auth_token=args.token,
+                success_handler=item_patch_success_handler,
+            )
+            responses.append(response)
+    return responses
+
+
+def patch_qualifications(
+    client: CDBClient,
+    args,
+    context,
+    qualifications_ids,
+    framework_token,
+    prefix="",
+):
+    logging.info("Patching qualifications...\n")
+    responses = []
+    for qualification_index, qualification_id in enumerate(qualifications_ids):
+        data_file = f"{prefix}qualification_patch_{qualification_index}.json"
+        path = get_data_file_path(get_data_path(args.data), data_file)
+        with read_file(path, context=context, exit_filename=args.stop) as content:
+            qualification_patch_data = json.loads(content)
+            response = client.patch(
+                f"qualifications/{qualification_id}",
+                json=qualification_patch_data,
+                acc_token=framework_token,
+                auth_token=args.token,
+                success_handler=item_patch_success_handler,
+            )
+            responses.append(response)
+    return responses
+
+
+def upload_qualification_evaluation_report(
+    client: CDBClient,
+    ds_client: DSClient,
+    args,
+    context,
+    qualification_id,
+    framework_token,
+    data_file_prefix,
+    prefix="",
+):
+    return upload_documents(
+        ds_client,
+        args,
+        context,
+        data_file_prefix=data_file_prefix,
+        attach_callback=partial(
+            client.post,
+            f"qualifications/{qualification_id}/documents",
+            acc_token=framework_token,
+        ),
+        prefix=prefix,
+    )
+
+
+def upload_qualifications_evaluation_reports(
+    client: CDBClient,
+    ds_client: DSClient,
+    args,
+    context,
+    qualifications_ids,
+    framework_token,
+    prefix="",
+):
+    for qualification_index, qualification_id in enumerate(qualifications_ids):
+        upload_qualification_evaluation_report(
+            client,
+            ds_client,
+            args,
+            context,
+            qualification_id,
+            framework_token,
+            f"qualification_evaluation_report_{qualification_index}_attach",
+            prefix=prefix,
+        )
+
+def get_framework(
+    client: CDBClient,
+    args,
+    context,
+    framework_id,
+):
+    return client.get(
+        f"frameworks/{framework_id}",
+        success_handler=framework_get_success_handler,
+    )
+
+def get_agreement(
+    client: CDBClient,
+    args,
+    context,
+    agreement_id,
+):
+    return client.get(
+        f"agreements/{agreement_id}",
+        success_handler=agreement_get_success_handler,
+    )
 
 
 def create_tender(

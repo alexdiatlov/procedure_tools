@@ -7,13 +7,16 @@ from procedure_tools.actions import (
     create_awards,
     create_bids,
     create_complaints,
+    create_framework,
     create_plan,
     create_plans,
+    create_sublissions,
     create_tender,
     get_agreement,
     get_agreements,
     get_awards,
     get_contract,
+    get_framework,
     get_qualifications,
     get_tender,
     get_tender_contracts,
@@ -26,9 +29,11 @@ from procedure_tools.actions import (
     patch_contracts,
     patch_contracts_buyer_signer_info,
     patch_contracts_suppliers_signer_info,
+    patch_framework_active,
     patch_plan,
     patch_qualifications,
     patch_stage2_credentials,
+    patch_submissions,
     patch_tender,
     patch_tender_pending,
     patch_tender_pre,
@@ -41,6 +46,7 @@ from procedure_tools.actions import (
     re_upload_evaluation_report,
     upload_bids_proposal,
     upload_evaluation_report,
+    upload_qualifications_evaluation_reports,
     upload_tender_documents,
     upload_tender_notice,
     wait,
@@ -126,6 +132,77 @@ def process_procedure(
     context["acceleration"] = args.acceleration
     context["submission"] = args.submission
     context["client_timedelta"] = client.client_timedelta
+
+    response = create_framework(
+        client,
+        args,
+        context,
+        prefix=prefix,
+    )
+
+    if response:
+        framework_id = get_id(response)
+        framework_token = get_token(response)
+        response = patch_framework_active(
+            client,
+            args,
+            context,
+            framework_id,
+            framework_token,
+            prefix=prefix,
+        )
+        context["framework"] = response.json()["data"]
+
+        responses = create_sublissions(
+            client,
+            ds_client,
+            args,
+            context,
+            framework_id,
+            prefix=prefix,
+        )
+
+        submissions_ids = [get_id(response) for response in responses]
+        submissions_tokens = [get_token(response) for response in responses]
+        responses = patch_submissions(
+            client,
+            args,
+            context,
+            submissions_ids,
+            submissions_tokens,
+            prefix=prefix,
+        )
+
+        qualifications_ids = [response.json()["data"]["qualificationID"] for response in responses]
+
+        upload_qualifications_evaluation_reports(
+            client,
+            ds_client,
+            args,
+            context,
+            qualifications_ids,
+            framework_token,
+            prefix=prefix,
+        )
+
+        responses = patch_qualifications(
+            client,
+            args,
+            context,
+            qualifications_ids,
+            framework_token,
+            prefix=prefix,
+        )
+
+        response = get_framework(client, args, context, framework_id)
+        framework = get_data(response)
+        context["framework"] = framework
+        agreement_id = framework["agreementID"]
+
+        response = get_agreement(client, args, context, agreement_id)
+        agreement = get_data(response)
+        context["agreement"] = agreement
+
 
     if not tender_id and not tender_token:
         # It means that we are starting a new procedure
@@ -229,6 +306,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
         "aboveThresholdEU",
@@ -266,6 +344,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
         "aboveThresholdEU",
@@ -310,11 +389,13 @@ def process_procedure(
         )
 
     if method_type in ("belowThreshold",):
-        wait(
-            get_next_check(response),
-            client_timedelta=client.client_timedelta,
-            date_info_str="next chronograph check",
-        )
+        next_check = get_next_check(response)
+        if next_check:
+            wait(
+                next_check,
+                client_timedelta=client.client_timedelta,
+                date_info_str="next chronograph check",
+            )
 
     if method_type in (
         "belowThreshold",
@@ -375,6 +456,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
         "aboveThresholdEU",
@@ -435,6 +517,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
         "aboveThresholdEU",
@@ -449,11 +532,13 @@ def process_procedure(
         "simple.defense",
     ):
         response = get_tender(client, args, context, tender_id)
-        wait(
-            get_next_check(response),
-            client_timedelta=client.client_timedelta,
-            date_info_str="next chronograph check",
-        )
+        next_check = get_next_check(response)
+        if next_check:
+            wait(
+                next_check,
+                client_timedelta=client.client_timedelta,
+                date_info_str="next chronograph check",
+            )
 
     if config["hasPrequalification"]:
         wait_status(
@@ -585,6 +670,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
         "aboveThresholdEU",
@@ -623,6 +709,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
         "aboveThresholdEU",
@@ -664,6 +751,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
         "aboveThresholdEU",
@@ -763,6 +851,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
         "aboveThresholdEU",
@@ -786,6 +875,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
         "aboveThresholdEU",
@@ -809,6 +899,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
         "aboveThresholdEU",
@@ -837,6 +928,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
         "aboveThresholdEU",
@@ -875,6 +967,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
         "aboveThresholdEU",
@@ -927,6 +1020,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
         "aboveThresholdEU",
