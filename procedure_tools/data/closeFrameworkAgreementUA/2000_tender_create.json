@@ -1,24 +1,24 @@
 {
   "config": {
-    "hasAuction": true,
-    "hasAwardingOrder": true,
-    "hasValueRestriction": true,
-    "valueCurrencyEquality": true,
-    "hasPrequalification": true,
-    "minBidsNumber": 3,
-    "hasPreSelectionAgreement": false,
-    "hasTenderComplaints": true,
-    "hasAwardComplaints": true,
-    "hasCancellationComplaints": true,
-    "restricted": false,
-    "hasValueEstimation": true,
-    "hasQualificationComplaints": true,
-    "tenderComplainRegulation": 4,
-    "qualificationComplainDuration": 5,
     "awardComplainDuration": 10,
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
-    "qualificationDuration": 20
+    "hasAuction": true,
+    "hasAwardComplaints": true,
+    "hasAwardingOrder": true,
+    "hasCancellationComplaints": true,
+    "hasPreSelectionAgreement": false,
+    "hasPrequalification": true,
+    "hasQualificationComplaints": true,
+    "hasTenderComplaints": true,
+    "hasValueEstimation": true,
+    "hasValueRestriction": true,
+    "minBidsNumber": 3,
+    "qualificationComplainDuration": 5,
+    "qualificationDuration": 20,
+    "restricted": false,
+    "tenderComplainRegulation": 4,
+    "valueCurrencyEquality": true
   },
   "data": {
     "agreementDuration": "P3Y3M3D",
@@ -112,16 +112,6 @@
         }
       }
     ],
-    "value": {
-      "amount": 0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "minimalStep": {
-      "amount": 0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "lots": [
       {
         "description": "Опис Лот №1",
@@ -154,8 +144,14 @@
         "type": "financing"
       }
     ],
-    "procurementMethodType": "closeFrameworkAgreementUA",
+    "minimalStep": {
+      "amount": 0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "mode": "test",
+    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
+    "procurementMethodType": "closeFrameworkAgreementUA",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",
@@ -179,14 +175,18 @@
       "name": "Державне управління справами",
       "name_en": "State administration"
     },
-    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
-    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "status": "draft",
+    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
     "tenderPeriod": {
-      "startDate": "{{ from_now_iso() }}",
-      "endDate": "{{ from_now_iso(days=30) }}"
+      "endDate": "{{ from_now_iso(days=30) }}",
+      "startDate": "{{ from_now_iso() }}"
     },
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)"
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "value": {
+      "amount": 0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    }
   }
 }

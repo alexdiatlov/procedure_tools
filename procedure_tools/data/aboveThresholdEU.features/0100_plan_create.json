@@ -82,6 +82,7 @@
         }
       }
     ],
+    "mode": "test",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",
@@ -99,7 +100,6 @@
       "name": "ДТП"
     },
     "status": "draft",
-    "mode": "test",
     "tender": {
       "procurementMethod": "open",
       "procurementMethodType": "aboveThresholdEU",

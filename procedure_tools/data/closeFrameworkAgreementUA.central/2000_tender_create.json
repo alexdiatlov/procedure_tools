@@ -1,24 +1,24 @@
 {
   "config": {
-    "hasAuction": true,
-    "hasAwardingOrder": true,
-    "hasValueRestriction": true,
-    "valueCurrencyEquality": true,
-    "hasPrequalification": true,
-    "minBidsNumber": 3,
-    "hasPreSelectionAgreement": false,
-    "hasTenderComplaints": true,
-    "hasAwardComplaints": true,
-    "hasCancellationComplaints": true,
-    "restricted": false,
-    "hasValueEstimation": true,
-    "hasQualificationComplaints": true,
-    "tenderComplainRegulation": 4,
-    "qualificationComplainDuration": 5,
     "awardComplainDuration": 10,
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
-    "qualificationDuration": 20
+    "hasAuction": true,
+    "hasAwardComplaints": true,
+    "hasAwardingOrder": true,
+    "hasCancellationComplaints": true,
+    "hasPreSelectionAgreement": false,
+    "hasPrequalification": true,
+    "hasQualificationComplaints": true,
+    "hasTenderComplaints": true,
+    "hasValueEstimation": true,
+    "hasValueRestriction": true,
+    "minBidsNumber": 3,
+    "qualificationComplainDuration": 5,
+    "qualificationDuration": 20,
+    "restricted": false,
+    "tenderComplainRegulation": 4,
+    "valueCurrencyEquality": true
   },
   "data": {
     "agreementDuration": "P3Y3M3D",
@@ -73,9 +73,6 @@
     ],
     "items": [
       {
-        "id": "d8eef80b5a0a4a7fb7c9512ca1db5b93",
-        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
-        "relatedBuyer": "dd426ce4c76f48849b3d8e8699b0b3ce",
         "additionalClassifications": [
           {
             "description": "Техніка конторська/офісна, інша",
@@ -101,16 +98,16 @@
         },
         "description": "Тестова назва предмета закупівлі",
         "description_en": "Procurement item test name",
+        "id": "d8eef80b5a0a4a7fb7c9512ca1db5b93",
         "quantity": 5,
+        "relatedBuyer": "dd426ce4c76f48849b3d8e8699b0b3ce",
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
         "unit": {
           "code": "KGM",
           "name": "кг"
         }
       },
       {
-        "id": "483ea8f464cc44769cf1b62c19d40baf",
-        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
-        "relatedBuyer": "881d1efa739e4cceb24e45075996bbfb",
         "additionalClassifications": [
           {
             "description": "Техніка конторська/офісна, інша",
@@ -136,16 +133,16 @@
         },
         "description": "Інша тестова назва предмета закупівлі",
         "description_en": "Procurement item another test name",
+        "id": "483ea8f464cc44769cf1b62c19d40baf",
         "quantity": 5,
+        "relatedBuyer": "881d1efa739e4cceb24e45075996bbfb",
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
         "unit": {
           "code": "KGM",
           "name": "кг"
         }
       },
       {
-        "id": "f3bb176406c244d8a9444f901926065a",
-        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
-        "relatedBuyer": "bf08d7d965c24296a195445200785bae",
         "additionalClassifications": [
           {
             "description": "Техніка конторська/офісна, інша",
@@ -171,23 +168,16 @@
         },
         "description": "Зовсім інша тестова назва предмета закупівлі",
         "description_en": "Procurement item completely another test name",
+        "id": "f3bb176406c244d8a9444f901926065a",
         "quantity": 5,
+        "relatedBuyer": "bf08d7d965c24296a195445200785bae",
+        "relatedLot": "ddb35dd0e9904726aafd18baed24863a",
         "unit": {
           "code": "KGM",
           "name": "кг"
         }
       }
     ],
-    "value": {
-      "amount": 0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "minimalStep": {
-      "amount": 0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "lots": [
       {
         "description": "Опис Лот №1",
@@ -225,8 +215,9 @@
       "currency": "UAH",
       "valueAddedTaxIncluded": true
     },
-    "procurementMethodType": "closeFrameworkAgreementUA",
     "mode": "test",
+    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
+    "procurementMethodType": "closeFrameworkAgreementUA",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",
@@ -250,14 +241,18 @@
       "name": "Державне управління справами",
       "name_en": "State administration"
     },
-    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
-    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "status": "draft",
+    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
     "tenderPeriod": {
-      "startDate": "{{ from_now_iso() }}",
-      "endDate": "{{ from_now_iso(days=30) }}"
+      "endDate": "{{ from_now_iso(days=30) }}",
+      "startDate": "{{ from_now_iso() }}"
     },
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)"
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "value": {
+      "amount": 0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    }
   }
 }

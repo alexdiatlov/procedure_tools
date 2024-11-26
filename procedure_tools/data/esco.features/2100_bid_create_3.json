@@ -1,5 +1,25 @@
 {
   "data": {
+    "documents": [
+      {
+        "title": "bid_document_file.txt"
+      },
+      {
+        "confidentiality": "buyerOnly",
+        "confidentialityRationale": "Доступ до цього документу має бути обмежений лише для замовника",
+        "title": "bid_confidential_document_file.txt"
+      }
+    ],
+    "eligibilityDocuments": [
+      {
+        "title": "bid_eligibility_document_file.txt"
+      }
+    ],
+    "financialDocuments": [
+      {
+        "title": "bid_financial_document_file.txt"
+      }
+    ],
     "lotValues": [
       {
         "relatedLot": "5f58e4e21baf4696bb1cfd67c4f86f73",
@@ -35,6 +55,11 @@
         }
       }
     ],
+    "qualificationDocuments": [
+      {
+        "title": "bid_qualification_document_file.txt"
+      }
+    ],
     "status": "draft",
     "tenderers": [
       {
@@ -57,31 +82,6 @@
         },
         "name": "«Снігур»",
         "scale": "micro"
-      }
-    ],
-    "documents": [
-      {
-        "title": "bid_document_file.txt"
-      },
-      {
-        "title": "bid_confidential_document_file.txt",
-        "confidentiality": "buyerOnly",
-        "confidentialityRationale": "Доступ до цього документу має бути обмежений лише для замовника"
-      }
-    ],
-    "eligibilityDocuments": [
-      {
-        "title": "bid_eligibility_document_file.txt"
-      }
-    ],
-    "financialDocuments": [
-      {
-        "title": "bid_financial_document_file.txt"
-      }
-    ],
-    "qualificationDocuments": [
-      {
-        "title": "bid_qualification_document_file.txt"
       }
     ]
   }

@@ -1,24 +1,24 @@
 {
   "config": {
-    "hasAuction": true,
-    "hasAwardingOrder": true,
-    "hasValueRestriction": false,
-    "valueCurrencyEquality": true,
-    "hasPrequalification": false,
-    "minBidsNumber": 1,
-    "hasPreSelectionAgreement": false,
-    "hasTenderComplaints": true,
-    "hasAwardComplaints": true,
-    "hasCancellationComplaints": true,
-    "restricted": false,
-    "hasValueEstimation": true,
-    "hasQualificationComplaints": false,
-    "tenderComplainRegulation": 3,
-    "qualificationComplainDuration": 0,
     "awardComplainDuration": 5,
     "cancellationComplainDuration": 10,
     "clarificationUntilDuration": 3,
-    "qualificationDuration": 0
+    "hasAuction": true,
+    "hasAwardComplaints": true,
+    "hasAwardingOrder": true,
+    "hasCancellationComplaints": true,
+    "hasPreSelectionAgreement": false,
+    "hasPrequalification": false,
+    "hasQualificationComplaints": false,
+    "hasTenderComplaints": true,
+    "hasValueEstimation": true,
+    "hasValueRestriction": false,
+    "minBidsNumber": 1,
+    "qualificationComplainDuration": 0,
+    "qualificationDuration": 0,
+    "restricted": false,
+    "tenderComplainRegulation": 3,
+    "valueCurrencyEquality": true
   },
   "data": {
     "awardCriteria": "lifeCycleCost",
@@ -123,19 +123,13 @@
         }
       }
     ],
-    "value": {
-      "amount": 0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
-    "minimalStep": {
-      "amount": 0,
-      "currency": "UAH",
-      "valueAddedTaxIncluded": true
-    },
     "lots": [
       {
         "description": "Опис Лот №1",
+        "guarantee": {
+          "amount": 100,
+          "currency": "UAH"
+        },
         "id": "dd22c9c085f64e019f943999b5b41fe5",
         "minimalStep": {
           "amount": 10,
@@ -147,14 +141,14 @@
           "amount": 500,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
-        },
-        "guarantee": {
-          "amount": 100,
-          "currency": "UAH"
         }
       },
       {
         "description": "Опис Лот №2",
+        "guarantee": {
+          "amount": 100,
+          "currency": "UAH"
+        },
         "id": "9d4fc4783ebb4a99b10cc9a2f7d7552f",
         "minimalStep": {
           "amount": 10,
@@ -166,14 +160,14 @@
           "amount": 500,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
-        },
-        "guarantee": {
-          "amount": 100,
-          "currency": "UAH"
         }
       },
       {
         "description": "Опис Лот №3",
+        "guarantee": {
+          "amount": 100,
+          "currency": "UAH"
+        },
         "id": "5f58e4e21baf4696bb1cfd67c4f86f73",
         "minimalStep": {
           "amount": 10,
@@ -185,10 +179,6 @@
           "amount": 500,
           "currency": "UAH",
           "valueAddedTaxIncluded": true
-        },
-        "guarantee": {
-          "amount": 100,
-          "currency": "UAH"
         }
       }
     ],
@@ -206,8 +196,14 @@
         "type": "financing"
       }
     ],
-    "procurementMethodType": "aboveThreshold",
+    "minimalStep": {
+      "amount": 0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    },
     "mode": "test",
+    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
+    "procurementMethodType": "aboveThreshold",
     "procuringEntity": {
       "address": {
         "countryName": "Україна",
@@ -229,14 +225,18 @@
       "kind": "special",
       "name": "Тестовий заклад #1 м.Київ"
     },
-    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
-    "procurementMethodDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
     "status": "draft",
+    "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
     "tenderPeriod": {
-      "startDate": "{{ from_now_iso() }}",
-      "endDate": "{{ from_now_iso(days=30) }}"
+      "endDate": "{{ from_now_iso(days=30) }}",
+      "startDate": "{{ from_now_iso() }}"
     },
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
-    "title_en": "Procurement item test description in procedure title (created with procedure_tools)"
+    "title_en": "Procurement item test description in procedure title (created with procedure_tools)",
+    "value": {
+      "amount": 0,
+      "currency": "UAH",
+      "valueAddedTaxIncluded": true
+    }
   }
 }

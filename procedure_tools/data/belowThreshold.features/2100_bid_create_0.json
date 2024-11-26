@@ -1,13 +1,23 @@
 {
   "data": {
-    "parameters": [
+    "documents": [
       {
-        "code": "73763ce0c908466ead064f8a2de02a9f",
-        "value": 0.05
+        "title": "bid_document_file.txt"
       },
       {
-        "code": "48cfd91612c04125ab406374d7cc8d93",
-        "value": 0.01
+        "confidentiality": "buyerOnly",
+        "confidentialityRationale": "Доступ до цього документу має бути обмежений лише для замовника",
+        "title": "bid_confidential_document_file.txt"
+      }
+    ],
+    "eligibilityDocuments": [
+      {
+        "title": "bid_eligibility_document_file.txt"
+      }
+    ],
+    "financialDocuments": [
+      {
+        "title": "bid_financial_document_file.txt"
       }
     ],
     "lotValues": [
@@ -22,6 +32,21 @@
         "value": {
           "amount": 500
         }
+      }
+    ],
+    "parameters": [
+      {
+        "code": "73763ce0c908466ead064f8a2de02a9f",
+        "value": 0.05
+      },
+      {
+        "code": "48cfd91612c04125ab406374d7cc8d93",
+        "value": 0.01
+      }
+    ],
+    "qualificationDocuments": [
+      {
+        "title": "bid_qualification_document_file.txt"
       }
     ],
     "status": "draft",
@@ -46,31 +71,6 @@
         },
         "name": "Тестове підприємство",
         "scale": "micro"
-      }
-    ],
-    "documents": [
-      {
-        "title": "bid_document_file.txt"
-      },
-      {
-        "title": "bid_confidential_document_file.txt",
-        "confidentiality": "buyerOnly",
-        "confidentialityRationale": "Доступ до цього документу має бути обмежений лише для замовника"
-      }
-    ],
-    "eligibilityDocuments": [
-      {
-        "title": "bid_eligibility_document_file.txt"
-      }
-    ],
-    "financialDocuments": [
-      {
-        "title": "bid_financial_document_file.txt"
-      }
-    ],
-    "qualificationDocuments": [
-      {
-        "title": "bid_qualification_document_file.txt"
       }
     ]
   }

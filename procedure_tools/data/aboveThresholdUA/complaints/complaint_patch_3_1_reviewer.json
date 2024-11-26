@@ -1,6 +1,6 @@
 {
   "data": {
-    "status": "invalid",
-    "rejectReason": "alreadyExists"
+    "rejectReason": "alreadyExists",
+    "status": "invalid"
   }
 }
