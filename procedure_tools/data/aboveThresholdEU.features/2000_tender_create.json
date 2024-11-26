@@ -329,7 +329,7 @@
     "status": "draft",
     "submissionMethodDetails": "{% if submission %}{{ submission }}{% endif %}",
     "tenderPeriod": {
-      "endDate": "{{ from_now_iso(days=30) }}",
+      "endDate": "{{ from_now_iso(days=40) }}",
       "startDate": "{{ from_now_iso() }}"
     },
     "title": "Тестовий опис предмету закупівлі у заголовку тендеру (created with procedure_tools)",
