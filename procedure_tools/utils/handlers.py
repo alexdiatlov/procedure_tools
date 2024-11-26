@@ -122,6 +122,7 @@ def submission_create_success_handler(response):
 
     logging.info(msg)
 
+
 def framework_get_success_handler(response):
     data = response.json()["data"]
 
@@ -133,6 +134,7 @@ def framework_get_success_handler(response):
     msg += format_log_entry("agreementID", data["agreementID"]) if has_agreement_id else ""
 
     logging.info(msg)
+
 
 def agreement_get_success_handler(response):
     data = response.json()["data"]

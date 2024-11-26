@@ -924,6 +924,7 @@ def upload_qualifications_evaluation_reports(
             prefix=prefix,
         )
 
+
 def get_framework(
     client: CDBClient,
     args,
@@ -934,6 +935,7 @@ def get_framework(
         f"frameworks/{framework_id}",
         success_handler=framework_get_success_handler,
     )
+
 
 def get_agreement(
     client: CDBClient,

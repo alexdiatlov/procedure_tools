@@ -203,7 +203,6 @@ def process_procedure(
         agreement = get_data(response)
         context["agreement"] = agreement
 
-
     if not tender_id and not tender_token:
         # It means that we are starting a new procedure
         # not a second stage of another
