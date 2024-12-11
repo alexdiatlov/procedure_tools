@@ -137,40 +137,6 @@
       "value": "true"
     },
     {
-      "evidences": [
-        {
-          "id": "8100f33bdf5d4a7b86da44dac82478ab",
-          "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf",
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
-      "requirement": {
-        "id": "66eebbcbbe7d4f3681c6749dfcb78ea6"
-      },
-      "value": "true"
-    },
-    {
-      "evidences": [
-        {
-          "id": "d09718cddec14a0587ffc5f7a6f30eb7",
-          "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf",
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
-      "requirement": {
-        "id": "da52d9dc9ff94189898f189d2075cf7b"
-      },
-      "value": "true"
-    },
-    {
       "requirement": {
         "id": "7935527dd3ac4a409fbfa5845f88e7e2"
       },
@@ -199,6 +165,18 @@
         "id": "619dc148984043b9a0ca471a18ad5edd"
       },
       "value": "true"
+    },
+    {
+      "requirement": {
+        "id": "e638a1444c3a48d187ad5450f33a9bab"
+      },
+      "value": true
+    },
+    {
+      "requirement": {
+        "id": "6d91695aedb54c2c9f46df4b9ad739c8"
+      },
+      "value": true
     }
   ]
 }
