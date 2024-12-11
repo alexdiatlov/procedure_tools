@@ -121,36 +121,6 @@
       "value": "true"
     },
     {
-      "evidences": [
-        {
-          "relatedDocument": {
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
-      "requirement": {
-        "id": "b4d8e4ea0bf44b0686b4f0670548d3c4"
-      },
-      "value": "true"
-    },
-    {
-      "evidences": [
-        {
-          "relatedDocument": {
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
-      "requirement": {
-        "id": "fd71b4808fb7459193df88d9c886f0b2"
-      },
-      "value": "true"
-    },
-    {
       "requirement": {
         "id": "06c76c1d21674e1f92fca722fdfa0a4f"
       },
@@ -203,6 +173,18 @@
         "id": "3b65cc90aa90461e9577f2fa40a5cd62"
       },
       "value": "true"
+    },
+    {
+      "requirement": {
+        "id": "e638a1444c3a48d187ad5450f33a9bab"
+      },
+      "value": true
+    },
+    {
+      "requirement": {
+        "id": "6d91695aedb54c2c9f46df4b9ad739c8"
+      },
+      "value": true
     }
   ]
 }
