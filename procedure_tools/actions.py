@@ -853,7 +853,7 @@ def patch_submissions(
     return responses
 
 
-def patch_qualifications(
+def patch_framework_qualifications(
     client: CDBClient,
     args,
     context,

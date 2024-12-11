@@ -18,6 +18,7 @@ from procedure_tools.actions import (
     get_contract,
     get_framework,
     get_qualifications,
+    patch_framework_qualifications,
     get_tender,
     get_tender_contracts,
     patch_agreements,
@@ -185,7 +186,7 @@ def process_procedure(
             prefix=prefix,
         )
 
-        responses = patch_qualifications(
+        responses = patch_framework_qualifications(
             client,
             args,
             context,
