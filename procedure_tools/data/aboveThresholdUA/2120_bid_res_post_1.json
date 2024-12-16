@@ -1,15 +1,6 @@
 {
   "data": [
     {
-      "evidences": [
-        {
-          "relatedDocument": {
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "e0ea9ac8fc004988a30d40a12a748129"
       },
@@ -31,75 +22,30 @@
       "value": "true"
     },
     {
-      "evidences": [
-        {
-          "relatedDocument": {
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "b0fa57a6176c43be9581ce8123c1d269"
       },
       "value": "true"
     },
     {
-      "evidences": [
-        {
-          "relatedDocument": {
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "66b9042237c540cfaf8362f67f424eec"
       },
       "value": "true"
     },
     {
-      "evidences": [
-        {
-          "relatedDocument": {
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "cbcced626666410bb7d979d7c7ca1b5e"
       },
       "value": "true"
     },
     {
-      "evidences": [
-        {
-          "relatedDocument": {
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "d905cbb3823e4c0ebc16c308a3895af5"
       },
       "value": "true"
     },
     {
-      "evidences": [
-        {
-          "relatedDocument": {
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "0b19f2e67553435c84a9f1b29195cdf6"
       },

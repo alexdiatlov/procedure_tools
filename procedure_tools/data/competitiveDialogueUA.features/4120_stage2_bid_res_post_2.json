@@ -1,17 +1,6 @@
 {
   "data": [
     {
-      "evidences": [
-        {
-          "id": "a673736e101c49c6b3f3767a27dc1ae2",
-          "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf",
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "fe69d9418b3c4d169e2a0eafc85dd337"
       },
@@ -35,85 +24,30 @@
       "value": "true"
     },
     {
-      "evidences": [
-        {
-          "id": "f4c380bbe8304738bfcf005c1f0142b1",
-          "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf",
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "8511fbaffd944658a2989c02f05606a1"
       },
       "value": "true"
     },
     {
-      "evidences": [
-        {
-          "id": "e429e08db40f48b9af22ef2fc4af76e6",
-          "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf",
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "336607983296441ea9c54688d4d13626"
       },
       "value": "true"
     },
     {
-      "evidences": [
-        {
-          "id": "1ff38626537d4b548eb9ba0a0e515189",
-          "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf",
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "8ef72d73734b4f379b46a9f04cd29bc0"
       },
       "value": "true"
     },
     {
-      "evidences": [
-        {
-          "id": "a7722527ef41476d804d056fd0e9e0a0",
-          "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf",
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "e9e2a15af92242b08cb56fd8a3b590c5"
       },
       "value": "true"
     },
     {
-      "evidences": [
-        {
-          "id": "d1a68de2c1584f5fb1b2846f0d74af6b",
-          "relatedDocument": {
-            "id": "a9d2222d31b94aac86963aa7749807cf",
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "1c00eb40f5e54904921a080bf0348028"
       },
