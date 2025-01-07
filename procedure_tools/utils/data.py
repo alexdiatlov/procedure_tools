@@ -30,6 +30,10 @@ def get_procurement_method_type(response):
     return response.json()["data"]["procurementMethodType"]
 
 
+def get_procurement_method(response):
+    return response.json()["data"]["procurementMethod"]
+
+
 def get_submission_method_details(response):
     return response.json()["data"].get("submissionMethodDetails")
 

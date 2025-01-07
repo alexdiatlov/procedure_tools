@@ -663,7 +663,8 @@ def create_bids(
                         document_data = ds_response.json()["data"]
                         document_data.update(bid_document_data)
                         bid_documents.append(document_data)
-                bid_create_data["data"][bid_document_container] = bid_documents
+                if bid_documents:
+                    bid_create_data["data"][bid_document_container] = bid_documents
             response = client.post(
                 f"tenders/{tender_id}/bids",
                 json=bid_create_data,

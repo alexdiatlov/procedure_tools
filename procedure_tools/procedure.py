@@ -69,6 +69,7 @@ from procedure_tools.utils.data import (
     get_ids,
     get_next_check,
     get_procurement_method_type,
+    get_procurement_method,
     get_submission_method_details,
     get_token,
 )
@@ -291,6 +292,7 @@ def process_procedure(
     config = get_config(response)
     context[f"{prefix}tender_config"] = config
 
+    method = get_procurement_method(response)
     method_type = get_procurement_method_type(response)
     submission_method_details = get_submission_method_details(response)
 
@@ -316,6 +318,7 @@ def process_procedure(
         "competitiveDialogueEU.stage2",
         "competitiveDialogueUA.stage2",
         "esco",
+        "priceQuotation",
     ):
         criteria_response = post_criteria(
             client,
@@ -342,21 +345,10 @@ def process_procedure(
         prefix=prefix,
     )
 
-    if method_type in (
-        "belowThreshold",
-        "competitiveOrdering",
-        "aboveThreshold",
-        "aboveThresholdUA",
-        "aboveThresholdEU",
-        "aboveThresholdUA.defense",
-        "closeFrameworkAgreementUA",
-        "competitiveDialogueEU",
-        "competitiveDialogueUA",
-        "negotiation",
-        "negotiation.quick",
-        "reporting",
-        "esco",
-        "simple.defense",
+    if method_type not in (
+        "closeFrameworkAgreementSelectionUA",
+        "competitiveDialogueEU.stage2",
+        "competitiveDialogueUA.stage2",
     ):
         response = patch_tender(
             client,
@@ -454,22 +446,7 @@ def process_procedure(
     bids_ids = []
     bids_tokens = []
 
-    if method_type in (
-        "belowThreshold",
-        "competitiveOrdering",
-        "aboveThreshold",
-        "aboveThresholdUA",
-        "aboveThresholdEU",
-        "closeFrameworkAgreementUA",
-        "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA.defense",
-        "competitiveDialogueEU",
-        "competitiveDialogueUA",
-        "competitiveDialogueEU.stage2",
-        "competitiveDialogueUA.stage2",
-        "esco",
-        "simple.defense",
-    ):
+    if method != "limited":
         bids_responses = create_bids(
             client,
             ds_client,
@@ -515,22 +492,7 @@ def process_procedure(
     else:
         bids_jsons = None
 
-    if method_type in (
-        "belowThreshold",
-        "competitiveOrdering",
-        "aboveThreshold",
-        "aboveThresholdUA",
-        "aboveThresholdEU",
-        "closeFrameworkAgreementUA",
-        "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA.defense",
-        "competitiveDialogueEU",
-        "competitiveDialogueUA",
-        "competitiveDialogueEU.stage2",
-        "competitiveDialogueUA.stage2",
-        "esco",
-        "simple.defense",
-    ):
+    if method != "limited":
         response = get_tender(client, args, context, tender_id)
         next_check = get_next_check(response)
         if next_check:
@@ -668,19 +630,9 @@ def process_procedure(
         )
         patch_tender_waiting(client, args, context, tender_id, tender_token)
 
-    if method_type in (
-        "belowThreshold",
-        "competitiveOrdering",
-        "aboveThreshold",
-        "aboveThresholdUA",
-        "aboveThresholdEU",
-        "closeFrameworkAgreementUA",
-        "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA.defense",
-        "competitiveDialogueEU.stage2",
-        "competitiveDialogueUA.stage2",
-        "esco",
-        "simple.defense",
+    if method != "limited" and method_type not in (
+        "competitiveDialogueEU",
+        "competitiveDialogueUA",
     ):
         wait_status(
             client,
@@ -707,19 +659,9 @@ def process_procedure(
     ):
         wait_auction_participation_urls(client, args, tender_id, bids_jsons)
 
-    if method_type in (
-        "belowThreshold",
-        "competitiveOrdering",
-        "aboveThreshold",
-        "aboveThresholdUA",
-        "aboveThresholdEU",
-        "closeFrameworkAgreementUA",
-        "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA.defense",
-        "competitiveDialogueEU.stage2",
-        "competitiveDialogueUA.stage2",
-        "esco",
-        "simple.defense",
+    if method != "limited" and method_type not in (
+        "competitiveDialogueEU",
+        "competitiveDialogueUA",
     ):
         wait_status(
             client,
@@ -731,10 +673,10 @@ def process_procedure(
             fail_status="unsuccessful",
         )
 
-    if method_type in ("negotiation", "negotiation.quick", "reporting"):
+    if method == "limited":
         create_awards(client, args, context, tender_id, tender_token)
 
-    if method_type in ("negotiation", "negotiation.quick", "reporting"):
+    if method == "limited":
         wait_status(
             client,
             args,
@@ -749,22 +691,9 @@ def process_procedure(
 
     awards_ids = []
 
-    if method_type in (
-        "belowThreshold",
-        "competitiveOrdering",
-        "aboveThreshold",
-        "aboveThresholdUA",
-        "aboveThresholdEU",
-        "closeFrameworkAgreementUA",
-        "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA.defense",
-        "competitiveDialogueEU.stage2",
-        "competitiveDialogueUA.stage2",
-        "negotiation",
-        "negotiation.quick",
-        "reporting",
-        "esco",
-        "simple.defense",
+    if method_type not in (
+        "competitiveDialogueEU",
+        "competitiveDialogueUA",
     ):
         response = get_awards(client, args, context, tender_id)
         awards_ids = get_ids(response)
@@ -849,20 +778,7 @@ def process_procedure(
             status="active.awarded",
         )
 
-    if method_type in (
-        "belowThreshold",
-        "competitiveOrdering",
-        "aboveThreshold",
-        "aboveThresholdUA",
-        "aboveThresholdEU",
-        "aboveThresholdUA.defense",
-        "competitiveDialogueEU.stage2",
-        "competitiveDialogueUA.stage2",
-        "negotiation",
-        "negotiation.quick",
-        "esco",
-        "simple.defense",
-    ):
+    if config["hasAwardComplaints"]:
         response = get_awards(client, args, context, tender_id)
         awards_complaint_dates = get_complaint_period_end_dates(response)
         wait(
@@ -873,21 +789,10 @@ def process_procedure(
 
     contracts_ids = []
 
-    if method_type in (
-        "belowThreshold",
-        "competitiveOrdering",
-        "aboveThreshold",
-        "aboveThresholdUA",
-        "aboveThresholdEU",
-        "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA.defense",
-        "competitiveDialogueEU.stage2",
-        "competitiveDialogueUA.stage2",
-        "negotiation",
-        "negotiation.quick",
-        "reporting",
-        "esco",
-        "simple.defense",
+    if method_type not in (
+        "closeFrameworkAgreementUA",
+        "competitiveDialogueEU",
+        "competitiveDialogueUA",
     ):
         response = get_tender_contracts(client, args, context, tender_id)
         contracts_ids = get_ids(response, status_exclude="cancelled")
@@ -897,21 +802,10 @@ def process_procedure(
 
     context["contracts"] = []
 
-    if method_type in (
-        "belowThreshold",
-        "competitiveOrdering",
-        "aboveThreshold",
-        "aboveThresholdUA",
-        "aboveThresholdEU",
-        "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA.defense",
-        "competitiveDialogueEU.stage2",
-        "competitiveDialogueUA.stage2",
-        "negotiation",
-        "negotiation.quick",
-        "reporting",
-        "esco",
-        "simple.defense",
+    if method_type not in (
+        "closeFrameworkAgreementUA",
+        "competitiveDialogueEU",
+        "competitiveDialogueUA",
     ):
         for contracts_id in contracts_ids:
             response = get_contract(client, args, context, contracts_id)
@@ -926,18 +820,10 @@ def process_procedure(
             contracts_tokens.append(get_token(response))
             contracts_award_ids.append(get_award_id(response))
 
-    if method_type in (
-        "belowThreshold",
-        "competitiveOrdering",
-        "aboveThreshold",
-        "aboveThresholdUA",
-        "aboveThresholdEU",
-        "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA.defense",
-        "competitiveDialogueEU.stage2",
-        "competitiveDialogueUA.stage2",
-        "esco",
-        "simple.defense",
+    if method != "limited" and method_type not in (
+        "closeFrameworkAgreementUA",
+        "competitiveDialogueEU",
+        "competitiveDialogueUA",
     ):
         patch_contracts_buyer_signer_info(
             client,
@@ -965,21 +851,10 @@ def process_procedure(
             prefix=prefix,
         )
 
-    if method_type in (
-        "belowThreshold",
-        "competitiveOrdering",
-        "aboveThreshold",
-        "aboveThresholdUA",
-        "aboveThresholdEU",
-        "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA.defense",
-        "competitiveDialogueEU.stage2",
-        "competitiveDialogueUA.stage2",
-        "negotiation",
-        "negotiation.quick",
-        "reporting",
-        "esco",
-        "simple.defense",
+    if method_type not in (
+        "closeFrameworkAgreementUA",
+        "competitiveDialogueEU",
+        "competitiveDialogueUA",
     ):
         patch_contracts(
             client,
@@ -1018,33 +893,14 @@ def process_procedure(
             tender_token,
         )
 
-    if method_type in (
-        "belowThreshold",
-        "competitiveOrdering",
-        "aboveThreshold",
-        "aboveThresholdUA",
-        "aboveThresholdEU",
-        "closeFrameworkAgreementUA",
-        "closeFrameworkAgreementSelectionUA",
-        "aboveThresholdUA.defense",
-        "competitiveDialogueEU",
-        "competitiveDialogueUA",
-        "competitiveDialogueEU.stage2",
-        "competitiveDialogueUA.stage2",
-        "negotiation",
-        "negotiation.quick",
-        "reporting",
-        "esco",
-        "simple.defense",
-    ):
-        wait_status(
-            client,
-            args,
-            context,
-            tender_id,
-            delay=1,
-            status="complete",
-        )
+    wait_status(
+        client,
+        args,
+        context,
+        tender_id,
+        delay=1,
+        status="complete",
+    )
 
     if method_type in (
         "competitiveDialogueEU",
