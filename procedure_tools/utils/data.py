@@ -30,6 +30,10 @@ def get_procurement_method_type(response):
     return response.json()["data"]["procurementMethodType"]
 
 
+def get_procurement_method(response):
+    return response.json()["data"]["procurementMethod"]
+
+
 def get_submission_method_details(response):
     return response.json()["data"].get("submissionMethodDetails")
 
@@ -47,7 +51,7 @@ def get_config(response):
 
 
 def get_complaint_period_end_dates(response):
-    return [item["complaintPeriod"]["endDate"] for item in response.json()["data"]]
+    return [item["complaintPeriod"]["endDate"] for item in response.json()["data"] if "complaintPeriod" in item]
 
 
 def get_contract_period_clarif_date(response):
