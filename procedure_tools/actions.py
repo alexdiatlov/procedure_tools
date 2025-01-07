@@ -938,18 +938,6 @@ def get_framework(
     )
 
 
-def get_agreement(
-    client: CDBClient,
-    args,
-    context,
-    agreement_id,
-):
-    return client.get(
-        f"agreements/{agreement_id}",
-        success_handler=agreement_get_success_handler,
-    )
-
-
 def create_tender(
     client: CDBClient,
     args,
