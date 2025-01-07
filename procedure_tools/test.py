@@ -227,3 +227,19 @@ def test_simple_defense():
     if os.environ.get("FAST_RUN"):
         argv += ["--stop", "bid_patch_1.json"]
     run_test(argv)
+
+
+@skipifenv
+def test_dynamic_purchasing_system_competitive_ordering():
+    argv = ["--data", "dynamicPurchasingSystem.competitiveOrdering"]
+    if os.environ.get("FAST_RUN"):
+        argv += ["--stop", "bid_patch_1.json"]
+    run_test(argv)
+
+
+@skipifenv
+def test_dynamic_purchasing_system_price_quotation():
+    argv = ["--data", "dynamicPurchasingSystem.priceQuotation"]
+    if os.environ.get("FAST_RUN"):
+        argv += ["--stop", "bid_patch_1.json"]
+    run_test(argv)
