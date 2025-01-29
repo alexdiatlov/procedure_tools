@@ -251,3 +251,10 @@ def test_request_for_proposal():
     if os.environ.get("FAST_RUN"):
         argv += ["--stop", "tender_patch.json"]
     run_test(argv)
+
+
+def test_international_financial_institutions_request_for_proposal():
+    argv = ["--data", "internationalFinancialInstitutions.requestForProposal"]
+    if os.environ.get("FAST_RUN"):
+        argv += ["--stop", "tender_patch.json"]
+    run_test(argv)
