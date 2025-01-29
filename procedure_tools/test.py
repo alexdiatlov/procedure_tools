@@ -243,3 +243,18 @@ def test_dynamic_purchasing_system_price_quotation():
     if os.environ.get("FAST_RUN"):
         argv += ["--stop", "bid_patch_1.json"]
     run_test(argv)
+
+
+@skipifenv
+def test_request_for_proposal():
+    argv = ["--data", "requestForProposal"]
+    if os.environ.get("FAST_RUN"):
+        argv += ["--stop", "tender_patch.json"]
+    run_test(argv)
+
+
+def test_international_financial_institutions_request_for_proposal():
+    argv = ["--data", "internationalFinancialInstitutions.requestForProposal"]
+    if os.environ.get("FAST_RUN"):
+        argv += ["--stop", "tender_patch.json"]
+    run_test(argv)
