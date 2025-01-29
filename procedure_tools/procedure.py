@@ -308,6 +308,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "requestForProposal",
         "competitiveOrdering",
         "aboveThreshold",
         "aboveThresholdUA",
@@ -380,7 +381,10 @@ def process_procedure(
             fail_status="draft.unsuccessful",
         )
 
-    if method_type in ("belowThreshold",):
+    if method_type in (
+        "belowThreshold",
+        "requestForProposal",
+    ):
         next_check = get_next_check(response)
         if next_check:
             wait(
@@ -391,6 +395,7 @@ def process_procedure(
 
     if method_type in (
         "belowThreshold",
+        "requestForProposal",
         "closeFrameworkAgreementSelectionUA",
     ):
         response = get_tender(client, args, context, tender_id)
