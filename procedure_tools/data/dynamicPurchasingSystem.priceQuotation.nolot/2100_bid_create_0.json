@@ -10,9 +10,38 @@
         "title": "bid_confidential_document_file.txt"
       }
     ],
-    "value": {
-      "amount": 500
-    },
+    "items": [
+      {
+        "description": "Тестова назва предмета закупівлі",
+        "description_en": "Procurement item test name",
+        "id": "{{ tender['items'][0].id }}",
+        "quantity": 1,
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        }
+      },
+      {
+        "description": "Тестова назва предмета закупівлі",
+        "description_en": "Procurement item test name",
+        "id": "{{ tender['items'][1].id }}",
+        "quantity": 1,
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        }
+      },
+      {
+        "description": "Тестова назва предмета закупівлі",
+        "description_en": "Procurement item test name",
+        "id": "{{ tender['items'][2].id }}",
+        "quantity": 1,
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        }
+      }
+    ],
     "status": "draft",
     "tenderers": [
       {
@@ -37,37 +66,8 @@
         "scale": "micro"
       }
     ],
-    "items": [
-      {
-        "id": "{{ tender['items'][0].id }}",
-        "description": "Тестова назва предмета закупівлі",
-        "description_en": "Procurement item test name",
-        "quantity": 1,
-        "unit": {
-          "code": "KGM",
-          "name": "кг"
-        }
-      },
-      {
-        "id": "{{ tender['items'][1].id }}",
-        "description": "Тестова назва предмета закупівлі",
-        "description_en": "Procurement item test name",
-        "quantity": 1,
-        "unit": {
-          "code": "KGM",
-          "name": "кг"
-        }
-      },
-      {
-        "id": "{{ tender['items'][2].id }}",
-        "description": "Тестова назва предмета закупівлі",
-        "description_en": "Procurement item test name",
-        "quantity": 1,
-        "unit": {
-          "code": "KGM",
-          "name": "кг"
-        }
-      }
-    ]
+    "value": {
+      "amount": 500
+    }
   }
 }

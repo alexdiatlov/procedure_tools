@@ -20,6 +20,18 @@
         "title": "bid_financial_document_file.txt"
       }
     ],
+    "items": [
+      {
+        "description": "Тестова назва предмета закупівлі",
+        "description_en": "Procurement item test name",
+        "id": "{{ tender['items'][2].id }}",
+        "quantity": 1,
+        "unit": {
+          "code": "KGM",
+          "name": "кг"
+        }
+      }
+    ],
     "lotValues": [
       {
         "relatedLot": "5f58e4e21baf4696bb1cfd67c4f86f73",
