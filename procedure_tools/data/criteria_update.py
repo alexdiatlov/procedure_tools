@@ -28,7 +28,7 @@ moved_responses = [
         "response_index_source": 0,
         "group_index_destination": 0,
         "response_index_destination": 1,
-    }
+    },
 ]
 
 
@@ -72,14 +72,18 @@ def update_criteria_from_standard(data, source_data):
                     source_requirement = None
                     destination_requirement = None
                     for move in moved_responses:
-                        if (move["criteria_id"] == criteria.get("classification", {}).get("id") and
-                            move["group_index_destination"] == group_index and
-                            move["response_index_destination"] == req_index):
+                        if (
+                            move["criteria_id"] == criteria.get("classification", {}).get("id")
+                            and move["group_index_destination"] == group_index
+                            and move["response_index_destination"] == req_index
+                        ):
                             destination_requirement = move
                             break
-                        elif (move["criteria_id"] == criteria.get("classification", {}).get("id") and
-                            move["group_index_source"] == group_index and
-                            move["response_index_source"] == req_index):
+                        elif (
+                            move["criteria_id"] == criteria.get("classification", {}).get("id")
+                            and move["group_index_source"] == group_index
+                            and move["response_index_source"] == req_index
+                        ):
                             source_requirement = move
                             break
 
@@ -87,18 +91,21 @@ def update_criteria_from_standard(data, source_data):
                         # If current response is destination, get original requirement
                         original_group = original_groups[destination_requirement["group_index_source"]]
                         original_requirements = original_group.get("requirements", [])
-                        if destination_requirement["response_index_source"] >= len(original_requirements): continue
+                        if destination_requirement["response_index_source"] >= len(original_requirements):
+                            continue
                         original_req = original_requirements[destination_requirement["response_index_source"]]
                     elif source_requirement:
                         # If current response is source, skip
                         continue
                     else:
-                        # If current response is neither source nor destination, 
+                        # If current response is neither source nor destination,
                         # get original requirement based on indices
-                        if group_index >= len(original_groups): continue
+                        if group_index >= len(original_groups):
+                            continue
                         original_group = original_groups[group_index]
                         original_requirements = original_group.get("requirements", [])
-                        if req_index >= len(original_requirements): continue
+                        if req_index >= len(original_requirements):
+                            continue
                         original_req = original_requirements[req_index]
 
                     # Restore original IDs in same order
