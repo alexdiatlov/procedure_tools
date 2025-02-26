@@ -15,20 +15,14 @@ dump_kwargs = {
 }
 
 moved_responses = [
-    {
-        "criteria_id": "CRITERION.OTHER.CONTRACT.GUARANTEE",
-        "group_index_source": 0,
-        "response_index_source": 0,
-        "group_index_destination": 1,
-        "response_index_destination": 0,
-    },
-    {
-        "criteria_id": "CRITERION.OTHER.BID.GUARANTEE",
-        "group_index_source": 0,
-        "response_index_source": 0,
-        "group_index_destination": 0,
-        "response_index_destination": 1,
-    },
+    ### Example:
+    # {
+    #     "criteria_id": "CRITERION.OTHER.CONTRACT.GUARANTEE",
+    #     "group_index_source": 0,
+    #     "response_index_source": 0,
+    #     "group_index_destination": 1,
+    #     "response_index_destination": 0,
+    # },
 ]
 
 
