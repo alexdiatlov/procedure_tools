@@ -206,6 +206,7 @@
       "amount": 0,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
-    }
+    },
+    "contractTemplateName": "00000000-0.0002.01"
   }
 }

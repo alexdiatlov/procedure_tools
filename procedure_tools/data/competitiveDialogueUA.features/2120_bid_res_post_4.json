@@ -4,52 +4,57 @@
       "requirement": {
         "id": "5cc3b00c14e24901901b0c72560a40c0"
       },
-      "value": "true"
+      "value": true
     },
     {
-      "evidences": [
-        {
-          "relatedDocument": {
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "101fda80264b4855ac9fcab26135262f"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "893827ae81304022bb99d029d844a921"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "f1fe3050c0c94206acca7e220e6120a7"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "f21229eeed3b4e22a16a31523e1d99d2"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "a90d07f480ff467993b8858dd75c5487"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "0277a81a841f4214918c91f3b2894afb"
       },
-      "value": "true"
+      "value": true
+    },
+    {
+      "requirement": {
+        "id": "d2f13453e9da45258ec1bd8109217332"
+      },
+      "value": true
+    },
+    {
+      "requirement": {
+        "id": "c008c2dbf62a48baa9e9bc942d5eceee"
+      },
+      "values": [
+        "Українська"
+      ]
     },
     {
       "evidences": [
@@ -57,44 +62,59 @@
           "relatedDocument": {
             "title": "name.doc"
           },
-          "title": "Requirement response",
+          "title": "Інформаційна довідка або витяг з реєстру",
           "type": "document"
         }
       ],
       "requirement": {
-        "id": "d2f13453e9da45258ec1bd8109217332"
-      },
-      "value": "true"
-    },
-    {
-      "requirement": {
-        "id": "c008c2dbf62a48baa9e9bc942d5eceee"
-      },
-      "value": "true"
-    },
-    {
-      "requirement": {
         "id": "7ffc5bb3aae44e94b2ed9246adda7e0a"
       },
-      "value": "true"
+      "value": true
     },
     {
+      "evidences": [
+        {
+          "relatedDocument": {
+            "title": "name.doc"
+          },
+          "title": "Інформаційна довідка або витяг з реєстру",
+          "type": "document"
+        }
+      ],
       "requirement": {
         "id": "5ccb3ca4a1af4a8d97c3da538cd5208d"
       },
-      "value": "true"
+      "value": true
     },
     {
+      "evidences": [
+        {
+          "relatedDocument": {
+            "title": "name.doc"
+          },
+          "title": "Інформаційна довідка або витяг з реєстру",
+          "type": "document"
+        }
+      ],
       "requirement": {
         "id": "4da565a9b4d1495c8b8fe7850155299d"
       },
-      "value": "true"
+      "value": true
     },
     {
+      "evidences": [
+        {
+          "relatedDocument": {
+            "title": "name.doc"
+          },
+          "title": "Інформаційна довідка або витяг з реєстру",
+          "type": "document"
+        }
+      ],
       "requirement": {
         "id": "9d739882b0674f1a81772e33107625a0"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
