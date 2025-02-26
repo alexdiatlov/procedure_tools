@@ -4,52 +4,81 @@
       "requirement": {
         "id": "7613b0fe0a8f4181b42237dc70aa16e2"
       },
-      "value": "true"
+      "value": true
     },
     {
-      "evidences": [
-        {
-          "relatedDocument": {
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "b51d4a2dd7694ac8830c0b0e0247feb6"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "d9783e86914140ab97b18e6b53b463d1"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "017b2524002d4b91b88e6674e78691f3"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "92704cd148f34ed8a50b90b696c0f35f"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "8e2f8c8af84447e8a66c468318ebae75"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "f474365930964832a8ebce9d91ec2a36"
       },
-      "value": "true"
+      "value": true
+    },
+    {
+      "requirement": {
+        "id": "b97885d624f5462086275f2148b234cf"
+      },
+      "value": true
+    },
+    {
+      "requirement": {
+        "id": "b775c2cc1fd045529f86059eed874c56"
+      },
+      "values": [
+        "Українська"
+      ]
+    },
+    {
+      "requirement": {
+        "id": "e1207cf6420f4bb9bdcbcbf05aeb3169"
+      },
+      "value": 0.0
+    },
+    {
+      "requirement": {
+        "id": "084ea9efc938404986cab466c5014c91"
+      },
+      "value": 0.0
+    },
+    {
+      "requirement": {
+        "id": "02cf438a6cfc46238a3e00b694e73473"
+      },
+      "value": 0.0
+    },
+    {
+      "requirement": {
+        "id": "5a25818857ae45a39afbd3ecefa108bd"
+      },
+      "value": 0.0
     },
     {
       "evidences": [
@@ -57,92 +86,125 @@
           "relatedDocument": {
             "title": "name.doc"
           },
-          "title": "Requirement response",
+          "title": "Банківська гарантія забезпечення тендерної пропозиції/пропозиції",
           "type": "document"
         }
       ],
       "requirement": {
-        "id": "b97885d624f5462086275f2148b234cf"
+        "id": "ff4d55a8b1dc40f3804c0b74c3448eca"
       },
-      "value": "true"
-    },
-    {
-      "requirement": {
-        "id": "b775c2cc1fd045529f86059eed874c56"
-      },
-      "value": "true"
-    },
-    {
-      "requirement": {
-        "id": "e1207cf6420f4bb9bdcbcbf05aeb3169"
-      },
-      "value": "10"
-    },
-    {
-      "requirement": {
-        "id": "084ea9efc938404986cab466c5014c91"
-      },
-      "value": "10"
-    },
-    {
-      "requirement": {
-        "id": "02cf438a6cfc46238a3e00b694e73473"
-      },
-      "value": "10"
-    },
-    {
-      "requirement": {
-        "id": "5a25818857ae45a39afbd3ecefa108bd"
-      },
-      "value": "10"
+      "value": 3.0
     },
     {
       "requirement": {
         "id": "c0dc5d001b96412090a3327bcae37018"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
-        "id": "76508c5014a04e309b29e2a685b156b4"
+        "id": "7c888ec3ae98415186f391f995d4f15a"
       },
-      "value": "true"
+      "value": 5.0
+    },
+    {
+      "requirement": {
+        "id": "3e512e12040f4a9e831818cb07e0d6d5"
+      },
+      "value": 0
+    },
+    {
+      "evidences": [
+        {
+          "relatedDocument": {
+            "title": "name.doc"
+          },
+          "title": "Банківська гарантія забезпечення тендерної пропозиції/пропозиції",
+          "type": "document"
+        }
+      ],
+      "requirement": {
+        "id": "00f7e41c06c4472e9e3e96e2eef1d8ad"
+      },
+      "value": 3.0
     },
     {
       "requirement": {
         "id": "8577720d038a4579ae4c43ae771244fa"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
-        "id": "b87b43f3e2ee45898bd8d4d8d30b4612"
+        "id": "011a816bc9064c1fa67e5029bcbbe5f6"
       },
-      "value": "true"
+      "value": 5.0
     },
     {
+      "requirement": {
+        "id": "ccd8aa1cdbad4508a126ea60e5936a08"
+      },
+      "value": 0
+    },
+    {
+      "evidences": [
+        {
+          "relatedDocument": {
+            "title": "name.doc"
+          },
+          "title": "Інформаційна довідка або витяг з реєстру",
+          "type": "document"
+        }
+      ],
       "requirement": {
         "id": "8b3827713ceb48099c248d6ad0ebab1c"
       },
-      "value": "true"
+      "value": true
     },
     {
+      "evidences": [
+        {
+          "relatedDocument": {
+            "title": "name.doc"
+          },
+          "title": "Інформаційна довідка або витяг з реєстру",
+          "type": "document"
+        }
+      ],
       "requirement": {
         "id": "bb71f6a0857844df865c9ba6fa52ffa4"
       },
-      "value": "true"
+      "value": true
     },
     {
+      "evidences": [
+        {
+          "relatedDocument": {
+            "title": "name.doc"
+          },
+          "title": "Інформаційна довідка або витяг з реєстру",
+          "type": "document"
+        }
+      ],
       "requirement": {
         "id": "acaef781bc1b4123855961179c5a72cf"
       },
-      "value": "true"
+      "value": true
     },
     {
+      "evidences": [
+        {
+          "relatedDocument": {
+            "title": "name.doc"
+          },
+          "title": "Інформаційна довідка або витяг з реєстру",
+          "type": "document"
+        }
+      ],
       "requirement": {
         "id": "2eb43c85bdf0405dbf9b9be99a3066eb"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {

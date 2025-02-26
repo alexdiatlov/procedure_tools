@@ -4,52 +4,57 @@
       "requirement": {
         "id": "87a887a6ecaa43b4a2667dba480fea15"
       },
-      "value": "true"
+      "value": true
     },
     {
-      "evidences": [
-        {
-          "relatedDocument": {
-            "title": "name.doc"
-          },
-          "title": "Requirement response",
-          "type": "document"
-        }
-      ],
       "requirement": {
         "id": "11c525d8e9d34572b488618a0b7849c6"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "e8fea8d1f7b540b192c028ed1445805d"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "d666de433fa04ebf9ad4967888dca9a2"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "2dcf2db6e54e455abfb473c4702968b2"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "2e457f60ec1841ff80dfa4d5be28fb62"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
         "id": "859083f7355842b18536a453910cf783"
       },
-      "value": "true"
+      "value": true
+    },
+    {
+      "requirement": {
+        "id": "b3aa614f8d04491191a4714c8ff94dbc"
+      },
+      "value": true
+    },
+    {
+      "requirement": {
+        "id": "d3664a11d27d42c2bb09041523c344e6"
+      },
+      "values": [
+        "Українська"
+      ]
     },
     {
       "evidences": [
@@ -57,68 +62,125 @@
           "relatedDocument": {
             "title": "name.doc"
           },
-          "title": "Requirement response",
+          "title": "Банківська гарантія забезпечення тендерної пропозиції/пропозиції",
           "type": "document"
         }
       ],
       "requirement": {
-        "id": "b3aa614f8d04491191a4714c8ff94dbc"
+        "id": "72b2786de47146d3bb88271d7a9e78ab"
       },
-      "value": "true"
-    },
-    {
-      "requirement": {
-        "id": "d3664a11d27d42c2bb09041523c344e6"
-      },
-      "value": "true"
+      "value": 3.0
     },
     {
       "requirement": {
         "id": "e6c456a649e3412380cc78922dd62696"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
-        "id": "6f008ce4d559484db8bd972fe03fe6f4"
+        "id": "78455df3574f4a98b76bcf4d55d22590"
       },
-      "value": "true"
+      "value": 5.0
+    },
+    {
+      "requirement": {
+        "id": "4b52249d2cdf4d80b8e46cbf7eaea2fd"
+      },
+      "value": 0
+    },
+    {
+      "evidences": [
+        {
+          "relatedDocument": {
+            "title": "name.doc"
+          },
+          "title": "Банківська гарантія забезпечення тендерної пропозиції/пропозиції",
+          "type": "document"
+        }
+      ],
+      "requirement": {
+        "id": "cdb408e53baf4dc9a9451d9480d27129"
+      },
+      "value": 3.0
     },
     {
       "requirement": {
         "id": "3772037d69b24e2ea54c02e581349495"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
-        "id": "e8ab9c3a20b6489690df1d6cc8878f78"
+        "id": "214dc1029a1e411d8bb54fa5527ebff0"
       },
-      "value": "true"
+      "value": 5.0
     },
     {
+      "requirement": {
+        "id": "83690f5c0a964d5aad1eae8f2a748278"
+      },
+      "value": 0
+    },
+    {
+      "evidences": [
+        {
+          "relatedDocument": {
+            "title": "name.doc"
+          },
+          "title": "Інформаційна довідка або витяг з реєстру",
+          "type": "document"
+        }
+      ],
       "requirement": {
         "id": "29298b1ff4a94f4793cb0bb0c15c9308"
       },
-      "value": "true"
+      "value": true
     },
     {
+      "evidences": [
+        {
+          "relatedDocument": {
+            "title": "name.doc"
+          },
+          "title": "Інформаційна довідка або витяг з реєстру",
+          "type": "document"
+        }
+      ],
       "requirement": {
         "id": "efb6d7b472e04defb41e5ca8a92008f4"
       },
-      "value": "true"
+      "value": true
     },
     {
+      "evidences": [
+        {
+          "relatedDocument": {
+            "title": "name.doc"
+          },
+          "title": "Інформаційна довідка або витяг з реєстру",
+          "type": "document"
+        }
+      ],
       "requirement": {
         "id": "4d54b7b7c0f6443a8614980a4cdd2efe"
       },
-      "value": "true"
+      "value": true
     },
     {
+      "evidences": [
+        {
+          "relatedDocument": {
+            "title": "name.doc"
+          },
+          "title": "Інформаційна довідка або витяг з реєстру",
+          "type": "document"
+        }
+      ],
       "requirement": {
         "id": "cca3964e46cf4ad29bc45b298892f787"
       },
-      "value": "true"
+      "value": true
     },
     {
       "requirement": {
