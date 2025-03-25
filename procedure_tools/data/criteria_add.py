@@ -77,4 +77,7 @@ if __name__ == "__main__":
     parser.add_argument("root_dir", help="Root directory containing the files")
     parser.add_argument("criteria_file", help="JSON file containing criteria to add")
     args = parser.parse_args()
-    process_directory(args.root_dir, args.criteria_file)
+    root_directories = args.root_dir.split(",")
+    criteria_file = args.criteria_file
+    for root_directory in root_directories:
+        process_directory(root_directory, criteria_file)

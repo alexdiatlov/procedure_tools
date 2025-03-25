@@ -193,6 +193,18 @@
         "id": "6d91695aedb54c2c9f46df4b9ad739c8"
       },
       "value": true
+    },
+    {
+      "requirement": {
+        "id": "b9a15549738145699705cd81f34d2622"
+      },
+      "value": 90
+    },
+    {
+      "requirement": {
+        "id": "86ff0ca185aa493c8c00c853bb470e13"
+      },
+      "value": true
     }
   ]
 }
