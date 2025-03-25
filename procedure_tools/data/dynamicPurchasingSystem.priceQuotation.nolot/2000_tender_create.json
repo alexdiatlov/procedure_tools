@@ -24,6 +24,7 @@
     "agreement": {
       "id": "{{ agreement.id }}"
     },
+    "contractTemplateName": "00000000-0.0002.01",
     "items": [
       {
         "additionalClassifications": [
@@ -171,7 +172,6 @@
       "amount": 500,
       "currency": "UAH",
       "valueAddedTaxIncluded": true
-    },
-    "contractTemplateName": "00000000-0.0002.01"
+    }
   }
 }

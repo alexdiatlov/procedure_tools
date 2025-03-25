@@ -36,8 +36,8 @@
       },
       "identifier": {
         "id": "00037256",
-        "scheme": "UA-EDR",
         "legalName": "Тестовий заклад",
+        "scheme": "UA-EDR",
         "uri": "http://www.dus.gov.ua/"
       },
       "kind": "general",

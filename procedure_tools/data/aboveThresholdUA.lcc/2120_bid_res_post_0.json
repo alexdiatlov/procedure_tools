@@ -217,6 +217,18 @@
         "id": "6d91695aedb54c2c9f46df4b9ad739c8"
       },
       "value": true
+    },
+    {
+      "requirement": {
+        "id": "c3e280c6bbcd445ab3932792335f5f87"
+      },
+      "value": 90
+    },
+    {
+      "requirement": {
+        "id": "f78a69cc66e0465681887790d2026966"
+      },
+      "value": true
     }
   ]
 }

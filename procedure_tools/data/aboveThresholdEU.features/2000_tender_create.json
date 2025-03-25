@@ -21,6 +21,7 @@
     "valueCurrencyEquality": true
   },
   "data": {
+    "contractTemplateName": "00000000-0.0002.01",
     "features": [
       {
         "code": "73763ce0c908466ead064f8a2de02a9f",
