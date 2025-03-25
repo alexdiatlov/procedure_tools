@@ -20,8 +20,8 @@
         },
         "identifier": {
           "id": "00137226",
-          "scheme": "UA-EDR",
           "legalName": "Тестове державне комунальне підприємство",
+          "scheme": "UA-EDR",
           "uri": "http://factory.example.com"
         },
         "name": "Тестове державне комунальне підприємство",
