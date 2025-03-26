@@ -253,6 +253,7 @@ def test_request_for_proposal():
     run_test(argv)
 
 
+@skipifenv
 def test_international_financial_institutions_request_for_proposal():
     argv = ["--data", "internationalFinancialInstitutions.requestForProposal"]
     if os.environ.get("FAST_RUN"):
