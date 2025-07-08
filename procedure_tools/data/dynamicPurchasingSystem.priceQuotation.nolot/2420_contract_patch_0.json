@@ -3,13 +3,6 @@
     "contractNumber": 1,
     "items": [
       {
-        "additionalClassifications": [
-          {
-            "description": "{{ contracts[0]['items'][0].additionalClassifications[0].description }}",
-            "id": "{{ contracts[0]['items'][0].additionalClassifications[0].id }}",
-            "scheme": "{{ contracts[0]['items'][0].additionalClassifications[0].scheme }}"
-          }
-        ],
         "classification": {
           "description": "{{ contracts[0]['items'][0].classification.description }}",
           "id": "{{ contracts[0]['items'][0].classification.id }}",
@@ -32,86 +25,32 @@
         "quantity": 1,
         "unit": {
           "code": "{{ contracts[0]['items'][0].unit.code }}",
-          "name": "{{ contracts[0]['items'][0].unit.name }}",
-          "value": {
-            "amount": 10.0,
-            "valueAddedTaxIncluded": false
-          }
-        }
+          "name": "{{ contracts[0]['items'][0].unit.name }}"
+        },
+        "attributes": [
+      {
+        "name": "Товарний сорт",
+        "values": [
+        "перший"
+        ]
       },
       {
-        "additionalClassifications": [
-          {
-            "description": "{{ contracts[0]['items'][1].additionalClassifications[0].description }}",
-            "id": "{{ contracts[0]['items'][1].additionalClassifications[0].id }}",
-            "scheme": "{{ contracts[0]['items'][1].additionalClassifications[0].scheme }}"
-          }
-        ],
-        "classification": {
-          "description": "{{ contracts[0]['items'][1].classification.description }}",
-          "id": "{{ contracts[0]['items'][1].classification.id }}",
-          "scheme": "{{ contracts[0]['items'][1].classification.scheme }}"
-        },
-        "deliveryAddress": {
-          "countryName": "{{ contracts[0]['items'][1].deliveryAddress.countryName }}",
-          "locality": "{{ contracts[0]['items'][1].deliveryAddress.locality }}",
-          "postalCode": "{{ contracts[0]['items'][1].deliveryAddress.postalCode }}",
-          "region": "{{ contracts[0]['items'][1].deliveryAddress.region }}",
-          "streetAddress": "{{ contracts[0]['items'][1].deliveryAddress.streetAddress }}"
-        },
-        "deliveryDate": {
-          "endDate": "{{ contracts[0]['items'][1].deliveryDate.endDate }}",
-          "startDate": "{{ contracts[0]['items'][1].deliveryDate.startDate }}"
-        },
-        "description": "{{ contracts[0]['items'][1].description }}",
-        "description_en": "{{ contracts[0]['items'][1].description_en }}",
-        "id": "{{ contracts[0]['items'][1].id }}",
-        "quantity": 1,
-        "unit": {
-          "code": "{{ contracts[0]['items'][1].unit.code }}",
-          "name": "{{ contracts[0]['items'][1].unit.name }}",
-          "value": {
-            "amount": 10.0,
-            "valueAddedTaxIncluded": false
-          }
-        }
+        "name": "Вид",
+        "values": [
+        "з листками"
+      ]
       },
       {
-        "additionalClassifications": [
-          {
-            "description": "{{ contracts[0]['items'][2].additionalClassifications[0].description }}",
-            "id": "{{ contracts[0]['items'][2].additionalClassifications[0].id }}",
-            "scheme": "{{ contracts[0]['items'][2].additionalClassifications[0].scheme }}"
-          }
-        ],
-        "classification": {
-          "description": "{{ contracts[0]['items'][2].classification.description }}",
-          "id": "{{ contracts[0]['items'][2].classification.id }}",
-          "scheme": "{{ contracts[0]['items'][2].classification.scheme }}"
-        },
-        "deliveryAddress": {
-          "countryName": "{{ contracts[0]['items'][2].deliveryAddress.countryName }}",
-          "locality": "{{ contracts[0]['items'][2].deliveryAddress.locality }}",
-          "postalCode": "{{ contracts[0]['items'][2].deliveryAddress.postalCode }}",
-          "region": "{{ contracts[0]['items'][2].deliveryAddress.region }}",
-          "streetAddress": "{{ contracts[0]['items'][2].deliveryAddress.streetAddress }}"
-        },
-        "deliveryDate": {
-          "endDate": "{{ contracts[0]['items'][2].deliveryDate.endDate }}",
-          "startDate": "{{ contracts[0]['items'][2].deliveryDate.startDate }}"
-        },
-        "description": "{{ contracts[0]['items'][2].description }}",
-        "description_en": "{{ contracts[0]['items'][2].description_en }}",
-        "id": "{{ contracts[0]['items'][2].id }}",
-        "quantity": 1,
-        "unit": {
-          "code": "{{ contracts[0]['items'][2].unit.code }}",
-          "name": "{{ contracts[0]['items'][2].unit.name }}",
-          "value": {
-            "amount": 10.0,
-            "valueAddedTaxIncluded": false
-          }
-        }
+        "name": "Діаметр коренеплоду",
+        "values": [
+        "не менше 5 см"
+        ]
+      },
+      {
+        "name": "Характеристики не суперечать ДСТУ 7034",
+        "value": true
+      }
+      ]
       }
     ],
     "period": {
@@ -122,7 +61,7 @@
     "value": {
       "amount": 500,
       "amountNet": 500,
-      "valueAddedTaxIncluded": false
+      "valueAddedTaxIncluded": true
     }
   }
 }
