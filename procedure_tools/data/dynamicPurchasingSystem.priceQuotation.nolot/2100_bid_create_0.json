@@ -19,27 +19,8 @@
         "unit": {
           "code": "KGM",
           "name": "кг"
-        }
-      },
-      {
-        "description": "Тестова назва предмета закупівлі",
-        "description_en": "Procurement item test name",
-        "id": "{{ tender['items'][1].id }}",
-        "quantity": 1,
-        "unit": {
-          "code": "KGM",
-          "name": "кг"
-        }
-      },
-      {
-        "description": "Тестова назва предмета закупівлі",
-        "description_en": "Procurement item test name",
-        "id": "{{ tender['items'][2].id }}",
-        "quantity": 1,
-        "unit": {
-          "code": "KGM",
-          "name": "кг"
-        }
+        },
+        "product": "32a1c0a615fb4d48b4fb515761646742"
       }
     ],
     "status": "draft",
@@ -63,7 +44,15 @@
           "uri": "http://factory.example.com"
         },
         "name": "Тестове підприємство",
-        "scale": "micro"
+        "scale": "micro",
+        "signerInfo": {
+          "name": "Test Testovich",
+          "email": "example@email.com",
+          "telephone": "+380950000000",
+          "iban": "111111111111111",
+          "position": "Генеральний директор",
+          "authorizedBy": "Статут компанії"
+        }
       }
     ],
     "value": {

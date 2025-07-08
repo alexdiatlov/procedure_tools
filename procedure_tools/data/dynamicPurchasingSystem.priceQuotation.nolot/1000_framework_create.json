@@ -6,34 +6,20 @@
     "restrictedDerivatives": false
   },
   "data": {
-    "additionalClassifications": [
-      {
-        "description": "Техніка конторська/офісна, інша",
-        "id": "28.23.23",
-        "scheme": "ДКПП"
-      }
-    ],
     "classification": {
-      "description": "Промислова техніка",
-      "id": "42000000-6",
-      "scheme": "ДК021"
+      "description": "Овочі, фрукти та горіхи",
+      "scheme": "ДК021",
+      "id": "03220000-9"
     },
     "description": "Назва предмета закупівлі",
     "frameworkDetails": "{% if acceleration %}quick, accelerator={{ acceleration }}{% endif %}",
-    "frameworkType": "dynamicPurchasingSystem",
+    "frameworkType": "electronicCatalogue",
     "items": [
       {
-        "additionalClassifications": [
-          {
-            "description": "Техніка конторська/офісна, інша",
-            "id": "28.23.23",
-            "scheme": "ДКПП"
-          }
-        ],
         "classification": {
-          "description": "Промислова техніка",
-          "id": "42000000-6",
-          "scheme": "ДК021"
+          "description": "Овочі, фрукти та горіхи",
+          "scheme": "ДК021",
+          "id": "03220000-9"
         },
         "deliveryAddress": {
           "countryName": "Україна",
@@ -45,70 +31,6 @@
         "deliveryDate": {
           "endDate": "2017-08-10T16:02:36.221295+03:00",
           "startDate": "2017-07-11T16:02:36.221241+03:00"
-        },
-        "description": "Тестова назва предмета закупівлі",
-        "description_en": "Procurement item test name",
-        "quantity": 1,
-        "unit": {
-          "code": "KGM",
-          "name": "кг"
-        }
-      },
-      {
-        "additionalClassifications": [
-          {
-            "description": "Техніка конторська/офісна, інша",
-            "id": "28.23.23",
-            "scheme": "ДКПП"
-          }
-        ],
-        "classification": {
-          "description": "Промислова техніка",
-          "id": "42000000-6",
-          "scheme": "ДК021"
-        },
-        "deliveryAddress": {
-          "countryName": "Україна",
-          "locality": "м. Київ",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "streetAddress": "вул. Тестова 1"
-        },
-        "deliveryDate": {
-          "endDate": "2017-08-10T16:02:36.221351+03:00",
-          "startDate": "2017-07-11T16:02:36.221327+03:00"
-        },
-        "description": "Тестова назва предмета закупівлі",
-        "description_en": "Procurement item test name",
-        "quantity": 1,
-        "unit": {
-          "code": "KGM",
-          "name": "кг"
-        }
-      },
-      {
-        "additionalClassifications": [
-          {
-            "description": "Техніка конторська/офісна, інша",
-            "id": "28.23.23",
-            "scheme": "ДКПП"
-          }
-        ],
-        "classification": {
-          "description": "Промислова техніка",
-          "id": "42000000-6",
-          "scheme": "ДК021"
-        },
-        "deliveryAddress": {
-          "countryName": "Україна",
-          "locality": "м. Київ",
-          "postalCode": "79000",
-          "region": "м. Київ",
-          "streetAddress": "вул. Тестова 1"
-        },
-        "deliveryDate": {
-          "endDate": "2017-08-10T16:02:36.221351+03:00",
-          "startDate": "2017-07-11T16:02:36.221327+03:00"
         },
         "description": "Тестова назва предмета закупівлі",
         "description_en": "Procurement item test name",
@@ -134,11 +56,11 @@
         "url": "https://example.com"
       },
       "identifier": {
-        "id": "21725150",
+        "id": "40996564",
         "legalName": "Тестовий заклад",
         "scheme": "UA-EDR"
       },
-      "kind": "special",
+      "kind": "central",
       "name": "Тестовий заклад #1 м.Київ"
     },
     "qualificationPeriod": {

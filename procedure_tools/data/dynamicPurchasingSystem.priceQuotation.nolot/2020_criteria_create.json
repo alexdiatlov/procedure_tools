@@ -1,0 +1,100 @@
+{
+  "data": [
+      {
+        "id": "a1c03dda65714883aed4950d37c73929",
+        "description": "Технічна специфікація повинна містити опис усіх необхідних характеристик товарів, робіт або послуг, що закуповуються, у тому числі їх технічні, функціональні та якісні характеристики. Характеристики товарів, робіт або послуг можуть містити опис конкретного технологічного процесу або технології виробництва чи порядку постачання товару (товарів), виконання необхідних робіт, надання послуги (послуг)",
+        "source": "tenderer",
+        "relatesTo": "item",
+        "relatedItem": "{{ tender['items'][0].id }}",
+        "classification": {
+        "scheme": "ESPD211",
+        "id": "CRITERION.OTHER.SUBJECT_OF_PROCUREMENT.TECHNICAL_FEATURES"
+      },
+        "title": "Технічні, якісні та кількісні характеристики предмета закупівлі",
+        "legislation": [
+          {
+            "version": "2024-04-19",
+            "identifier": {
+            "id": "922-VIII",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1398"
+          },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "22.2.3"
+          },
+          {
+            "version": "2023-10-31",
+            "identifier": {
+            "id": "1135-2023-п",
+            "legalName": "Про внесення змін до постанов Кабінету Міністрів України від 14 вересня 2020 р. № 822 і від 12 жовтня 2022 р. № 1178",
+            "uri": "https://zakon.rada.gov.ua/laws/show/1135-2023-%D0%BF#n24"
+          },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "2.1"
+          },
+          {
+            "version": "2024-04-19",
+            "identifier": {
+            "id": "922-VIII",
+            "legalName": "Закон України \"Про публічні закупівлі\"",
+            "uri": "https://zakon.rada.gov.ua/laws/show/922-19#n1426"
+          },
+            "type": "NATIONAL_LEGISLATION",
+            "article": "23"
+          }
+        ],
+        "requirementGroups": [
+        {
+          "id": "fcd9d8a852914ee59cebb1b2ea789a88",
+          "description": "Підтверджується, що",
+          "requirements": [
+            {
+              "id": "a066f210c3ee4a708393a7c1e663ff33",
+              "title": "Товарний сорт",
+              "dataType": "string",
+              "status": "active",
+              "expectedValues": [
+              "перший"
+              ],
+              "expectedMinItems": 1,
+              "expectedMaxItems": 1,
+              "datePublished": "2025-07-07T09:58:39.771597+03:00"
+            },
+            {
+              "id": "867a8db864e64671a62b3dc4f07dffdf",
+              "title": "Вид",
+              "dataType": "string",
+              "status": "active",
+              "expectedValues": [
+              "з листками"
+              ],
+              "expectedMinItems": 1,
+              "expectedMaxItems": 1,
+              "datePublished": "2025-07-07T09:58:39.771597+03:00"
+            },
+            {
+              "id": "db7f986b92d14418b29fce311c388741",
+              "title": "Діаметр коренеплоду",
+              "dataType": "string",
+              "status": "active",
+              "expectedValues": [
+              "не менше 5 см"
+              ],
+              "expectedMinItems": 1,
+              "expectedMaxItems": 1,
+              "datePublished": "2025-07-07T09:58:39.771597+03:00"
+            },
+            {
+              "id": "db48742d28a24fb1a798d8ac19453c30",
+              "title": "Характеристики не суперечать ДСТУ 7034",
+              "dataType": "boolean",
+              "status": "active",
+              "expectedValue": true,
+              "datePublished": "2025-07-07T09:58:39.771597+03:00"
+            }
+        ]
+        }
+        ]
+      }
+  ]
+}
