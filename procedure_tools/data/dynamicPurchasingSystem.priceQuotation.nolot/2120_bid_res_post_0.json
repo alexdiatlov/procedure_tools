@@ -4,19 +4,21 @@
       "requirement": {
         "id": "a066f210c3ee4a708393a7c1e663ff33"
       },
-      "value": ["перший"]
+      "values": [
+        "перший"
+      ]
     },
     {
       "requirement": {
         "id": "867a8db864e64671a62b3dc4f07dffdf"
       },
-      "value": "з листками"
+      "values": "з листками"
     },
     {
       "requirement": {
         "id": "db7f986b92d14418b29fce311c388741"
       },
-      "value": "не менше 5 см"
+      "values": "не менше 5 см"
     },
     {
       "requirement": {
